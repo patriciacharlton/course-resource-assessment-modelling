@@ -20,7 +20,7 @@
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="activityPanel" max="32767" attributes="0"/>
-                  <Component id="preparationPanel" pref="420" max="32767" attributes="0"/>
+                  <Component id="preparationPanel" pref="492" max="32767" attributes="0"/>
                   <Component id="supportPanel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -161,25 +161,16 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation1WeeklyPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation1NonWeeklyPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation1SeniorPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0%" subtype="-1" type="3"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
@@ -192,25 +183,16 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation2WeeklyPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation2NonWeeklyPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation2SeniorPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0%" subtype="-1" type="3"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
@@ -223,25 +205,16 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation3WeeklyPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation3NonWeeklyPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation3SeniorPreparation">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0%" subtype="-1" type="3"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
@@ -299,25 +272,16 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation1WeeklySupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation1NonWeeklySupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation1SeniorSupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0%" subtype="-1" type="3"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
@@ -330,25 +294,16 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation2WeeklySupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation2NonWeeklySupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation2SeniorSupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0%" subtype="-1" type="3"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
@@ -361,25 +316,16 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation3WeeklySupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation3NonWeeklySupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00" subtype="-1" type="0"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation3SeniorSupport">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0%" subtype="-1" type="3"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
