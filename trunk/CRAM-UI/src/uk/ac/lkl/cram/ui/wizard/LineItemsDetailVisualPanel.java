@@ -1,5 +1,6 @@
 package uk.ac.lkl.cram.ui.wizard;
 
+import java.text.ParseException;
 import uk.ac.lkl.cram.ui.obsolete.TableTestForm;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
@@ -32,7 +33,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	new FormattedTextFieldAdapter(weeklyHoursField) {
 
 	    @Override
-	    public void updateValue(Object value) {		
+	    public void updateValue(Object value) {
 		lineItem.setWeeklyLearnerHourCount((Float)value);
 		checkValidity();
 	    }
@@ -46,6 +47,33 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		checkValidity();
 	    }
 	};
+	
+	//Percent Formatter
+	final JFormattedTextField.AbstractFormatter seniorRateFormatter = new JFormattedTextField.AbstractFormatter() {
+
+            @Override
+            public Object stringToValue(String string) throws ParseException {
+		LOGGER.info("String: " + string);
+		Float seniorRate = Float.valueOf(string)/100;
+		LOGGER.info("Senior rate: " + seniorRate);
+                return seniorRate;
+            }
+
+            @Override
+            public String valueToString(Object f) throws ParseException {
+		LOGGER.info("value: " + f + " class: " + f.getClass());
+		Float seniorRate = (Float) f * 100;
+                return String.valueOf(seniorRate) + '%';
+            }
+        };
+        JFormattedTextField.AbstractFormatterFactory aff = new JFormattedTextField.AbstractFormatterFactory() {
+
+            @Override
+            public JFormattedTextField.AbstractFormatter getFormatter(JFormattedTextField jftf) {
+                return seniorRateFormatter;
+            }
+        };
+	
 	
 	//Preparation Fields
 	JFormattedTextField[] weeklyPreparationFields = new JFormattedTextField[3];
@@ -62,33 +90,32 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	seniorPreparationFields[2] = presentation3SeniorPreparation;
 	int preparationIndex = 0;
 	for (final ModulePresentation modulePresentation : module.getModulePresentations()) {
-	    weeklyPreparationFields[preparationIndex].setValue(new Float(lineItem.getPreparationTime(modulePresentation).getWeekly()));
+	    weeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getWeekly());
 	    weeklyPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(weeklyPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    Float weeklyPreparationTime = (Float) value;
-		    lineItem.getPreparationTime(modulePresentation).setWeekly(weeklyPreparationTime);
+		    lineItem.getPreparationTime(modulePresentation).setWeekly((Float)value);
 		}
 	    };
-	    nonWeeklyPreparationFields[preparationIndex].setValue(new Float(lineItem.getPreparationTime(modulePresentation).getNonWeekly()));
+	    nonWeeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getNonWeekly());
 	    nonWeeklyPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(nonWeeklyPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    Float nonWeeklyPreparationTime = (Float) value;
-		    lineItem.getPreparationTime(modulePresentation).setNonWeekly(nonWeeklyPreparationTime);
+		    lineItem.getPreparationTime(modulePresentation).setNonWeekly((Float) value);
 		}
 	    };
-	    seniorPreparationFields[preparationIndex].setValue(new Float(lineItem.getPreparationTime(modulePresentation).getSeniorRate()));
+	    seniorPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getSeniorRate());
 	    seniorPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(seniorPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    Float seniorPreparationRate = (Float) value;
-		    lineItem.getPreparationTime(modulePresentation).setSeniorRate(seniorPreparationRate);
+		    LOGGER.info("Class of value: " + value.getClass());
+		    lineItem.getPreparationTime(modulePresentation).setSeniorRate((Float) value);
 		}
 	    };
+	    seniorPreparationFields[preparationIndex].setFormatterFactory(aff);
 	    preparationIndex++;
 	}
 	
@@ -107,33 +134,31 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	seniorSupportFields[2] = presentation3SeniorSupport;
 	int supportIndex = 0;
 	for (final ModulePresentation modulePresentation : module.getModulePresentations()) {
-	    weeklySupportFields[supportIndex].setValue(new Float(lineItem.getSupportTime(modulePresentation).getWeekly()));
+	    weeklySupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getWeekly());
 	    weeklySupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(weeklySupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    Float weeklySupportTime = (Float) value;
-		    lineItem.getSupportTime(modulePresentation).setWeekly(weeklySupportTime);
+		    lineItem.getSupportTime(modulePresentation).setWeekly((Float) value);
 		}
 	    };
-	    nonWeeklySupportFields[supportIndex].setValue(new Float(lineItem.getSupportTime(modulePresentation).getNonWeekly()));
+	    nonWeeklySupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getNonWeekly());
 	    nonWeeklySupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(nonWeeklySupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    Float nonWeeklySupportTime = (Float) value;
-		    lineItem.getSupportTime(modulePresentation).setNonWeekly(nonWeeklySupportTime);
+		    lineItem.getSupportTime(modulePresentation).setNonWeekly((Float) value);
 		}
 	    };
-	    seniorSupportFields[supportIndex].setValue(new Float(lineItem.getSupportTime(modulePresentation).getSeniorRate()));
+	    seniorSupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getSeniorRate());
 	    seniorSupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(seniorSupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    Float seniorSupportRate = (Float) value;
-		    lineItem.getSupportTime(modulePresentation).setSeniorRate(seniorSupportRate);
+		    lineItem.getSupportTime(modulePresentation).setSeniorRate((Float) value);
 		}
 	    };
+	    seniorSupportFields[supportIndex].setFormatterFactory(aff);
 	    supportIndex++;
 	}
 	
@@ -263,45 +288,36 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation1Label.setText(bundle.getString("PRESENTATION 1:")); // NOI18N
         preparationPanel.add(presentation1Label);
 
-        presentation1WeeklyPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        presentation1WeeklyPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        presentation1WeeklyPreparation.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         preparationPanel.add(presentation1WeeklyPreparation);
 
-        presentation1NonWeeklyPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation1NonWeeklyPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation1NonWeeklyPreparation);
 
-        presentation1SeniorPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
         presentation1SeniorPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation1SeniorPreparation);
 
         presentation2Label.setText(bundle.getString("PRESENTATION 2:")); // NOI18N
         preparationPanel.add(presentation2Label);
 
-        presentation2WeeklyPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation2WeeklyPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation2WeeklyPreparation);
 
-        presentation2NonWeeklyPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation2NonWeeklyPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation2NonWeeklyPreparation);
 
-        presentation2SeniorPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
         presentation2SeniorPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation2SeniorPreparation);
 
         jLabel5.setText(bundle.getString("PRESENTATION 3:")); // NOI18N
         preparationPanel.add(jLabel5);
 
-        presentation3WeeklyPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation3WeeklyPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation3WeeklyPreparation);
 
-        presentation3NonWeeklyPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation3NonWeeklyPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation3NonWeeklyPreparation);
 
-        presentation3SeniorPreparation.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
         presentation3SeniorPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation3SeniorPreparation);
 
@@ -325,45 +341,36 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation1Label1.setText(bundle.getString("PRESENTATION 1:")); // NOI18N
         supportPanel.add(presentation1Label1);
 
-        presentation1WeeklySupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation1WeeklySupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation1WeeklySupport);
 
-        presentation1NonWeeklySupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation1NonWeeklySupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation1NonWeeklySupport);
 
-        presentation1SeniorSupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
         presentation1SeniorSupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation1SeniorSupport);
 
         presentation2Label1.setText(bundle.getString("PRESENTATION 2:")); // NOI18N
         supportPanel.add(presentation2Label1);
 
-        presentation2WeeklySupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation2WeeklySupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation2WeeklySupport);
 
-        presentation2NonWeeklySupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation2NonWeeklySupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation2NonWeeklySupport);
 
-        presentation2SeniorSupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
         presentation2SeniorSupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation2SeniorSupport);
 
         jLabel8.setText(bundle.getString("PRESENTATION 3:")); // NOI18N
         supportPanel.add(jLabel8);
 
-        presentation3WeeklySupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation3WeeklySupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation3WeeklySupport);
 
-        presentation3NonWeeklySupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         presentation3NonWeeklySupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation3NonWeeklySupport);
 
-        presentation3SeniorSupport.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
         presentation3SeniorSupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation3SeniorSupport);
 
@@ -375,7 +382,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 .add(0, 0, 0)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                    .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
                     .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .add(0, 0, 0))
         );
