@@ -1,0 +1,100 @@
+package uk.ac.lkl.cram.model;
+
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlAttribute;
+
+public class AbstractModuleTime implements Serializable {
+    protected static final float HOURS_PER_DAY = 7.5F;
+    private static final long serialVersionUID = 1L;
+    protected float non_weekly;
+    protected float seniorRate; //Between 0 and 1
+    protected float weekly;
+
+    public AbstractModuleTime() {
+    	this.non_weekly = 0f;
+	this.weekly= 0f;
+	this.seniorRate = 0.5f;
+    }
+    
+    public AbstractModuleTime(float f, float g, float h) {
+	this.weekly = f;
+	this.non_weekly = g;
+	this.seniorRate = h;
+    }
+
+    public float getNonWeekly() {
+	return non_weekly;
+    }
+
+    public float getSeniorRate() {
+	return seniorRate;
+    }
+
+    public float getWeekly() {
+	return weekly;
+    }
+
+    @XmlAttribute
+    public void setNonWeekly(float i) {
+	non_weekly = i;
+    }
+
+    @XmlAttribute
+    public void setSeniorRate(float i) {
+	if (seniorRate > 1) {
+	    throw new RuntimeException("Senior Rate should be between 0 and 1, not " + i);
+	}
+	seniorRate = i;
+    }
+
+    @XmlAttribute
+    public void setWeekly(float i) {
+	weekly = i;
+    }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(non_weekly);
+		result = prime * result + Float.floatToIntBits(seniorRate);
+		result = prime * result + Float.floatToIntBits(weekly);
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof AbstractModuleTime)) {
+			return false;
+		}
+		AbstractModuleTime other = (AbstractModuleTime) obj;
+		if (Float.floatToIntBits(non_weekly) != Float
+				.floatToIntBits(other.non_weekly)) {
+			return false;
+		}
+		if (Float.floatToIntBits(seniorRate) != Float
+				.floatToIntBits(other.seniorRate)) {
+			return false;
+		}
+		if (Float.floatToIntBits(weekly) != Float.floatToIntBits(other.weekly)) {
+			return false;
+		}
+		return true;
+	}
+
+    
+
+}
