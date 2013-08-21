@@ -1,7 +1,9 @@
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
@@ -9,6 +11,8 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
 
 public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor> {
+    private static final Logger LOGGER = Logger.getLogger(TLACreatorWizardIterator.class.getName());
+
     static final String PROP_VANILLA = "vanilla";
     static final String PROP_LINE_ITEM = "lineItem";
     static final String PROP_MODULE = "module";
@@ -37,6 +41,7 @@ public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator
     }
     
     private void initializePanels() {
+        int maxWidth =0, maxHeight =0;
         if (allPanels == null) {
             allPanels = new WizardDescriptor.Panel[]{
                 new StartWizardPanel(),
@@ -63,6 +68,17 @@ public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator
                     jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
                     // Turn on numbering of all steps
                     jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
+                    maxWidth = Math.max(maxWidth, jc.getPreferredSize().width);
+                    maxHeight = Math.max(maxHeight, jc.getPreferredSize().height);
+                }
+            }
+            Dimension preferredSize = new Dimension(maxWidth, maxHeight);
+                
+            for (int i = 0; i < allPanels.length; i++) {
+                Component c = allPanels[i].getComponent();
+                if (c instanceof JComponent) { // assume Swing components
+                    JComponent jc = (JComponent) c;
+                    jc.setPreferredSize(preferredSize);
                 }
             }
             

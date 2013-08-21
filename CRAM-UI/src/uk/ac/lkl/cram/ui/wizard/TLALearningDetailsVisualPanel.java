@@ -411,12 +411,12 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private void checkValidity() {
 	Integer totalLearningType = (Integer) totalLearningTypeField.getValue();
 	if (totalLearningType != 100) {
-	    LOGGER.info("totalLearningType: " + totalLearningType);
+	    //LOGGER.info("totalLearningType: " + totalLearningType);
 	    firePropertyChange(PROP_VALID, true, false);
 	    return;
 	}
 	if (tlaNameField.getText().isEmpty()) {
-	    LOGGER.info("tlaNameField: " + tlaNameField.getText());
+	    //LOGGER.info("tlaNameField: " + tlaNameField.getText());
 	    firePropertyChange(PROP_VALID, true, false);
 	    return;
 	}
