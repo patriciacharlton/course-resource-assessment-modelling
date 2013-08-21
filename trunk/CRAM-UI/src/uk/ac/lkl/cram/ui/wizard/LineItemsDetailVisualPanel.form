@@ -133,6 +133,7 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="WEEKLY HOURS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="verticalAlignment" type="int" value="3"/>
             <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
@@ -141,6 +142,7 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="NON-WEEKLY HOURS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="verticalAlignment" type="int" value="3"/>
             <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
@@ -244,6 +246,7 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="WEEKLY HOURS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="verticalAlignment" type="int" value="3"/>
             <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
@@ -252,6 +255,7 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="NON-WEEKLY HOURS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="verticalAlignment" type="int" value="3"/>
             <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
