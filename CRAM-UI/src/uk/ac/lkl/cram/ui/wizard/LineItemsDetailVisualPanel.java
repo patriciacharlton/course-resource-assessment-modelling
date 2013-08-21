@@ -274,10 +274,12 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         preparationPanel.add(jLabel3);
 
         jXLabel2.setText(bundle.getString("WEEKLY HOURS")); // NOI18N
+        jXLabel2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jXLabel2.setLineWrap(true);
         preparationPanel.add(jXLabel2);
 
         jXLabel1.setText(bundle.getString("NON-WEEKLY HOURS")); // NOI18N
+        jXLabel1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jXLabel1.setLineWrap(true);
         preparationPanel.add(jXLabel1);
 
@@ -327,10 +329,12 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         supportPanel.add(jLabel4);
 
         jXLabel3.setText(bundle.getString("WEEKLY HOURS")); // NOI18N
+        jXLabel3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jXLabel3.setLineWrap(true);
         supportPanel.add(jXLabel3);
 
         jXLabel4.setText(bundle.getString("NON-WEEKLY HOURS")); // NOI18N
+        jXLabel4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jXLabel4.setLineWrap(true);
         supportPanel.add(jXLabel4);
 
