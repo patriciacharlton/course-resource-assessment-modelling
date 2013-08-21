@@ -53,15 +53,15 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 
             @Override
             public Object stringToValue(String string) throws ParseException {
-		LOGGER.info("String: " + string);
+		//LOGGER.info("String: " + string);
 		Float seniorRate = Float.valueOf(string)/100;
-		LOGGER.info("Senior rate: " + seniorRate);
+		//LOGGER.info("Senior rate: " + seniorRate);
                 return seniorRate;
             }
 
             @Override
             public String valueToString(Object f) throws ParseException {
-		LOGGER.info("value: " + f + " class: " + f.getClass());
+		//LOGGER.info("value: " + f + " class: " + f.getClass());
 		Float seniorRate = (Float) f * 100;
                 return String.valueOf(seniorRate) + '%';
             }
@@ -111,7 +111,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    new FormattedTextFieldAdapter(seniorPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    LOGGER.info("Class of value: " + value.getClass());
+		    //LOGGER.info("Class of value: " + value.getClass());
 		    lineItem.getPreparationTime(modulePresentation).setSeniorRate((Float) value);
 		}
 	    };
