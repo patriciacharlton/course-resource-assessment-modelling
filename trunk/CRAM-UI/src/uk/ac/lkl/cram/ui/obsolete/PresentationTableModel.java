@@ -124,10 +124,10 @@ public class PresentationTableModel extends AbstractTableModel {
                 mp.setFee((Integer) value);
                 break;
             case 3:
-                mp.setJuniorCost((Float) value);
+                mp.setJuniorCost((Integer) value);
                 break;
             case 4:
-                mp.setSeniorCost((Float) value);
+                mp.setSeniorCost((Integer) value);
                 break;
             default:
                 throw new RuntimeException("Invalid column: " + column);

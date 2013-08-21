@@ -18,7 +18,7 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
     private static final String[] COLUMN_NAMES = {"Activity", "Weekly Hours", "Non-Weekly Hours", "Total Hours"};
     private final Module module;
     
-    ModuleTableModel(Module module) {
+    public ModuleTableModel(Module module) {
         super();
         this.module = module;
 	module.addPropertyChangeListener(this);
