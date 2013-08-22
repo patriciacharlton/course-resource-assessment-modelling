@@ -8,7 +8,6 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.LegendTitle;
@@ -19,7 +18,7 @@ import uk.ac.lkl.cram.model.LearningType;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class TLALearningTypeChartFactory {
@@ -35,17 +34,13 @@ public class TLALearningTypeChartFactory {
     }
     
     public static ChartPanel createChartPanel(TLActivity tla) {
-        
-	PieDataset dataset = createDataSet(tla);
-	JFreeChart chart = createChart(dataset);
+	JFreeChart chart = createChart(tla);
 	ChartPanel chartPanel = new ChartPanel(chart);
 	return chartPanel;
     }
     
     public static BufferedImage createChartImage(TLActivity tla, Dimension d) {
-        
-	PieDataset dataset = createDataSet(tla);
-	JFreeChart chart = createChart(dataset);
+	JFreeChart chart = createChart(tla);
         return chart.createBufferedImage(d.width, d.height);
     }
 
@@ -79,6 +74,13 @@ public class TLALearningTypeChartFactory {
         dataset.setValue("Discusssion", lt.getDiscussion());
         dataset.setValue("Practice", lt.getPractice());
         dataset.setValue("Production", lt.getProduction());
+	dataset.setValue("Collaboration", lt.getCollaboration());
+    }
+
+    public static JFreeChart createChart(TLActivity tla) {
+	PieDataset dataset = createDataSet(tla);
+	JFreeChart chart = createChart(dataset);
+	return chart;
     }
     
     
