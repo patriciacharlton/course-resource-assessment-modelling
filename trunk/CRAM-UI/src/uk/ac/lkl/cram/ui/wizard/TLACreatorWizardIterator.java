@@ -12,6 +12,7 @@ import uk.ac.lkl.cram.model.Module;
 
 public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(TLACreatorWizardIterator.class.getName());
+    static final int LEFT_WIDTH = 200;
 
     static final String PROP_VANILLA = "vanilla";
     static final String PROP_LINE_ITEM = "lineItem";
@@ -68,6 +69,8 @@ public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator
                     jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
                     // Turn on numbering of all steps
                     jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
+		    // Width of left pane
+		    jc.putClientProperty(WizardDescriptor.PROP_LEFT_DIMENSION, LEFT_WIDTH);
                     maxWidth = Math.max(maxWidth, jc.getPreferredSize().width);
                     maxHeight = Math.max(maxHeight, jc.getPreferredSize().height);
                 }
