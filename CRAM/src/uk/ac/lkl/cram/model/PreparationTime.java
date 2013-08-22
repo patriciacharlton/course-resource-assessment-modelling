@@ -1,7 +1,7 @@
 package uk.ac.lkl.cram.model;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class PreparationTime extends AbstractModuleTime {
@@ -9,7 +9,7 @@ public class PreparationTime extends AbstractModuleTime {
     private static final long serialVersionUID = 1L;
 
     PreparationTime() {
-	super();
+	this(0f, 0f, 1f); //Default for prep is that senior rate is 100%
     }
     
     PreparationTime(float f, float g, float h) {

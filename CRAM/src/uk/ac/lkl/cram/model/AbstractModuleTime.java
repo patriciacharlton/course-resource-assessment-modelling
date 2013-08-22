@@ -23,7 +23,7 @@ public class AbstractModuleTime implements Serializable {
     private PropertyChangeSupport propertySupport;
 
     public AbstractModuleTime() {
-	this(0f, 0f, 0.5f);
+	this(0f, 0f, 0f);
     }
 
     public AbstractModuleTime(float f, float g, float h) {
