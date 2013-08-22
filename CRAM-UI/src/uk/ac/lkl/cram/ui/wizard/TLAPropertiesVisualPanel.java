@@ -12,6 +12,10 @@ import uk.ac.lkl.cram.model.LearnerFeedback;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLActivity;
 
+/**
+ * $Date: $
+ * @author Bernard Horan
+ */
 public final class TLAPropertiesVisualPanel extends JPanel {
     private static final Logger LOGGER = Logger.getLogger(TLAPropertiesVisualPanel.class.getName());
 
@@ -154,10 +158,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
         tlaNamePanel.setLayout(tlaNamePanelLayout);
         tlaNamePanelLayout.setHorizontalGroup(
             tlaNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tlaNamePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tlaNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(tlaNameField, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         tlaNamePanelLayout.setVerticalGroup(
             tlaNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,8 +202,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(telFeedbackRB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noFeedbackRB)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(noFeedbackRB))
         );
 
         studentInteractionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.studentInteractionPanel.border.title"))); // NOI18N
@@ -226,7 +226,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
                     .addComponent(locationSpecificCB)
                     .addComponent(onlineCB)
                     .addComponent(timeSpecificCB))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         studentInteractionPanelLayout.setVerticalGroup(
             studentInteractionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,8 +238,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(locationSpecificCB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(timeSpecificCB)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(timeSpecificCB))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -247,25 +246,24 @@ public final class TLAPropertiesVisualPanel extends JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tlaNamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(studentInteractionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
-                        .addComponent(feedbackPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(0, 0, 0)
+                        .addComponent(feedbackPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(tlaNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(feedbackPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(studentInteractionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(87, Short.MAX_VALUE))
+                    .addComponent(studentInteractionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(feedbackPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -284,4 +282,4 @@ public final class TLAPropertiesVisualPanel extends JPanel {
     private javax.swing.JTextField tlaNameField;
     private javax.swing.JPanel tlaNamePanel;
     // End of variables declaration//GEN-END:variables
-}
+    }

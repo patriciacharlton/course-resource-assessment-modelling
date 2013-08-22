@@ -1,11 +1,18 @@
 package uk.ac.lkl.cram.ui.wizard;
 
+import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeListener;
+import org.jfree.chart.JFreeChart;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 import uk.ac.lkl.cram.model.TLActivity;
+import uk.ac.lkl.cram.ui.TLALearningTypeChartFactory;
 
+/**
+ * $Date: $
+ * @author Bernard Horan
+ */
 public class TLAPropertiesWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(TLAPropertiesWizardPanel.class.getName());
 
@@ -61,6 +68,9 @@ public class TLAPropertiesWizardPanel implements WizardDescriptor.Panel<WizardDe
     @Override
     public void readSettings(WizardDescriptor wiz) {
 	// use wiz.getProperty to retrieve previous panel state
+	JFreeChart chart = TLALearningTypeChartFactory.createChart(tla);
+	BufferedImage image = chart.createBufferedImage(TLACreatorWizardIterator.LEFT_WIDTH, TLACreatorWizardIterator.LEFT_WIDTH, 300, 300, null);
+	wiz.putProperty(WizardDescriptor.PROP_IMAGE, image);
     }
 
     @Override
