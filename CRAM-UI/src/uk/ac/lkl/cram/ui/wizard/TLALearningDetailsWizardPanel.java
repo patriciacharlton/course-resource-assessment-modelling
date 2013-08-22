@@ -1,5 +1,6 @@
 package uk.ac.lkl.cram.ui.wizard;
 
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
@@ -9,6 +10,10 @@ import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 import uk.ac.lkl.cram.model.TLActivity;
 
+/**
+ * $Date$
+ * @author Bernard Horan
+ */
 public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(TLALearningDetailsWizardPanel.class.getName());
 
@@ -89,6 +94,8 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
     @Override
     public void readSettings(WizardDescriptor wiz) {
 	// use wiz.getProperty to retrieve previous panel state
+	BufferedImage image = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
+	wiz.putProperty(WizardDescriptor.PROP_IMAGE, image);
     }
 
     @Override
