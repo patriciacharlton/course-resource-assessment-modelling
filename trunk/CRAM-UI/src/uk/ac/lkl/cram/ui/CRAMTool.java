@@ -13,7 +13,7 @@ import uk.ac.lkl.cram.model.Module;
 import static uk.ac.lkl.cram.ui.ModuleOkCancelDialog.RET_OK;
 
 /**
- *
+ * $Date$
  * @author bernard
  */
 public class CRAMTool extends javax.swing.JFrame {
