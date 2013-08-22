@@ -3,15 +3,12 @@ package uk.ac.lkl.cram.ui.wizard;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
-import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 import uk.ac.lkl.cram.model.TLActivity;
 
 public class TLAPropertiesWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(TLAPropertiesWizardPanel.class.getName());
 
-    private boolean isValid = false;
-    private ChangeSupport changeSupport = new ChangeSupport(this);
     /**
      * The visual component that displays this panel. If you need to access the
      * component from this class, just use getComponent().
