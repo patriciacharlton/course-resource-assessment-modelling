@@ -35,7 +35,7 @@ public class TLActivity implements Serializable {
 	studentTeacherInteraction = new StudentTeacherInteraction();
     }
     
-    TLActivity(String name) {
+    public TLActivity(String name) {
 	this();
 	this.name = name;
     }
