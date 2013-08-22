@@ -1,5 +1,7 @@
 package uk.ac.lkl.cram.ui.wizard;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import uk.ac.lkl.cram.ui.obsolete.TableTestForm;
 import java.util.logging.Logger;
@@ -9,6 +11,7 @@ import javax.swing.JFrame;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
+import uk.ac.lkl.cram.model.TLActivity;
 
 /**
  *
@@ -28,6 +31,16 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     public LineItemsDetailVisualPanel(Module module, TLALineItem li) {
         this.lineItem = li;
         initComponents();
+	li.getActivity().addPropertyChangeListener(new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		String property = pce.getPropertyName();
+		if (property.equals(TLActivity.PROP_NAME)) {
+		    tlActivityNameChanged();
+		}
+	    }
+	});
         weeklyHoursField.setValue(lineItem.getWeeklyLearnerHourCount());
         weeklyHoursField.addFocusListener(new SelectAllAdapter());
 	new FormattedTextFieldAdapter(weeklyHoursField) {
@@ -179,6 +192,10 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    return;
 	}
 	firePropertyChange(PROP_VALID, false, true);
+    }
+    
+    private void tlActivityNameChanged() {
+	tlaNameField.setText(lineItem.getActivity().getName());
     }
 
     /**
@@ -388,10 +405,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         tlaNamePanel.setLayout(tlaNamePanelLayout);
         tlaNamePanelLayout.setHorizontalGroup(
             tlaNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(tlaNamePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(tlaNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
-                .addContainerGap())
+            .add(tlaNameField)
         );
         tlaNamePanelLayout.setVerticalGroup(
             tlaNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -402,14 +416,10 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
-                .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .add(layout.createSequentialGroup()
-                .add(0, 0, 0)
-                .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(0, 0, 0))
+            .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+            .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -421,8 +431,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 .add(0, 0, 0)
                 .add(preparationPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0)
-                .add(supportPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 0, 0))
+                .add(supportPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
