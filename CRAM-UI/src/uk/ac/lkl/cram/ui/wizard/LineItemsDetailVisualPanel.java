@@ -8,13 +8,16 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import uk.ac.lkl.cram.ui.*;
 import javax.swing.JFrame;
+import uk.ac.lkl.cram.model.AbstractModuleTime;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
+import uk.ac.lkl.cram.model.PreparationTime;
+import uk.ac.lkl.cram.model.SupportTime;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
@@ -89,11 +92,11 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	
 	
 	//Preparation Fields
-	JFormattedTextField[] weeklyPreparationFields = new JFormattedTextField[3];
+	final JFormattedTextField[] weeklyPreparationFields = new JFormattedTextField[3];
 	weeklyPreparationFields[0] = presentation1WeeklyPreparation;
 	weeklyPreparationFields[1] = presentation2WeeklyPreparation;
 	weeklyPreparationFields[2] = presentation3WeeklyPreparation;
-	JFormattedTextField[] nonWeeklyPreparationFields = new JFormattedTextField[3];
+	final JFormattedTextField[] nonWeeklyPreparationFields = new JFormattedTextField[3];
 	nonWeeklyPreparationFields[0] = presentation1NonWeeklyPreparation;
 	nonWeeklyPreparationFields[1] = presentation2NonWeeklyPreparation;
 	nonWeeklyPreparationFields[2] = presentation3NonWeeklyPreparation;
@@ -133,11 +136,11 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	}
 	
 	//Support Fields
-	JFormattedTextField[] weeklySupportFields = new JFormattedTextField[3];
+	final JFormattedTextField[] weeklySupportFields = new JFormattedTextField[3];
 	weeklySupportFields[0] = presentation1WeeklySupport;
 	weeklySupportFields[1] = presentation2WeeklySupport;
 	weeklySupportFields[2] = presentation3WeeklySupport;
-	JFormattedTextField[] nonWeeklySupportFields = new JFormattedTextField[3];
+	final JFormattedTextField[] nonWeeklySupportFields = new JFormattedTextField[3];
 	nonWeeklySupportFields[0] = presentation1NonWeeklySupport;
 	nonWeeklySupportFields[1] = presentation2NonWeeklySupport;
 	nonWeeklySupportFields[2] = presentation3NonWeeklySupport;
@@ -175,7 +178,58 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    supportIndex++;
 	}
 	
+	ModulePresentation mp1 = module.getModulePresentations().get(0);
+	final PreparationTime pt1 = lineItem.getPreparationTime(mp1);
+	pt1.addPropertyChangeListener(new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		String property = pce.getPropertyName();
+		if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
+		    float run2Weekly = pt1.getWeekly()/10;
+		    run2Weekly = (float) Math.ceil(run2Weekly);
+		    //run2Weekly = Math.max(1, run2Weekly);
+		    weeklyPreparationFields[1].setValue(run2Weekly);
+		    float run3Weekly = run2Weekly/10;
+		    run3Weekly= (float) Math.ceil(run3Weekly);
+		    weeklyPreparationFields[2].setValue(run3Weekly);
+		} else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
+		    float run2NonWeekly = pt1.getWeekly()/10;
+		    run2NonWeekly = (float) Math.ceil(run2NonWeekly);
+		    //run2Weekly = Math.max(1, run2Weekly);
+		    nonWeeklyPreparationFields[1].setValue(run2NonWeekly);
+		    float run3Weekly = run2NonWeekly/10;
+		    run3Weekly= (float) Math.ceil(run3Weekly);
+		    nonWeeklyPreparationFields[2].setValue(run3Weekly);
+		} 
+	    }
+	});
 	
+	final SupportTime st1 = lineItem.getSupportTime(mp1);
+	st1.addPropertyChangeListener(new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		String property = pce.getPropertyName();
+		if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
+		    float run2Weekly = pt1.getWeekly()/10;
+		    run2Weekly = (float) Math.ceil(run2Weekly);
+		    //run2Weekly = Math.max(1, run2Weekly);
+		    weeklySupportFields[1].setValue(run2Weekly);
+		    float run3Weekly = run2Weekly/10;
+		    run3Weekly= (float) Math.ceil(run3Weekly);
+		    weeklySupportFields[2].setValue(run3Weekly);
+		} else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
+		    float run2NonWeekly = pt1.getWeekly()/10;
+		    run2NonWeekly = (float) Math.ceil(run2NonWeekly);
+		    //run2Weekly = Math.max(1, run2Weekly);
+		    nonWeeklySupportFields[1].setValue(run2NonWeekly);
+		    float run3Weekly = run2NonWeekly/10;
+		    run3Weekly= (float) Math.ceil(run3Weekly);
+		    nonWeeklySupportFields[2].setValue(run3Weekly);
+		} 
+	    }
+	});
 	
     }
     
@@ -267,16 +321,19 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         activityPanelLayout.setHorizontalGroup(
             activityPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(activityPanelLayout.createSequentialGroup()
-                .add(63, 63, 63)
+                .add(69, 69, 69)
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(weeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(49, 49, 49)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(nonWeeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(59, 59, 59))
         );
+
+        activityPanelLayout.linkSize(new java.awt.Component[] {nonWeeklyHoursField, weeklyHoursField}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
         activityPanelLayout.setVerticalGroup(
             activityPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(activityPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -431,7 +488,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 .add(0, 0, 0)
                 .add(preparationPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0)
-                .add(supportPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(supportPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
