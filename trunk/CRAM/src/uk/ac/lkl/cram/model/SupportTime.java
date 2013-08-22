@@ -1,7 +1,7 @@
 package uk.ac.lkl.cram.model;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class SupportTime extends AbstractModuleTime {
@@ -9,7 +9,7 @@ public class SupportTime extends AbstractModuleTime {
     private static final long serialVersionUID = 1L;
 
     SupportTime() {
-	super();
+	this(0f, 0f, 0f); //Default for support is that senior rate is 0%
     }
     
     SupportTime(float f, float g, float h) {
