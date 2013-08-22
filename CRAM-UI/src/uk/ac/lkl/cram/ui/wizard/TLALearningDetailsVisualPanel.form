@@ -23,8 +23,13 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="learningTypePanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="learningExperiencePanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="learningExperiencePanel" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                      <Component id="chartHolderPanel" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
           </Group>
           <Component id="tlaNamePanel" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -34,9 +39,14 @@
           <Group type="102" attributes="0">
               <Component id="tlaNamePanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="learningTypePanel" min="-2" max="-2" attributes="0"/>
-                  <Component id="learningExperiencePanel" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="learningExperiencePanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="chartHolderPanel" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
       </Group>
@@ -271,6 +281,10 @@
         <Component class="javax.swing.JTextField" name="tlaNameField">
         </Component>
       </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="chartHolderPanel">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
     </Container>
   </SubComponents>
 </Form>

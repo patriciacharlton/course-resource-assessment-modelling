@@ -107,6 +107,7 @@ public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public WizardDescriptor.Panel<WizardDescriptor> current() {
 	initializePanels();
         return currentPanels[index];

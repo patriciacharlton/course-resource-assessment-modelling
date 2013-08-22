@@ -229,6 +229,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation3WeeklySupport = new javax.swing.JFormattedTextField();
         presentation3NonWeeklySupport = new javax.swing.JFormattedTextField();
         presentation3SeniorSupport = new javax.swing.JFormattedTextField();
+        tlaNamePanel = new javax.swing.JPanel();
+        tlaNameField = new javax.swing.JTextField();
 
         activityPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Learner Hours"));
 
@@ -255,8 +257,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 .add(49, 49, 49)
                 .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(nonWeeklyHoursField)
-                .add(52, 52, 52))
+                .add(nonWeeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         activityPanelLayout.setVerticalGroup(
             activityPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -378,21 +380,42 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation3SeniorSupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation3SeniorSupport);
 
+        tlaNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(LineItemsDetailVisualPanel.class, "TLAPropertiesVisualPanel.tlaNamePanel.border.title"))); // NOI18N
+
+        tlaNameField.setEnabled(false);
+
+        org.jdesktop.layout.GroupLayout tlaNamePanelLayout = new org.jdesktop.layout.GroupLayout(tlaNamePanel);
+        tlaNamePanel.setLayout(tlaNamePanelLayout);
+        tlaNamePanelLayout.setHorizontalGroup(
+            tlaNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tlaNamePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(tlaNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        tlaNamePanelLayout.setVerticalGroup(
+            tlaNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tlaNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        );
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+                .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .add(layout.createSequentialGroup()
                 .add(0, 0, 0)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
-                    .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(0, 0, 0)
+                .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0)
                 .add(activityPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0)
@@ -442,6 +465,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField presentation3WeeklyPreparation;
     private javax.swing.JFormattedTextField presentation3WeeklySupport;
     private javax.swing.JPanel supportPanel;
+    private javax.swing.JTextField tlaNameField;
+    private javax.swing.JPanel tlaNamePanel;
     private javax.swing.JFormattedTextField weeklyHoursField;
     // End of variables declaration//GEN-END:variables
 
