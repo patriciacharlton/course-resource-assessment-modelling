@@ -16,7 +16,7 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class LearningTypeChartFactory {
@@ -46,6 +46,7 @@ public class LearningTypeChartFactory {
 	dataset.setValue("Discusssion", getTotalDiscussion(m));
 	dataset.setValue("Practice", getTotalPractice(m));
 	dataset.setValue("Production", getTotalProduction(m));
+	dataset.setValue("Collaboration", getTotalCollaboration(m));
 	return dataset;
     }
     
@@ -90,6 +91,15 @@ public class LearningTypeChartFactory {
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
 	    total += lineItem.getTotalLearnerHourCount(m) * activity.getLearningType().getProduction();
+	}
+	return total;
+    }
+    
+    public static float getTotalCollaboration(Module m) {
+	float total = 0f;
+	for (TLALineItem lineItem : m.getTLALineItems()) {
+	    TLActivity activity = lineItem.getActivity();
+	    total += lineItem.getTotalLearnerHourCount(m) * activity.getLearningType().getCollaboration();
 	}
 	return total;
     }
