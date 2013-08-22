@@ -1,8 +1,6 @@
 package uk.ac.lkl.cram.ui.wizard;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -16,21 +14,20 @@ import javax.swing.JSlider;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.jfree.chart.ChartPanel;
 import uk.ac.lkl.cram.model.EnumeratedLearningExperience;
 import uk.ac.lkl.cram.model.TLActivity;
-import uk.ac.lkl.cram.ui.TLALearningTypeChartFactory;
 import uk.ac.lkl.cram.ui.TextFieldAdapter;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(TLALearningDetailsVisualPanel.class.getName());
+    private static final Color VALID_COLOUR = new Color(0, 153, 51);
+    public static final String PROP_VALID = "valid";
 
     private TLActivity tlActivity;
-    public final static String PROP_VALID = "valid";
     
     /**
      * Creates new form TLALearningDetailsVisualPanel
@@ -113,6 +110,17 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    }
 	});
 	
+	collaborationSlider.setValue(tlActivity.getLearningType().getCollaboration());
+	collaborationSlider.addChangeListener(new ChangeListener() {
+
+	    @Override
+	    public void stateChanged(ChangeEvent ce) {
+		JSlider source = (JSlider) ce.getSource();
+                int collaboration = source.getValue();
+                tlActivity.getLearningType().setCollaboration(collaboration);			    
+	    }
+	});
+	
 	new TextFieldAdapter(tlaNameField) {
 
 	    @Override
@@ -176,10 +184,6 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         totalLearningTypeField.setFormatterFactory(aff);
         learningTypeSliderChanged();
         
-        //Chart
-        ChartPanel chartPanel = TLALearningTypeChartFactory.createChartPanel(tla);
-        chartPanel.setPreferredSize(new Dimension(200, 200));
-        chartHolderPanel.add(chartPanel, BorderLayout.CENTER);
     }
     
     @Override
@@ -219,9 +223,10 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         productionSlider = new javax.swing.JSlider();
         totalLearningTypeField = new javax.swing.JFormattedTextField();
+        jLabel6 = new javax.swing.JLabel();
+        collaborationSlider = new javax.swing.JSlider();
         tlaNamePanel = new javax.swing.JPanel();
         tlaNameField = new javax.swing.JTextField();
-        chartHolderPanel = new javax.swing.JPanel();
 
         learningExperiencePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Nature of Learning Experience"));
 
@@ -288,6 +293,11 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         totalLearningTypeField.setEditable(false);
         totalLearningTypeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        jLabel6.setText("Collaboration:");
+
+        collaborationSlider.setMajorTickSpacing(10);
+        collaborationSlider.setPaintTicks(true);
+
         org.jdesktop.layout.GroupLayout learningTypePanelLayout = new org.jdesktop.layout.GroupLayout(learningTypePanel);
         learningTypePanel.setLayout(learningTypePanelLayout);
         learningTypePanelLayout.setHorizontalGroup(
@@ -298,28 +308,30 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
                     .add(jLabel2)
                     .add(jLabel3)
                     .add(jLabel4)
-                    .add(jLabel5))
+                    .add(jLabel5)
+                    .add(jLabel6))
                 .add(0, 0, Short.MAX_VALUE)
                 .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, practiceSlider, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, discussionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, inquirySlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, acquisitionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .add(productionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .add(productionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .add(collaborationSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .add(0, 0, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, learningTypePanelLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(172, Short.MAX_VALUE)
                 .add(totalLearningTypeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         learningTypePanelLayout.setVerticalGroup(
             learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(learningTypePanelLayout.createSequentialGroup()
-                .add(0, 0, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(jLabel1)
                     .add(acquisitionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(0, 0, Short.MAX_VALUE)
+                .add(0, 0, 0)
                 .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(jLabel2)
                     .add(inquirySlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -335,8 +347,11 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
                     .add(jLabel5)
                     .add(productionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(0, 0, 0)
-                .add(totalLearningTypeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 0, Short.MAX_VALUE))
+                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(jLabel6)
+                    .add(collaborationSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(0, 0, 0)
+                .add(totalLearningTypeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
         tlaNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Teaching & Learning Activity Name"));
@@ -355,8 +370,6 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
             .add(tlaNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
 
-        chartHolderPanel.setLayout(new java.awt.BorderLayout());
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -364,11 +377,8 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .add(learningTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(layout.createSequentialGroup()
-                        .add(6, 6, 6)
-                        .add(chartHolderPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, 0))
             .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -376,19 +386,15 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(learningTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(layout.createSequentialGroup()
-                        .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(chartHolderPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(learningTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 284, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSlider acquisitionSlider;
-    private javax.swing.JPanel chartHolderPanel;
+    private javax.swing.JSlider collaborationSlider;
     private javax.swing.JSlider discussionSlider;
     private javax.swing.JSlider inquirySlider;
     private javax.swing.JLabel jLabel1;
@@ -396,6 +402,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.ButtonGroup learningExperienceBG;
     private javax.swing.JPanel learningExperiencePanel;
     private javax.swing.JPanel learningTypePanel;
@@ -415,10 +422,11 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         totalLearningType += discussionSlider.getValue();
         totalLearningType += productionSlider.getValue();
         totalLearningType += practiceSlider.getValue();
+	totalLearningType += collaborationSlider.getValue();
         totalLearningTypeField.setValue(totalLearningType);
         Color fieldColour; 
         if (totalLearningType == 100) {
-            fieldColour = Color.GREEN;
+            fieldColour = VALID_COLOUR;
         } else {
             fieldColour = Color.RED;
         }
