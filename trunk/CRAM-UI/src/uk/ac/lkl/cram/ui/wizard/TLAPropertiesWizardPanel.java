@@ -6,6 +6,7 @@ import javax.swing.event.ChangeListener;
 import org.jfree.chart.JFreeChart;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
+import uk.ac.lkl.cram.model.EnumeratedLearningExperience;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.TLALearningTypeChartFactory;
 
@@ -71,10 +72,27 @@ public class TLAPropertiesWizardPanel implements WizardDescriptor.Panel<WizardDe
 	JFreeChart chart = TLALearningTypeChartFactory.createChart(tla);
 	BufferedImage image = chart.createBufferedImage(TLACreatorWizardIterator.LEFT_WIDTH, TLACreatorWizardIterator.LEFT_WIDTH, 300, 300, null);
 	wiz.putProperty(WizardDescriptor.PROP_IMAGE, image);
+        wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, getInfoMessage());
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
 	// use wiz.putProperty to remember current panel state
+    }
+
+    private String getInfoMessage() {
+        StringBuilder builder = new StringBuilder();
+        switch (tla.getLearningExperience()) {
+            case ONE_SIZE_FOR_ALL:
+                builder.append("one size for all");
+                break;
+            case PERSONALISED:
+                builder.append("personalised");
+                break;
+            case SOCIAL:
+                builder.append("social");
+                break;
+        }
+        return builder.toString();
     }
 }

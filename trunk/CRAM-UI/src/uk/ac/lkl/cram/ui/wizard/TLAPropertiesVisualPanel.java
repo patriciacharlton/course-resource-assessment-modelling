@@ -106,7 +106,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
 	    }
 	});
 	locationSpecificCB.setSelected(sti.isLocationSpecific());
-	locationSpecificCB.addItemListener(new ItemListener() {
+	timeSpecificCB.addItemListener(new ItemListener() {
 
 	    @Override
 	    public void itemStateChanged(ItemEvent ie) {

@@ -127,7 +127,6 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    new FormattedTextFieldAdapter(seniorPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    //LOGGER.info("Class of value: " + value.getClass());
 		    lineItem.getPreparationTime(modulePresentation).setSeniorRate((Float) value);
 		}
 	    };
@@ -179,31 +178,29 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	}
 	
 	ModulePresentation mp1 = module.getModulePresentations().get(0);
-	final PreparationTime pt1 = lineItem.getPreparationTime(mp1);
-	pt1.addPropertyChangeListener(new PropertyChangeListener() {
-
-	    @Override
-	    public void propertyChange(PropertyChangeEvent pce) {
-		String property = pce.getPropertyName();
-		if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
-		    float run2Weekly = pt1.getWeekly()/10;
-		    run2Weekly = (float) Math.ceil(run2Weekly);
-		    //run2Weekly = Math.max(1, run2Weekly);
-		    weeklyPreparationFields[1].setValue(run2Weekly);
-		    float run3Weekly = run2Weekly/10;
-		    run3Weekly= (float) Math.ceil(run3Weekly);
-		    weeklyPreparationFields[2].setValue(run3Weekly);
-		} else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
-		    float run2NonWeekly = pt1.getWeekly()/10;
-		    run2NonWeekly = (float) Math.ceil(run2NonWeekly);
-		    //run2Weekly = Math.max(1, run2Weekly);
-		    nonWeeklyPreparationFields[1].setValue(run2NonWeekly);
-		    float run3Weekly = run2NonWeekly/10;
-		    run3Weekly= (float) Math.ceil(run3Weekly);
-		    nonWeeklyPreparationFields[2].setValue(run3Weekly);
-		} 
-	    }
-	});
+        final PreparationTime pt1 = lineItem.getPreparationTime(mp1);
+        pt1.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                String property = pce.getPropertyName();
+                if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
+                    float run2Weekly = pt1.getWeekly() / 10;
+                    run2Weekly = (float) Math.ceil(run2Weekly);
+                    //TODO need to change value of underlying objects, not fields
+                    weeklyPreparationFields[1].setValue(run2Weekly);
+                    float run3Weekly = run2Weekly / 10;
+                    run3Weekly = (float) Math.ceil(run3Weekly);
+                    weeklyPreparationFields[2].setValue(run3Weekly);
+                } else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
+                    float run2NonWeekly = pt1.getWeekly() / 10;
+                    run2NonWeekly = (float) Math.ceil(run2NonWeekly);
+                    nonWeeklyPreparationFields[1].setValue(run2NonWeekly);
+                    float run3Weekly = run2NonWeekly / 10;
+                    run3Weekly = (float) Math.ceil(run3Weekly);
+                    nonWeeklyPreparationFields[2].setValue(run3Weekly);
+                }
+            }
+        });
 	
 	final SupportTime st1 = lineItem.getSupportTime(mp1);
 	st1.addPropertyChangeListener(new PropertyChangeListener() {

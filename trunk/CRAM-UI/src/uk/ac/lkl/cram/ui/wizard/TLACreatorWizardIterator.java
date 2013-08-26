@@ -2,6 +2,7 @@ package uk.ac.lkl.cram.ui.wizard;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
@@ -13,6 +14,7 @@ import uk.ac.lkl.cram.model.Module;
 public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(TLACreatorWizardIterator.class.getName());
     static final int LEFT_WIDTH = 200;
+    static final BufferedImage EMPTY_IMAGE = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
 
     static final String PROP_VANILLA = "vanilla";
     static final String PROP_LINE_ITEM = "lineItem";
@@ -38,6 +40,7 @@ public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator
     
     public void initialize(WizardDescriptor wizardDescriptor) {
         wizardDesc = wizardDescriptor;
+        wizardDesc.putProperty(WizardDescriptor.PROP_IMAGE, EMPTY_IMAGE);
 	//wizardDesc.putProperty(PROP_MODULE, module);
     }
     
