@@ -94,8 +94,8 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
     @Override
     public void readSettings(WizardDescriptor wiz) {
 	// use wiz.getProperty to retrieve previous panel state
-	BufferedImage image = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
-	wiz.putProperty(WizardDescriptor.PROP_IMAGE, image);
+	wiz.putProperty(WizardDescriptor.PROP_IMAGE, TLACreatorWizardIterator.EMPTY_IMAGE);
+        wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, "");
     }
 
     @Override

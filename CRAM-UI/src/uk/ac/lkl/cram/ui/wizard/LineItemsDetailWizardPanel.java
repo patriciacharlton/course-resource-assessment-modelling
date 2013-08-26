@@ -7,8 +7,13 @@ import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
+import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.ONE_SIZE_FOR_ALL;
+import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.PERSONALISED;
+import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.SOCIAL;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.StudentTeacherInteraction;
+import uk.ac.lkl.cram.model.TLActivity;
 
 public class LineItemsDetailWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(LineItemsDetailWizardPanel.class.getName());
@@ -87,10 +92,64 @@ public class LineItemsDetailWizardPanel implements WizardDescriptor.Panel<Wizard
     @Override
     public void readSettings(WizardDescriptor wiz) {
 	// use wiz.getProperty to retrieve previous panel state
+        wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, getInfoMessage());
+
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
 	// use wiz.putProperty to remember current panel state
+    }
+    
+    private String getInfoMessage() {
+        StringBuilder builder = new StringBuilder();
+        TLActivity tla = lineItem.getActivity();
+        //Learning experience
+        switch (tla.getLearningExperience()) {
+            case ONE_SIZE_FOR_ALL:
+                builder.append("one size for all");
+                break;
+            case PERSONALISED:
+                builder.append("personalised");
+                break;
+            case SOCIAL:
+                builder.append("social");
+                break;
+        }
+        
+        //Student interaction
+        StudentTeacherInteraction sti = tla.getStudentTeacherInteraction();
+        if (sti.isOnline()) {
+            builder.append(", ");
+            builder.append("online");
+        }
+        if (sti.isLocationSpecific()) {
+            builder.append(", ");
+            builder.append("location-specific");
+        }
+        if (sti.isTimeSpecific()) {
+            builder.append(", ");
+            builder.append("time-specific");
+        }
+        if (sti.isTutorSupported()) {
+            builder.append(", ");
+            builder.append("tutor-supported");
+        }
+        //Student Feedback      
+        switch (tla.getLearnerFeedback()) {
+            case PEER_ONLY:
+                builder.append(", ");
+                builder.append("peer feedback");
+                break;
+            case TEL:
+                builder.append(", ");
+                builder.append("TEL feedback");
+                break;
+            case TUTOR:
+                builder.append(", ");
+                builder.append("tutor feedback");
+                break;
+        }
+        return builder.toString();
     }
 }
