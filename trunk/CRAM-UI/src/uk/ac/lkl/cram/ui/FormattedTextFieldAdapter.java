@@ -29,7 +29,7 @@ import javax.swing.event.DocumentListener;
  */
 public abstract class FormattedTextFieldAdapter implements DocumentListener {
     
-    private JFormattedTextField textField;
+    protected JFormattedTextField textField;
     
     public FormattedTextFieldAdapter(JFormattedTextField textField) {
 	this.textField = textField;
