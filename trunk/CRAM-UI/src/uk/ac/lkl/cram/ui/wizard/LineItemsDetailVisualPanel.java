@@ -3,6 +3,7 @@ package uk.ac.lkl.cram.ui.wizard;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
+import java.util.WeakHashMap;
 import uk.ac.lkl.cram.ui.obsolete.TableTestForm;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
@@ -23,6 +24,7 @@ import uk.ac.lkl.cram.model.TLActivity;
 public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(LineItemsDetailVisualPanel.class.getName());
     public final static String PROP_VALID = "valid";
+    private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<JFormattedTextField, Boolean>();
     
     private final TLALineItem lineItem;
 
@@ -112,6 +114,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		@Override
 		public void updateValue(Object value) {
 		    lineItem.getPreparationTime(modulePresentation).setWeekly((Float)value);
+		    makeFieldDirty(textField);
 		}
 	    };
 	    nonWeeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getNonWeekly());
@@ -120,6 +123,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		@Override
 		public void updateValue(Object value) {
 		    lineItem.getPreparationTime(modulePresentation).setNonWeekly((Float) value);
+		    makeFieldDirty(textField);
 		}
 	    };
 	    seniorPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getSeniorRate());
@@ -128,6 +132,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		@Override
 		public void updateValue(Object value) {
 		    lineItem.getPreparationTime(modulePresentation).setSeniorRate((Float) value);
+		    makeFieldDirty(textField);
 		}
 	    };
 	    seniorPreparationFields[preparationIndex].setFormatterFactory(aff);
@@ -155,6 +160,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		@Override
 		public void updateValue(Object value) {
 		    lineItem.getSupportTime(modulePresentation).setWeekly((Float) value);
+		    makeFieldDirty(textField);
 		}
 	    };
 	    nonWeeklySupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getNonWeekly());
@@ -163,6 +169,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		@Override
 		public void updateValue(Object value) {
 		    lineItem.getSupportTime(modulePresentation).setNonWeekly((Float) value);
+		    makeFieldDirty(textField);
 		}
 	    };
 	    seniorSupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getSeniorRate());
@@ -171,6 +178,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		@Override
 		public void updateValue(Object value) {
 		    lineItem.getSupportTime(modulePresentation).setSeniorRate((Float) value);
+		    makeFieldDirty(textField);
 		}
 	    };
 	    seniorSupportFields[supportIndex].setFormatterFactory(aff);
@@ -178,53 +186,57 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	}
 	
 	ModulePresentation mp1 = module.getModulePresentations().get(0);
-        final PreparationTime pt1 = lineItem.getPreparationTime(mp1);
-        pt1.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent pce) {
-                String property = pce.getPropertyName();
-                if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
-                    float run2Weekly = pt1.getWeekly() / 10;
-                    run2Weekly = (float) Math.ceil(run2Weekly);
-                    //TODO need to change value of underlying objects, not fields
-                    weeklyPreparationFields[1].setValue(run2Weekly);
-                    float run3Weekly = run2Weekly / 10;
-                    run3Weekly = (float) Math.ceil(run3Weekly);
-                    weeklyPreparationFields[2].setValue(run3Weekly);
-                } else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
-                    float run2NonWeekly = pt1.getWeekly() / 10;
-                    run2NonWeekly = (float) Math.ceil(run2NonWeekly);
-                    nonWeeklyPreparationFields[1].setValue(run2NonWeekly);
-                    float run3Weekly = run2NonWeekly / 10;
-                    run3Weekly = (float) Math.ceil(run3Weekly);
-                    nonWeeklyPreparationFields[2].setValue(run3Weekly);
-                }
-            }
-        });
-	
-	final SupportTime st1 = lineItem.getSupportTime(mp1);
-	st1.addPropertyChangeListener(new PropertyChangeListener() {
-
+	final PreparationTime pt1 = lineItem.getPreparationTime(mp1);
+	pt1.addPropertyChangeListener(new PropertyChangeListener() {
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		String property = pce.getPropertyName();
 		if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
-		    float run2Weekly = pt1.getWeekly()/10;
-		    run2Weekly = (float) Math.ceil(run2Weekly);
-		    //run2Weekly = Math.max(1, run2Weekly);
-		    weeklySupportFields[1].setValue(run2Weekly);
-		    float run3Weekly = run2Weekly/10;
-		    run3Weekly= (float) Math.ceil(run3Weekly);
-		    weeklySupportFields[2].setValue(run3Weekly);
+		    if (!isFieldDirty(weeklyPreparationFields[1])) {
+			float run2Weekly = pt1.getWeekly() / 10;
+			run2Weekly = (float) Math.ceil(run2Weekly);
+			weeklyPreparationFields[1].setValue(run2Weekly);
+			float run3Weekly = run2Weekly / 10;
+			run3Weekly = (float) Math.ceil(run3Weekly);
+			weeklyPreparationFields[2].setValue(run3Weekly);
+		    }
 		} else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
-		    float run2NonWeekly = pt1.getWeekly()/10;
-		    run2NonWeekly = (float) Math.ceil(run2NonWeekly);
-		    //run2Weekly = Math.max(1, run2Weekly);
-		    nonWeeklySupportFields[1].setValue(run2NonWeekly);
-		    float run3Weekly = run2NonWeekly/10;
-		    run3Weekly= (float) Math.ceil(run3Weekly);
-		    nonWeeklySupportFields[2].setValue(run3Weekly);
-		} 
+		    if (!isFieldDirty(nonWeeklyPreparationFields[1])) {
+			float run2NonWeekly = pt1.getNonWeekly() / 10;
+			run2NonWeekly = (float) Math.ceil(run2NonWeekly);
+			nonWeeklyPreparationFields[1].setValue(run2NonWeekly);
+			float run3NonWeekly = run2NonWeekly / 10;
+			run3NonWeekly = (float) Math.ceil(run3NonWeekly);
+			nonWeeklyPreparationFields[2].setValue(run3NonWeekly);
+		    }
+		}
+	    }
+	});
+	
+	final SupportTime st1 = lineItem.getSupportTime(mp1);
+	st1.addPropertyChangeListener(new PropertyChangeListener() {
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		String property = pce.getPropertyName();
+		if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
+		    if (!isFieldDirty(weeklySupportFields[1])) {
+			float run2Weekly = pt1.getWeekly() / 10;
+			run2Weekly = (float) Math.ceil(run2Weekly);
+			weeklySupportFields[1].setValue(run2Weekly);
+			float run3Weekly = run2Weekly / 10;
+			run3Weekly = (float) Math.ceil(run3Weekly);
+			weeklySupportFields[2].setValue(run3Weekly);
+		    }
+		} else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
+		    if (!isFieldDirty(nonWeeklySupportFields[1])) {
+			float run2NonWeekly = pt1.getNonWeekly() / 10;
+			run2NonWeekly = (float) Math.ceil(run2NonWeekly);
+			nonWeeklySupportFields[1].setValue(run2NonWeekly);
+			float run3NonWeekly = run2NonWeekly / 10;
+			run3NonWeekly = (float) Math.ceil(run3NonWeekly);
+			nonWeeklySupportFields[2].setValue(run3NonWeekly);
+		    }
+		}
 	    }
 	});
 	
@@ -236,13 +248,13 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     }
     
     private void checkValidity() {
-	if (lineItem.getWeeklyLearnerHourCount()<= 0) {
-	    return;
+	boolean weeklyValid =  !(lineItem.getWeeklyLearnerHourCount()<= 0);
+	boolean nonWeeklyValid = !(lineItem.getNonWeeklyLearnerHourCount() <= 0);
+	if (nonWeeklyValid || weeklyValid) {
+	    firePropertyChange(PROP_VALID, false, true);
+	} else {
+	    firePropertyChange(PROP_VALID, true, false);
 	}
-	if (lineItem.getNonWeeklyLearnerHourCount() <= 0) {
-	    return;
-	}
-	firePropertyChange(PROP_VALID, false, true);
     }
     
     private void tlActivityNameChanged() {
@@ -571,6 +583,19 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 frame.setVisible(true);
             }
         });
+    }
+
+    private void makeFieldDirty(JFormattedTextField jFormattedTextField) {
+	dirtyMap.put(jFormattedTextField, Boolean.TRUE);
+    }
+    
+    private boolean isFieldDirty(JFormattedTextField jFormattedTextField) {
+	Boolean isDirty = dirtyMap.get(jFormattedTextField);
+	if (isDirty == null) {
+	    //LOGGER.warning("no entry in dirtyMap for : " + jFormattedTextField);
+	    isDirty = Boolean.FALSE;
+	}
+	return isDirty;
     }
 
 }
