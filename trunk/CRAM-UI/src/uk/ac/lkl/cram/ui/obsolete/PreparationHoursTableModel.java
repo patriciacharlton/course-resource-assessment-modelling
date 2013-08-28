@@ -1,4 +1,4 @@
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.obsolete;
 
 import java.util.List;
 import uk.ac.lkl.cram.model.TLALineItem;

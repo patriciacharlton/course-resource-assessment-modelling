@@ -1,5 +1,5 @@
 
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.obsolete;
 
 import javax.swing.table.TableModel;
 import uk.ac.lkl.cram.model.Module;

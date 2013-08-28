@@ -1,4 +1,4 @@
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.obsolete;
 
 import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
