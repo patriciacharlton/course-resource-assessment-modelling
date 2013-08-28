@@ -16,7 +16,7 @@ public class SupportTime extends AbstractModuleTime {
 	super(f,g,h);
     }
 
-    float getTotalHours(Module module, ModulePresentation modulePresentation, TLALineItem lineItem) {
+    public float getTotalHours(Module module, ModulePresentation modulePresentation, TLALineItem lineItem) {
 	float numberOfIndividuals_Groups = modulePresentation.getNumberOfIndividuals_Groups(module, lineItem);
 	if (numberOfIndividuals_Groups > 0) {
 	    return (module.getWeekCount() * weekly + non_weekly) * numberOfIndividuals_Groups;
@@ -42,4 +42,4 @@ public class SupportTime extends AbstractModuleTime {
 	return (((seniorRate * getTotalHours(module, modulePresentation) * modulePresentation.getSeniorCost()) + ((1 - seniorRate) * getTotalHours(module, modulePresentation) * modulePresentation.getJuniorCost())) / HOURS_PER_DAY);
     }
 
-}
+    }

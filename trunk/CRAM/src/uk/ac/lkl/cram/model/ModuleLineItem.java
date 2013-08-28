@@ -9,6 +9,10 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 
+/**
+ * $Date$
+ * @author Bernard Horan
+ */
 @XmlType(propOrder = {"name", "supportMap"})
 public class ModuleLineItem implements LineItem {
 
@@ -112,5 +116,15 @@ public class ModuleLineItem implements LineItem {
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(listener);
+    }
+
+    @Override
+    public PreparationTime getPreparationTime(ModulePresentation mp) {
+	return new PreparationTime() {
+	    @Override
+	    public float getCost(Module module, ModulePresentation modulePresentation) {
+		return 0;
+	    }
+	};
     }
 }
