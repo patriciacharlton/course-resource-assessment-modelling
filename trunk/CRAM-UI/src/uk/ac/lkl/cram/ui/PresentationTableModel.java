@@ -1,21 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package uk.ac.lkl.cram.ui.obsolete;
+package uk.ac.lkl.cram.ui;
 
 import javax.swing.table.AbstractTableModel;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
-import uk.ac.lkl.cram.model.PreparationTime;
 
 /**
- *
+ * $Date$
  * @author bernard
  */
 public class PresentationTableModel extends AbstractTableModel {
 
-    private static final String[] COLUMN_NAMES = {"Presentation", "Number of Students", "Fee", "Junior Cost per Day", "Senior Cost per Day"};
+    private static final String[] COLUMN_NAMES = {"\nRun", "Number\nof Students", "Fee", "Junior Cost\nper Day", "Senior Cost\nper Day"};
     private final Module module;
     
     PresentationTableModel(Module module) {
@@ -66,10 +61,10 @@ public class PresentationTableModel extends AbstractTableModel {
         String presentationName = "";
         switch (row) {
             case 0:
-                presentationName = "1st Presentation";
+                presentationName = "1st Run";
                 break;
             case 1:
-                presentationName = "2nd Presentation";
+                presentationName = "2nd Run";
                 break;
             case 2:
                 presentationName = "Stable State";
