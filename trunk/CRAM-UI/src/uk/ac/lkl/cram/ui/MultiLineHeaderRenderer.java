@@ -31,7 +31,7 @@ public class MultiLineHeaderRenderer extends JList implements TableCellRenderer 
 	setForeground(UIManager.getColor("TableHeader.foreground"));
 	setBackground(UIManager.getColor("TableHeader.background"));
 	setFont(UIManager.getFont("TableHeader.font"));
-	setBorder(BorderFactory.createEtchedBorder());
+	//setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 	ListCellRenderer renderer = getCellRenderer();
 	((JLabel) renderer).setHorizontalAlignment(JLabel.CENTER);
 	setCellRenderer(renderer);
@@ -40,6 +40,12 @@ public class MultiLineHeaderRenderer extends JList implements TableCellRenderer 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
 	    boolean isSelected, boolean hasFocus, int row, int column) {
+	if (column == 0) {
+	    setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIManager.getColor("TableHeader.foreground")));
+	} else {
+	    setBorder(BorderFactory.createMatteBorder(0, 1, 1, 0, UIManager.getColor("TableHeader.foreground")));
+	}
+
 	String str = (value == null) ? "" : value.toString();
 	BufferedReader br = new BufferedReader(new StringReader(str));
 	String line;
