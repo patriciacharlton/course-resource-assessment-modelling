@@ -9,13 +9,13 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
 
 /**
- *
+ * $Date$
  * @author bernard
  */
 public class ModuleTableModel extends AbstractTableModel implements PropertyChangeListener {
     private static final Logger LOGGER = Logger.getLogger(ModuleTableModel.class.getName());
 
-    private static final String[] COLUMN_NAMES = {"Activity", "Weekly Hours", "Non-Weekly Hours", "Total Hours"};
+    private static final String[] COLUMN_NAMES = {"<html>Activity</html>", "<html>Weekly<br>Hours</html>", "<html>Non-Weekly<br>Hours</html>", "<html>Total<br>Hours</html>"};
     private final Module module;
     
     public ModuleTableModel(Module module) {
@@ -36,8 +36,6 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
     
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-	LOGGER.info("columnIndex: " + columnIndex + " --> " + getValueAt(0, columnIndex));
-	
 	return getValueAt(0, columnIndex).getClass();
     }
     
