@@ -1,9 +1,8 @@
 package uk.ac.lkl.cram.ui;
 
-import java.util.Enumeration;
+import java.awt.Dimension;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
@@ -32,11 +31,7 @@ public class ModulePanel extends javax.swing.JPanel {
 	TableModel tableModel = new PresentationTableModel(module);
 	presentationTable.setModel(tableModel);
 	presentationTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-	MultiLineHeaderRenderer renderer = new MultiLineHeaderRenderer();
-	Enumeration e = presentationTable.getColumnModel().getColumns();
-	while (e.hasMoreElements()) {
-	    ((TableColumn) e.nextElement()).setHeaderRenderer(renderer);
-	}
+	presentationTable.getTableHeader().setPreferredSize(new Dimension(presentationTable.getColumnModel().getTotalColumnWidth(),36));
 	
     }
     
