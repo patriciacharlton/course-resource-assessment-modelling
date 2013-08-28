@@ -2,21 +2,20 @@
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Dimension;
-import java.awt.PopupMenu;
-import java.util.List;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
-import uk.ac.lkl.cram.model.ModulePresentation;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class ModuleInternalFrame extends javax.swing.JInternalFrame {
+    private static final Logger LOGGER = Logger.getLogger(ModuleInternalFrame.class.getName());
     private final Module module;
 
     /**
@@ -30,19 +29,12 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
 	setClosable(true);
 	leftTaskPaneContainer.add(createCourseDataPane());
 	leftTaskPaneContainer.add(createLineItemPane());
-	List<ModulePresentation> presentations = module.getModulePresentations();
-	int i = 1;
-	for (ModulePresentation modulePresentation : presentations) {
-	    leftTaskPaneContainer.add(createPreparationPane(modulePresentation, i++));
-	}
-	i = 1;
-	for (ModulePresentation modulePresentation : presentations) {
-	    leftTaskPaneContainer.add(createSupportPane(modulePresentation, i++));
-	}
+	leftTaskPaneContainer.add(createTutorHoursPane());
+	leftTaskPaneContainer.add(createTutorCostPane());
 	rightTaskPaneContainer.add(createLearningTypeChartPane());
 	rightTaskPaneContainer.add(createLearningExperienceChartPane());
 	rightTaskPaneContainer.add(createHoursChartPane());
-	rightTaskPaneContainer.add(createCostsPane());
+	rightTaskPaneContainer.add(createTotalCostsPane());
     }
 
     /**
@@ -95,7 +87,7 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public static void main(String args[]) {
-        final JFrame frame = new JFrame("ModuleInternalFrame test");
+	final JFrame frame = new JFrame("ModuleInternalFrame test");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setSize(500, 500);
 	JDesktopPane desktop = new JDesktopPane();
@@ -116,31 +108,29 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
     private JXTaskPane createCourseDataPane() {
 	JXTaskPane courseDataPane = new JXTaskPane();
 	courseDataPane.setTitle("Course Data");
-	courseDataPane.add(new ModuleWizardPanel(module));
+	courseDataPane.add(new ModulePanel(module));
 	return courseDataPane;
     }
 
     private JXTaskPane createLineItemPane() {
 	JXTaskPane lineItemPane = new JXTaskPane();
-	lineItemPane.setTitle("Teaching & Learning Activities");
+	lineItemPane.setTitle("Student Hours");
 	lineItemPane.add(new TLActivitiesPanel(module));
 	return lineItemPane;
     }
-
-    private JXTaskPane createPreparationPane(ModulePresentation modulePresentation, int i) {
-	JXTaskPane preparationPane = new JXTaskPane();
-	preparationPane.setTitle("Preparation Hours: Run " + i);
-	preparationPane.setCollapsed(true);
-	preparationPane.add(new HoursPanel(module, modulePresentation, HoursPanel.TimeTable.PREPARATION));
-	return preparationPane;
+    
+    private JXTaskPane createTutorHoursPane() {
+	JXTaskPane tutorHoursPane = new JXTaskPane();
+	tutorHoursPane.setTitle("Tutor Hours");
+	tutorHoursPane.add(new TutorHoursPanel(module));
+	return tutorHoursPane;
     }
     
-    private JXTaskPane createSupportPane(ModulePresentation modulePresentation, int i) {
-	JXTaskPane preparationPane = new JXTaskPane();
-	preparationPane.setTitle("Support Hours: Run " + i);
-	preparationPane.setCollapsed(true);
-	preparationPane.add(new HoursPanel(module, modulePresentation, HoursPanel.TimeTable.SUPPORT));
-	return preparationPane;
+    private JXTaskPane createTutorCostPane() {
+	JXTaskPane tutorCostPane = new JXTaskPane();
+	tutorCostPane.setTitle("Tutor Cost");
+	tutorCostPane.add(new TutorCostPanel(module));
+	return tutorCostPane;
     }
 
     private JXTaskPane createLearningTypeChartPane() {
@@ -170,7 +160,7 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
 	return hoursChartPane;
     }
 
-    private JXTaskPane createCostsPane() {
+    private JXTaskPane createTotalCostsPane() {
 	JXTaskPane costPane = new JXTaskPane();
 	costPane.setTitle("Profit & Loss");
 	costPane.add(new CostPanel(module));
