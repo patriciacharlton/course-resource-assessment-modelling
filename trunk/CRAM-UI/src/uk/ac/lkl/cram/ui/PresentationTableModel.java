@@ -10,7 +10,7 @@ import uk.ac.lkl.cram.model.ModulePresentation;
  */
 public class PresentationTableModel extends AbstractTableModel {
 
-    private static final String[] COLUMN_NAMES = {"\nRun", "Number\nof Students", "Fee", "Junior Cost\nper Day", "Senior Cost\nper Day"};
+    private static final String[] COLUMN_NAMES = {"<html>Run</html>", "<html>Number<br>of Students</html>", "<html>Fee</html>", "<html>Junior Cost<br>per Day</html>", "<html>Senior Cost<br>per Day</html>"};
     private final Module module;
     
     PresentationTableModel(Module module) {
