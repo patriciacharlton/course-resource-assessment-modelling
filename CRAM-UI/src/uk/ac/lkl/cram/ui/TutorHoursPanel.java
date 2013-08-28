@@ -3,7 +3,6 @@ package uk.ac.lkl.cram.ui;
 
 import uk.ac.lkl.cram.ui.table.ColumnGroup;
 import uk.ac.lkl.cram.ui.table.GroupableTableHeader;
-import java.awt.Dimension;
 import javax.swing.table.TableColumnModel;
 import uk.ac.lkl.cram.model.Module;
 
@@ -14,7 +13,7 @@ import uk.ac.lkl.cram.model.Module;
 public class TutorHoursPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form TLActivitiesPanel
+     * Creates new form TutorHoursPanel
      * @param module 
      */
     public TutorHoursPanel(Module module) {
@@ -35,8 +34,6 @@ public class TutorHoursPanel extends javax.swing.JPanel {
 	tableHeader.addColumnGroup(g_3rd);
 	tutorHoursTable.setTableHeader(tableHeader);
 	tableHeader.revalidate();
-
-	//activitiesTable.getTableHeader().setPreferredSize(new Dimension(tutorHoursTable.getColumnModel().getTotalColumnWidth(),36));
 	setSize(tutorHoursTable.getSize());
     }
 
