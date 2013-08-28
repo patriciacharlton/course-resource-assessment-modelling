@@ -1,6 +1,7 @@
 package uk.ac.lkl.cram.ui;
 
 import java.util.Enumeration;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -12,6 +13,8 @@ import uk.ac.lkl.cram.model.Module;
  * @author Bernard Horan
  */
 public class ModulePanel extends javax.swing.JPanel {
+    private static final Logger LOGGER = Logger.getLogger(ModulePanel.class.getName());
+
     private final Module module;
 
     /**
@@ -238,7 +241,7 @@ public class ModulePanel extends javax.swing.JPanel {
     public static void main(String args[]) {
         final JFrame frame = new JFrame("Module Panel");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new ModuleWizardPanel(AELMTest.populateModule()));
+        frame.add(new ModulePanel(AELMTest.populateModule()));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
