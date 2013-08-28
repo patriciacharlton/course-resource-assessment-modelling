@@ -1,10 +1,11 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Dimension;
 import uk.ac.lkl.cram.model.Module;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class TLActivitiesPanel extends javax.swing.JPanel {
@@ -17,6 +18,7 @@ public class TLActivitiesPanel extends javax.swing.JPanel {
 	initComponents();
 	activitiesTable.setModel(new ModuleTableModel(module));
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+	activitiesTable.getTableHeader().setPreferredSize(new Dimension(activitiesTable.getColumnModel().getTotalColumnWidth(),36));
 	setSize(activitiesTable.getSize());
     }
 
@@ -58,6 +60,8 @@ public class TLActivitiesPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        activitiesTable.setEnabled(false);
+        activitiesTable.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(activitiesTable);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
