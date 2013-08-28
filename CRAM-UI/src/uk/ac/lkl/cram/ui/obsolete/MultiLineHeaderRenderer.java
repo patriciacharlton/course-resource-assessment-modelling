@@ -1,4 +1,4 @@
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.obsolete;
 
 import java.awt.Component;
 import java.io.BufferedReader;
