@@ -11,6 +11,10 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 
+/**
+ * $Date$
+ * @author Bernard Horan
+ */
 @XmlType(propOrder = {"weeklyLearnerHourCount", "nonWeeklyLearnerHourCount", "activity", "preparationMap", "supportMap"})
 public class TLALineItem implements LineItem {
 
@@ -96,6 +100,7 @@ public class TLALineItem implements LineItem {
         preparationMap.put(mp, pt);
     }
 
+    @Override
     public PreparationTime getPreparationTime(ModulePresentation mp) {
         PreparationTime pt = preparationMap.get(mp);
         if (pt == null) {
