@@ -1,22 +1,50 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.text.NumberFormat;
+import java.util.Enumeration;
 import javax.swing.JFrame;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class CostPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CostPanel
+     * @param module 
      */
     public CostPanel(Module module) {
 	initComponents();
 	costTable.setModel(new CostTableModel(module));
+	TableColumnModel tableColumnModel = costTable.getColumnModel();
+	Enumeration<TableColumn> columnEnum = tableColumnModel.getColumns();
+	final NumberFormat formatter = NumberFormat.getCurrencyInstance();
+	DefaultTableCellRenderer tcRenderer = new DefaultTableCellRenderer() {
+	    @Override
+	    public void setValue(Object value) {
+		//  Format the Object before setting its value in the renderer
+		try {
+		    if (value != null) {
+			value = formatter.format(value);
+		    }
+		} catch (IllegalArgumentException e) {
+		}
+		super.setValue(value);
+	    }
+	};
+	tcRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+	columnEnum.nextElement(); //Skip first column
+	while (columnEnum.hasMoreElements()) {
+	    columnEnum.nextElement().setCellRenderer(tcRenderer);
+	}
     }
 
     /**
