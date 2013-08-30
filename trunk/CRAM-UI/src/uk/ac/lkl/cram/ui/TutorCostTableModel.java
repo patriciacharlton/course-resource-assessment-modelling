@@ -29,7 +29,8 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
 
     @Override
     public int getRowCount() {
-        return module.getLineItems().size();
+        //Add row for total
+        return module.getLineItems().size() + 1;
     }
 
     @Override
@@ -56,8 +57,30 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
 
     @Override
     public Object getValueAt(int row, int column) {
-	LineItem li = module.getLineItems().get(row);
 	List<ModulePresentation> modulePresentations = module.getModulePresentations();
+	if (row >= module.getLineItems().size()) {
+	    //total row"
+	    switch (column) {
+		case 0:
+		    return "Totals";
+		//Preparation
+		case 1: 
+		    return module.getTotalPreparationCost(modulePresentations.get(0));
+		case 2: 
+		    return module.getTotalPreparationCost(modulePresentations.get(1));
+		case 3: 
+		    return module.getTotalPreparationCost(modulePresentations.get(2));
+		//Support
+		case 4:
+		    return module.getTotalSupportCost(modulePresentations.get(0));
+		case 5:
+		    return module.getTotalSupportCost(modulePresentations.get(1));
+		case 6:
+		    return module.getTotalSupportCost(modulePresentations.get(2));
+	    }
+	}
+	LineItem li = module.getLineItems().get(row);
+	
 	switch (column) {
 	    case 0:
 		return li.getName();
