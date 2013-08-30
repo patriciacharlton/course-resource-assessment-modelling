@@ -3,6 +3,7 @@ package uk.ac.lkl.cram.ui;
 
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -13,7 +14,6 @@ import org.openide.WizardDescriptor;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
-import uk.ac.lkl.cram.ui.ModuleTableModel;
 import uk.ac.lkl.cram.ui.obsolete.TableTestForm;
 
 /**
@@ -34,6 +34,7 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 	this.module = module;
 	activitiesTable.setModel(new ModuleTableModel(module));
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+	activitiesTable.getTableHeader().setPreferredSize(new Dimension(activitiesTable.getColumnModel().getTotalColumnWidth(),36));
 	activitiesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 	    @Override
 	    public void valueChanged(ListSelectionEvent lse) {
