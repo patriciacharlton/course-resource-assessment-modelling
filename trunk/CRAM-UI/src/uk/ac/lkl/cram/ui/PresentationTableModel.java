@@ -90,45 +90,5 @@ public class PresentationTableModel extends AbstractTableModel {
 
         }
     }
-    /*
-     * Don't need to implement this method unless your table's
-     * editable.
-     */
-
-    @Override
-    public boolean isCellEditable(int row, int col) {
-        //Note that the data/cell address is constant,
-        //no matter where the cell appears onscreen.
-        //Every column but the first one is editable
-        return col != 0;
-    }
-
-    /*
-     * Don't need to implement this method unless your table's
-     * data can change.
-     */
-    @Override
-    public void setValueAt(Object value, int row, int column) {
-        System.out.println("setValueAt row: " + row);
-        ModulePresentation mp = module.getModulePresentations().get(row);
-        switch (column) {
-            case 1:
-                mp.setStudentCount((Integer) value);
-                break;
-            case 2:
-                mp.setFee((Integer) value);
-                break;
-            case 3:
-                mp.setJuniorCost((Integer) value);
-                break;
-            case 4:
-                mp.setSeniorCost((Integer) value);
-                break;
-            default:
-                throw new RuntimeException("Invalid column: " + column);
-
-
-        }
-        fireTableCellUpdated(row, column);
-    }
+    
 }
