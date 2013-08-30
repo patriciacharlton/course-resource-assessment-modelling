@@ -1,10 +1,14 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Color;
+import java.awt.Paint;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.general.DefaultPieDataset;
@@ -20,6 +24,12 @@ import uk.ac.lkl.cram.model.TLActivity;
  * @author Bernard Horan
  */
 public class LearningTypeChartFactory {
+    private static final Color ACQUISITION_COLOR = new Color(101, 220, 241);  
+    private static final Color DISCUSSION_COLOR = new Color(121, 173, 236);  
+    private static final Color INQUIRY_COLOR = new Color(250, 128, 128);  
+    private static final Color PRACTICE_COLOR = new Color(190, 152, 221);  
+    private static final Color PRODUCTION_COLOR = new Color(188, 234, 117);  
+
 
     /**
      * @param args the command line arguments
@@ -105,10 +115,22 @@ public class LearningTypeChartFactory {
     }
 
     private static JFreeChart createChart(PieDataset dataset) {
+	Paint backgroundPaint = UIManager.getColor("InternalFrame.background");
 	JFreeChart chart = ChartFactory.createPieChart(null, dataset, true, true, false);
+	chart.setBackgroundPaint(backgroundPaint);
 	PiePlot plot = (PiePlot) chart.getPlot();
+	plot.setBackgroundPaint(backgroundPaint);
+	plot.setOutlineVisible(false);
 	plot.setLabelGenerator(null);
+	plot.setSectionPaint("Acquisition", ACQUISITION_COLOR);
+	plot.setSectionPaint("Inquiry", INQUIRY_COLOR);
+	plot.setSectionPaint("Discusssion", DISCUSSION_COLOR);
+	plot.setSectionPaint("Practice", PRACTICE_COLOR);
+	plot.setSectionPaint("Production", PRODUCTION_COLOR);
 	LegendTitle legend = chart.getLegend();
+	legend.setItemFont(UIManager.getFont("Label.font"));
+	legend.setBackgroundPaint(backgroundPaint);
+	legend.setFrame(BlockBorder.NONE);
 	legend.setPosition(RectangleEdge.RIGHT);
 	return chart;
     }
