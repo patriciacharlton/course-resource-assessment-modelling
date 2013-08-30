@@ -87,7 +87,7 @@ public class LearningExperienceChartFactory {
 	JFreeChart chart = ChartFactory.createStackedBarChart(null, null, null, dataset, PlotOrientation.HORIZONTAL, true, true, false);
 	chart.setBackgroundPaint(backgroundPaint);
 	CategoryPlot plot = (CategoryPlot) chart.getPlot();
-	//plot.setBackgroundPaint(backgroundPaint);
+	plot.setBackgroundPaint(backgroundPaint);
 	plot.setOutlineVisible(false);
 	plot.setInsets(RectangleInsets.ZERO_INSETS); //Keep
 	plot.setAxisOffset(RectangleInsets.ZERO_INSETS); //Keep
