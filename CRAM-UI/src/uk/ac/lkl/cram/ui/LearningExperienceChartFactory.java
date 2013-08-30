@@ -1,12 +1,16 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Color;
+import java.awt.Paint;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
@@ -25,10 +29,13 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class LearningExperienceChartFactory {
+    private static final Color ONE_SIZE_FITS_ALL_COLOR = new Color(242,242,242);
+    private static final Color PERSONALISED_COLOR = new Color(128,128,128);
+    private static final Color SOCIAL_COLOR = new Color(42,42,42);
 
     /**
      * @param args the command line arguments
@@ -76,23 +83,35 @@ public class LearningExperienceChartFactory {
     }
 
     private static JFreeChart createChart(CategoryDataset dataset) {
+	Paint backgroundPaint = UIManager.getColor("InternalFrame.background");
 	JFreeChart chart = ChartFactory.createStackedBarChart(null, null, null, dataset, PlotOrientation.HORIZONTAL, true, true, false);
+	chart.setBackgroundPaint(backgroundPaint);
 	CategoryPlot plot = (CategoryPlot) chart.getPlot();
-	//plot.setInsets(new RectangleInsets(0.0D, 0.0D, 0.0D, 0.0D));
-	plot.setAxisOffset(RectangleInsets.ZERO_INSETS);
+	//plot.setBackgroundPaint(backgroundPaint);
+	plot.setOutlineVisible(false);
+	plot.setInsets(RectangleInsets.ZERO_INSETS); //Keep
+	plot.setAxisOffset(RectangleInsets.ZERO_INSETS); //Keep
 	plot.setRangeGridlinesVisible(false);
 	StackedBarRenderer sbRenderer = (StackedBarRenderer) plot.getRenderer();
 	sbRenderer.setBarPainter(new StandardBarPainter());
-	sbRenderer.setMaximumBarWidth(0.5);
+	//sbRenderer.setItemMargin(0.5); //Makes no difference
+	//sbRenderer.setMaximumBarWidth(0.25); //reduces width of bar as proportion of overall width
 	sbRenderer.setShadowVisible(true);
 	sbRenderer.setRenderAsPercentages(true);
+	sbRenderer.setSeriesPaint(0, PERSONALISED_COLOR);
+	sbRenderer.setSeriesPaint(1, SOCIAL_COLOR);
+	sbRenderer.setSeriesPaint(2, ONE_SIZE_FITS_ALL_COLOR);
 	CategoryAxis categoryAxis = plot.getDomainAxis();
 	categoryAxis.setLowerMargin(0.20000000000000001D);
 	categoryAxis.setUpperMargin(0.20000000000000001D);
+	//categoryAxis.setCategoryMargin(0.5D);//Makes no difference
 	categoryAxis.setVisible(false);
 	NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 	numberAxis.setVisible(false);
 	LegendTitle legend = chart.getLegend();
+	legend.setItemFont(UIManager.getFont("Label.font"));
+	legend.setBackgroundPaint(backgroundPaint);
+	legend.setFrame(BlockBorder.NONE);
 	legend.setPosition(RectangleEdge.RIGHT);
 	return chart;
     }
