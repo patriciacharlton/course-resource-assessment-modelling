@@ -14,6 +14,10 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * $Date$
+ * @author Bernard Horan
+ */
 @XmlRootElement(name = "module")
 @XmlType(propOrder = {"moduleName", "totalCreditHours", "weekCount", "tutorGroupSize", "tlaLineItems", "moduleLineItems", "presentations"})
 public class Module implements Serializable, Calculable {
@@ -147,7 +151,7 @@ public class Module implements Serializable, Calculable {
 	return totalHours;
     }
 
-    float getTotalPreparationCost(ModulePresentation modulePresentation) {
+    public float getTotalPreparationCost(ModulePresentation modulePresentation) {
 	float totalHours = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
 	    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
@@ -171,7 +175,7 @@ public class Module implements Serializable, Calculable {
 	return totalHours;
     }
 
-    float getTotalSupportCost(ModulePresentation modulePresentation) {
+    public float getTotalSupportCost(ModulePresentation modulePresentation) {
 	float totalCost = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
 	    SupportTime st = lineItem.getSupportTime(modulePresentation);
