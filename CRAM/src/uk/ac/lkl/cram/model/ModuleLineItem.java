@@ -125,6 +125,11 @@ public class ModuleLineItem implements LineItem {
 	    public float getCost(Module module, ModulePresentation modulePresentation) {
 		return 0;
 	    }
+
+	    @Override
+	    public float getTotalHours(Module module) {
+		return 0;
+	    }
 	};
     }
 }
