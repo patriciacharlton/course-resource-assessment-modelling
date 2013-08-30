@@ -11,9 +11,6 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="newMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+N"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="New Module..."/>
               </Properties>
               <Events>
@@ -22,14 +19,16 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="openMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+O"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Open Module..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openMenuItemActionPerformed"/>
               </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="saveMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Save Module..."/>
+              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
