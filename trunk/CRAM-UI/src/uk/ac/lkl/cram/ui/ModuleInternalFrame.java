@@ -45,6 +45,7 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
         leftTaskPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();
@@ -55,27 +56,38 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setDoubleBuffered(true);
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         leftTaskPaneContainer.setPaintBorderInsets(false);
         leftTaskPaneContainer.setLayout(new org.jdesktop.swingx.VerticalLayout());
         jScrollPane1.setViewportView(leftTaskPaneContainer);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 277;
+        gridBagConstraints.ipady = 421;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.7;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(jScrollPane1, gridBagConstraints);
+
+        org.jdesktop.swingx.VerticalLayout verticalLayout5 = new org.jdesktop.swingx.VerticalLayout();
+        verticalLayout5.setGap(14);
+        rightTaskPaneContainer.setLayout(verticalLayout5);
         jScrollPane3.setViewportView(rightTaskPaneContainer);
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                .add(0, 0, 0)
-                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-            .add(jScrollPane3)
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 266;
+        gridBagConstraints.ipady = 421;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(jScrollPane3, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -137,7 +149,7 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
 	JXTaskPane typeChartPane = new JXTaskPane();
 	typeChartPane.setTitle("Learning Types");
 	ChartPanel chartPanel = LearningTypeChartFactory.createChartPanel(module);
-	chartPanel.setPreferredSize(new Dimension(200, 300));
+	chartPanel.setPreferredSize(new Dimension(150, 200));
 	typeChartPane.add(chartPanel);
 	return typeChartPane;
     }
@@ -146,7 +158,7 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
 	JXTaskPane experienceChartPane = new JXTaskPane();
 	experienceChartPane.setTitle("Learning Experiences");
 	ChartPanel chartPanel = LearningExperienceChartFactory.createChartPanel(module);
-	chartPanel.setPreferredSize(new Dimension(200,200));
+	chartPanel.setPreferredSize(new Dimension(125,200));
 	experienceChartPane.add(chartPanel);
 	return experienceChartPane;
     }
@@ -155,7 +167,7 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
 	JXTaskPane hoursChartPane = new JXTaskPane();
 	hoursChartPane.setTitle("Hours");
 	ChartPanel chartPanel = HoursChartFactory.createChartPanel(module);
-	chartPanel.setPreferredSize(new Dimension(200, 300));
+	chartPanel.setPreferredSize(new Dimension(200, 200));
 	hoursChartPane.add(chartPanel);
 	return hoursChartPane;
     }
