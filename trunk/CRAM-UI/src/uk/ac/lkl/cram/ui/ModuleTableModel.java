@@ -26,7 +26,8 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
 
     @Override
     public int getRowCount() {
-        return module.getTLALineItems().size();
+	//Also need to include a 'self-regulated learning row
+        return module.getTLALineItems().size() + 1;
     }
 
     @Override
@@ -46,7 +47,18 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
 
     @Override
     public Object getValueAt(int row, int column) {
-        TLALineItem li = module.getTLALineItems().get(row);
+	if (row >= module.getTLALineItems().size()) {
+	    //self regulated row"
+	    switch (column) {
+		case 0:
+		    return "Self-regulated Learning";
+		case 1:
+		    return 0;
+		default:
+		    return module.getSelfRegulatedLearningHourCount();
+	    }
+	}
+	TLALineItem li = module.getTLALineItems().get(row);
         switch (column) {
             case 0:
                 return li.getActivity().getName();
