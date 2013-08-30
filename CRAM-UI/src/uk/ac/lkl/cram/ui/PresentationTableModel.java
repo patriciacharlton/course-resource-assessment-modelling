@@ -61,13 +61,13 @@ public class PresentationTableModel extends AbstractTableModel {
         String presentationName = "";
         switch (row) {
             case 0:
-                presentationName = "1st Run";
+                presentationName = "Run 1";
                 break;
             case 1:
-                presentationName = "2nd Run";
+                presentationName = "Run 2";
                 break;
             case 2:
-                presentationName = "Stable State";
+                presentationName = "Run 3";
                 break;
             default:
                 throw new RuntimeException("Invalid Row: " + row);
