@@ -1,9 +1,11 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Component;
 import java.text.NumberFormat;
 import java.util.Enumeration;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -27,19 +29,7 @@ public class CostPanel extends javax.swing.JPanel {
 	TableColumnModel tableColumnModel = costTable.getColumnModel();
 	Enumeration<TableColumn> columnEnum = tableColumnModel.getColumns();
 	final NumberFormat formatter = NumberFormat.getCurrencyInstance();
-	DefaultTableCellRenderer tcRenderer = new DefaultTableCellRenderer() {
-	    @Override
-	    public void setValue(Object value) {
-		//  Format the Object before setting its value in the renderer
-		try {
-		    if (value != null) {
-			value = formatter.format(value);
-		    }
-		} catch (IllegalArgumentException e) {
-		}
-		super.setValue(value);
-	    }
-	};
+	DefaultTableCellRenderer tcRenderer = new TCRenderer();
 	tcRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
 	columnEnum.nextElement(); //Skip first column
 	while (columnEnum.hasMoreElements()) {
@@ -113,6 +103,29 @@ public static void main(String[] args) {
 	CostPanel panel = new CostPanel(m);
 	frame.setContentPane(panel);
 	frame.setVisible(true);
+    }
+
+    class TCRenderer extends DefaultTableCellRenderer {
+	final NumberFormat formatter = NumberFormat.getCurrencyInstance();
+	@Override
+	public Component getTableCellRendererComponent(JTable table,
+                                      Object value,
+                                      boolean isSelected,
+                                      boolean hasFocus,
+                                      int row,
+                                      int column) {
+	    //Only format if in row 4 or greater
+	    if (row > 3) {
+	    try {
+		    if (value != null) {
+			value = formatter.format(value);
+		    }
+		} catch (IllegalArgumentException e) {
+		}
+	    }
+	    return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	    
+	}
     }
 
 }
