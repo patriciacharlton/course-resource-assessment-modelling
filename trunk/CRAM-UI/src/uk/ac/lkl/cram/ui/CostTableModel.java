@@ -7,13 +7,13 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
 
 /**
- *
+ * $Date$
  * @author bernard
  */
 public class CostTableModel extends AbstractTableModel implements PropertyChangeListener {
 
-    private static final String[] COLUMN_NAMES = {"", "1st Run", "2nd Run", "Stable State"};
-    private static final String[] ROW_NAMES = {"Student Nos", "Support Hours", "Prep Hours", "Total Hours", "Income", "Cost", "Profit"};
+    private static final String[] COLUMN_NAMES = {"", "Run 1", "Run 2", "Run 3"};
+    private static final String[] ROW_NAMES = {"Student Nos", "Support Hours", "Prep. Hours", "Total Hours", "Income", "Cost", "Profit"};
     private final Module module;
     
     CostTableModel(Module module) {
@@ -34,8 +34,6 @@ public class CostTableModel extends AbstractTableModel implements PropertyChange
     
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-	//System.out.println("columnIndex: " + columnIndex + " --> " + getValueAt(0, columnIndex));
-	
 	return getValueAt(0, columnIndex).getClass();
     }
     
