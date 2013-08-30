@@ -28,7 +28,6 @@ public class CostPanel extends javax.swing.JPanel {
 	costTable.setModel(new CostTableModel(module));
 	TableColumnModel tableColumnModel = costTable.getColumnModel();
 	Enumeration<TableColumn> columnEnum = tableColumnModel.getColumns();
-	final NumberFormat formatter = NumberFormat.getCurrencyInstance();
 	DefaultTableCellRenderer tcRenderer = new TCRenderer();
 	tcRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
 	columnEnum.nextElement(); //Skip first column
@@ -57,7 +56,7 @@ public class CostPanel extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "", "1st Run", "2nd Run", "Stable State"
+                "", "Run 1", "Run 2", "Run 3"
             }
         ) {
             Class[] types = new Class [] {
@@ -75,6 +74,7 @@ public class CostPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        costTable.setEnabled(false);
         costTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(costTable);
 
@@ -82,14 +82,13 @@ public class CostPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(0, 0, 0)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                .add(0, 0, 0))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 136, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -106,7 +105,11 @@ public static void main(String[] args) {
     }
 
     class TCRenderer extends DefaultTableCellRenderer {
-	final NumberFormat formatter = NumberFormat.getCurrencyInstance();
+	NumberFormat formatter = NumberFormat.getCurrencyInstance();
+	
+	public TCRenderer() {
+	    formatter.setMaximumFractionDigits(0);
+	}
 	@Override
 	public Component getTableCellRendererComponent(JTable table,
                                       Object value,
