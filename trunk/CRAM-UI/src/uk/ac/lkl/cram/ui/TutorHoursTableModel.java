@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
-import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
 import uk.ac.lkl.cram.model.SupportTime;
@@ -28,7 +28,7 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 
     @Override
     public int getRowCount() {
-        return module.getTLALineItems().size();
+        return module.getLineItems().size();
     }
 
     @Override
@@ -55,11 +55,10 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 
     @Override
     public Object getValueAt(int row, int column) {
-        TLALineItem li = module.getTLALineItems().get(row);
-	List<ModulePresentation> modulePresentations = module.getModulePresentations();
+    LineItem li = module.getLineItems().get(row);	List<ModulePresentation> modulePresentations = module.getModulePresentations();
 	switch (column) {
             case 0:
-                return li.getActivity().getName();
+                return li.getName();
 	    //Preparation
             case 1: 
 		return li.getPreparationTime(modulePresentations.get(0)).getTotalHours(module);
@@ -71,18 +70,18 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 	    case 4: {
 		ModulePresentation mp = modulePresentations.get(0);
 		SupportTime st = li.getSupportTime(mp);
-		return st.getTotalHours(module, mp, li);
+		return li.getTotalHours(st, module, mp);
 	    }
 	    case 5: {
 		ModulePresentation mp = modulePresentations.get(1);
 		SupportTime st = li.getSupportTime(mp);
-		return st.getTotalHours(module, mp, li);
+		return li.getTotalHours(st, module, mp);
 	    }
 	    case 6:
 		{
 		ModulePresentation mp = modulePresentations.get(2);
 		SupportTime st = li.getSupportTime(mp);
-		return st.getTotalHours(module, mp, li);
+		return li.getTotalHours(st, module, mp);
 	    }
         }
         return null;
