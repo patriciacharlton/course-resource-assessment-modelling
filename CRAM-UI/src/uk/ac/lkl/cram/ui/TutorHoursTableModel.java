@@ -28,7 +28,8 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 
     @Override
     public int getRowCount() {
-        return module.getLineItems().size();
+	//Add row for total
+        return module.getLineItems().size() + 1;
     }
 
     @Override
@@ -55,17 +56,40 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 
     @Override
     public Object getValueAt(int row, int column) {
-    LineItem li = module.getLineItems().get(row);	List<ModulePresentation> modulePresentations = module.getModulePresentations();
+	List<ModulePresentation> modulePresentations = module.getModulePresentations();
+	if (row >= module.getLineItems().size()) {
+	    //total row"
+	    switch (column) {
+		case 0:
+		    return "Totals";
+		//Preparation
+		case 1: 
+		    return module.getTotalPreparationHours(modulePresentations.get(0));
+		case 2: 
+		    return module.getTotalPreparationHours(modulePresentations.get(1));
+		case 3: 
+		    return module.getTotalPreparationHours(modulePresentations.get(2));
+		//Support
+		case 4:
+		    return module.getTotalSupportHours(modulePresentations.get(0));
+		case 5:
+		    return module.getTotalSupportHours(modulePresentations.get(1));
+		case 6:
+		    return module.getTotalSupportHours(modulePresentations.get(2));
+	    }
+	}
+	LineItem li = module.getLineItems().get(row);
+	
 	switch (column) {
-            case 0:
-                return li.getName();
+	    case 0:
+		return li.getName();
 	    //Preparation
-            case 1: 
+	    case 1:
 		return li.getPreparationTime(modulePresentations.get(0)).getTotalHours(module);
-            case 2:
-                return li.getPreparationTime(modulePresentations.get(1)).getTotalHours(module);
-            case 3:
-                return li.getPreparationTime(modulePresentations.get(2)).getTotalHours(module);
+	    case 2:
+		return li.getPreparationTime(modulePresentations.get(1)).getTotalHours(module);
+	    case 3:
+		return li.getPreparationTime(modulePresentations.get(2)).getTotalHours(module);
 	    //Support
 	    case 4: {
 		ModulePresentation mp = modulePresentations.get(0);
@@ -77,14 +101,13 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 		SupportTime st = li.getSupportTime(mp);
 		return li.getTotalHours(st, module, mp);
 	    }
-	    case 6:
-		{
+	    case 6: {
 		ModulePresentation mp = modulePresentations.get(2);
 		SupportTime st = li.getSupportTime(mp);
 		return li.getTotalHours(st, module, mp);
 	    }
-        }
-        return null;
+	}
+	return null;
     }
     /*
      * Don't need to implement this method unless your table's
