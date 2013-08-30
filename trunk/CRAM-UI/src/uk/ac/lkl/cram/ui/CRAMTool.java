@@ -1,5 +1,7 @@
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFileChooser;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import uk.ac.lkl.cram.model.Module;
@@ -24,6 +27,10 @@ public class CRAMTool extends javax.swing.JFrame {
      */
     public CRAMTool() {
         initComponents();
+	newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+
     }
 
     /**
@@ -40,6 +47,7 @@ public class CRAMTool extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         newMenuItem = new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -48,7 +56,6 @@ public class CRAMTool extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newMenuItem.setText("New Module...");
         newMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -57,7 +64,6 @@ public class CRAMTool extends javax.swing.JFrame {
         });
         fileMenu.add(newMenuItem);
 
-        openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         openMenuItem.setText("Open Module...");
         openMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,6 +71,9 @@ public class CRAMTool extends javax.swing.JFrame {
             }
         });
         fileMenu.add(openMenuItem);
+
+        saveMenuItem.setText("Save Module...");
+        fileMenu.add(saveMenuItem);
 
         windowMenuBar.add(fileMenu);
 
@@ -145,6 +154,7 @@ public class CRAMTool extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuBar windowMenuBar;
     // End of variables declaration//GEN-END:variables
 
@@ -153,8 +163,11 @@ public class CRAMTool extends javax.swing.JFrame {
         if (mif == null) {
             mif = new ModuleInternalFrame(module);
             moduleMap.put(module.getModuleName(), mif);
-        }
-        mif.setVisible(true);
-        desktop.add(mif);
+	    mif.setVisible(true);
+	    desktop.add(mif);
+        } 
+	mif.toFront();
+	
+        
     }
 }
