@@ -1,10 +1,9 @@
-
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Dimension;
 import java.util.logging.Logger;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
 import uk.ac.lkl.cram.model.AELMTest;
@@ -12,21 +11,19 @@ import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
- * @author Bernard Horan
+ * @author bernard
  */
-public class ModuleInternalFrame extends javax.swing.JInternalFrame {
-    private static final Logger LOGGER = Logger.getLogger(ModuleInternalFrame.class.getName());
+public class ModuleFrame extends javax.swing.JFrame {
+    private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
     private final Module module;
 
     /**
-     * Creates new form ModuleInternalFrame
-     * @param module 
+     * Creates new form ModuleFrame
      */
-    public ModuleInternalFrame(Module module) {
-	initComponents();
-	this.module = module;
-	setTitle("Module Name: " + module.getModuleName());
-	setClosable(true);
+    public ModuleFrame(Module module) {
+        this.module = module;
+        initComponents();
+        setTitle("Module Name: " + module.getModuleName());
 	leftTaskPaneContainer.add(createCourseDataPane());
 	leftTaskPaneContainer.add(createLineItemPane());
 	leftTaskPaneContainer.add(createTutorHoursPane());
@@ -51,15 +48,21 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
         leftTaskPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();
         jScrollPane3 = new javax.swing.JScrollPane();
         rightTaskPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();
+        windowMenuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        newMenuItem = new javax.swing.JMenuItem();
+        openMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        editMenu = new javax.swing.JMenu();
+        windowMenu = new javax.swing.JMenu();
 
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-        setDoubleBuffered(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         leftTaskPaneContainer.setPaintBorderInsets(false);
-        leftTaskPaneContainer.setLayout(new org.jdesktop.swingx.VerticalLayout());
+        org.jdesktop.swingx.VerticalLayout verticalLayout1 = new org.jdesktop.swingx.VerticalLayout();
+        verticalLayout1.setGap(14);
+        leftTaskPaneContainer.setLayout(verticalLayout1);
         jScrollPane1.setViewportView(leftTaskPaneContainer);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -73,9 +76,9 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(jScrollPane1, gridBagConstraints);
 
-        org.jdesktop.swingx.VerticalLayout verticalLayout5 = new org.jdesktop.swingx.VerticalLayout();
-        verticalLayout5.setGap(14);
-        rightTaskPaneContainer.setLayout(verticalLayout5);
+        org.jdesktop.swingx.VerticalLayout verticalLayout2 = new org.jdesktop.swingx.VerticalLayout();
+        verticalLayout2.setGap(14);
+        rightTaskPaneContainer.setLayout(verticalLayout2);
         jScrollPane3.setViewportView(rightTaskPaneContainer);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -89,33 +92,78 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(jScrollPane3, gridBagConstraints);
 
+        org.openide.awt.Mnemonics.setLocalizedText(fileMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.fileMenu.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(newMenuItem, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.newMenuItem.text")); // NOI18N
+        fileMenu.add(newMenuItem);
+
+        org.openide.awt.Mnemonics.setLocalizedText(openMenuItem, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.openMenuItem.text")); // NOI18N
+        fileMenu.add(openMenuItem);
+
+        org.openide.awt.Mnemonics.setLocalizedText(saveMenuItem, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveMenuItem.text")); // NOI18N
+        fileMenu.add(saveMenuItem);
+
+        windowMenuBar.add(fileMenu);
+
+        org.openide.awt.Mnemonics.setLocalizedText(editMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.editMenu.text")); // NOI18N
+        windowMenuBar.add(editMenu);
+
+        org.openide.awt.Mnemonics.setLocalizedText(windowMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.windowMenu.text")); // NOI18N
+        windowMenuBar.add(windowMenu);
+
+        setJMenuBar(windowMenuBar);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
-    private org.jdesktop.swingx.JXTaskPaneContainer rightTaskPaneContainer;
-    // End of variables declaration//GEN-END:variables
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
-	final JFrame frame = new JFrame("ModuleInternalFrame test");
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setSize(500, 500);
-	JDesktopPane desktop = new JDesktopPane();
-	frame.getContentPane().add(desktop);
-	ModuleInternalFrame mif = new ModuleInternalFrame(AELMTest.populateModule());
-	mif.setVisible(true);
-	desktop.add(mif);
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ModuleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ModuleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ModuleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ModuleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-	    @Override
             public void run() {
-                frame.setVisible(true);
+                new ModuleFrame(AELMTest.populateModule()).setVisible(true);
             }
         });
     }
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu editMenu;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
+    private javax.swing.JMenuItem newMenuItem;
+    private javax.swing.JMenuItem openMenuItem;
+    private org.jdesktop.swingx.JXTaskPaneContainer rightTaskPaneContainer;
+    private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenu windowMenu;
+    private javax.swing.JMenuBar windowMenuBar;
+    // End of variables declaration//GEN-END:variables
+
 
     private JXTaskPane createCourseDataPane() {
 	JXTaskPane courseDataPane = new JXTaskPane();
@@ -177,5 +225,17 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
 	costPane.setTitle("Profit & Loss");
 	costPane.add(new CostPanel(module));
 	return costPane;
+    }
+
+    JMenu getWindowMenu() {
+        return windowMenu;
+    }
+
+    JMenuItem getNewMenuItem() {
+        return newMenuItem;
+    }
+
+    JMenuItem getOpenMenuItem() {
+        return openMenuItem;
     }
 }

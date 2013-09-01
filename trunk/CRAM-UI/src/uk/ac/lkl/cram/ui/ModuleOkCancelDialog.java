@@ -13,7 +13,7 @@ import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 
 /**
- *
+ * $Date$
  * @author bernard
  */
 public class ModuleOkCancelDialog extends javax.swing.JDialog {
@@ -193,7 +193,7 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     private int returnStatus = RET_CANCEL;
 
-    Module getModule() {
+    public Module getModule() {
         return mwPanel.getModule();
     }
 }
