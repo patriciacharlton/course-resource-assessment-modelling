@@ -1,4 +1,4 @@
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.obsolete;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -13,6 +13,8 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.ui.ModuleFrame;
+import uk.ac.lkl.cram.ui.ModuleOkCancelDialog;
 import static uk.ac.lkl.cram.ui.ModuleOkCancelDialog.RET_OK;
 
 /**
@@ -20,7 +22,7 @@ import static uk.ac.lkl.cram.ui.ModuleOkCancelDialog.RET_OK;
  * @author bernard
  */
 public class CRAMTool extends javax.swing.JFrame {
-    private Map<String, ModuleInternalFrame> moduleMap = new HashMap<String, ModuleInternalFrame>();
+    private Map<String, ModuleFrame> moduleMap = new HashMap<String, ModuleFrame>();
 
     /**
      * Creates new form CRAMTool
@@ -159,9 +161,9 @@ public class CRAMTool extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void addModule(Module module) {
-        ModuleInternalFrame mif = moduleMap.get(module.getModuleName());
+        ModuleFrame mif = moduleMap.get(module.getModuleName());
         if (mif == null) {
-            mif = new ModuleInternalFrame(module);
+            mif = new ModuleFrame(module);
             moduleMap.put(module.getModuleName(), mif);
 	    mif.setVisible(true);
 	    desktop.add(mif);
