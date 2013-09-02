@@ -17,17 +17,24 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
 
     private static final String[] COLUMN_NAMES = {"<html>Activity</html>", "<html>Weekly<br>Hours</html>", "<html>Non-Weekly<br>Hours</html>", "<html>Total<br>Hours</html>"};
     private final Module module;
+    private final boolean includeSelfRegulated;
     
-    public ModuleTableModel(Module module) {
+    public ModuleTableModel(Module module, boolean includeSelfRegulated) {
         super();
         this.module = module;
+        this.includeSelfRegulated = includeSelfRegulated;
 	module.addPropertyChangeListener(this);
     }
 
     @Override
     public int getRowCount() {
-	//Also need to include a 'self-regulated learning row
-        return module.getTLALineItems().size() + 1;
+        int rowCount = module.getTLALineItems().size();
+        if (includeSelfRegulated) {
+            //Also need to include a 'self-regulated learning row
+            return rowCount + 1;
+        } else {
+            return rowCount;
+        }
     }
 
     @Override
@@ -47,18 +54,20 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
 
     @Override
     public Object getValueAt(int row, int column) {
-	if (row >= module.getTLALineItems().size()) {
-	    //self regulated row"
-	    switch (column) {
-		case 0:
-		    return "Self-regulated Learning";
-		case 1:
-		    return 0;
-		default:
-		    return module.getSelfRegulatedLearningHourCount();
-	    }
-	}
-	TLALineItem li = module.getTLALineItems().get(row);
+        if (includeSelfRegulated) {
+            if (row >= module.getTLALineItems().size()) {
+                //self regulated row"
+                switch (column) {
+                    case 0:
+                        return "Self-regulated Learning";
+                    case 1:
+                        return 0;
+                    default:
+                        return module.getSelfRegulatedLearningHourCount();
+                }
+            }
+        }
+        TLALineItem li = module.getTLALineItems().get(row);
         switch (column) {
             case 0:
                 return li.getActivity().getName();
@@ -71,36 +80,6 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
 
         }
         return null;
-    }
-    /*
-     * Don't need to implement this method unless your table's
-     * editable.
-     */
-
-    @Override
-    public boolean isCellEditable(int row, int col) {
-        //Note that the data/cell address is constant,
-        //no matter where the cell appears onscreen.
-        //Every column but the first one is editable
-        return col != 0;
-    }
-
-    /*
-     * Don't need to implement this method unless your table's
-     * data can change.
-     */
-    @Override
-    public void setValueAt(Object value, int row, int column) {
-        TLALineItem li = module.getTLALineItems().get(row);
-        switch (column) {
-            case 1:
-                li.setWeeklyLearnerHourCount((Integer) value);
-                break;
-            case 2:
-                li.setNonWeeklyLearnerHourCount((Integer) value);
-
-        }
-        fireTableCellUpdated(row, column);
     }
 
     @Override

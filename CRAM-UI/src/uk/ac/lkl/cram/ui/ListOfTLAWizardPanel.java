@@ -17,7 +17,7 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.ui.obsolete.TableTestForm;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class ListOfTLAWizardPanel extends javax.swing.JPanel {
@@ -32,7 +32,7 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     public ListOfTLAWizardPanel(Module module) {
 	initComponents();
 	this.module = module;
-	activitiesTable.setModel(new ModuleTableModel(module));
+	activitiesTable.setModel(new ModuleTableModel(module, false));
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	activitiesTable.getTableHeader().setPreferredSize(new Dimension(activitiesTable.getColumnModel().getTotalColumnWidth(),36));
 	activitiesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -109,6 +109,11 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 
         deleteButton.setText("Delete...");
         deleteButton.setEnabled(false);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
         jPanel1.add(deleteButton);
 
         editButton.setText("Edit...");
@@ -157,6 +162,10 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        removeSelectedLineItem();
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable activitiesTable;
     private javax.swing.JButton addButton;
@@ -204,6 +213,12 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     private void addLineItem(TLALineItem lineItem) {
 	LOGGER.info("Adding lineItem: " + lineItem);
 	module.addTLALineItem(lineItem);
+    }
+
+    private void removeSelectedLineItem() {
+       int index =  activitiesTable.getSelectedRow();
+        LOGGER.info("Removing line item: " + index);
+        module.removeTLALineItemIndex(index);
     }
 
 }

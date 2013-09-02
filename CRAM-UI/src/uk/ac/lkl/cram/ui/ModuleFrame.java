@@ -175,7 +175,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private JXTaskPane createLineItemPane() {
 	JXTaskPane lineItemPane = new JXTaskPane();
 	lineItemPane.setTitle("Student Hours");
-	lineItemPane.add(new TLActivitiesPanel(module));
+	lineItemPane.add(new LineItemPanel(module));
 	return lineItemPane;
     }
     
