@@ -11,6 +11,8 @@ public class StartupDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form StartupDialog
+     * @param parent
+     * @param modal  
      */
     public StartupDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -35,7 +37,7 @@ public class StartupDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("CRAM");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/CRAM.jpg"))); // NOI18N
         getContentPane().add(jLabel1, java.awt.BorderLayout.CENTER);
 
         newModuleButton.setText("New Module...");
