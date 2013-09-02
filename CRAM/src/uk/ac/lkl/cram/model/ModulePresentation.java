@@ -107,6 +107,14 @@ public class ModulePresentation implements Serializable, Calculable {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }
+    
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	propertySupport.addPropertyChangeListener(propertyName, listener);
+    }
+    
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	propertySupport.removePropertyChangeListener(propertyName, listener);
+    }
 
     @Override
     public int hashCode() {
