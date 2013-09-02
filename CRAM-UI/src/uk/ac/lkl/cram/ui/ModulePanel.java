@@ -1,6 +1,8 @@
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.TableModel;
@@ -32,7 +34,40 @@ public class ModulePanel extends javax.swing.JPanel {
 	presentationTable.setModel(tableModel);
 	presentationTable.getColumnModel().getColumn(0).setPreferredWidth(100);
 	presentationTable.getTableHeader().setPreferredSize(new Dimension(presentationTable.getColumnModel().getTotalColumnWidth(),36));
+
 	
+	module.addPropertyChangeListener(Module.PROP_NAME, new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		moduleNameField.setText((String) pce.getNewValue());
+	    }
+	});
+	
+	module.addPropertyChangeListener(Module.PROP_HOUR_COUNT, new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		LOGGER.info("hour count: " + pce.getNewValue());
+		hourCountField.setValue(pce.getNewValue());
+	    }
+	});
+	
+	module.addPropertyChangeListener(Module.PROP_WEEK_COUNT, new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		weekCountField.setValue(pce.getNewValue());
+	    }
+	});
+	
+	module.addPropertyChangeListener(Module.PROP_GROUP_SIZE, new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		tutorGroupSizeField.setValue(pce.getNewValue());
+	    }
+	});
     }
     
 
@@ -226,12 +261,7 @@ public class ModulePanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     
     
-    void accept() {
-	module.setModuleName(moduleNameField.getText());
-	module.setWeekCount((Integer) weekCountField.getValue());
-	module.setTutorGroupSize((Integer) tutorGroupSizeField.getValue());
-	module.setHourCount((Integer) hourCountField.getValue());
-    }
+    
     
     public static void main(String args[]) {
         final JFrame frame = new JFrame("Module Panel");
