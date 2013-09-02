@@ -41,23 +41,24 @@ public class PresentationTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         ModulePresentation mp = module.getModulePresentations().get(row);
-        if (mp == null) {
-            mp = new ModulePresentation();
-            switch (row) {
-                case 0:
-                    module.setPresentationOne(mp);
-                    break;
-                case 1: 
-                    module.setPresentationTwo(mp);
-                    break;
-                case 2:
-                    module.setPresentationThree(mp);
-                    break;
-                default:
-                    throw new RuntimeException("invalid row: " + row);
-            }
-            
-        }
+	//TODO delete if no longer required
+//        if (mp == null) {
+//            mp = new ModulePresentation();
+//            switch (row) {
+//                case 0:
+//                    module.setPresentationOne(mp);
+//                    break;
+//                case 1: 
+//                    module.setPresentationTwo(mp);
+//                    break;
+//                case 2:
+//                    module.setPresentationThree(mp);
+//                    break;
+//                default:
+//                    throw new RuntimeException("invalid row: " + row);
+//            }
+//            
+//        }
         String presentationName = "";
         switch (row) {
             case 0:
