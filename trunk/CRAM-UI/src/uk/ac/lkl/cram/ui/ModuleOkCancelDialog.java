@@ -2,6 +2,7 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -17,6 +18,8 @@ import uk.ac.lkl.cram.model.Module;
  * @author bernard
  */
 public class ModuleOkCancelDialog extends javax.swing.JDialog {
+    private static final Logger LOGGER = Logger.getLogger(ModuleOkCancelDialog.class.getName());
+
     private ModuleWizardPanel mwPanel;
 
     /**
@@ -27,34 +30,37 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
+    
+    private int returnStatus = RET_CANCEL;
+    
+
 
     /**
      * Creates new form ModuleOkCancelDialog
      * @param parent
-     * @param modal  
+     * @param modal
+     * @param module  
      */
-    public ModuleOkCancelDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
+    public ModuleOkCancelDialog(java.awt.Frame parent, boolean modal, Module module) {
+	super(parent, modal);
+	initComponents();
 
-        // Close the dialog when Esc is pressed
-        String cancelName = "cancel";
-        InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
-        ActionMap actionMap = getRootPane().getActionMap();
-        actionMap.put(cancelName, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                doClose(RET_CANCEL);
-            }
-        });
-	Module module = new Module();
+	// Close the dialog when Esc is pressed
+	String cancelName = "cancel";
+	InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+	inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
+	ActionMap actionMap = getRootPane().getActionMap();
+	actionMap.put(cancelName, new AbstractAction() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		doClose(RET_CANCEL);
+	    }
+	});
 	mwPanel = new ModuleWizardPanel(module);
-        tabbedPane.addTab("Module", mwPanel);
+	tabbedPane.addTab("Module", mwPanel);
 	final ListOfTLAWizardPanel lotlawp = new ListOfTLAWizardPanel(module);
 	tabbedPane.addTab("TLAs", lotlawp);
 	tabbedPane.addChangeListener(new ChangeListener() {
-
 	    @Override
 	    public void stateChanged(ChangeEvent ce) {
 		if (tabbedPane.getSelectedComponent() == lotlawp) {
@@ -62,7 +68,7 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
 		}
 	    }
 	});
-	
+
     }
 
     /**
@@ -159,7 +165,7 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
         returnStatus = retStatus;
 	if (returnStatus == RET_OK) {
 	    //mwPanel.accept();
-	}
+	    }
         setVisible(false);
         dispose();
     }
@@ -170,8 +176,10 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
     public static void main(String args[]) {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+	    @Override
             public void run() {
-                ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true);
+		Module module = new Module();
+                ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -181,7 +189,7 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
                 dialog.setVisible(true);
                 System.out.println(dialog.getReturnStatus());
                 if (dialog.getReturnStatus() == RET_OK) {
-                    AELMTest.runReport(dialog.getModule());
+                    AELMTest.runReport(module);
                 }
             }
         });
@@ -191,9 +199,5 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
     private javax.swing.JButton okButton;
     private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
-    private int returnStatus = RET_CANCEL;
 
-    public Module getModule() {
-        return mwPanel.getModule();
-    }
 }
