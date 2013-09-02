@@ -14,7 +14,7 @@ import uk.ac.lkl.cram.ui.HoursChartFactory;
 import uk.ac.lkl.cram.ui.LearningExperienceChartFactory;
 import uk.ac.lkl.cram.ui.LearningTypeChartFactory;
 import uk.ac.lkl.cram.ui.ModulePanel;
-import uk.ac.lkl.cram.ui.TLActivitiesPanel;
+import uk.ac.lkl.cram.ui.LineItemPanel;
 import uk.ac.lkl.cram.ui.TutorCostPanel;
 import uk.ac.lkl.cram.ui.TutorHoursPanel;
 
@@ -135,7 +135,7 @@ public class ModuleInternalFrame extends javax.swing.JInternalFrame {
     private JXTaskPane createLineItemPane() {
 	JXTaskPane lineItemPane = new JXTaskPane();
 	lineItemPane.setTitle("Student Hours");
-	lineItemPane.add(new TLActivitiesPanel(module));
+	lineItemPane.add(new LineItemPanel(module));
 	return lineItemPane;
     }
     

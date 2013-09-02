@@ -8,15 +8,15 @@ import uk.ac.lkl.cram.model.Module;
  * $Date$
  * @author Bernard Horan
  */
-public class TLActivitiesPanel extends javax.swing.JPanel {
+public class LineItemPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form TLActivitiesPanel
+     * Creates new form LineItemPanel
      * @param module 
      */
-    public TLActivitiesPanel(Module module) {
+    public LineItemPanel(Module module) {
 	initComponents();
-	activitiesTable.setModel(new ModuleTableModel(module));
+	activitiesTable.setModel(new ModuleTableModel(module, true));
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	activitiesTable.getTableHeader().setPreferredSize(new Dimension(activitiesTable.getColumnModel().getTotalColumnWidth(),36));
 	setSize(activitiesTable.getSize());

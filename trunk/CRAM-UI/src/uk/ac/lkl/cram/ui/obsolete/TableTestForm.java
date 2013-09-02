@@ -20,7 +20,7 @@ public class TableTestForm extends javax.swing.JFrame {
     public TableTestForm() {
         initComponents();
         Module module = AELMTest.populateModule();
-        moduleTableModel = new ModuleTableModel(module);
+        moduleTableModel = new ModuleTableModel(module, false);
         jTable1.setModel(moduleTableModel);
         moduleTableModel.addTableModelListener(new TableModelListener() {
             @Override
