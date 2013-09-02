@@ -1,9 +1,12 @@
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
 import uk.ac.lkl.cram.model.AELMTest;
@@ -19,10 +22,16 @@ public class ModuleFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form ModuleFrame
+     * @param module 
      */
     public ModuleFrame(Module module) {
         this.module = module;
         initComponents();
+	
+	newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+
         setTitle("Module Name: " + module.getModuleName());
 	leftTaskPaneContainer.add(createCourseDataPane());
 	leftTaskPaneContainer.add(createLineItemPane());
@@ -54,6 +63,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
+        moduleMenu = new javax.swing.JMenu();
         windowMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -108,6 +118,9 @@ public class ModuleFrame extends javax.swing.JFrame {
         org.openide.awt.Mnemonics.setLocalizedText(editMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.editMenu.text")); // NOI18N
         windowMenuBar.add(editMenu);
 
+        org.openide.awt.Mnemonics.setLocalizedText(moduleMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.moduleMenu.text")); // NOI18N
+        windowMenuBar.add(moduleMenu);
+
         org.openide.awt.Mnemonics.setLocalizedText(windowMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.windowMenu.text")); // NOI18N
         windowMenuBar.add(windowMenu);
 
@@ -145,6 +158,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+	    @Override
             public void run() {
                 new ModuleFrame(AELMTest.populateModule()).setVisible(true);
             }
@@ -156,6 +170,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
+    private javax.swing.JMenu moduleMenu;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
     private org.jdesktop.swingx.JXTaskPaneContainer rightTaskPaneContainer;
