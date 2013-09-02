@@ -8,9 +8,18 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 import uk.ac.lkl.cram.model.calculations.Calculable;
 
+/**
+ * $Date$
+ * @author Bernard Horan
+ */
 public class ModulePresentation implements Serializable, Calculable {
 
     private static final long serialVersionUID = 1L;
+    public static final String PROP_JUNIOR_COST = "junior_cost";
+    public static final String PROP_SENIOR_COST = "senior_cost";
+    public static final String PROP_FEE = "fee";
+    public static final String PROP_STUDENT_COUNT = "student_count";
+    
     private int studentCount;
     private int fee;
     private int juniorCostPerDay;
@@ -58,12 +67,16 @@ public class ModulePresentation implements Serializable, Calculable {
 
     @XmlAttribute
     public void setStudentCount(int i) {
+	int oldValue = studentCount;
 	studentCount = i;
+	propertySupport.firePropertyChange(PROP_STUDENT_COUNT, oldValue, studentCount);
     }
 
     @XmlAttribute
     public void setFee(int i) {
+	int oldValue = fee;
 	fee = i;
+	propertySupport.firePropertyChange(PROP_FEE, oldValue, fee);
     }
 
     public int getFee() {
@@ -72,12 +85,17 @@ public class ModulePresentation implements Serializable, Calculable {
 
     @XmlAttribute
     public void setJuniorCost(int i) {
+	int oldValue = juniorCostPerDay;
 	juniorCostPerDay = i;
+	propertySupport.firePropertyChange(PROP_JUNIOR_COST, oldValue, juniorCostPerDay);
+	
     }
 
     @XmlAttribute
     public void setSeniorCost(int i) {
+	int oldValue = seniorCostPerDay;
 	seniorCostPerDay = i;
+	propertySupport.firePropertyChange(PROP_SENIOR_COST, oldValue, seniorCostPerDay);
     }
 
     @Override
