@@ -67,6 +67,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         windowMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(830, 880));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         leftTaskPaneContainer.setPaintBorderInsets(false);
@@ -198,6 +199,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane tutorHoursPane = new JXTaskPane();
 	tutorHoursPane.setTitle("Tutor Hours");
 	tutorHoursPane.add(new TutorHoursPanel(module));
+	tutorHoursPane.setCollapsed(true);
 	return tutorHoursPane;
     }
     
@@ -205,6 +207,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane tutorCostPane = new JXTaskPane();
 	tutorCostPane.setTitle("Tutor Cost");
 	tutorCostPane.add(new TutorCostPanel(module));
+	tutorCostPane.setCollapsed(true);
 	return tutorCostPane;
     }
 
@@ -239,6 +242,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane costPane = new JXTaskPane();
 	costPane.setTitle("Profit & Loss");
 	costPane.add(new CostPanel(module));
+	costPane.setCollapsed(true);
 	return costPane;
     }
 
