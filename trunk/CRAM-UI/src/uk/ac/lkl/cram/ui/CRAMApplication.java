@@ -91,9 +91,7 @@ public class CRAMApplication {
             public void windowClosing(WindowEvent e) {
                 if (quitApplication()) {
                     System.exit(1);
-                } else {
-                    System.out.println("No exit");
-                }
+                } 
             }
         });
 
@@ -173,10 +171,9 @@ public class CRAMApplication {
     }
 
     private boolean quitApplication() {
-        int confirm = JOptionPane.showOptionDialog(startupDialog,
-                "Are You Sure to Close this Application?",
-                "Exit Confirmation", JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, null, null);
+        int confirm = JOptionPane.showConfirmDialog(startupDialog,
+                "Are you sure you want to quit?",
+                "Quit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return (confirm == JOptionPane.YES_OPTION);
     }
 
