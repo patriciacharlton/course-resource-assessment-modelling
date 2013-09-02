@@ -1,19 +1,24 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Paint;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RectangleEdge;
+import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.LearningType;
 import uk.ac.lkl.cram.model.TLActivity;
 
@@ -28,7 +33,8 @@ public class TLALearningTypeChartFactory {
      */
     public static void main(String[] args) {
 	JFrame frame = new JFrame("TLA Learning Type Test");
-	ChartPanel chartPanel = createChartPanel(new TLActivity("Dummy TLA"));
+	TLActivity tla = AELMTest.populateModule().getTLALineItems().get(0).getActivity();
+	ChartPanel chartPanel = createChartPanel(tla);
 	frame.setContentPane(chartPanel);
 	frame.setVisible(true);
     }
@@ -60,10 +66,17 @@ public class TLALearningTypeChartFactory {
     }
 
     private static JFreeChart createChart(PieDataset dataset) {
+	Paint backgroundPaint = Color.white;
 	JFreeChart chart = ChartFactory.createPieChart(null, dataset, true, true, false);
+	chart.setBackgroundPaint(backgroundPaint);
 	PiePlot plot = (PiePlot) chart.getPlot();
+	plot.setBackgroundPaint(backgroundPaint);
+	plot.setOutlineVisible(false);
 	plot.setLabelGenerator(null);
 	LegendTitle legend = chart.getLegend();
+	legend.setItemFont(UIManager.getFont("Label.font"));
+	legend.setBackgroundPaint(backgroundPaint);
+	legend.setFrame(BlockBorder.NONE);
 	legend.setPosition(RectangleEdge.RIGHT);
 	return chart;
     }
