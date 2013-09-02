@@ -1,5 +1,6 @@
 package uk.ac.lkl.cram.ui;
 
+import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import uk.ac.lkl.cram.model.AELMTest;
@@ -11,11 +12,13 @@ import uk.ac.lkl.cram.model.ModulePresentation;
  * @author Bernard Horan
  */
 public class ModuleWizardPanel extends javax.swing.JPanel {
+    private static final Logger LOGGER = Logger.getLogger(ModuleWizardPanel.class.getName());
+
     private final Module module;
 
     /**
      * Creates new form ModuleWizardPanel
-     * @param m 
+     * @param m
      */
     public ModuleWizardPanel(Module m) {
 	this.module = m;
