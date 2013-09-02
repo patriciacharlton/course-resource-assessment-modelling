@@ -99,11 +99,12 @@ public class CRAMTool extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMenuItemActionPerformed
-	ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true);
+	Module m = new Module();
+	ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, m);
 	dialog.setVisible(true);
 	System.out.println(dialog.getReturnStatus());
 	if (dialog.getReturnStatus() == RET_OK) {
-	    addModule(dialog.getModule());
+	    addModule(m);
 	}
 
     }//GEN-LAST:event_newMenuItemActionPerformed
