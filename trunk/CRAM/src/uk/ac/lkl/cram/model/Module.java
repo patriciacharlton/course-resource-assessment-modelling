@@ -1,5 +1,6 @@
 package uk.ac.lkl.cram.model;
 
+import java.beans.PropertyChangeEvent;
 import uk.ac.lkl.cram.model.calculations.Calculable;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -59,7 +60,7 @@ public class Module implements Serializable, Calculable {
 	presentations[0] = new ModulePresentation();
 	presentations[1] = new ModulePresentation();
 	presentations[2] = new ModulePresentation();
-    }
+		}
 
     public Module(String name) {
 	this();
@@ -108,15 +109,15 @@ public class Module implements Serializable, Calculable {
 	propertySupport.firePropertyChange(PROP_GROUP_SIZE, oldValue, tutorGroupSize);
     }
 
-    public void setPresentationOne(ModulePresentation modulePresentation) {
+    void setPresentationOne(ModulePresentation modulePresentation) {
 	presentations[0] = modulePresentation;
     }
 
-    public void setPresentationTwo(ModulePresentation modulePresentation) {
+    void setPresentationTwo(ModulePresentation modulePresentation) {
 	presentations[1] = modulePresentation;
     }
 
-    public void setPresentationThree(ModulePresentation modulePresentation) {
+    void setPresentationThree(ModulePresentation modulePresentation) {
 	presentations[2] = modulePresentation;
     }
 
