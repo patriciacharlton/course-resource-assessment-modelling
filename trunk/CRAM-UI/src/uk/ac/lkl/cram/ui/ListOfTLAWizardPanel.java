@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.openide.DialogDisplayer;
@@ -137,13 +138,6 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-//        TLAOkCancelDialog dialog = new TLAOkCancelDialog(new javax.swing.JFrame(), true, module);
-//	dialog.setSize(dialog.getPreferredSize());
-//	dialog.setVisible(true);
-//	System.out.println(dialog.getReturnStatus());
-//	if (dialog.getReturnStatus() == TLAOkCancelDialog.RET_OK) {
-//	    addLineItem(dialog.getLineItem());
-//	}
 	TLACreatorWizardIterator iterator = new TLACreatorWizardIterator(module);
 	WizardDescriptor wizardDescriptor = new WizardDescriptor(iterator);
 	iterator.initialize(wizardDescriptor);
@@ -155,15 +149,22 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
         dialog.setVisible(true);
         dialog.toFront();
         boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
-	LOGGER.info("Cancelled: " + cancelled);
+	//LOGGER.info("Cancelled: " + cancelled);
         if (!cancelled) {
             addLineItem(iterator.getLineItem());
-	    AELMTest.runReport(module);
+	    //AELMTest.runReport(module);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        removeSelectedLineItem();
+	int index = activitiesTable.getSelectedRow();
+	TLALineItem li = module.getTLALineItems().get(index);
+	int reply = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete \'" + li.getName() + "\'?", "Delete TLA", JOptionPane.YES_NO_OPTION);
+	if (reply == JOptionPane.YES_OPTION) {
+	    removeLineItem(li);
+	} else {
+	    LOGGER.info("Delete cancelled");
+	}
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -215,10 +216,9 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 	module.addTLALineItem(lineItem);
     }
 
-    private void removeSelectedLineItem() {
-       int index =  activitiesTable.getSelectedRow();
-        LOGGER.info("Removing line item: " + index);
-        module.removeTLALineItemIndex(index);
+    private void removeLineItem(TLALineItem li) {
+        LOGGER.info("Removing line item: " + li);
+        module.removeTLALineItem(li);
     }
 
 }
