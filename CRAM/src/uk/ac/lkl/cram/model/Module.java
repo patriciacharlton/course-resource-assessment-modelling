@@ -64,6 +64,11 @@ public class Module implements Serializable, Calculable {
 	int index = tlaLineItems.indexOf(lineItem);
 	propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, index, null, lineItem);
     }
+    
+    public void removeTLALineItemIndex(int  i) {
+        tlaLineItems.remove(i);
+        propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, i, null, null);
+    }
 
     public List<TLALineItem> getTLALineItems() {
 	return tlaLineItems;
@@ -296,6 +301,8 @@ public class Module implements Serializable, Calculable {
 		}
 		return true;
 	}
+
+    
 
     
 }
