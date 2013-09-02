@@ -160,11 +160,12 @@ public class CRAMApplication {
     }
     
     private boolean createNewModule() {
-        ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true);
+	Module module = new Module();
+        ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
 	dialog.setVisible(true);
 	System.out.println(dialog.getReturnStatus());
 	if (dialog.getReturnStatus() == RET_OK) {
-	    return addModule(dialog.getModule());
+	    return addModule(module);
 	} else {
             return false;
         }
