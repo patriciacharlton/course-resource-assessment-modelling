@@ -246,7 +246,7 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
                 .add(moduleNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
-        presentationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Presentations"));
+        presentationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Runs"));
         presentationPanel.setLayout(new java.awt.GridLayout(4, 5));
         presentationPanel.add(presentationsTitle);
 
@@ -268,7 +268,8 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
         seniorCostTitle.setLineWrap(true);
         presentationPanel.add(seniorCostTitle);
 
-        presentation1Label.setText("Presentation 1:");
+        presentation1Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        presentation1Label.setText("Run 1:");
         presentationPanel.add(presentation1Label);
 
         presentation1StudentCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
@@ -287,7 +288,8 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
         presentation1SeniorField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         presentationPanel.add(presentation1SeniorField);
 
-        presentation2Label.setText("Presentation 2:");
+        presentation2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        presentation2Label.setText("Run 2:");
         presentationPanel.add(presentation2Label);
 
         presentation2StudentCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
@@ -306,7 +308,8 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
         presentation2SeniorField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         presentationPanel.add(presentation2SeniorField);
 
-        presentation3Label.setText("Presentation 3:");
+        presentation3Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        presentation3Label.setText("Run 3:");
         presentationPanel.add(presentation3Label);
 
         presentation3StudentCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
@@ -332,7 +335,7 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .add(0, 0, 0)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                    .add(presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(0, 0, 0)

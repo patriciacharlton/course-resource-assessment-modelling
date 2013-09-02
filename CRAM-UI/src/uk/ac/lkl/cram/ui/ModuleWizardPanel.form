@@ -17,9 +17,9 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="presentationPanel" pref="493" max="32767" attributes="0"/>
+                  <Component id="presentationPanel" pref="453" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="moduleNamePanel" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
@@ -178,7 +178,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Presentations"/>
+            <TitledBorder title="Runs"/>
           </Border>
         </Property>
       </Properties>
@@ -218,7 +218,8 @@
         </Component>
         <Component class="javax.swing.JLabel" name="presentation1Label">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Presentation 1:"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="Run 1:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation1StudentCountField">
@@ -255,7 +256,8 @@
         </Component>
         <Component class="javax.swing.JLabel" name="presentation2Label">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Presentation 2:"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="Run 2:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation2StudentCountField">
@@ -292,7 +294,8 @@
         </Component>
         <Component class="javax.swing.JLabel" name="presentation3Label">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Presentation 3:"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="Run 3:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="presentation3StudentCountField">
