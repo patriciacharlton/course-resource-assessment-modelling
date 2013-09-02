@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class ModuleTest extends CRAMTest {
@@ -307,7 +307,7 @@ public class ModuleTest extends CRAMTest {
         System.out.println("setHourCount");
         int i = 450;
         Module instance = new Module();
-        instance.setHourCount(i);
+        instance.setTotalCreditHourCount(i);
         assertEquals(i, instance.getTotalCreditHourCount());
     }
 }
