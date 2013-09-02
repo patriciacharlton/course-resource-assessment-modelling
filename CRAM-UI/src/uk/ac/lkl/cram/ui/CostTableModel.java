@@ -74,6 +74,7 @@ public class CostTableModel extends AbstractTableModel implements PropertyChange
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-	System.out.println("CostTableModel.propertyChange: " + pce);
+	//TODO
+	//System.out.println("CostTableModel.propertyChange: " + pce);
     }
 }
