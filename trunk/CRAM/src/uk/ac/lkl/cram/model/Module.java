@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -19,11 +20,17 @@ import javax.xml.bind.annotation.XmlType;
  * @author Bernard Horan
  */
 @XmlRootElement(name = "module")
-@XmlType(propOrder = {"moduleName", "totalCreditHours", "weekCount", "tutorGroupSize", "tlaLineItems", "moduleLineItems", "presentations"})
+@XmlType(propOrder = {"moduleName", "totalCreditHourCount", "weekCount", "tutorGroupSize", "tlaLineItems", "moduleLineItems", "presentations"})
 public class Module implements Serializable, Calculable {
+
+    private static final Logger LOGGER = Logger.getLogger(Module.class.getName());
 
     private static final long serialVersionUID = 1L;
     public static final String PROP_TLA_LINEITEM = "tlaLineItem";
+    public static final String PROP_NAME = "name";
+    public static final String PROP_HOUR_COUNT = "hour_count";
+    public static final String PROP_WEEK_COUNT = "week_count";
+    public static final String PROP_GROUP_SIZE = "group_size";
 
     @XmlElementWrapper(name = "tlaLineItems")
     @XmlElement(name = "tlaLineItem")
@@ -87,19 +94,18 @@ public class Module implements Serializable, Calculable {
 	return weekCount;
     }
 
-    void setTotalCreditHourCount(int hourCount) {
-	totalCreditHours = hourCount;
+    @XmlAttribute
+    public void setWeekCount(int i) {
+	int oldValue = weekCount;
+	this.weekCount = i;
+	propertySupport.firePropertyChange(PROP_WEEK_COUNT, oldValue, weekCount);
     }
 
     @XmlAttribute
-    public void setWeekCount(int weekCount) {
-	this.weekCount = weekCount;
-
-    }
-
-    @XmlAttribute
-    public void setTutorGroupSize(int tutorGroupSize) {
-	this.tutorGroupSize = tutorGroupSize;
+    public void setTutorGroupSize(int i) {
+	int oldValue = tutorGroupSize;
+	this.tutorGroupSize = i;
+	propertySupport.firePropertyChange(PROP_GROUP_SIZE, oldValue, tutorGroupSize);
     }
 
     public void setPresentationOne(ModulePresentation modulePresentation) {
@@ -208,11 +214,17 @@ public class Module implements Serializable, Calculable {
 
     @XmlAttribute
     public void setModuleName(String text) {
+	String oldValue = moduleName;
 	moduleName = text;
+	propertySupport.firePropertyChange(PROP_NAME, oldValue, moduleName);
     }
 
-    public void setHourCount(int i) {
+    public void setTotalCreditHourCount(int i) {
+	LOGGER.info("hour count: " + i);;
+	int oldValue = totalCreditHours;
 	totalCreditHours = i;
+	propertySupport.firePropertyChange(PROP_HOUR_COUNT, oldValue, totalCreditHours);
+	
     }
 
     public List<LineItem> getLineItems() {
@@ -230,6 +242,15 @@ public class Module implements Serializable, Calculable {
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
+    }
+    
+    
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	propertySupport.addPropertyChangeListener(propertyName, listener);
+    }
+    
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	propertySupport.removePropertyChangeListener(propertyName, listener);
     }
 
 	/* (non-Javadoc)
