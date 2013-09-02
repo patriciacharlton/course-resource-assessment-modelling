@@ -372,6 +372,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         preparationPanel.add(jLabel6);
 
+        presentation1Label.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         presentation1Label.setText(bundle.getString("PRESENTATION 1:")); // NOI18N
         preparationPanel.add(presentation1Label);
 
@@ -384,6 +385,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation1SeniorPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation1SeniorPreparation);
 
+        presentation2Label.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         presentation2Label.setText(bundle.getString("PRESENTATION 2:")); // NOI18N
         preparationPanel.add(presentation2Label);
 
@@ -396,6 +398,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation2SeniorPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation2SeniorPreparation);
 
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel5.setText(bundle.getString("PRESENTATION 3:")); // NOI18N
         preparationPanel.add(jLabel5);
 
@@ -427,6 +430,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         supportPanel.add(jLabel7);
 
+        presentation1Label1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         presentation1Label1.setText(bundle.getString("PRESENTATION 1:")); // NOI18N
         supportPanel.add(presentation1Label1);
 
@@ -439,6 +443,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation1SeniorSupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation1SeniorSupport);
 
+        presentation2Label1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         presentation2Label1.setText(bundle.getString("PRESENTATION 2:")); // NOI18N
         supportPanel.add(presentation2Label1);
 
@@ -451,6 +456,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation2SeniorSupport.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         supportPanel.add(presentation2SeniorSupport);
 
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText(bundle.getString("PRESENTATION 3:")); // NOI18N
         supportPanel.add(jLabel8);
 
@@ -498,7 +504,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 .add(preparationPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0)
                 .add(supportPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .add(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 

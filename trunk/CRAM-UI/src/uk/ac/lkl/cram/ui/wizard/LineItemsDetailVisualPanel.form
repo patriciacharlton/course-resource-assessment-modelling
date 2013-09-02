@@ -33,7 +33,7 @@
               <Component id="preparationPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="supportPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -153,6 +153,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="presentation1Label">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="11"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PRESENTATION 1:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
@@ -175,6 +176,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="presentation2Label">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="11"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PRESENTATION 2:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
@@ -197,6 +199,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="11"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PRESENTATION 3:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
@@ -266,6 +269,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="presentation1Label1">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PRESENTATION 1:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
@@ -288,6 +292,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="presentation2Label1">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PRESENTATION 2:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
@@ -310,6 +315,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PRESENTATION 3:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
