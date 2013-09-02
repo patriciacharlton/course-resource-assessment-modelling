@@ -28,9 +28,9 @@ public class ModuleFrame extends javax.swing.JFrame {
         this.module = module;
         initComponents();
 	
-	newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
         setTitle("Module Name: " + module.getModuleName());
 	leftTaskPaneContainer.add(createCourseDataPane());
@@ -59,11 +59,12 @@ public class ModuleFrame extends javax.swing.JFrame {
         rightTaskPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();
         windowMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        newMenuItem = new javax.swing.JMenuItem();
-        openMenuItem = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
+        newMI = new javax.swing.JMenuItem();
+        openMI = new javax.swing.JMenuItem();
+        saveMI = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
+        editCourseDataMI = new javax.swing.JMenuItem();
         windowMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -105,14 +106,14 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         org.openide.awt.Mnemonics.setLocalizedText(fileMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.fileMenu.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(newMenuItem, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.newMenuItem.text")); // NOI18N
-        fileMenu.add(newMenuItem);
+        org.openide.awt.Mnemonics.setLocalizedText(newMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.newMI.text")); // NOI18N
+        fileMenu.add(newMI);
 
-        org.openide.awt.Mnemonics.setLocalizedText(openMenuItem, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.openMenuItem.text")); // NOI18N
-        fileMenu.add(openMenuItem);
+        org.openide.awt.Mnemonics.setLocalizedText(openMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.openMI.text")); // NOI18N
+        fileMenu.add(openMI);
 
-        org.openide.awt.Mnemonics.setLocalizedText(saveMenuItem, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveMenuItem.text")); // NOI18N
-        fileMenu.add(saveMenuItem);
+        org.openide.awt.Mnemonics.setLocalizedText(saveMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveMI.text")); // NOI18N
+        fileMenu.add(saveMI);
 
         windowMenuBar.add(fileMenu);
 
@@ -120,6 +121,15 @@ public class ModuleFrame extends javax.swing.JFrame {
         windowMenuBar.add(editMenu);
 
         org.openide.awt.Mnemonics.setLocalizedText(moduleMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.moduleMenu.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(editCourseDataMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.editCourseDataMI.text")); // NOI18N
+        editCourseDataMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editCourseDataMIActionPerformed(evt);
+            }
+        });
+        moduleMenu.add(editCourseDataMI);
+
         windowMenuBar.add(moduleMenu);
 
         org.openide.awt.Mnemonics.setLocalizedText(windowMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.windowMenu.text")); // NOI18N
@@ -129,6 +139,10 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void editCourseDataMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCourseDataMIActionPerformed
+	//TODO
+    }//GEN-LAST:event_editCourseDataMIActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,16 +180,17 @@ public class ModuleFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem editCourseDataMI;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
     private javax.swing.JMenu moduleMenu;
-    private javax.swing.JMenuItem newMenuItem;
-    private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JMenuItem newMI;
+    private javax.swing.JMenuItem openMI;
     private org.jdesktop.swingx.JXTaskPaneContainer rightTaskPaneContainer;
-    private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenuItem saveMI;
     private javax.swing.JMenu windowMenu;
     private javax.swing.JMenuBar windowMenuBar;
     // End of variables declaration//GEN-END:variables
@@ -251,10 +266,10 @@ public class ModuleFrame extends javax.swing.JFrame {
     }
 
     JMenuItem getNewMenuItem() {
-        return newMenuItem;
+        return newMI;
     }
 
     JMenuItem getOpenMenuItem() {
-        return openMenuItem;
+        return openMI;
     }
 }
