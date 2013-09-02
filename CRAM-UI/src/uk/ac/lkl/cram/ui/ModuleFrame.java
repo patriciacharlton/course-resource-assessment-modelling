@@ -141,7 +141,8 @@ public class ModuleFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editCourseDataMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCourseDataMIActionPerformed
-	//TODO
+	ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
+	dialog.setVisible(true);
     }//GEN-LAST:event_editCourseDataMIActionPerformed
 
     /**
