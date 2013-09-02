@@ -67,7 +67,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         editCourseDataMI = new javax.swing.JMenuItem();
         windowMenu = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(830, 880));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 

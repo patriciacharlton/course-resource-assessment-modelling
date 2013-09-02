@@ -1,6 +1,7 @@
 package uk.ac.lkl.cram.ui;
 
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -81,7 +82,7 @@ public class CRAMApplication {
         startupDialog.getQuitButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                if (quitApplication()) {
+                if (quitApplication(startupDialog)) {
                     System.exit(1);
                 }
             }
@@ -89,7 +90,7 @@ public class CRAMApplication {
         startupDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (quitApplication()) {
+                if (quitApplication(startupDialog)) {
                     System.exit(1);
                 } 
             }
@@ -105,10 +106,20 @@ public class CRAMApplication {
         windows.add(moduleFrame);
         moduleFrame.getWindowMenu().addMenuListener(new WindowMenuListener());
         moduleFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                windows.remove(moduleFrame);
-            }
+	    
+	    @Override
+	    public void windowClosing(WindowEvent e) {
+		//TODO check if need to save
+		if (windows.size() == 1) {
+		    //This is the last window
+		    if (quitApplication(moduleFrame)) {
+			System.exit(1);
+		    } 
+		} else {
+		moduleFrame.setVisible(false);
+		windows.remove(moduleFrame);
+	    }
+	    }
             
         });
         moduleFrame.getNewMenuItem().addActionListener(new ActionListener() {
@@ -171,8 +182,8 @@ public class CRAMApplication {
         }
     }
 
-    private boolean quitApplication() {
-        int confirm = JOptionPane.showConfirmDialog(startupDialog,
+    private boolean quitApplication(Window aWindow) {
+        int confirm = JOptionPane.showConfirmDialog(aWindow,
                 "Are you sure you want to quit?",
                 "Quit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return (confirm == JOptionPane.YES_OPTION);
