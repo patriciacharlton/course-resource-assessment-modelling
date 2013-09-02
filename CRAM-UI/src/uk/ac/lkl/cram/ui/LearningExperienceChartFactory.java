@@ -3,6 +3,8 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Color;
 import java.awt.Paint;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
@@ -55,30 +57,17 @@ public class LearningExperienceChartFactory {
 	return chartPanel;
     }
 
-    private static CategoryDataset createDataSet(Module m) {
-	DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	float personalised = 0, social = 0, oneSizeForAll = 0;
-	for (TLALineItem lineItem : m.getTLALineItems()) {
-	    TLActivity tla = lineItem.getActivity();
-	    float total = lineItem.getTotalLearnerHourCount(m);
-	    switch (tla.getLearningExperience()) {
-		case PERSONALISED: {
-		    personalised = personalised + (total * 100);
-		    break;
-		}
-		case SOCIAL: {
-		    social = social + (total * 100);
-		    break;
-		}
-		case ONE_SIZE_FOR_ALL: {
-		    oneSizeForAll = oneSizeForAll + (total * 100);
-		    break;
-		}
+    private static CategoryDataset createDataSet(final Module m) {
+	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	populateDataset(dataset, m);
+	//TODO this only listens if the # of line items changes, not to the individual activities
+	m.addPropertyChangeListener(new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		populateDataset(dataset, m);
 	    }
-	}
-	dataset.addValue(personalised, "Personalised", "Learning Experience");
-	dataset.addValue(social, "Social", "Learning Experience");
-	dataset.addValue(oneSizeForAll, "One Size For All", "Learning Experience");
+	});
 	return dataset;
     }
 
@@ -114,5 +103,30 @@ public class LearningExperienceChartFactory {
 	legend.setFrame(BlockBorder.NONE);
 	legend.setPosition(RectangleEdge.RIGHT);
 	return chart;
+    }
+
+    private static void populateDataset(DefaultCategoryDataset dataset, Module m) {
+	float personalised = 0, social = 0, oneSizeForAll = 0;
+	for (TLALineItem lineItem : m.getTLALineItems()) {
+	    TLActivity tla = lineItem.getActivity();
+	    float total = lineItem.getTotalLearnerHourCount(m);
+	    switch (tla.getLearningExperience()) {
+		case PERSONALISED: {
+		    personalised = personalised + (total * 100);
+		    break;
+		}
+		case SOCIAL: {
+		    social = social + (total * 100);
+		    break;
+		}
+		case ONE_SIZE_FOR_ALL: {
+		    oneSizeForAll = oneSizeForAll + (total * 100);
+		    break;
+		}
+	    }
+	}
+	dataset.setValue(personalised, "Personalised", "Learning Experience");
+	dataset.setValue(social, "Social", "Learning Experience");
+	dataset.setValue(oneSizeForAll, "One Size For All", "Learning Experience");
     }
 }
