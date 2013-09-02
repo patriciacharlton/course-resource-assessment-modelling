@@ -65,9 +65,10 @@ public class Module implements Serializable, Calculable {
 	propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, index, null, lineItem);
     }
     
-    public void removeTLALineItemIndex(int  i) {
-        tlaLineItems.remove(i);
-        propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, i, null, null);
+    public void removeTLALineItem(TLALineItem  li) {
+        int i = tlaLineItems.indexOf(li);
+	tlaLineItems.remove(i);
+        propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, i, li, null);
     }
 
     public List<TLALineItem> getTLALineItems() {
