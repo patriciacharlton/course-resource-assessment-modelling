@@ -3,6 +3,8 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Color;
 import java.awt.Paint;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
@@ -49,14 +51,17 @@ public class LearningTypeChartFactory {
 	return chartPanel;
     }
 
-    private static PieDataset createDataSet(Module m) {
-	DefaultPieDataset dataset = new DefaultPieDataset();
-	dataset.setValue("Acquisition", getTotalAcquisition(m));
-	dataset.setValue("Inquiry", getTotalInquiry(m));
-	dataset.setValue("Discusssion", getTotalDiscussion(m));
-	dataset.setValue("Practice", getTotalPractice(m));
-	dataset.setValue("Production", getTotalProduction(m));
-	dataset.setValue("Collaboration", getTotalCollaboration(m));
+    private static PieDataset createDataSet(final Module m) {
+	final DefaultPieDataset dataset = new DefaultPieDataset();
+	populateDataset(dataset, m);
+	m.addPropertyChangeListener(new PropertyChangeListener() {
+	//TODO this only listens if the # of line items changes, not to the individual activities
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		populateDataset(dataset, m);
+	    }
+	});
 	return dataset;
     }
     
@@ -133,5 +138,14 @@ public class LearningTypeChartFactory {
 	legend.setFrame(BlockBorder.NONE);
 	legend.setPosition(RectangleEdge.RIGHT);
 	return chart;
+    }
+
+    private static void populateDataset(DefaultPieDataset dataset, Module m) {
+	dataset.setValue("Acquisition", getTotalAcquisition(m));
+	dataset.setValue("Inquiry", getTotalInquiry(m));
+	dataset.setValue("Discusssion", getTotalDiscussion(m));
+	dataset.setValue("Practice", getTotalPractice(m));
+	dataset.setValue("Production", getTotalProduction(m));
+	dataset.setValue("Collaboration", getTotalCollaboration(m));
     }
 }

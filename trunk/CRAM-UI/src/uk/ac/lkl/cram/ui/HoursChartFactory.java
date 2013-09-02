@@ -3,6 +3,8 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Font;
 import java.awt.Paint;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
@@ -47,14 +49,18 @@ public class HoursChartFactory {
 	return chartPanel;
     }
 
-    private static CategoryDataset createDataSet(Module m) {
-	DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	String[] presentationNames = {"Run 1", "Run 2", "Run 3"};
-	int i = 0;
+    private static CategoryDataset createDataSet(final Module m) {
+	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	populateDataset(dataset, m);
+	PropertyChangeListener presentationListener = new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		populateDataset(dataset, m);
+	    }
+	};
 	for (ModulePresentation modulePresentation : m.getModulePresentations()) {
-	    dataset.addValue(m.getTotalSupportHours(modulePresentation), "Support Hours", presentationNames[i]);
-	    dataset.addValue(m.getTotalPreparationHours(modulePresentation), "Preparation Hours", presentationNames[i]);
-	    i++;
+	    modulePresentation.addPropertyChangeListener(ModulePresentation.PROP_STUDENT_COUNT, presentationListener);
 	}
 	return dataset;
     }
@@ -81,5 +87,15 @@ public class HoursChartFactory {
 	legend.setFrame(BlockBorder.NONE);
 	legend.setPosition(RectangleEdge.RIGHT);
 	return chart;
+    }
+
+    private static void populateDataset(DefaultCategoryDataset dataset, Module m) {
+	String[] presentationNames = {"Run 1", "Run 2", "Run 3"};
+	int i = 0;
+	for (ModulePresentation modulePresentation : m.getModulePresentations()) {
+	    dataset.setValue(m.getTotalSupportHours(modulePresentation), "Support Hours", presentationNames[i]);
+	    dataset.setValue(m.getTotalPreparationHours(modulePresentation), "Preparation Hours", presentationNames[i]);
+	    i++;
+	}
     }
 }
