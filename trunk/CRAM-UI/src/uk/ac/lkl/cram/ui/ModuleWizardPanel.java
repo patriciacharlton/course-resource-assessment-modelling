@@ -8,7 +8,7 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
 
 /**
- *
+ * $Date$
  * @author Bernard Horan
  */
 public class ModuleWizardPanel extends javax.swing.JPanel {
@@ -43,7 +43,7 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
 	    @Override
 	    public void updateValue(Object value) {
 		long hourCount = (Long) value;
-		module.setHourCount((int) hourCount);
+		module.setTotalCreditHourCount((int) hourCount);
 	    }
 	};
 		
