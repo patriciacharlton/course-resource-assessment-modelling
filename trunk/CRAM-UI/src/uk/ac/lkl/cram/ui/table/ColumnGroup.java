@@ -7,9 +7,8 @@ package uk.ac.lkl.cram.ui.table;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -28,7 +27,7 @@ import javax.swing.table.TableColumn;
 public class ColumnGroup {
 
     protected TableCellRenderer renderer;
-    protected Vector v;
+    protected List list;
     protected String text;
     protected int margin = 0;
 
@@ -58,7 +57,7 @@ public class ColumnGroup {
 	    this.renderer = renderer;
 	}
 	this.text = text;
-	v = new Vector();
+	list = new ArrayList();
     }
 
     /**
@@ -68,7 +67,7 @@ public class ColumnGroup {
 	if (obj == null) {
 	    return;
 	}
-	v.addElement(obj);
+	list.add(obj);
     }
 
     /**
@@ -78,12 +77,12 @@ public class ColumnGroup {
      */
     public List<ColumnGroup> getColumnGroups(TableColumn c, ArrayList g) {
 	g.add(this);
-	if (v.contains(c)) {
+	if (list.contains(c)) {
 	    return g;
 	}
-	Enumeration e = v.elements();
-	while (e.hasMoreElements()) {
-	    Object obj = e.nextElement();
+	Iterator it = list.listIterator();
+	while (it.hasNext()) {
+	    Object obj = it.next();
 	    if (obj instanceof ColumnGroup) {
 		List<ColumnGroup> groups = ((ColumnGroup) obj).getColumnGroups(c, (ArrayList<ColumnGroup>)g.clone());
 		if (groups != null) {
@@ -113,9 +112,9 @@ public class ColumnGroup {
 		table, getHeaderValue(), false, false, -1, -1);
 	int height = comp.getPreferredSize().height;
 	int width = 0;
-	Enumeration e = v.elements();
-	while (e.hasMoreElements()) {
-	    Object obj = e.nextElement();
+	Iterator it = list.listIterator();
+	while (it.hasNext()) {
+	    Object obj = it.next();
 	    if (obj instanceof TableColumn) {
 		TableColumn aColumn = (TableColumn) obj;
 		width += aColumn.getWidth();
@@ -129,9 +128,9 @@ public class ColumnGroup {
 
     public void setColumnMargin(int margin) {
 	this.margin = margin;
-	Enumeration e = v.elements();
-	while (e.hasMoreElements()) {
-	    Object obj = e.nextElement();
+	Iterator it = list.listIterator();
+	while (it.hasNext()) {
+	    Object obj = it.next();
 	    if (obj instanceof ColumnGroup) {
 		((ColumnGroup) obj).setColumnMargin(margin);
 	    }
