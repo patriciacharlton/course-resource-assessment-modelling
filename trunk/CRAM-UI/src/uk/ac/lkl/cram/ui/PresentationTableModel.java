@@ -14,7 +14,7 @@ import uk.ac.lkl.cram.model.ModulePresentation;
 public class PresentationTableModel extends AbstractTableModel implements PropertyChangeListener{
     private static final Logger LOGGER = Logger.getLogger(PresentationTableModel.class.getName());
 
-    private static final String[] COLUMN_NAMES = {"<html>Run</html>", "<html>Number<br>of Students</html>", "<html>Fee</html>", "<html>Junior Cost<br>per Day</html>", "<html>Senior Cost<br>per Day</html>"};
+    private static final String[] COLUMN_NAMES = {"<html>Run</html>", "<html>Number<br>of Students</html>", "<html>Student<br>Fee</html>", "<html>Junior Cost<br>per Day</html>", "<html>Senior Cost<br>per Day</html>"};
     private final Module module;
     
     PresentationTableModel(Module module) {
