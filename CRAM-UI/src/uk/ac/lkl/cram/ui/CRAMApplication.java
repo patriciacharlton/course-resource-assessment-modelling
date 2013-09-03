@@ -25,7 +25,6 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import uk.ac.lkl.cram.model.Module;
-import static uk.ac.lkl.cram.ui.ModuleOkCancelDialog.RET_OK;
 
 
 /**
@@ -174,8 +173,8 @@ public class CRAMApplication {
 	Module module = new Module();
         ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
 	dialog.setVisible(true);
-	System.out.println(dialog.getReturnStatus());
-	if (dialog.getReturnStatus() == RET_OK) {
+	LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
+	if (dialog.getReturnStatus() == ModuleOkCancelDialog.RET_OK) {
 	    return addModule(module);
 	} else {
             return false;
