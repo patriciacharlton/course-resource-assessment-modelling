@@ -22,6 +22,9 @@ public class CostTableModel extends AbstractTableModel implements PropertyChange
         super();
         this.module = module;
 	module.addPropertyChangeListener(this);
+	for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+	    modulePresentation.addPropertyChangeListener(this);
+	}
     }
 
     @Override
