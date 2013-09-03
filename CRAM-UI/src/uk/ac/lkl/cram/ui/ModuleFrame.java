@@ -11,6 +11,7 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
+import static uk.ac.lkl.cram.ui.ModuleOkCancelDialog.RET_OK;
 
 /**
  * $Date$
@@ -64,7 +65,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         saveMI = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
-        editCourseDataMI = new javax.swing.JMenuItem();
+        modifyRunsMI = new javax.swing.JMenuItem();
         windowMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -122,13 +123,13 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         org.openide.awt.Mnemonics.setLocalizedText(moduleMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.moduleMenu.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(editCourseDataMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.editCourseDataMI.text")); // NOI18N
-        editCourseDataMI.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(modifyRunsMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.modifyRunsMI.text")); // NOI18N
+        modifyRunsMI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editCourseDataMIActionPerformed(evt);
+                modifyRunsMIActionPerformed(evt);
             }
         });
-        moduleMenu.add(editCourseDataMI);
+        moduleMenu.add(modifyRunsMI);
 
         windowMenuBar.add(moduleMenu);
 
@@ -140,10 +141,13 @@ public class ModuleFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editCourseDataMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCourseDataMIActionPerformed
-	ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
+    private void modifyRunsMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyRunsMIActionPerformed
+	PresentationOkCancelDialog dialog = new PresentationOkCancelDialog(new javax.swing.JFrame(), true, module);
+	dialog.setTitle("Modify Runs");
 	dialog.setVisible(true);
-    }//GEN-LAST:event_editCourseDataMIActionPerformed
+	LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
+	//TODO--undo
+    }//GEN-LAST:event_modifyRunsMIActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,12 +185,12 @@ public class ModuleFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem editCourseDataMI;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
+    private javax.swing.JMenuItem modifyRunsMI;
     private javax.swing.JMenu moduleMenu;
     private javax.swing.JMenuItem newMI;
     private javax.swing.JMenuItem openMI;
