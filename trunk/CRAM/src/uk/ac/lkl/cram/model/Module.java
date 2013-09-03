@@ -221,7 +221,6 @@ public class Module implements Serializable, Calculable {
     }
 
     public void setTotalCreditHourCount(int i) {
-	LOGGER.info("hour count: " + i);;
 	int oldValue = totalCreditHours;
 	totalCreditHours = i;
 	propertySupport.firePropertyChange(PROP_HOUR_COUNT, oldValue, totalCreditHours);
