@@ -24,6 +24,9 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
         super();
         this.module = module;
 	module.addPropertyChangeListener(this);
+	for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+	    modulePresentation.addPropertyChangeListener(this);
+	}
     }
 
     @Override

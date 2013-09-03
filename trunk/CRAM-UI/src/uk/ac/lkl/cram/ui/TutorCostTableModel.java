@@ -25,6 +25,9 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
         super();
         this.module = module;
 	module.addPropertyChangeListener(this);
+	for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+	    modulePresentation.addPropertyChangeListener(this);
+	}
     }
 
     @Override
