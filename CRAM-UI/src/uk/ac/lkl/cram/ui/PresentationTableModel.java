@@ -1,5 +1,8 @@
 package uk.ac.lkl.cram.ui;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
@@ -8,7 +11,8 @@ import uk.ac.lkl.cram.model.ModulePresentation;
  * $Date$
  * @author bernard
  */
-public class PresentationTableModel extends AbstractTableModel {
+public class PresentationTableModel extends AbstractTableModel implements PropertyChangeListener{
+    private static final Logger LOGGER = Logger.getLogger(PresentationTableModel.class.getName());
 
     private static final String[] COLUMN_NAMES = {"<html>Run</html>", "<html>Number<br>of Students</html>", "<html>Fee</html>", "<html>Junior Cost<br>per Day</html>", "<html>Senior Cost<br>per Day</html>"};
     private final Module module;
@@ -16,6 +20,7 @@ public class PresentationTableModel extends AbstractTableModel {
     PresentationTableModel(Module module) {
         super();
         this.module = module;
+	module.addPropertyChangeListener(this);
     }
 
     @Override
@@ -90,6 +95,13 @@ public class PresentationTableModel extends AbstractTableModel {
                 
 
         }
+    }
+    
+    @Override
+    public void propertyChange(PropertyChangeEvent pce) {
+	//LOGGER.info("event propertyName: " + pce.getPropertyName() + " newValue: " + pce.getNewValue());
+	//TODO -- this is a catch all
+	fireTableDataChanged();
     }
     
 }
