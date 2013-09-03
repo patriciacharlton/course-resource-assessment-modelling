@@ -1,13 +1,12 @@
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Dimension;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.TableModel;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.ui.undo.UndoHandler;
 
 /**
  * $Date$
@@ -16,58 +15,97 @@ import uk.ac.lkl.cram.model.Module;
 public class ModulePanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ModulePanel.class.getName());
 
-    private final Module module;
 
     /**
      * Creates new form ModuleWizardPanel
-     * @param m 
+     * @param m
      */
-    public ModulePanel(Module m) {
-	this.module = m;
+    public ModulePanel(final Module module) {
 	initComponents();
 
+	SelectAllAdapter saa = new SelectAllAdapter();
+	
 	moduleNameField.setText(module.getModuleName());
+	moduleNameField.addFocusListener(saa);
+	new TextFieldAdapter(moduleNameField) {
+
+	    @Override
+	    public void updateText(String value) {		
+		module.setModuleName(value);
+	    }
+	};
+	
 	hourCountField.setValue(module.getTotalCreditHourCount());
+	hourCountField.addFocusListener(saa);
+	new FormattedTextFieldAdapter(hourCountField) {
+
+	    @Override
+	    public void updateValue(Object value) {
+		int hourCount = (Integer) value;
+		module.setTotalCreditHourCount((int) hourCount);
+	    }
+	};
+	
 	weekCountField.setValue(module.getWeekCount());
+	weekCountField.addFocusListener(saa);
+	new FormattedTextFieldAdapter(weekCountField) {
+
+	    @Override
+	    public void updateValue(Object value) {
+		int weekCount = (Integer) value;
+		module.setWeekCount((int) weekCount);
+	    }
+	};
+	
 	tutorGroupSizeField.setValue(module.getTutorGroupSize());
+	tutorGroupSizeField.addFocusListener(saa);
+	new FormattedTextFieldAdapter(tutorGroupSizeField) {
+
+	    @Override
+	    public void updateValue(Object value) {
+		int tutorGroupSize = (Integer) value;
+		module.setTutorGroupSize((int) tutorGroupSize);
+	    }
+	};
+	
 	TableModel tableModel = new PresentationTableModel(module);
 	presentationTable.setModel(tableModel);
 	presentationTable.getColumnModel().getColumn(0).setPreferredWidth(100);
 	presentationTable.getTableHeader().setPreferredSize(new Dimension(presentationTable.getColumnModel().getTotalColumnWidth(),36));
 
 	
-	module.addPropertyChangeListener(Module.PROP_NAME, new PropertyChangeListener() {
-
-	    @Override
-	    public void propertyChange(PropertyChangeEvent pce) {
-		moduleNameField.setText((String) pce.getNewValue());
-	    }
-	});
-	
-	module.addPropertyChangeListener(Module.PROP_HOUR_COUNT, new PropertyChangeListener() {
-
-	    @Override
-	    public void propertyChange(PropertyChangeEvent pce) {
-		LOGGER.info("hour count: " + pce.getNewValue());
-		hourCountField.setValue(pce.getNewValue());
-	    }
-	});
-	
-	module.addPropertyChangeListener(Module.PROP_WEEK_COUNT, new PropertyChangeListener() {
-
-	    @Override
-	    public void propertyChange(PropertyChangeEvent pce) {
-		weekCountField.setValue(pce.getNewValue());
-	    }
-	});
-	
-	module.addPropertyChangeListener(Module.PROP_GROUP_SIZE, new PropertyChangeListener() {
-
-	    @Override
-	    public void propertyChange(PropertyChangeEvent pce) {
-		tutorGroupSizeField.setValue(pce.getNewValue());
-	    }
-	});
+//	module.addPropertyChangeListener(Module.PROP_NAME, new PropertyChangeListener() {
+//
+//	    @Override
+//	    public void propertyChange(PropertyChangeEvent pce) {
+//		moduleNameField.setText((String) pce.getNewValue());
+//	    }
+//	});
+//	
+//	module.addPropertyChangeListener(Module.PROP_HOUR_COUNT, new PropertyChangeListener() {
+//
+//	    @Override
+//	    public void propertyChange(PropertyChangeEvent pce) {
+//		LOGGER.info("hour count: " + pce.getNewValue());
+//		hourCountField.setValue(pce.getNewValue());
+//	    }
+//	});
+//	
+//	module.addPropertyChangeListener(Module.PROP_WEEK_COUNT, new PropertyChangeListener() {
+//
+//	    @Override
+//	    public void propertyChange(PropertyChangeEvent pce) {
+//		weekCountField.setValue(pce.getNewValue());
+//	    }
+//	});
+//	
+//	module.addPropertyChangeListener(Module.PROP_GROUP_SIZE, new PropertyChangeListener() {
+//
+//	    @Override
+//	    public void propertyChange(PropertyChangeEvent pce) {
+//		tutorGroupSizeField.setValue(pce.getNewValue());
+//	    }
+//	});
     }
     
 
@@ -101,16 +139,10 @@ public class ModulePanel extends javax.swing.JPanel {
 
         jLabel2.setText("Tutor Group Size:");
 
-        tutorGroupSizeField.setEditable(false);
-        tutorGroupSizeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
         tutorGroupSizeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        hourCountField.setEditable(false);
-        hourCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
         hourCountField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        weekCountField.setEditable(false);
-        weekCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
         weekCountField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         org.jdesktop.layout.GroupLayout moduleDetailsPanelLayout = new org.jdesktop.layout.GroupLayout(moduleDetailsPanel);
@@ -153,8 +185,6 @@ public class ModulePanel extends javax.swing.JPanel {
         );
 
         moduleNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Module Name"));
-
-        moduleNameField.setEditable(false);
 
         org.jdesktop.layout.GroupLayout moduleNamePanelLayout = new org.jdesktop.layout.GroupLayout(moduleNamePanel);
         moduleNamePanel.setLayout(moduleNamePanelLayout);
@@ -200,7 +230,10 @@ public class ModulePanel extends javax.swing.JPanel {
             }
         });
         presentationTable.setEnabled(false);
+        presentationTable.setFocusTraversalKeysEnabled(false);
+        presentationTable.setFocusable(false);
         presentationTable.setRowSelectionAllowed(false);
+        presentationTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         presentationTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(presentationTable);
 
@@ -275,9 +308,5 @@ public class ModulePanel extends javax.swing.JPanel {
                 frame.setVisible(true);
             }
         });
-    }
-
-    Module getModule() {
-	return module;
     }
 }
