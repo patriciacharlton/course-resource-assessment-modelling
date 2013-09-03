@@ -1,11 +1,9 @@
 package uk.ac.lkl.cram.ui;
 
 import java.util.logging.Logger;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
-import uk.ac.lkl.cram.model.ModulePresentation;
 
 /**
  * $Date$
@@ -14,14 +12,12 @@ import uk.ac.lkl.cram.model.ModulePresentation;
 public class ModuleWizardPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ModuleWizardPanel.class.getName());
 
-    private final Module module;
 
     /**
      * Creates new form ModuleWizardPanel
-     * @param m
+     * @param module
      */
-    public ModuleWizardPanel(Module m) {
-	this.module = m;
+    public ModuleWizardPanel(final Module module) {
 	initComponents();
 
 	SelectAllAdapter saa = new SelectAllAdapter();
@@ -69,66 +65,7 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
 	    }
 	};
 		
-	JFormattedTextField[] studentCountFields = new JFormattedTextField[3];
-	studentCountFields[0] = presentation1StudentCountField;
-	studentCountFields[1] = presentation2StudentCountField;
-	studentCountFields[2] = presentation3StudentCountField;
-	JFormattedTextField[] studentFeeFields = new JFormattedTextField[3];
-	studentFeeFields[0] = presentation1StudentFeeField;
-	studentFeeFields[1] = presentation2StudentFeeField;
-	studentFeeFields[2] = presentation3StudentFeeField;
-	JFormattedTextField[] juniorCostFields = new JFormattedTextField[3];
-	juniorCostFields[0] = presentation1JuniorField;
-	juniorCostFields[1] = presentation2JuniorField;
-	juniorCostFields[2] = presentation3JuniorField;
-	JFormattedTextField[] seniorCostFields = new JFormattedTextField[3];
-	seniorCostFields[0] = presentation1SeniorField;
-	seniorCostFields[1] = presentation2SeniorField;
-	seniorCostFields[2] = presentation3SeniorField;
-	int index = 0;
-	for (final ModulePresentation modulePresentation : module.getModulePresentations()) {
-	    studentCountFields[index].setValue(new Long(modulePresentation.getStudentCount()));
-	    studentCountFields[index].addFocusListener(saa);
-	    new FormattedTextFieldAdapter(studentCountFields[index]) {
-		@Override
-		public void updateValue(Object value) {
-		    long studentCount = (Long) value;
-		    modulePresentation.setStudentCount((int) studentCount);
-		}
-	    };
-	    
-	    studentFeeFields[index].setValue(new Long(modulePresentation.getFee()));
-	    studentFeeFields[index].addFocusListener(saa);
-	    new FormattedTextFieldAdapter(studentFeeFields[index]) {
-		@Override
-		public void updateValue(Object value) {
-		    long fee = (Long) value;
-		    modulePresentation.setFee((int) fee);
-		}
-	    };
-	    
-	    juniorCostFields[index].setValue(new Long(modulePresentation.getJuniorCost()));
-	    juniorCostFields[index].addFocusListener(saa);
-	    new FormattedTextFieldAdapter(juniorCostFields[index]) {
-		@Override
-		public void updateValue(Object value) {
-		    long cost = (Long) value;
-		    modulePresentation.setJuniorCost((int) cost);
-		}
-	    };
-	    
-	    seniorCostFields[index].setValue(new Long(modulePresentation.getSeniorCost()));
-	    seniorCostFields[index].addFocusListener(saa);
-	    new FormattedTextFieldAdapter(seniorCostFields[index]) {
-		@Override
-		public void updateValue(Object value) {
-		    long cost = (Long) value;
-		    modulePresentation.setSeniorCost((int) cost);
-		}
-	    };
-	    
-	    index++;
-	}
+	presentationPanel.initializeModule(module);
     }
     
 
@@ -150,27 +87,7 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
         weekCountField = new javax.swing.JFormattedTextField();
         moduleNamePanel = new javax.swing.JPanel();
         moduleNameField = new javax.swing.JTextField();
-        presentationPanel = new javax.swing.JPanel();
-        presentationsTitle = new org.jdesktop.swingx.JXLabel();
-        studentCountTitle = new org.jdesktop.swingx.JXLabel();
-        studentFeeTitle = new org.jdesktop.swingx.JXLabel();
-        juniorCostTitle = new org.jdesktop.swingx.JXLabel();
-        seniorCostTitle = new org.jdesktop.swingx.JXLabel();
-        presentation1Label = new javax.swing.JLabel();
-        presentation1StudentCountField = new javax.swing.JFormattedTextField();
-        presentation1StudentFeeField = new javax.swing.JFormattedTextField();
-        presentation1JuniorField = new javax.swing.JFormattedTextField();
-        presentation1SeniorField = new javax.swing.JFormattedTextField();
-        presentation2Label = new javax.swing.JLabel();
-        presentation2StudentCountField = new javax.swing.JFormattedTextField();
-        presentation2StudentFeeField = new javax.swing.JFormattedTextField();
-        presentation2JuniorField = new javax.swing.JFormattedTextField();
-        presentation2SeniorField = new javax.swing.JFormattedTextField();
-        presentation3Label = new javax.swing.JLabel();
-        presentation3StudentCountField = new javax.swing.JFormattedTextField();
-        presentation3StudentFeeField = new javax.swing.JFormattedTextField();
-        presentation3JuniorField = new javax.swing.JFormattedTextField();
-        presentation3SeniorField = new javax.swing.JFormattedTextField();
+        presentationPanel = new uk.ac.lkl.cram.ui.PresentationPanel();
 
         moduleDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Details..."));
 
@@ -180,12 +97,15 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Tutor Group Size:");
 
+        tutorGroupSizeField.setColumns(4);
         tutorGroupSizeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
         tutorGroupSizeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        hourCountField.setColumns(4);
         hourCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
         hourCountField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        weekCountField.setColumns(4);
         weekCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
         weekCountField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
@@ -236,7 +156,7 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
             moduleNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(moduleNamePanelLayout.createSequentialGroup()
                 .add(0, 0, 0)
-                .add(moduleNameField)
+                .add(moduleNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                 .add(0, 0, 0))
         );
         moduleNamePanelLayout.setVerticalGroup(
@@ -246,100 +166,15 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
                 .add(moduleNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
-        presentationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Runs"));
-        presentationPanel.setLayout(new java.awt.GridLayout(4, 5));
-        presentationPanel.add(presentationsTitle);
-
-        studentCountTitle.setText("Student Count");
-        studentCountTitle.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        studentCountTitle.setLineWrap(true);
-        presentationPanel.add(studentCountTitle);
-
-        studentFeeTitle.setText("Student Fee");
-        studentFeeTitle.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        studentFeeTitle.setLineWrap(true);
-        presentationPanel.add(studentFeeTitle);
-
-        juniorCostTitle.setText("Junior Cost per Day");
-        juniorCostTitle.setLineWrap(true);
-        presentationPanel.add(juniorCostTitle);
-
-        seniorCostTitle.setText("Senior Cost per Day");
-        seniorCostTitle.setLineWrap(true);
-        presentationPanel.add(seniorCostTitle);
-
-        presentation1Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        presentation1Label.setText("Run 1:");
-        presentationPanel.add(presentation1Label);
-
-        presentation1StudentCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation1StudentCountField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation1StudentCountField);
-
-        presentation1StudentFeeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation1StudentFeeField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation1StudentFeeField);
-
-        presentation1JuniorField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation1JuniorField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation1JuniorField);
-
-        presentation1SeniorField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation1SeniorField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation1SeniorField);
-
-        presentation2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        presentation2Label.setText("Run 2:");
-        presentationPanel.add(presentation2Label);
-
-        presentation2StudentCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation2StudentCountField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation2StudentCountField);
-
-        presentation2StudentFeeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation2StudentFeeField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation2StudentFeeField);
-
-        presentation2JuniorField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation2JuniorField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation2JuniorField);
-
-        presentation2SeniorField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation2SeniorField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation2SeniorField);
-
-        presentation3Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        presentation3Label.setText("Run 3:");
-        presentationPanel.add(presentation3Label);
-
-        presentation3StudentCountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation3StudentCountField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation3StudentCountField);
-
-        presentation3StudentFeeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation3StudentFeeField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation3StudentFeeField);
-
-        presentation3JuniorField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation3JuniorField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation3JuniorField);
-
-        presentation3SeniorField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-        presentation3SeniorField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        presentationPanel.add(presentation3SeniorField);
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
+                .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(0, 0, 0)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                    .add(layout.createSequentialGroup()
-                        .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(0, 0, 0)
-                        .add(moduleDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .add(moduleDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -348,6 +183,7 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(moduleDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(0, 0, 0)
                 .add(presentationPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0))
         );
@@ -357,30 +193,10 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private org.jdesktop.swingx.JXLabel juniorCostTitle;
     private javax.swing.JPanel moduleDetailsPanel;
     private javax.swing.JTextField moduleNameField;
     private javax.swing.JPanel moduleNamePanel;
-    private javax.swing.JFormattedTextField presentation1JuniorField;
-    private javax.swing.JLabel presentation1Label;
-    private javax.swing.JFormattedTextField presentation1SeniorField;
-    private javax.swing.JFormattedTextField presentation1StudentCountField;
-    private javax.swing.JFormattedTextField presentation1StudentFeeField;
-    private javax.swing.JFormattedTextField presentation2JuniorField;
-    private javax.swing.JLabel presentation2Label;
-    private javax.swing.JFormattedTextField presentation2SeniorField;
-    private javax.swing.JFormattedTextField presentation2StudentCountField;
-    private javax.swing.JFormattedTextField presentation2StudentFeeField;
-    private javax.swing.JFormattedTextField presentation3JuniorField;
-    private javax.swing.JLabel presentation3Label;
-    private javax.swing.JFormattedTextField presentation3SeniorField;
-    private javax.swing.JFormattedTextField presentation3StudentCountField;
-    private javax.swing.JFormattedTextField presentation3StudentFeeField;
-    private javax.swing.JPanel presentationPanel;
-    private org.jdesktop.swingx.JXLabel presentationsTitle;
-    private org.jdesktop.swingx.JXLabel seniorCostTitle;
-    private org.jdesktop.swingx.JXLabel studentCountTitle;
-    private org.jdesktop.swingx.JXLabel studentFeeTitle;
+    private uk.ac.lkl.cram.ui.PresentationPanel presentationPanel;
     private javax.swing.JFormattedTextField tutorGroupSizeField;
     private javax.swing.JFormattedTextField weekCountField;
     // End of variables declaration//GEN-END:variables
@@ -398,9 +214,5 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
                 frame.setVisible(true);
             }
         });
-    }
-
-    Module getModule() {
-	return module;
     }
 }

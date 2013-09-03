@@ -17,16 +17,11 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
+              <Component id="moduleNamePanel" max="32767" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="presentationPanel" pref="453" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="moduleNamePanel" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                      <Component id="moduleDetailsPanel" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
+              <Component id="moduleDetailsPanel" min="-2" max="-2" attributes="0"/>
           </Group>
+          <Component id="presentationPanel" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -37,6 +32,7 @@
                   <Component id="moduleDetailsPanel" min="-2" max="-2" attributes="0"/>
                   <Component id="moduleNamePanel" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="presentationPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
@@ -117,6 +113,7 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="tutorGroupSizeField">
           <Properties>
+            <Property name="columns" type="int" value="4"/>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
               <Format subtype="1" type="0"/>
             </Property>
@@ -125,6 +122,7 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="hourCountField">
           <Properties>
+            <Property name="columns" type="int" value="4"/>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
               <Format subtype="1" type="0"/>
             </Property>
@@ -133,6 +131,7 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="weekCountField">
           <Properties>
+            <Property name="columns" type="int" value="4"/>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
               <Format subtype="1" type="0"/>
             </Property>
@@ -155,7 +154,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                  <Component id="moduleNameField" max="32767" attributes="0"/>
+                  <Component id="moduleNameField" pref="260" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -174,163 +173,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="presentationPanel">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Runs"/>
-          </Border>
-        </Property>
-      </Properties>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="5"/>
-        <Property name="rows" type="int" value="4"/>
-      </Layout>
-      <SubComponents>
-        <Component class="org.jdesktop.swingx.JXLabel" name="presentationsTitle">
-        </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="studentCountTitle">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Student Count"/>
-            <Property name="verticalAlignment" type="int" value="3"/>
-            <Property name="lineWrap" type="boolean" value="true"/>
-          </Properties>
-        </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="studentFeeTitle">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Student Fee"/>
-            <Property name="verticalAlignment" type="int" value="3"/>
-            <Property name="lineWrap" type="boolean" value="true"/>
-          </Properties>
-        </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="juniorCostTitle">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Junior Cost per Day"/>
-            <Property name="lineWrap" type="boolean" value="true"/>
-          </Properties>
-        </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="seniorCostTitle">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Senior Cost per Day"/>
-            <Property name="lineWrap" type="boolean" value="true"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="presentation1Label">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Run 1:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation1StudentCountField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation1StudentFeeField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation1JuniorField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation1SeniorField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="presentation2Label">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Run 2:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation2StudentCountField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation2StudentFeeField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation2JuniorField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation2SeniorField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="presentation3Label">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Run 3:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation3StudentCountField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation3StudentFeeField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation3JuniorField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation3SeniorField">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="11"/>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
+    <Component class="uk.ac.lkl.cram.ui.PresentationPanel" name="presentationPanel">
+    </Component>
   </SubComponents>
 </Form>
