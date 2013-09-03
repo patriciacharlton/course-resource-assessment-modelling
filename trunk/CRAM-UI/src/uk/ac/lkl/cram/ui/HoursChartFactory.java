@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Paint;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
@@ -30,6 +31,8 @@ import uk.ac.lkl.cram.model.ModulePresentation;
  * @author Bernard Horan
  */
 public class HoursChartFactory {
+    private static final Logger LOGGER = Logger.getLogger(HoursChartFactory.class.getName());
+
 
     /**
      * @param args the command line arguments
@@ -56,12 +59,14 @@ public class HoursChartFactory {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
+		//LOGGER.info("event propertyName: " + pce.getPropertyName() + " newValue: " + pce.getNewValue());
 		populateDataset(dataset, m);
 	    }
 	};
 	for (ModulePresentation modulePresentation : m.getModulePresentations()) {
 	    modulePresentation.addPropertyChangeListener(ModulePresentation.PROP_STUDENT_COUNT, presentationListener);
 	}
+	m.addPropertyChangeListener(presentationListener);
 	return dataset;
     }
     
