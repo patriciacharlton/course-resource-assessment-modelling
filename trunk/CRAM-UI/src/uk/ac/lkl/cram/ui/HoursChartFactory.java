@@ -22,6 +22,7 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.RectangleEdge;
+import org.jfree.util.SortOrder;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
@@ -91,6 +92,7 @@ public class HoursChartFactory {
 	legend.setBackgroundPaint(backgroundPaint);
 	legend.setFrame(BlockBorder.NONE);
 	legend.setPosition(RectangleEdge.RIGHT);
+        legend.setSortOrder(SortOrder.DESCENDING);
 	return chart;
     }
 
@@ -98,9 +100,9 @@ public class HoursChartFactory {
 	String[] presentationNames = {"Run 1", "Run 2", "Run 3"};
 	int i = 0;
 	for (ModulePresentation modulePresentation : m.getModulePresentations()) {
-	    dataset.setValue(m.getTotalSupportHours(modulePresentation), "Support Hours", presentationNames[i]);
 	    dataset.setValue(m.getTotalPreparationHours(modulePresentation), "Preparation Hours", presentationNames[i]);
-	    i++;
+            dataset.setValue(m.getTotalSupportHours(modulePresentation), "Support Hours", presentationNames[i]);
+            i++;
 	}
     }
 }
