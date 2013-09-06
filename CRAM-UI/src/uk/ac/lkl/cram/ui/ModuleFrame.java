@@ -260,7 +260,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 
     private JXTaskPane createTotalCostsPane() {
 	JXTaskPane costPane = new JXTaskPane();
-	costPane.setTitle("Profit & Loss");
+	costPane.setTitle("Summary");
 	costPane.add(new CostPanel(module));
 	costPane.setCollapsed(true);
 	return costPane;
