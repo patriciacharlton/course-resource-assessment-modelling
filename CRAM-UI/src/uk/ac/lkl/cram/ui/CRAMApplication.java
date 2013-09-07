@@ -1,6 +1,8 @@
 package uk.ac.lkl.cram.ui;
 
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -189,6 +191,11 @@ public class CRAMApplication {
     }
 
     private void startUp() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension dialogSize = startupDialog.getSize();
+        int x = (screenSize.width - dialogSize.width) /2;
+        int y = (screenSize.height - dialogSize.height) / 2;
+        startupDialog.setLocation(x, y);
         startupDialog.setVisible(true);
     }
 
