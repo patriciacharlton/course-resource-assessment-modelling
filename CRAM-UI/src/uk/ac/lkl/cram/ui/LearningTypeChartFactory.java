@@ -30,7 +30,8 @@ public class LearningTypeChartFactory {
     private static final Color DISCUSSION_COLOR = new Color(121, 173, 236);  
     private static final Color INQUIRY_COLOR = new Color(250, 128, 128);  
     private static final Color PRACTICE_COLOR = new Color(190, 152, 221);  
-    private static final Color PRODUCTION_COLOR = new Color(188, 234, 117);  
+    private static final Color PRODUCTION_COLOR = new Color(188, 234, 117); 
+    private static final Color COLLABORATION_COLOR = new Color(0xFFCD00);
 
 
     /**
@@ -132,6 +133,7 @@ public class LearningTypeChartFactory {
 	plot.setSectionPaint("Discusssion", DISCUSSION_COLOR);
 	plot.setSectionPaint("Practice", PRACTICE_COLOR);
 	plot.setSectionPaint("Production", PRODUCTION_COLOR);
+        plot.setSectionPaint("Collaboration", COLLABORATION_COLOR);
 	LegendTitle legend = chart.getLegend();
 	legend.setItemFont(UIManager.getFont("Label.font"));
 	legend.setBackgroundPaint(backgroundPaint);
@@ -142,10 +144,10 @@ public class LearningTypeChartFactory {
 
     private static void populateDataset(DefaultPieDataset dataset, Module m) {
 	dataset.setValue("Acquisition", getTotalAcquisition(m));
-	dataset.setValue("Inquiry", getTotalInquiry(m));
+	dataset.setValue("Collaboration", getTotalCollaboration(m));
 	dataset.setValue("Discusssion", getTotalDiscussion(m));
+	dataset.setValue("Inquiry", getTotalInquiry(m));
 	dataset.setValue("Practice", getTotalPractice(m));
 	dataset.setValue("Production", getTotalProduction(m));
-	dataset.setValue("Collaboration", getTotalCollaboration(m));
     }
 }
