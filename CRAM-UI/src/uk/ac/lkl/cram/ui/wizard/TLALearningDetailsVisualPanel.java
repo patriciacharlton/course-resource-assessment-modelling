@@ -20,6 +20,7 @@ import uk.ac.lkl.cram.ui.TextFieldAdapter;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
@@ -37,6 +38,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	tlActivity = tla;
 	UIManager.put("Slider.paintValue", true);
         initComponents();
+	tlActivityNameChanged();
 	tlActivity.getLearningType().addPropertyChangeListener(new PropertyChangeListener() {
 
 	    @Override

@@ -3,6 +3,7 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Font;
 import java.awt.Paint;
+import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
@@ -26,9 +27,13 @@ import org.jfree.util.SortOrder;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
+import uk.ac.lkl.cram.model.PreparationTime;
+import uk.ac.lkl.cram.model.SupportTime;
+import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class HoursChartFactory {
@@ -53,21 +58,59 @@ public class HoursChartFactory {
 	return chartPanel;
     }
 
-    private static CategoryDataset createDataSet(final Module m) {
+    private static CategoryDataset createDataSet(final Module module) {
 	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	populateDataset(dataset, m);
-	PropertyChangeListener presentationListener = new PropertyChangeListener() {
+	populateDataset(dataset, module);
+	final PropertyChangeListener presentationListener = new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		//LOGGER.info("event propertyName: " + pce.getPropertyName() + " newValue: " + pce.getNewValue());
-		populateDataset(dataset, m);
+		populateDataset(dataset, module);
 	    }
 	};
-	for (ModulePresentation modulePresentation : m.getModulePresentations()) {
+	for (ModulePresentation modulePresentation : module.getModulePresentations()) {
 	    modulePresentation.addPropertyChangeListener(ModulePresentation.PROP_STUDENT_COUNT, presentationListener);
+	    for (TLALineItem lineItem : module.getTLALineItems()) {
+		LOGGER.info("adding listener to : " + lineItem.getName());
+		SupportTime st = lineItem.getSupportTime(modulePresentation);
+		st.addPropertyChangeListener(presentationListener);
+		PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+		pt.addPropertyChangeListener(presentationListener);
+	    }
 	}
-	m.addPropertyChangeListener(presentationListener);
+	
+	module.addPropertyChangeListener(Module.PROP_TLA_LINEITEM, new PropertyChangeListener() {
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		if (pce instanceof IndexedPropertyChangeEvent) {
+		    LOGGER.info("indexed change: " + pce);
+		    if (pce.getOldValue() != null) {
+			//This has been removed
+			TLALineItem lineItem = (TLALineItem) pce.getOldValue();
+			LOGGER.info("removing listeners from: " + lineItem.getName());
+			for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+			    SupportTime st = lineItem.getSupportTime(modulePresentation);
+			    st.removePropertyChangeListener(presentationListener);
+			    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+			    pt.removePropertyChangeListener(presentationListener);
+			}			
+		    }
+		    if (pce.getNewValue() != null) {
+			//This has been added
+			TLALineItem lineItem = (TLALineItem) pce.getNewValue();
+			LOGGER.info("adding listeners to: " + lineItem);
+			for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+			    SupportTime st = lineItem.getSupportTime(modulePresentation);
+			    st.addPropertyChangeListener(presentationListener);
+			    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+			    pt.addPropertyChangeListener(presentationListener);
+			}
+		    }
+		}
+		populateDataset(dataset, module);
+	    }
+	});
 	return dataset;
     }
     

@@ -19,6 +19,7 @@ import uk.ac.lkl.cram.model.TLActivity;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
@@ -231,7 +232,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		}
 	    }
 	});
-	
+	tlActivityNameChanged();
     }
     
     @Override

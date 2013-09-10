@@ -1,37 +1,24 @@
-/*
- *  +Spaces Project, http://www.positivespaces.eu/
- *  
- *  Copyright (c) 2013, University of Essex, UK, 2013, All Rights Reserved.
- * 
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- * 
- *       http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *  under the License.
- */
-package uk.ac.lkl.cram.ui.obsolete;
+package uk.ac.lkl.cram.ui;
 
-import uk.ac.lkl.cram.ui.obsolete.TLAWizardPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
-import uk.ac.lkl.cram.ui.SelectAllAdapter;
+import uk.ac.lkl.cram.ui.wizard.LineItemsDetailVisualPanel;
+import uk.ac.lkl.cram.ui.wizard.TLALearningDetailsVisualPanel;
+import uk.ac.lkl.cram.ui.wizard.TLAPropertiesVisualPanel;
 
 /**
- *
+ * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class TLAOkCancelDialog extends javax.swing.JDialog {
@@ -44,18 +31,17 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
-    private final TLALineItem lineItem;
-    private final LineItemWizardPanel liw;
 
     /**
      * Creates new form TLAOkCancelDialog
      * @param parent
-     * @param modal  
+     * @param modal
+     * @param module
+     * @param lineItem  
      */
-    public TLAOkCancelDialog(java.awt.Frame parent, boolean modal, Module module) {
+    public TLAOkCancelDialog(java.awt.Frame parent, boolean modal, Module module, TLALineItem lineItem) {
 	super(parent, modal);
 	initComponents();
-        tlaNameField.addFocusListener(new SelectAllAdapter());
         
 	// Close the dialog when Esc is pressed
 	String cancelName = "cancel";
@@ -63,15 +49,29 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
 	inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
 	ActionMap actionMap = getRootPane().getActionMap();
 	actionMap.put(cancelName, new AbstractAction() {
+	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		doClose(RET_CANCEL);
 	    }
 	});
-	lineItem = new TLALineItem();
-	TLAWizardPanel tlawp = new TLAWizardPanel(lineItem.getActivity());
-	tabbedPane.addTab("Learning Description", tlawp);
-	liw = new LineItemWizardPanel(module, lineItem);
-	tabbedPane.addTab("Activity Description", liw);
+	TLALearningDetailsVisualPanel tlaldvp = new TLALearningDetailsVisualPanel(lineItem.getActivity());
+	tabbedPane.addTab(tlaldvp.getName(), tlaldvp);
+	TLAPropertiesVisualPanel tlapvp = new TLAPropertiesVisualPanel(lineItem.getActivity());
+	tabbedPane.addTab(tlapvp.getName(), tlapvp);
+	LineItemsDetailVisualPanel lidvp = new LineItemsDetailVisualPanel(module, lineItem);
+	tabbedPane.addTab(lidvp.getName(), lidvp);
+	
+	PropertyChangeListener validityListener = new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		Boolean valid = (Boolean) pce.getNewValue();
+		okButton.setEnabled(valid);
+	    }
+	};
+	tlaldvp.addPropertyChangeListener(TLALearningDetailsVisualPanel.PROP_VALID, validityListener);
+	lidvp.addPropertyChangeListener(LineItemsDetailVisualPanel.PROP_VALID, validityListener);
+	setSize(getPreferredSize());
     }
 
     /**
@@ -79,10 +79,6 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
      */
     public int getReturnStatus() {
 	return returnStatus;
-    }
-    
-    public TLALineItem getLineItem() {
-	return lineItem;
     }
 
     /**
@@ -94,8 +90,6 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tlaNamePanel = new javax.swing.JPanel();
-        tlaNameField = new javax.swing.JTextField();
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
@@ -105,22 +99,6 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
                 closeDialog(evt);
             }
         });
-
-        tlaNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Teaching & Learning Activity Name"));
-
-        org.jdesktop.layout.GroupLayout tlaNamePanelLayout = new org.jdesktop.layout.GroupLayout(tlaNamePanel);
-        tlaNamePanel.setLayout(tlaNamePanelLayout);
-        tlaNamePanelLayout.setHorizontalGroup(
-            tlaNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(tlaNamePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(tlaNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        tlaNamePanelLayout.setVerticalGroup(
-            tlaNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(tlaNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-        );
 
         okButton.setText("OK");
         okButton.addActionListener(new java.awt.event.ActionListener() {
@@ -141,16 +119,15 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
+                .add(0, 0, 0)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(0, 369, Short.MAX_VALUE)
+                        .add(0, 381, Short.MAX_VALUE)
                         .add(okButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 67, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cancelButton))
-                    .add(tabbedPane)
-                    .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .add(tabbedPane))
+                .add(0, 0, 0))
         );
 
         layout.linkSize(new java.awt.Component[] {cancelButton, okButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
@@ -158,10 +135,9 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(tabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(0, 0, 0)
+                .add(tabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                .add(0, 0, 0)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
                     .add(okButton))
@@ -191,8 +167,7 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
     private void doClose(int retStatus) {
 	returnStatus = retStatus;
 	if (returnStatus == RET_OK) {
-	    lineItem.getActivity().setName(tlaNameField.getText());
-            liw.accept();
+	    //TODO--undo
 	}
 	setVisible(false);
 	dispose();
@@ -202,33 +177,14 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-	/* Set the Nimbus look and feel */
-	//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-	 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-	 */
-	try {
-	    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-		if ("Nimbus".equals(info.getName())) {
-		    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-		    break;
-		}
-	    }
-	} catch (ClassNotFoundException ex) {
-	    java.util.logging.Logger.getLogger(TLAOkCancelDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (InstantiationException ex) {
-	    java.util.logging.Logger.getLogger(TLAOkCancelDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (IllegalAccessException ex) {
-	    java.util.logging.Logger.getLogger(TLAOkCancelDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-	    java.util.logging.Logger.getLogger(TLAOkCancelDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-	}
-	//</editor-fold>
 
 	/* Create and display the dialog */
 	java.awt.EventQueue.invokeLater(new Runnable() {
+	    @Override
 	    public void run() {
-		TLAOkCancelDialog dialog = new TLAOkCancelDialog(new javax.swing.JFrame(), true, new Module());
+		Module m = AELMTest.populateModule();
+		TLALineItem li = m.getTLALineItems().get(0);
+		TLAOkCancelDialog dialog = new TLAOkCancelDialog(new javax.swing.JFrame(), true, m, li);
 		dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent e) {
@@ -243,8 +199,6 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton okButton;
     private javax.swing.JTabbedPane tabbedPane;
-    private javax.swing.JTextField tlaNameField;
-    private javax.swing.JPanel tlaNamePanel;
     // End of variables declaration//GEN-END:variables
     private int returnStatus = RET_CANCEL;
 }

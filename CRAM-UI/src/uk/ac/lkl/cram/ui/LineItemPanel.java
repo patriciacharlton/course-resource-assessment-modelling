@@ -2,13 +2,24 @@
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Dimension;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class LineItemPanel extends javax.swing.JPanel {
+    public static final String PROP_SELECTED_LINEITEM = " selected_line_item";
+    private LineItem selectedLineItem = null;
+    private final Module module;
+
+    
 
     /**
      * Creates new form LineItemPanel
@@ -16,12 +27,24 @@ public class LineItemPanel extends javax.swing.JPanel {
      */
     public LineItemPanel(Module module) {
 	initComponents();
+	this.module = module;
 	activitiesTable.setModel(new ModuleTableModel(module, true));
+	activitiesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+	    @Override
+	    public void valueChanged(ListSelectionEvent lse) {
+		if (!lse.getValueIsAdjusting()) {
+		    ListSelectionModel lsModel = (ListSelectionModel) lse.getSource();
+		    int selectionIndex = lsModel.getMinSelectionIndex();
+		    setSelectionIndex(selectionIndex);
+		}
+	    }
+	});
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	activitiesTable.getTableHeader().setPreferredSize(new Dimension(activitiesTable.getColumnModel().getTotalColumnWidth(),36));
 	setSize(activitiesTable.getSize());
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,8 +83,8 @@ public class LineItemPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        activitiesTable.setEnabled(false);
         activitiesTable.setRequestFocusEnabled(false);
+        activitiesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(activitiesTable);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -79,4 +102,24 @@ public class LineItemPanel extends javax.swing.JPanel {
     private javax.swing.JTable activitiesTable;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+    
+    private void setSelectionIndex(int index) {
+	//TODO -- this should only be TLALineItems
+	LineItem oldValue = selectedLineItem;
+	if (index != -1) {
+	    selectedLineItem = module.getLineItems().get(index);
+	} else {
+	    selectedLineItem = null;
+	}
+	firePropertyChange(PROP_SELECTED_LINEITEM, oldValue, selectedLineItem);
+    }
+
+    JTable getTable() {
+	return activitiesTable;
+    }
+
+    LineItem getSelectedLineItem() {
+	return selectedLineItem;
+    }
+
 }
