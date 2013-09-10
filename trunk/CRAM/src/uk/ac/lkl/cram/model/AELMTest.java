@@ -11,6 +11,11 @@ import javax.xml.bind.JAXBException;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 import uk.ac.lkl.cram.model.io.ModuleExporter;
 
+/**
+ * $Date$
+ * $Revision$
+ * @author Bernard Horan
+ */
 public class AELMTest {
 
 	/**
@@ -378,7 +383,7 @@ public class AELMTest {
         try {
             exporter.exportModule(m);
         } catch (IOException i) {
-            i.printStackTrace();
+            Logger.getLogger(AELMTest.class.getName()).log(Level.SEVERE, null, i);
         }
     }
 
