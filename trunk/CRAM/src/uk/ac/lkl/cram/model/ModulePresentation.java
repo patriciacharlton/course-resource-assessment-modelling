@@ -3,6 +3,7 @@ package uk.ac.lkl.cram.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
@@ -10,9 +11,11 @@ import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class ModulePresentation implements Serializable, Calculable {
+    private static final Logger LOGGER = Logger.getLogger(ModulePresentation.class.getName());
 
     private static final long serialVersionUID = 1L;
     public static final String PROP_JUNIOR_COST = "junior_cost";
