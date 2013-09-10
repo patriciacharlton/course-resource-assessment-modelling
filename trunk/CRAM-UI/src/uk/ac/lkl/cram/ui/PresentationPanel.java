@@ -1,6 +1,9 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.WeakHashMap;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import uk.ac.lkl.cram.model.Module;
@@ -12,6 +15,8 @@ import uk.ac.lkl.cram.model.ModulePresentation;
  */
 public class PresentationPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(PresentationPanel.class.getName());
+    private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<JFormattedTextField, Boolean>();
+
     
     /**
      * Creates new form PresentationPanel
@@ -27,19 +32,19 @@ public class PresentationPanel extends javax.swing.JPanel {
 	
 	SelectAllAdapter saa = new SelectAllAdapter();
 	
-	JFormattedTextField[] studentCountFields = new JFormattedTextField[3];
+	final JFormattedTextField[] studentCountFields = new JFormattedTextField[3];
 	studentCountFields[0] = presentation1StudentCountField;
 	studentCountFields[1] = presentation2StudentCountField;
 	studentCountFields[2] = presentation3StudentCountField;
-	JFormattedTextField[] studentFeeFields = new JFormattedTextField[3];
+	final JFormattedTextField[] studentFeeFields = new JFormattedTextField[3];
 	studentFeeFields[0] = presentation1StudentFeeField;
 	studentFeeFields[1] = presentation2StudentFeeField;
 	studentFeeFields[2] = presentation3StudentFeeField;
-	JFormattedTextField[] juniorCostFields = new JFormattedTextField[3];
+	final JFormattedTextField[] juniorCostFields = new JFormattedTextField[3];
 	juniorCostFields[0] = presentation1JuniorField;
 	juniorCostFields[1] = presentation2JuniorField;
 	juniorCostFields[2] = presentation3JuniorField;
-	JFormattedTextField[] seniorCostFields = new JFormattedTextField[3];
+	final JFormattedTextField[] seniorCostFields = new JFormattedTextField[3];
 	seniorCostFields[0] = presentation1SeniorField;
 	seniorCostFields[1] = presentation2SeniorField;
 	seniorCostFields[2] = presentation3SeniorField;
@@ -53,6 +58,7 @@ public class PresentationPanel extends javax.swing.JPanel {
 		public void updateValue(Object value) {
 		    long studentCount = (Long) value;
 		    modulePresentation.setStudentCount((int) studentCount);
+                    makeFieldDirty(textField);
 		}
 	    };
 	    
@@ -63,6 +69,7 @@ public class PresentationPanel extends javax.swing.JPanel {
 		public void updateValue(Object value) {
 		    long fee = (Long) value;
 		    modulePresentation.setFee((int) fee);
+                    makeFieldDirty(textField);
 		}
 	    };
 	    
@@ -73,6 +80,7 @@ public class PresentationPanel extends javax.swing.JPanel {
 		public void updateValue(Object value) {
 		    long cost = (Long) value;
 		    modulePresentation.setJuniorCost((int) cost);
+                    makeFieldDirty(textField);
 		}
 	    };
 	    
@@ -83,11 +91,70 @@ public class PresentationPanel extends javax.swing.JPanel {
 		public void updateValue(Object value) {
 		    long cost = (Long) value;
 		    modulePresentation.setSeniorCost((int) cost);
+                    makeFieldDirty(textField);
 		}
 	    };
 	    
 	    index++;
 	}
+        
+        final ModulePresentation mp1 = module.getModulePresentations().get(0);
+        final ModulePresentation mp2 = module.getModulePresentations().get(1);
+        mp1.addPropertyChangeListener(ModulePresentation.PROP_STUDENT_COUNT, new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                if (!isFieldDirty(studentCountFields[1])) {
+                    long studentCount = mp1.getStudentCount();
+                    if (mp2.getStudentCount() == 0l) {
+                        studentCountFields[1].setValue(studentCount);
+                        studentCountFields[2].setValue(studentCount);
+                    }
+                }
+            }
+        });
+        
+        mp1.addPropertyChangeListener(ModulePresentation.PROP_FEE, new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                if (!isFieldDirty(studentFeeFields[1])) {
+                    long fee = mp1.getFee();
+                    if (mp2.getFee() == 0l) {
+                        studentFeeFields[1].setValue(fee);
+                        studentFeeFields[2].setValue(fee);
+                    }
+                }
+            }
+        });
+        
+        mp1.addPropertyChangeListener(ModulePresentation.PROP_JUNIOR_COST, new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                if (!isFieldDirty(juniorCostFields[1])) {
+                    long juniorCost = mp1.getJuniorCost();
+                    if (mp2.getJuniorCost() == 0l) {
+                        juniorCostFields[1].setValue(juniorCost);
+                        juniorCostFields[2].setValue(juniorCost);
+                    }
+                }
+            }
+        });
+        
+        mp1.addPropertyChangeListener(ModulePresentation.PROP_SENIOR_COST, new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                if (!isFieldDirty(seniorCostFields[1])) {
+                    long seniorCost = mp1.getSeniorCost();
+                    if (mp2.getSeniorCost() == 0l) {
+                        seniorCostFields[1].setValue(seniorCost);
+                        seniorCostFields[2].setValue(seniorCost);
+                    }
+                }
+            }
+        });
+        
     }
 
     /**
@@ -225,4 +292,18 @@ public class PresentationPanel extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXLabel studentCountTitle;
     private org.jdesktop.swingx.JXLabel studentFeeTitle;
     // End of variables declaration//GEN-END:variables
+
+    private void makeFieldDirty(JFormattedTextField jFormattedTextField) {
+	dirtyMap.put(jFormattedTextField, Boolean.TRUE);
+    }
+    
+    private boolean isFieldDirty(JFormattedTextField jFormattedTextField) {
+	Boolean isDirty = dirtyMap.get(jFormattedTextField);
+	if (isDirty == null) {
+	    //LOGGER.warning("no entry in dirtyMap for : " + jFormattedTextField);
+	    isDirty = Boolean.FALSE;
+	}
+	return isDirty;
+    }
+
 }
