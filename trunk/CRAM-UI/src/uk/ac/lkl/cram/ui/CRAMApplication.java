@@ -31,6 +31,7 @@ import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
+ * $Revision$
  * @author bernard
  */
 public class CRAMApplication {
@@ -84,7 +85,7 @@ public class CRAMApplication {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (quitApplication(startupDialog)) {
-                    System.exit(1);
+                    System.exit(0);
                 }
             }
         });
@@ -92,7 +93,7 @@ public class CRAMApplication {
             @Override
             public void windowClosing(WindowEvent e) {
                 if (quitApplication(startupDialog)) {
-                    System.exit(1);
+                    System.exit(0);
                 } 
             }
         });
@@ -114,7 +115,7 @@ public class CRAMApplication {
 		if (windows.size() == 1) {
 		    //This is the last window
 		    if (quitApplication(moduleFrame)) {
-			System.exit(1);
+			System.exit(0);
 		    } 
 		} else {
 		moduleFrame.setVisible(false);
@@ -137,7 +138,21 @@ public class CRAMApplication {
                 openModule();
             }
         });
-        
+        moduleFrame.getQuitMenuItem().addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent ae) {
+		//TODO check if need to save
+		if (windows.size() == 1) {
+		    //This is the last window
+		    if (quitApplication(moduleFrame)) {
+			System.exit(0);
+		    }
+		} else {
+		    moduleFrame.setVisible(false);
+		    windows.remove(moduleFrame);
+		}
+	    }
+	});
     
         moduleFrame.setVisible(true);
         return true;

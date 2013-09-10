@@ -3,23 +3,32 @@ package uk.ac.lkl.cram.ui;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
 import uk.ac.lkl.cram.model.AELMTest;
+import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
-import static uk.ac.lkl.cram.ui.ModuleOkCancelDialog.RET_OK;
+import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
  * $Date$
+ * $Revision$
  * @author bernard
  */
 public class ModuleFrame extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
     private final Module module;
+    private LineItem selectedLineItem;
 
     /**
      * Creates new form ModuleFrame
@@ -32,6 +41,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
         setTitle("Module Name: " + module.getModuleName());
 	leftTaskPaneContainer.add(createCourseDataPane());
@@ -63,13 +73,18 @@ public class ModuleFrame extends javax.swing.JFrame {
         newMI = new javax.swing.JMenuItem();
         openMI = new javax.swing.JMenuItem();
         saveMI = new javax.swing.JMenuItem();
+        saveAsMI = new javax.swing.JMenuItem();
+        quitMI = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
         modifyRunsMI = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        modifyLineItemMI = new javax.swing.JMenuItem();
+        addLineItemMI = new javax.swing.JMenuItem();
+        removeLineItemMI = new javax.swing.JMenuItem();
         windowMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(830, 880));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         leftTaskPaneContainer.setPaintBorderInsets(false);
@@ -114,7 +129,15 @@ public class ModuleFrame extends javax.swing.JFrame {
         fileMenu.add(openMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(saveMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveMI.text")); // NOI18N
+        saveMI.setEnabled(false);
         fileMenu.add(saveMI);
+
+        org.openide.awt.Mnemonics.setLocalizedText(saveAsMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveAsMI.text")); // NOI18N
+        saveAsMI.setEnabled(false);
+        fileMenu.add(saveAsMI);
+
+        org.openide.awt.Mnemonics.setLocalizedText(quitMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.quitMI.text")); // NOI18N
+        fileMenu.add(quitMI);
 
         windowMenuBar.add(fileMenu);
 
@@ -130,6 +153,29 @@ public class ModuleFrame extends javax.swing.JFrame {
             }
         });
         moduleMenu.add(modifyRunsMI);
+        moduleMenu.add(jSeparator1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(modifyLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.modifyLineItemMI.text")); // NOI18N
+        modifyLineItemMI.setEnabled(false);
+        modifyLineItemMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyLineItemMIActionPerformed(evt);
+            }
+        });
+        moduleMenu.add(modifyLineItemMI);
+
+        org.openide.awt.Mnemonics.setLocalizedText(addLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.addLineItemMI.text")); // NOI18N
+        addLineItemMI.setEnabled(false);
+        moduleMenu.add(addLineItemMI);
+
+        org.openide.awt.Mnemonics.setLocalizedText(removeLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.removeLineItemMI.text")); // NOI18N
+        removeLineItemMI.setEnabled(false);
+        removeLineItemMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeLineItemMIActionPerformed(evt);
+            }
+        });
+        moduleMenu.add(removeLineItemMI);
 
         windowMenuBar.add(moduleMenu);
 
@@ -148,6 +194,14 @@ public class ModuleFrame extends javax.swing.JFrame {
 	LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
 	//TODO--undo
     }//GEN-LAST:event_modifyRunsMIActionPerformed
+
+    private void modifyLineItemMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyLineItemMIActionPerformed
+        modifySelectedLineItem();
+    }//GEN-LAST:event_modifyLineItemMIActionPerformed
+
+    private void removeLineItemMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLineItemMIActionPerformed
+	removeSelectedLineItem();
+    }//GEN-LAST:event_removeLineItemMIActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,16 +239,22 @@ public class ModuleFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem addLineItemMI;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
+    private javax.swing.JMenuItem modifyLineItemMI;
     private javax.swing.JMenuItem modifyRunsMI;
     private javax.swing.JMenu moduleMenu;
     private javax.swing.JMenuItem newMI;
     private javax.swing.JMenuItem openMI;
+    private javax.swing.JMenuItem quitMI;
+    private javax.swing.JMenuItem removeLineItemMI;
     private org.jdesktop.swingx.JXTaskPaneContainer rightTaskPaneContainer;
+    private javax.swing.JMenuItem saveAsMI;
     private javax.swing.JMenuItem saveMI;
     private javax.swing.JMenu windowMenu;
     private javax.swing.JMenuBar windowMenuBar;
@@ -211,7 +271,28 @@ public class ModuleFrame extends javax.swing.JFrame {
     private JXTaskPane createLineItemPane() {
 	JXTaskPane lineItemPane = new JXTaskPane();
 	lineItemPane.setTitle("Student Hours");
-	lineItemPane.add(new LineItemPanel(module));
+	final LineItemPanel lineItemPanel = new LineItemPanel(module);
+	lineItemPanel.addPropertyChangeListener(LineItemPanel.PROP_SELECTED_LINEITEM, new PropertyChangeListener() {
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		selectedLineItem = (LineItem) pce.getNewValue();
+		LOGGER.info("selected line item: " + selectedLineItem);
+		modifyLineItemMI.setEnabled(selectedLineItem != null);
+		removeLineItemMI.setEnabled(selectedLineItem != null);
+	    }
+	});
+
+	JTable table = lineItemPanel.getTable();
+	table.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+		    modifySelectedLineItem();
+		}
+	    }
+	});
+
+	lineItemPane.add(lineItemPanel);
 	return lineItemPane;
     }
     
@@ -265,6 +346,31 @@ public class ModuleFrame extends javax.swing.JFrame {
 	costPane.setCollapsed(true);
 	return costPane;
     }
+    
+    private void modifySelectedLineItem() {
+	if (selectedLineItem instanceof TLALineItem) {
+	    TLAOkCancelDialog dialog = new TLAOkCancelDialog(new javax.swing.JFrame(), true, module, (TLALineItem) selectedLineItem);
+	    dialog.setTitle("Modify TLA");
+	    dialog.setVisible(true);
+	    LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
+	    //TODO--undo
+	} else {
+	    LOGGER.warning("Unable to edit this line item");
+	}
+    }
+    
+    private void removeSelectedLineItem() {
+	if (selectedLineItem instanceof TLALineItem) {
+	    int reply = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete \'" + selectedLineItem.getName() + "\'?", "Delete TLA", JOptionPane.YES_NO_OPTION);
+	    if (reply == JOptionPane.YES_OPTION) {
+		module.removeTLALineItem((TLALineItem) selectedLineItem);
+	    } else {
+		LOGGER.info("Delete cancelled");
+	    }
+	} else {
+	    LOGGER.warning("Unable to remove this line item");
+	}
+    }
 
     JMenu getWindowMenu() {
         return windowMenu;
@@ -276,5 +382,9 @@ public class ModuleFrame extends javax.swing.JFrame {
 
     JMenuItem getOpenMenuItem() {
         return openMI;
+    }
+
+    JMenuItem getQuitMenuItem() {
+	return quitMI;
     }
 }

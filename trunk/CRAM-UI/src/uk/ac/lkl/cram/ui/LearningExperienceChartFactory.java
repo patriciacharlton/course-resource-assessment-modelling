@@ -3,8 +3,10 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Color;
 import java.awt.Paint;
+import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
@@ -32,9 +34,12 @@ import uk.ac.lkl.cram.model.TLActivity;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
-public class LearningExperienceChartFactory {
+public class LearningExperienceChartFactory {   
+    private static final Logger LOGGER = Logger.getLogger(LearningExperienceChartFactory.class.getName());
+
     private static final Color ONE_SIZE_FITS_ALL_COLOR = new Color(242,242,242);
     private static final Color PERSONALISED_COLOR = new Color(128,128,128);
     private static final Color SOCIAL_COLOR = new Color(42,42,42);
@@ -57,15 +62,43 @@ public class LearningExperienceChartFactory {
 	return chartPanel;
     }
 
-    private static CategoryDataset createDataSet(final Module m) {
+    private static CategoryDataset createDataSet(final Module module) {
 	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	populateDataset(dataset, m);
-	//TODO this only listens if the # of line items changes, not to the individual activities
-	m.addPropertyChangeListener(new PropertyChangeListener() {
+	populateDataset(dataset, module);
+	final PropertyChangeListener learningExperienceListener = new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
-		populateDataset(dataset, m);
+		LOGGER.info("property change: " + pce);
+		populateDataset(dataset, module);
+	    }
+	};
+	
+	for (TLALineItem lineItem : module.getTLALineItems()) {
+	    LOGGER.info("adding listener to : " + lineItem.getName());
+	    lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_LEARNING_EXPERIENCE, learningExperienceListener);
+	    
+	}
+	module.addPropertyChangeListener(new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		if (pce instanceof IndexedPropertyChangeEvent) {
+		    LOGGER.info("indexed change: " + pce);
+		    if (pce.getOldValue() != null) {
+			//This has been removed
+			TLALineItem lineItem = (TLALineItem) pce.getOldValue();
+			LOGGER.info("removing listener from: " + lineItem.getName());
+			lineItem.getActivity().removePropertyChangeListener(TLActivity.PROP_LEARNING_EXPERIENCE, learningExperienceListener);
+		    }
+		    if (pce.getNewValue() != null) {
+			//This has been added
+			TLALineItem lineItem = (TLALineItem) pce.getNewValue();
+			LOGGER.info("adding listener to: " + lineItem);
+			lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_LEARNING_EXPERIENCE, learningExperienceListener);
+		    }
+		}
+		populateDataset(dataset, module);
 	    }
 	});
 	return dataset;

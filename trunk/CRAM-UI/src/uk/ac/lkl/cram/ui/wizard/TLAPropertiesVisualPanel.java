@@ -13,7 +13,8 @@ import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- * $Date: $
+ * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public final class TLAPropertiesVisualPanel extends JPanel {
@@ -115,7 +116,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
 	    }
 	});
 	timeSpecificCB.setSelected(sti.isTimeSpecific());
-	
+	tlActivityNameChanged();
 	
     }
 
