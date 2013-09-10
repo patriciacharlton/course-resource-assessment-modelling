@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.table.TableModel;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
-import uk.ac.lkl.cram.ui.undo.UndoHandler;
 
 /**
  * $Date$
