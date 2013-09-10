@@ -8,11 +8,17 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * $Date$
+ * $Revision$
+ * @author Bernard Horan
+ */
 @XmlType(propOrder = {"name", "studentTeacherInteraction", "learnerFeedback", "learningType", "learningExperience"})
 public class TLActivity implements Serializable {   
 
     private static final long serialVersionUID = 1L;
-    public static final String PROP_NAME = "name";    
+    public static final String PROP_NAME = "name";
+    public static final String PROP_LEARNING_EXPERIENCE = "learning_experience";
     
     private LearningType learningType; //acquisition, practice, etc.
     
@@ -41,13 +47,15 @@ public class TLActivity implements Serializable {
     }
 
     @XmlElement
-    public void setLearningType(LearningType learningType) {
+    void setLearningType(LearningType learningType) {
 	this.learningType = learningType;
     }
 
     @XmlAttribute
-    public void setLearningExperience(EnumeratedLearningExperience learningExperience) {
-	this.learningExperience = learningExperience;
+    public void setLearningExperience(EnumeratedLearningExperience le) {
+	EnumeratedLearningExperience oldValue = learningExperience;
+	this.learningExperience = le;
+	propertySupport.firePropertyChange(PROP_LEARNING_EXPERIENCE, oldValue, learningExperience);
     }
 
     public String getName() {
@@ -76,6 +84,16 @@ public class TLActivity implements Serializable {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }
+    
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	propertySupport.addPropertyChangeListener(propertyName, listener);
+    }
+    
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	propertySupport.removePropertyChangeListener(propertyName, listener);
+    }
+    
+    
   
     @XmlAttribute
     public void setLearnerFeedback(LearnerFeedback learnerFeedback) {
