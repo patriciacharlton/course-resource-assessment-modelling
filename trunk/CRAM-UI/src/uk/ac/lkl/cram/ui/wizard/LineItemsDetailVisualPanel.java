@@ -220,21 +220,13 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		String property = pce.getPropertyName();
 		if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
 		    if (!isFieldDirty(weeklySupportFields[1])) {
-			float run2Weekly = pt1.getWeekly() / 10;
-			run2Weekly = (float) Math.ceil(run2Weekly);
-			weeklySupportFields[1].setValue(run2Weekly);
-			float run3Weekly = run2Weekly / 10;
-			run3Weekly = (float) Math.ceil(run3Weekly);
-			weeklySupportFields[2].setValue(run3Weekly);
+			weeklySupportFields[1].setValue(st1.getWeekly());
+			weeklySupportFields[2].setValue(st1.getWeekly());
 		    }
 		} else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
 		    if (!isFieldDirty(nonWeeklySupportFields[1])) {
-			float run2NonWeekly = pt1.getNonWeekly() / 10;
-			run2NonWeekly = (float) Math.ceil(run2NonWeekly);
-			nonWeeklySupportFields[1].setValue(run2NonWeekly);
-			float run3NonWeekly = run2NonWeekly / 10;
-			run3NonWeekly = (float) Math.ceil(run3NonWeekly);
-			nonWeeklySupportFields[2].setValue(run3NonWeekly);
+			nonWeeklySupportFields[1].setValue(st1.getNonWeekly());
+			nonWeeklySupportFields[2].setValue(st1.getNonWeekly());
 		    }
 		}
 	    }
@@ -489,7 +481,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
             .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -503,8 +495,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 .add(0, 0, 0)
                 .add(preparationPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0)
-                .add(supportPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 0, 0))
+                .add(supportPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
