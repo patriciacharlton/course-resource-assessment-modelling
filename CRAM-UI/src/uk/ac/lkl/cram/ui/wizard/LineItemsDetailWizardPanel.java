@@ -15,6 +15,11 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLActivity;
 
+/**
+ * $Date$
+ * $Revision$
+ * @author Bernard Horan
+ */
 public class LineItemsDetailWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(LineItemsDetailWizardPanel.class.getName());
 
@@ -133,7 +138,7 @@ public class LineItemsDetailWizardPanel implements WizardDescriptor.Panel<Wizard
         }
         if (sti.isTutorSupported()) {
             builder.append(", ");
-            builder.append("tutor-supported");
+            builder.append("tutor-present");
         }
         //Student Feedback      
         switch (tla.getLearnerFeedback()) {
