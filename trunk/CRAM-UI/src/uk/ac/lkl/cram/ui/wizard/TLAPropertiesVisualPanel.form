@@ -102,7 +102,7 @@
                       <Component id="telFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="noFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="133" max="32767" attributes="0"/>
+                  <EmptySpace pref="158" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -181,7 +181,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="independentLearningCB" min="-2" max="-2" attributes="0"/>
+                      <Component id="tutorPresentCB" min="-2" max="-2" attributes="0"/>
                       <Component id="locationSpecificCB" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="onlineCB" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="timeSpecificCB" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -194,7 +194,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="independentLearningCB" min="-2" max="-2" attributes="0"/>
+                  <Component id="tutorPresentCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="onlineCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -206,10 +206,10 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JCheckBox" name="independentLearningCB">
+        <Component class="javax.swing.JCheckBox" name="tutorPresentCB">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="TLAPropertiesVisualPanel.independentLearningCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="TLAPropertiesVisualPanel.tutorPresentCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>

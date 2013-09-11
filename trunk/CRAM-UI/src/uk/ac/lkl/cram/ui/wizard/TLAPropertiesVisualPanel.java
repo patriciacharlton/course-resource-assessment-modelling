@@ -80,15 +80,15 @@ public final class TLAPropertiesVisualPanel extends JPanel {
 	
 	//CheckBoxes	
 	final StudentTeacherInteraction sti = tlActivity.getStudentTeacherInteraction();
-	independentLearningCB.addItemListener(new ItemListener() {
+	tutorPresentCB.addItemListener(new ItemListener() {
 
 	    @Override
 	    public void itemStateChanged(ItemEvent ie) {
 		boolean selected = ie.getStateChange() == ItemEvent.SELECTED;
-		sti.setTutorSupported(!selected);
+		sti.setTutorSupported(selected);
 	    }
 	});
-	independentLearningCB.setSelected(!sti.isTutorSupported());
+	tutorPresentCB.setSelected(sti.isTutorSupported());
 	onlineCB.addItemListener(new ItemListener() {
 
 	    @Override
@@ -146,7 +146,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
         telFeedbackRB = new javax.swing.JRadioButton();
         noFeedbackRB = new javax.swing.JRadioButton();
         studentInteractionPanel = new javax.swing.JPanel();
-        independentLearningCB = new javax.swing.JCheckBox();
+        tutorPresentCB = new javax.swing.JCheckBox();
         locationSpecificCB = new javax.swing.JCheckBox();
         onlineCB = new javax.swing.JCheckBox();
         timeSpecificCB = new javax.swing.JCheckBox();
@@ -191,7 +191,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
                     .addComponent(peerFeedbackRB)
                     .addComponent(telFeedbackRB)
                     .addComponent(noFeedbackRB))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
         feedbackPanelLayout.setVerticalGroup(
             feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +208,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
 
         studentInteractionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.studentInteractionPanel.border.title"))); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(independentLearningCB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.independentLearningCB.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(tutorPresentCB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.tutorPresentCB.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(locationSpecificCB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.locationSpecificCB.text")); // NOI18N
 
@@ -223,7 +223,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
             .addGroup(studentInteractionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(studentInteractionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(independentLearningCB)
+                    .addComponent(tutorPresentCB)
                     .addComponent(locationSpecificCB)
                     .addComponent(onlineCB)
                     .addComponent(timeSpecificCB))
@@ -233,7 +233,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
             studentInteractionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(studentInteractionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(independentLearningCB)
+                .addComponent(tutorPresentCB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(onlineCB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -271,7 +271,6 @@ public final class TLAPropertiesVisualPanel extends JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup feedbackBG;
     private javax.swing.JPanel feedbackPanel;
-    private javax.swing.JCheckBox independentLearningCB;
     private javax.swing.JCheckBox locationSpecificCB;
     private javax.swing.JRadioButton noFeedbackRB;
     private javax.swing.JCheckBox onlineCB;
@@ -282,5 +281,6 @@ public final class TLAPropertiesVisualPanel extends JPanel {
     private javax.swing.JCheckBox timeSpecificCB;
     private javax.swing.JTextField tlaNameField;
     private javax.swing.JPanel tlaNamePanel;
+    private javax.swing.JCheckBox tutorPresentCB;
     // End of variables declaration//GEN-END:variables
     }
