@@ -1,11 +1,16 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
 
@@ -15,6 +20,8 @@ import uk.ac.lkl.cram.model.Module;
  * @author Bernard Horan
  */
 public class LineItemPanel extends javax.swing.JPanel {
+    private static final Logger LOGGER = Logger.getLogger(LineItemPanel.class.getName());
+
     public static final String PROP_SELECTED_LINEITEM = " selected_line_item";
     private LineItem selectedLineItem = null;
     private final Module module;
@@ -40,6 +47,8 @@ public class LineItemPanel extends javax.swing.JPanel {
 		}
 	    }
 	});
+	TableCellRenderer renderer = new LineItemRenderer();
+	activitiesTable.setDefaultRenderer(String.class, renderer);
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	activitiesTable.getTableHeader().setPreferredSize(new Dimension(activitiesTable.getColumnModel().getTotalColumnWidth(),36));
 	setSize(activitiesTable.getSize());
@@ -104,13 +113,15 @@ public class LineItemPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     
     private void setSelectionIndex(int index) {
-	//TODO -- this should only be TLALineItems
 	LineItem oldValue = selectedLineItem;
+	selectedLineItem = null;
 	if (index != -1) {
-	    selectedLineItem = module.getLineItems().get(index);
-	} else {
-	    selectedLineItem = null;
-	}
+	    int tlaCount = module.getTLALineItems().size();
+	    //Last row isn't really a TLA, it's the self-regulated learning
+	    if (index < tlaCount) {
+		selectedLineItem = module.getTLALineItems().get(index);
+	    }
+	} 
 	firePropertyChange(PROP_SELECTED_LINEITEM, oldValue, selectedLineItem);
     }
 
@@ -120,6 +131,24 @@ public class LineItemPanel extends javax.swing.JPanel {
 
     LineItem getSelectedLineItem() {
 	return selectedLineItem;
+    }
+    
+    class LineItemRenderer extends DefaultTableCellRenderer {
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value,
+		boolean isSelected, boolean hasFocus, int row, int column) {
+
+	    super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+		    row, column);
+	    //Italicise the last row
+	    if (row == table.getModel().getRowCount() - 1) {
+		setFont(this.getFont().deriveFont(Font.ITALIC));
+	    }
+	    setToolTipText((String) value);
+
+	    return this;
+	}
     }
 
 }
