@@ -1,6 +1,10 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Component;
+import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import uk.ac.lkl.cram.ui.table.ColumnGroup;
 import uk.ac.lkl.cram.ui.table.GroupableTableHeader;
 import javax.swing.table.TableColumnModel;
@@ -8,6 +12,7 @@ import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class TutorHoursPanel extends javax.swing.JPanel {
@@ -19,6 +24,8 @@ public class TutorHoursPanel extends javax.swing.JPanel {
     public TutorHoursPanel(Module module) {
 	initComponents();
 	tutorHoursTable.setModel(new TutorHoursTableModel(module));
+	tutorHoursTable.setDefaultRenderer(String.class, new LineItemRenderer());
+
 	tutorHoursTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	TableColumnModel tableColumnModel = tutorHoursTable.getColumnModel();
 	ColumnGroup g_2nd = new ColumnGroup("Preparation");
@@ -94,4 +101,21 @@ public class TutorHoursPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tutorHoursTable;
     // End of variables declaration//GEN-END:variables
+
+    class LineItemRenderer extends DefaultTableCellRenderer {
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value,
+		boolean isSelected, boolean hasFocus, int row, int column) {
+
+	    super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+		    row, column);
+	    //Bold the last row
+	    if (row == table.getModel().getRowCount() - 1) {
+		setFont(this.getFont().deriveFont(Font.ITALIC));
+	    }
+
+	    return this;
+	}
+    }
 }

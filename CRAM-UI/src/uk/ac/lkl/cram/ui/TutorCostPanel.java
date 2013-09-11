@@ -1,8 +1,11 @@
 
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Component;
+import java.awt.Font;
 import java.text.NumberFormat;
 import java.util.Enumeration;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -13,6 +16,7 @@ import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class TutorCostPanel extends javax.swing.JPanel {
@@ -43,7 +47,7 @@ public class TutorCostPanel extends javax.swing.JPanel {
 	    }
 	};
 	tcRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
-	columnEnum.nextElement(); //Skip first column
+	columnEnum.nextElement().setCellRenderer(new LineItemRenderer());
 	while (columnEnum.hasMoreElements()) {
 	    columnEnum.nextElement().setCellRenderer(tcRenderer);
 	}
@@ -122,4 +126,22 @@ public class TutorCostPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tutorCostTable;
     // End of variables declaration//GEN-END:variables
+
+    class LineItemRenderer extends DefaultTableCellRenderer {
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value,
+		boolean isSelected, boolean hasFocus, int row, int column) {
+
+	    super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+		    row, column);
+	    //Bold the last row
+	    if (row == table.getModel().getRowCount() - 1) {
+		setFont(this.getFont().deriveFont(Font.ITALIC));
+	    }
+
+	    return this;
+	}
+    }
+
 }
