@@ -250,6 +250,17 @@ made subject to such option by the copyright holder.
 
     <target name="jnlp" depends="-init-filename,-test-jnlp-enabled,-do-jar-jnlp" if="is.jnlp.enabled">
         <makeurl property="jnlp.local.codebase.url" file="${basedir}/dist" validate="false"/>
+        <exec outputproperty="svna.version" executable="svnversion">
+        <arg value="-c" />
+        <redirector>
+            <outputfilterchain>
+                <tokenfilter>
+                    <replaceregex pattern="^[0-9]*:?" replace="" flags="g"/>
+                    <replaceregex pattern="M" replace="" flags="g"/>
+                </tokenfilter>
+            </outputfilterchain>
+        </redirector>
+        </exec>
         <antcall target="generate-jnlp"/>
         <antcall target="generate-html-preview"/>
     </target>
@@ -389,6 +400,8 @@ made subject to such option by the copyright holder.
             classpath="${libs.JWSAntTasks.classpath}"/>
         <property name="jnlp.lazy.jars" value=""/>
         <generate-jnlp destfile="${jnlp.dest.dir}/${jnlp.file}_" template="master-${jnlp.descriptor}.jnlp" destdir="dist" lazyJars="${jnlp.lazy.jars}"/>
+        <replace file="${jnlp.dest.dir}/${jnlp.file}_" token="@revision@" value="${svna.version}" />
+
         <antcall target="-strip-empty-lines"/>
     </target>
     
@@ -604,6 +617,9 @@ made subject to such option by the copyright holder.
         <taskdef name="copy-template-page" classname="org.netbeans.modules.javawebstart.anttasks.CopyTemplatePageTask"
             classpath="${libs.JWSAntTasks.classpath}"/>
         <copy-template-page destfile="${jnlp.dest.dir}/launch.html" template="preview-${jnlp.descriptor}.html" destdir="${jnlp.dest.dir}"/>
+        
+        <replace file="${jnlp.dest.dir}/launch.html" token="@revision@" value="${svna.version}" />
+
     </target>
     
 </project>
