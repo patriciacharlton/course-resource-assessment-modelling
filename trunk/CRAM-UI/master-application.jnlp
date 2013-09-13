@@ -1,4 +1,7 @@
-<jnlp spec="1.0+" codebase="${jnlp.codebase}" href="launch.jnlp">
+<jnlp spec="1.0+" 
+      codebase="${jnlp.codebase}" 
+      href="launch.jnlp" 
+      version="@revision@">
     <information>
         <title>${APPLICATION.TITLE}</title>
         <vendor>${APPLICATION.VENDOR}</vendor>
