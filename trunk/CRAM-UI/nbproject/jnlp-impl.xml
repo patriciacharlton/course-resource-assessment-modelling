@@ -619,7 +619,8 @@ made subject to such option by the copyright holder.
         <copy-template-page destfile="${jnlp.dest.dir}/launch.html" template="preview-${jnlp.descriptor}.html" destdir="${jnlp.dest.dir}"/>
         
         <replace file="${jnlp.dest.dir}/launch.html" token="@revision@" value="${svna.version}" />
-
+        <tstamp/>
+        <replace file="${jnlp.dest.dir}/launch.html" token="@date@" value="${TODAY}" />
     </target>
     
 </project>
