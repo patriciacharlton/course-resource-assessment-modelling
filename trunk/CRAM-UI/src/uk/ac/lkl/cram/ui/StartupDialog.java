@@ -1,6 +1,7 @@
 package uk.ac.lkl.cram.ui;
 
 
+import java.util.ResourceBundle;
 import javax.swing.JButton;
 
 /**
@@ -8,6 +9,8 @@ import javax.swing.JButton;
  * @author bernard
  */
 public class StartupDialog extends javax.swing.JDialog {
+        private static final ResourceBundle bundle = ResourceBundle.getBundle("uk/ac/lkl/cram/ui/Bundle");
+
 
     /**
      * Creates new form StartupDialog
@@ -17,6 +20,12 @@ public class StartupDialog extends javax.swing.JDialog {
     public StartupDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        StringBuilder builder = new StringBuilder();
+        builder.append("Build: ");
+        builder.append(bundle.getString("build.version"));
+        builder.append(" Date: ");
+        builder.append(bundle.getString("build.date"));
+        buildLabel.setText(builder.toString());
     }
 
     /**
@@ -28,17 +37,18 @@ public class StartupDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        iconLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         newModuleButton = new javax.swing.JButton();
         openModuleButton = new javax.swing.JButton();
         quitButton = new javax.swing.JButton();
+        buildLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/CRAM.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, java.awt.BorderLayout.CENTER);
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/CRAM.jpg"))); // NOI18N
+        getContentPane().add(iconLabel, java.awt.BorderLayout.CENTER);
 
         newModuleButton.setText("New Module...");
         jPanel1.add(newModuleButton);
@@ -50,6 +60,10 @@ public class StartupDialog extends javax.swing.JDialog {
         jPanel1.add(quitButton);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+
+        buildLabel.setFont(new java.awt.Font("Lucida Grande", 0, 8)); // NOI18N
+        buildLabel.setText("Build details");
+        getContentPane().add(buildLabel, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -97,7 +111,8 @@ public class StartupDialog extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel buildLabel;
+    private javax.swing.JLabel iconLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton newModuleButton;
     private javax.swing.JButton openModuleButton;

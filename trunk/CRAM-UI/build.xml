@@ -71,4 +71,22 @@
     nbproject/build-impl.xml file. 
 
     -->
+    <target name="-post-init" description="Sets the buildversion for the current build">
+    <exec outputproperty="svna.version" executable="svnversion">
+        <arg value="-c" />
+        <redirector>
+            <outputfilterchain>
+                <tokenfilter>
+                    <replaceregex pattern="^[0-9]*:?" replace="" flags="g"/>
+                    <replaceregex pattern="M" replace="" flags="g"/>
+                </tokenfilter>
+            </outputfilterchain>
+        </redirector>
+    </exec>
+    <propertyfile file="${src.dir}/uk/ac/lkl/cram/ui/Bundle.properties">
+        <entry key="build.version" value="${svna.version}" type="int" operation="="/>
+        <entry key="build.date" type="date" value="now"/>
+    </propertyfile>
+    <echo>Version found from SVN: ${svna.version}</echo>
+    </target>
 </project>
