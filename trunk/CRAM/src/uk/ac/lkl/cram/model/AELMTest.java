@@ -388,7 +388,7 @@ public class AELMTest {
     }
 
     protected static void encode(Module m) {
-        ModuleMarshaller encoder = new ModuleMarshaller("AELM.xml");
+        ModuleMarshaller encoder = new ModuleMarshaller("AELM.mamx");
             try {
                 encoder.marshallModule(m);
             } catch (JAXBException ex) {
