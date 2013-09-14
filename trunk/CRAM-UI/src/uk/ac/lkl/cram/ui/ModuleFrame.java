@@ -41,9 +41,8 @@ public class ModuleFrame extends javax.swing.JFrame {
 	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
-        setTitle("Module Name: " + module.getModuleName());
 	leftTaskPaneContainer.add(createCourseDataPane());
 	leftTaskPaneContainer.add(createLineItemPane());
 	leftTaskPaneContainer.add(createTutorHoursPane());
@@ -133,7 +132,6 @@ public class ModuleFrame extends javax.swing.JFrame {
         fileMenu.add(saveMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(saveAsMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveAsMI.text")); // NOI18N
-        saveAsMI.setEnabled(false);
         fileMenu.add(saveAsMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(quitMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.quitMI.text")); // NOI18N
@@ -386,5 +384,13 @@ public class ModuleFrame extends javax.swing.JFrame {
 
     JMenuItem getQuitMenuItem() {
 	return quitMI;
+    }
+    
+    JMenuItem getSaveAsMenuItem() {
+        return saveAsMI;
+    }
+    
+    Module getModule() {
+        return module;
     }
 }

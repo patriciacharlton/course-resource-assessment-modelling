@@ -2,6 +2,7 @@ package uk.ac.lkl.cram.ui;
 
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -9,9 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -26,7 +28,10 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.bind.JAXBException;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.io.ModuleMarshaller;
+import uk.ac.lkl.cram.model.io.ModuleUnmarshaller;
 
 
 /**
@@ -37,6 +42,8 @@ import uk.ac.lkl.cram.model.Module;
 public class CRAMApplication {
 
     private static final Logger LOGGER = Logger.getLogger(CRAMApplication.class.getName());
+    private static int MODULE_COUNT = 1;
+    private Point frameOffset = new Point();
     private StartupDialog startupDialog;
     private Set<JFrame> windows;
     int frameCount = 0;
@@ -48,6 +55,22 @@ public class CRAMApplication {
         for (int i = 0; i < args.length; i++) {
             LOGGER.log(Level.INFO, "arg[{0}]: {1}", new Object[]{i, args[i]});
         }
+        if (System.getProperty("os.name").contains("Mac")) {
+            LOGGER.info("mac");
+            try {
+                Object app = Class.forName("com.apple.eawt.Application").getMethod("getApplication",
+                        (Class[]) null).invoke(null, (Object[]) null);
+
+                Object ql = Proxy.newProxyInstance(Class.forName("com.apple.eawt.QuitHandler")
+                        .getClassLoader(), new Class[]{Class.forName("com.apple.eawt.QuitHandler")},
+                        new QuitListener());
+                app.getClass().getMethod("setQuitHandler", new Class[]{
+                    Class.forName("com.apple.eawt.QuitHandler")}).invoke(app, new Object[]{ql});
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, null, e);
+            }
+        }
+
         CRAMApplication application = new CRAMApplication();
         application.startUp();
     }
@@ -100,9 +123,11 @@ public class CRAMApplication {
 
     }
 
-    private boolean addModule(Module m) {
+    private boolean addModule(Module m, String title) {
         final ModuleFrame moduleFrame = new ModuleFrame(m);
+        moduleFrame.setTitle(title);
         if (windows.contains(moduleFrame)) {
+            moduleFrame.toFront();
             return false;
         }
         windows.add(moduleFrame);
@@ -153,7 +178,25 @@ public class CRAMApplication {
 		}
 	    }
 	});
+        moduleFrame.getSaveAsMenuItem().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                saveModule(moduleFrame);
+            }
+        });
     
+        moduleFrame.setLocation(frameOffset);
+        int offset = moduleFrame.getInsets().top;
+        frameOffset.x = frameOffset.x + offset;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        if (frameOffset.x >= screenSize.width) {
+            frameOffset.x = 0;
+        }
+        if (frameOffset.y >= screenSize.height) {
+            frameOffset.y = 0;
+        }
+        frameOffset.y = frameOffset.y + offset;
         moduleFrame.setVisible(true);
         return true;
     }
@@ -161,28 +204,50 @@ public class CRAMApplication {
     private boolean openModule() {
         JFileChooser jfc = new JFileChooser();
 	jfc.setDialogTitle("Open CRAM Module");
-	FileFilter filter = new FileNameExtensionFilter("CRAM Module File", "mam", "MAM");
+	FileFilter filter = new FileNameExtensionFilter("CRAM Module File", "mamx");
 	jfc.addChoosableFileFilter(filter);
 	int returnVal = jfc.showOpenDialog(new JFrame());
 	if (returnVal == JFileChooser.APPROVE_OPTION) {
 	    File file = jfc.getSelectedFile();
-	    Module importedModule = null;
 	    try {
-		FileInputStream inStream = new FileInputStream(file);
-		ObjectInputStream inObject = new ObjectInputStream(inStream);
-		importedModule = (Module) inObject.readObject();
-		inObject.close();
-		inStream.close();
+                ModuleUnmarshaller unmarshaller = new ModuleUnmarshaller(file);
+		Module  importedModule = unmarshaller.unmarshallModule();
+                return addModule(importedModule, file.getName());
 	    } catch (IOException i) {
-                LOGGER.log(Level.SEVERE, "Failed to open File", i);
+                LOGGER.log(Level.SEVERE, "Failed to open file", i);
                 return false;
-	    } catch (ClassNotFoundException c) {
-		LOGGER.log(Level.SEVERE, "Class not found", c);
+	    } catch (JAXBException c) {
+		LOGGER.log(Level.SEVERE, "Failed to open file", c);
 		return false;
 	    }
-	    return addModule(importedModule);
+	    
 	} else {
             return false;
+        }
+    }
+    
+    private void saveModule(ModuleFrame moduleFrame) {
+        Module module = moduleFrame.getModule();
+        JFileChooser jfc = new JFileChooser();
+	jfc.setDialogTitle("Save CRAM Module");
+        FileFilter filter = new FileNameExtensionFilter("CRAM Module File", "mamx");
+        jfc.setFileFilter(filter);
+        jfc.setSelectedFile(new File(module.getModuleName() + ".mamx"));
+        int returnVal = jfc.showSaveDialog(moduleFrame);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = jfc.getSelectedFile();
+            if (!jfc.getSelectedFile().getAbsolutePath().endsWith(".mamx")) {
+                file = new File(jfc.getSelectedFile() + ".mamx");
+            }
+            try {
+                ModuleMarshaller marshaller = new ModuleMarshaller(file);
+                marshaller.marshallModule(module);
+                windows.remove(moduleFrame);
+                moduleFrame.setTitle(file.getName());
+                windows.add(moduleFrame);
+            } catch (JAXBException ioe) {
+                LOGGER.log(Level.SEVERE, "Failed to save file", ioe);
+            }
         }
     }
     
@@ -190,9 +255,8 @@ public class CRAMApplication {
 	Module module = new Module();
         ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
 	dialog.setVisible(true);
-	LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
 	if (dialog.getReturnStatus() == ModuleOkCancelDialog.RET_OK) {
-	    return addModule(module);
+	    return addModule(module, "Untitled " + MODULE_COUNT++);
 	} else {
             return false;
         }
@@ -244,5 +308,15 @@ public class CRAMApplication {
             JMenu menu = (JMenu) e.getSource();
             populateWindowMenu(menu);
         }
+    }
+    
+    static class QuitListener implements InvocationHandler {
+
+        @Override
+        public Object invoke(Object o, Method method, Object[] os) throws Throwable {
+            LOGGER.info("Quit listener");
+            return null;
+        }
+    
     }
 }
