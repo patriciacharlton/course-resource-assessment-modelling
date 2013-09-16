@@ -20,7 +20,6 @@ public class TLALineItem implements LineItem {
 
     private static final long serialVersionUID = 1L;
     public static final String PROP_ACTIVITY = "activity";
-    public static final String PROP_NAME = "name";
     public static final String PROP_MAX_GROUP_SIZE = "maxGroupSize";
     public static final String PROP_NON_WEEKLY = "nonWeekly";
     public static final String PROP_WEEKLY = "weekly";
@@ -153,9 +152,19 @@ public class TLALineItem implements LineItem {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(listener);
     }
+    
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertySupport.addPropertyChangeListener(propertyName, listener);
+    }
+
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertySupport.removePropertyChangeListener(propertyName, listener);
+    }
 
     public void setActivity(TLActivity selectedTLA) {
+        TLActivity oldValue = activity;
         this.activity = selectedTLA;
+        propertySupport.firePropertyChange(PROP_ACTIVITY, oldValue, activity);
     }
 
     @Override
