@@ -1,6 +1,5 @@
 package uk.ac.lkl.cram.model;
 
-import java.beans.PropertyChangeEvent;
 import uk.ac.lkl.cram.model.calculations.Calculable;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -18,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 @XmlRootElement(name = "module")
@@ -141,7 +141,7 @@ public class Module implements Serializable, Calculable {
 	return presentations[2];
     }
 
-    public void addModuleItem(ModuleLineItem mi) {
+    void addModuleItem(ModuleLineItem mi) {
 	moduleLineItems.add(mi);
     }
 

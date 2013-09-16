@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAttribute;
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 
@@ -150,58 +151,54 @@ public class LearningType implements Serializable {
 	propertySupport.removePropertyChangeListener(listener);
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + acquisition;
-		result = prime * result + discussion;
-		result = prime * result + inquiry;
-		result = prime * result + practice;
-		result = prime * result + production;
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + this.acquisition;
+        hash = 67 * hash + this.inquiry;
+        hash = 67 * hash + this.discussion;
+        hash = 67 * hash + this.practice;
+        hash = 67 * hash + this.production;
+        hash = 67 * hash + this.collaboration;
+        return hash;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		LearningType other = (LearningType) obj;
-		if (acquisition != other.acquisition) {
-			return false;
-		}
-		if (discussion != other.discussion) {
-			return false;
-		}
-		if (inquiry != other.inquiry) {
-			return false;
-		}
-		if (practice != other.practice) {
-			return false;
-		}
-		if (production != other.production) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final LearningType other = (LearningType) obj;
+        if (this.acquisition != other.acquisition) {
+            return false;
+        }
+        if (this.inquiry != other.inquiry) {
+            return false;
+        }
+        if (this.discussion != other.discussion) {
+            return false;
+        }
+        if (this.practice != other.practice) {
+            return false;
+        }
+        if (this.production != other.production) {
+            return false;
+        }
+        if (this.collaboration != other.collaboration) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString() {
-	return "LearningType{" + "acquisition=" + acquisition + ", inquiry=" + inquiry + ", discussion=" + discussion + ", practice=" + practice + ", production=" + production + '}';
+        return "LearningType{" + "acquisition=" + acquisition + ", inquiry=" + inquiry + ", discussion=" + discussion + ", practice=" + practice + ", production=" + production + ", collaboration=" + collaboration + '}';
     }
+
+	
 
     
 }

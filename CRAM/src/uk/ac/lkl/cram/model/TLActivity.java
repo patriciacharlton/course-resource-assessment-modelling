@@ -109,7 +109,8 @@ public class TLActivity implements Serializable {
 	return studentTeacherInteraction;
     }
 
-    public void setStudentTeacherInteraction(StudentTeacherInteraction studentTeacherInteraction) {
+    @XmlElement
+    void setStudentTeacherInteraction(StudentTeacherInteraction studentTeacherInteraction) {
 	this.studentTeacherInteraction = studentTeacherInteraction;
     }
 
