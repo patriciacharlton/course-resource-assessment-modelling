@@ -17,7 +17,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="activityPanel" max="32767" attributes="0"/>
-          <Component id="preparationPanel" pref="494" max="32767" attributes="0"/>
+          <Component id="preparationPanel" max="32767" attributes="0"/>
           <Component id="supportPanel" max="32767" attributes="0"/>
           <Component id="tlaNamePanel" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -55,7 +55,7 @@
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="weeklyHoursField" linkSize="1" min="-2" pref="51" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="53" max="32767" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="nonWeeklyHoursField" linkSize="1" min="-2" pref="55" max="-2" attributes="0"/>

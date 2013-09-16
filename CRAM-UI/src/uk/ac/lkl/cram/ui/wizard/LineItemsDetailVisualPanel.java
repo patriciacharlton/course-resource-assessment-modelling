@@ -1,5 +1,6 @@
 package uk.ac.lkl.cram.ui.wizard;
 
+import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
@@ -37,16 +38,15 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     public LineItemsDetailVisualPanel(Module module, TLALineItem li) {
         this.lineItem = li;
         initComponents();
-	li.getActivity().addPropertyChangeListener(new PropertyChangeListener() {
+        PropertyChangeListener activityListener = new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
-		String property = pce.getPropertyName();
-		if (property.equals(TLActivity.PROP_NAME)) {
-		    tlActivityNameChanged();
-		}
+		tlActivityNameChanged();
 	    }
-	});
+	};
+	li.getActivity().addPropertyChangeListener(TLActivity.PROP_NAME, activityListener);
+        li.addPropertyChangeListener(TLALineItem.PROP_ACTIVITY, activityListener);
         weeklyHoursField.setValue(lineItem.getWeeklyLearnerHourCount());
         weeklyHoursField.addFocusListener(new SelectAllAdapter());
 	new FormattedTextFieldAdapter(weeklyHoursField) {
@@ -233,6 +233,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    }
 	});
 	tlActivityNameChanged();
+        //Preferred size seems to be wrong so override
+        setPreferredSize(new Dimension(444,424));
     }
     
     @Override
@@ -327,7 +329,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(weeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 53, Short.MAX_VALUE)
                 .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(nonWeeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -482,7 +484,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
+            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
