@@ -122,7 +122,7 @@ public final class TLAPropertiesVisualPanel extends JPanel {
 
     @Override
     public String getName() {
-	return "Enter TLA Properties";
+	return "Interaction Details";
     }
     
     private void tlActivityNameChanged() {

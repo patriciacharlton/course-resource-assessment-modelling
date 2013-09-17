@@ -137,12 +137,12 @@
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="practiceSlider" alignment="0" pref="150" max="32767" attributes="0"/>
+                          <Component id="inquirySlider" alignment="0" pref="150" max="32767" attributes="0"/>
                           <Component id="discussionSlider" alignment="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="inquirySlider" alignment="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="collaborationSlider" alignment="0" pref="0" max="32767" attributes="0"/>
                           <Component id="acquisitionSlider" alignment="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="practiceSlider" pref="0" max="32767" attributes="0"/>
                           <Component id="productionSlider" pref="0" max="32767" attributes="0"/>
-                          <Component id="collaborationSlider" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
@@ -164,7 +164,7 @@
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jLabel2" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="inquirySlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="collaborationSlider" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
@@ -173,16 +173,16 @@
                   </Group>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jLabel4" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="practiceSlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="inquirySlider" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="productionSlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="practiceSlider" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="collaborationSlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="productionSlider" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel6" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -206,10 +206,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Inquiry:"/>
+            <Property name="text" type="java.lang.String" value="Collaboration:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSlider" name="inquirySlider">
+        <Component class="javax.swing.JSlider" name="collaborationSlider">
           <Properties>
             <Property name="majorTickSpacing" type="int" value="10"/>
             <Property name="paintTicks" type="boolean" value="true"/>
@@ -228,10 +228,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Practice:"/>
+            <Property name="text" type="java.lang.String" value="Inquiry:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSlider" name="practiceSlider">
+        <Component class="javax.swing.JSlider" name="inquirySlider">
           <Properties>
             <Property name="majorTickSpacing" type="int" value="10"/>
             <Property name="paintTicks" type="boolean" value="true"/>
@@ -239,10 +239,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Production:"/>
+            <Property name="text" type="java.lang.String" value="Practice:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSlider" name="productionSlider">
+        <Component class="javax.swing.JSlider" name="practiceSlider">
           <Properties>
             <Property name="majorTickSpacing" type="int" value="10"/>
             <Property name="paintTicks" type="boolean" value="true"/>
@@ -256,10 +256,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Collaboration:"/>
+            <Property name="text" type="java.lang.String" value="Production:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSlider" name="collaborationSlider">
+        <Component class="javax.swing.JSlider" name="productionSlider">
           <Properties>
             <Property name="majorTickSpacing" type="int" value="10"/>
             <Property name="paintTicks" type="boolean" value="true"/>

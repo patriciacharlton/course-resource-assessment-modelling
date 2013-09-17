@@ -38,15 +38,25 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     public LineItemsDetailVisualPanel(Module module, TLALineItem li) {
         this.lineItem = li;
         initComponents();
-        PropertyChangeListener activityListener = new PropertyChangeListener() {
+        final PropertyChangeListener nameListener = new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		tlActivityNameChanged();
 	    }
 	};
-	li.getActivity().addPropertyChangeListener(TLActivity.PROP_NAME, activityListener);
-        li.addPropertyChangeListener(TLALineItem.PROP_ACTIVITY, activityListener);
+	lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_NAME, nameListener);
+        lineItem.addPropertyChangeListener(TLALineItem.PROP_ACTIVITY, new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                TLActivity oldActivity = (TLActivity) pce.getOldValue();
+                oldActivity.removePropertyChangeListener(TLActivity.PROP_NAME, nameListener);
+                TLActivity newActivity = (TLActivity) pce.getNewValue();
+                newActivity.addPropertyChangeListener(TLActivity.PROP_NAME, nameListener);
+                tlActivityNameChanged();
+            }
+        });
         weeklyHoursField.setValue(lineItem.getWeeklyLearnerHourCount());
         weeklyHoursField.addFocusListener(new SelectAllAdapter());
 	new FormattedTextFieldAdapter(weeklyHoursField) {
@@ -349,7 +359,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         );
 
         preparationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Preparation Hours"));
-        preparationPanel.setToolTipText(bundle.getString("ESTIMATE THE TEACHER HOURS IT TAKES TO PREPARE THE WEEKLY MATERIAL FOR THIS TLA, AND/OR FOR THE MODULE AS A WHOLE, FOR EACH PRESENTATION OF THE MODULE.")); // NOI18N
+        preparationPanel.setToolTipText(bundle.getString("PREPARATION_HOURS_PANEL")); // NOI18N
         preparationPanel.setLayout(new java.awt.GridLayout(4, 4));
         preparationPanel.add(jLabel3);
 
@@ -407,7 +417,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         preparationPanel.add(presentation3SeniorPreparation);
 
         supportPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Support Hours"));
-        supportPanel.setToolTipText(bundle.getString("ESTIMATE THE TEACHER HOURS IT TAKES TO SUPPORT THE WEEKLY MATERIAL FOR THIS TLA, AND/OR FOR THE MODULE AS A WHOLE, FOR EACH PRESENTATION OF THE MODULE.")); // NOI18N
+        supportPanel.setToolTipText(bundle.getString("SUPPORT_HOURS_PANEL")); // NOI18N
         supportPanel.setLayout(new java.awt.GridLayout(4, 4));
         supportPanel.add(jLabel4);
 
@@ -484,7 +494,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
             .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );

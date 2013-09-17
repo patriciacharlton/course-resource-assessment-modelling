@@ -2,6 +2,11 @@ package uk.ac.lkl.cram.ui.wizard;
 
 import javax.swing.JPanel;
 
+/**
+ * $Date$
+ * $Revision$
+ * @author bernard
+ */
 public final class StartVisualPanel extends JPanel {
 
     /**

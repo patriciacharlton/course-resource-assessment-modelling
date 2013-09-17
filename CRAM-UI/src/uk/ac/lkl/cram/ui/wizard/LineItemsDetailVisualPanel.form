@@ -17,7 +17,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="activityPanel" max="32767" attributes="0"/>
-          <Component id="preparationPanel" max="32767" attributes="0"/>
+          <Component id="preparationPanel" pref="492" max="32767" attributes="0"/>
           <Component id="supportPanel" max="32767" attributes="0"/>
           <Component id="tlaNamePanel" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -113,7 +113,7 @@
           </Border>
         </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="ESTIMATE THE TEACHER HOURS IT TAKES TO PREPARE THE WEEKLY MATERIAL FOR THIS TLA, AND/OR FOR THE MODULE AS A WHOLE, FOR EACH PRESENTATION OF THE MODULE." replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PREPARATION_HOURS_PANEL" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
 
@@ -229,7 +229,7 @@
           </Border>
         </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="ESTIMATE THE TEACHER HOURS IT TAKES TO SUPPORT THE WEEKLY MATERIAL FOR THIS TLA, AND/OR FOR THE MODULE AS A WHOLE, FOR EACH PRESENTATION OF THE MODULE." replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="SUPPORT_HOURS_PANEL" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
 

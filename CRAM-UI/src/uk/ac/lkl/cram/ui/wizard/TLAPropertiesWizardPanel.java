@@ -6,12 +6,12 @@ import javax.swing.event.ChangeListener;
 import org.jfree.chart.JFreeChart;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
-import uk.ac.lkl.cram.model.EnumeratedLearningExperience;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.TLALearningTypeChartFactory;
 
 /**
- * $Date: $
+ * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class TLAPropertiesWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {

@@ -47,7 +47,7 @@ public final class PredefinedVisualPanel extends JPanel {
 
     @Override
     public String getName() {
-	return "Select Predefined TLA";
+	return "Select Predefined Activity";
     }
     
     JList getList() {

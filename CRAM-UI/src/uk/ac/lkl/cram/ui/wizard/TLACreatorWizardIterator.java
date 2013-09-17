@@ -11,14 +11,17 @@ import org.openide.WizardDescriptor;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
 
+/**
+ * $Date$
+ * $Revision$
+ * @author bernard
+ */
 public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(TLACreatorWizardIterator.class.getName());
     static final int LEFT_WIDTH = 200;
     static final BufferedImage EMPTY_IMAGE = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
 
     static final String PROP_VANILLA = "vanilla";
-    static final String PROP_LINE_ITEM = "lineItem";
-    static final String PROP_MODULE = "module";
 
     private int index;
     private WizardDescriptor wizardDesc;
