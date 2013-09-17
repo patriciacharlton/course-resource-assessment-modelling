@@ -1,6 +1,5 @@
 package uk.ac.lkl.cram.ui.wizard;
 
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
@@ -12,6 +11,7 @@ import uk.ac.lkl.cram.model.TLActivity;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {

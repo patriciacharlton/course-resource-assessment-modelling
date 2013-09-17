@@ -9,7 +9,8 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
- *
+ * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class TLACreator {
@@ -25,7 +26,7 @@ public class TLACreator {
 	// {0} will be replaced by WizardDescriptor.Panel.getComponent().getName()
 	// {1} will be replaced by WizardDescriptor.Iterator.name()
 	wizardDescriptor.setTitleFormat(new MessageFormat("{0} ({1})"));
-	wizardDescriptor.setTitle("TLA Creator Wizard");
+	wizardDescriptor.setTitle("Specify Teaching & Learning Activity");
 	Dialog dialog = DialogDisplayer.getDefault().createDialog(wizardDescriptor);
         dialog.setVisible(true);
         dialog.toFront();
