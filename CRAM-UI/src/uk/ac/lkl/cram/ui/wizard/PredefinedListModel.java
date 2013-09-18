@@ -7,12 +7,14 @@ import javax.swing.AbstractListModel;
 /**
  * $Date$
  * $Revision$
- * @author Bernard Horan
+ * @param <E> 
+ * @author Bernard Horan 
  */
-public class PredefinedListModel extends AbstractListModel implements PropertyChangeListener {
-    private FilteredList filteredList;
+@SuppressWarnings("serial")
+public class PredefinedListModel<E> extends AbstractListModel implements PropertyChangeListener {
+    private FilteredList<E> filteredList;
     
-    public PredefinedListModel(FilteredList fList) {
+    public PredefinedListModel(FilteredList<E> fList) {
 	super();
 	filteredList = fList;
 	filteredList.addPropertyChangeListener(this);
@@ -24,7 +26,7 @@ public class PredefinedListModel extends AbstractListModel implements PropertyCh
     }
 
     @Override
-    public Object getElementAt(int i) {
+    public E getElementAt(int i) {
 	return filteredList.get(i);
     }
 

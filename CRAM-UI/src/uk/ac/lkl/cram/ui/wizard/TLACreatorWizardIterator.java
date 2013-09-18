@@ -8,15 +8,17 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
-import uk.ac.lkl.cram.model.TLALineItem;
+import org.openide.WizardDescriptor.Iterator;
+import org.openide.WizardDescriptor.Panel;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
  * $Date$
  * $Revision$
- * @author bernard
+ * @author bernard 
  */
-public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor> {
+public class TLACreatorWizardIterator implements Iterator<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(TLACreatorWizardIterator.class.getName());
     static final int LEFT_WIDTH = 200;
     static final BufferedImage EMPTY_IMAGE = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
@@ -26,10 +28,10 @@ public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator
     private int index;
     private WizardDescriptor wizardDesc;
     
-    private WizardDescriptor.Panel[] allPanels;
-    private WizardDescriptor.Panel[] currentPanels;
-    private WizardDescriptor.Panel[] predefinedSequence;
-    private WizardDescriptor.Panel[] vanillaSequence;
+    private Panel[] allPanels;
+    private Panel[] currentPanels;
+    private Panel[] predefinedSequence;
+    private Panel[] vanillaSequence;
 
     private String[] predefinedIndex;
     private String[] vanillaIndex;
@@ -52,7 +54,7 @@ public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator
         if (allPanels == null) {
             allPanels = new WizardDescriptor.Panel[]{
                 new StartWizardPanel(),
-                new PredefinedWizardPanel(lineItem),
+                new PredefinedWizardPanel(lineItem, wizardDesc),
                 new TLALearningDetailsWizardPanel(lineItem.getActivity()),
 		new TLAPropertiesWizardPanel(lineItem.getActivity()),
 		new LineItemsDetailWizardPanel(module, lineItem)
@@ -92,10 +94,10 @@ public final class TLACreatorWizardIterator implements WizardDescriptor.Iterator
             }
             
             predefinedIndex = new String[]{steps[0], steps[1], steps[4]};
-            predefinedSequence = new WizardDescriptor.Panel[]{allPanels[0], allPanels[1], allPanels[4]};
+            predefinedSequence = new Panel[]{allPanels[0], allPanels[1], allPanels[4]};
             
             vanillaIndex = new String[]{steps[0], steps[2], steps[3], steps[4]};
-            vanillaSequence = new WizardDescriptor.Panel[]{allPanels[0], allPanels[2], allPanels[3], allPanels[4]};
+            vanillaSequence = new Panel[]{allPanels[0], allPanels[2], allPanels[3], allPanels[4]};
             
             currentPanels = predefinedSequence;
         

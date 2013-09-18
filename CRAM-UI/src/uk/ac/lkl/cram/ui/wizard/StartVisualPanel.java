@@ -7,7 +7,8 @@ import javax.swing.JPanel;
  * $Revision$
  * @author bernard
  */
-public final class StartVisualPanel extends JPanel {
+@SuppressWarnings("serial")
+public class StartVisualPanel extends JPanel {
 
     /**
      * Creates new form StartVisualPanel

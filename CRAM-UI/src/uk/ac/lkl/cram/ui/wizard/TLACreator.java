@@ -34,10 +34,6 @@ public class TLACreator {
         if (!cancelled) {
 	    TLALineItem lineItem = iterator.getLineItem();
 	    module.addTLALineItem(lineItem);
-	    System.out.println("Learning Types:\t\t" + lineItem.getActivity().getLearningType());
-	    System.out.println("Learning Experience: " + lineItem.getActivity().getLearningExperience());
-	    System.out.println("Student Feedback: " + lineItem.getActivity().getLearnerFeedback());
-	    System.out.println("Student Teacher Interaction: " + lineItem.getActivity().getStudentTeacherInteraction());
 	    AELMTest.reportActivity(module);
 	    AELMTest.reportPreparations(module);
 	    AELMTest.reportSupport(module);

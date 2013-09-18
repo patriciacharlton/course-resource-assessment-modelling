@@ -17,7 +17,8 @@ import uk.ac.lkl.cram.model.TLActivity;
  * $Revision$
  * @author Bernard Horan
  */
-public final class TLAPropertiesVisualPanel extends JPanel {
+@SuppressWarnings("serial")
+public class TLAPropertiesVisualPanel extends JPanel {
     private static final Logger LOGGER = Logger.getLogger(TLAPropertiesVisualPanel.class.getName());
 
     private final TLActivity tlActivity;

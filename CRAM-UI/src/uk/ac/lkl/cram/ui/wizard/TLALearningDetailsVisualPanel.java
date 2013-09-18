@@ -23,6 +23,7 @@ import uk.ac.lkl.cram.ui.TextFieldAdapter;
  * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings("serial")
 public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(TLALearningDetailsVisualPanel.class.getName());
     private static final Color VALID_COLOUR = new Color(0, 153, 51);
