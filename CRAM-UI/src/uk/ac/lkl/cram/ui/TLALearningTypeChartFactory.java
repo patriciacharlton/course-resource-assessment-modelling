@@ -24,6 +24,7 @@ import uk.ac.lkl.cram.model.TLActivity;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class TLALearningTypeChartFactory {
@@ -73,6 +74,12 @@ public class TLALearningTypeChartFactory {
 	plot.setBackgroundPaint(backgroundPaint);
 	plot.setOutlineVisible(false);
 	plot.setLabelGenerator(null);
+	plot.setSectionPaint("Acquisition", LearningTypeChartFactory.ACQUISITION_COLOR);
+        plot.setSectionPaint("Collaboration", LearningTypeChartFactory.COLLABORATION_COLOR);
+	plot.setSectionPaint("Discusssion", LearningTypeChartFactory.DISCUSSION_COLOR);
+	plot.setSectionPaint("Inquiry", LearningTypeChartFactory.INQUIRY_COLOR);
+	plot.setSectionPaint("Practice", LearningTypeChartFactory.PRACTICE_COLOR);
+	plot.setSectionPaint("Production", LearningTypeChartFactory.PRODUCTION_COLOR);
 	LegendTitle legend = chart.getLegend();
 	legend.setItemFont(UIManager.getFont("Label.font"));
 	legend.setBackgroundPaint(backgroundPaint);
@@ -83,11 +90,11 @@ public class TLALearningTypeChartFactory {
 
     private static void populateDataset(DefaultPieDataset dataset, LearningType lt) {
         dataset.setValue("Acquisition", lt.getAcquisition());
-        dataset.setValue("Inquiry", lt.getInquiry());
+	dataset.setValue("Collaboration", lt.getCollaboration());
         dataset.setValue("Discusssion", lt.getDiscussion());
+        dataset.setValue("Inquiry", lt.getInquiry());
         dataset.setValue("Practice", lt.getPractice());
         dataset.setValue("Production", lt.getProduction());
-	dataset.setValue("Collaboration", lt.getCollaboration());
     }
 
     public static JFreeChart createChart(TLActivity tla) {
