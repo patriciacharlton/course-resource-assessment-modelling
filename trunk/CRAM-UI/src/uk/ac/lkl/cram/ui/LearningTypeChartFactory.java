@@ -19,8 +19,8 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RectangleEdge;
 import uk.ac.lkl.cram.model.AELMTest;
-import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
@@ -31,12 +31,12 @@ import uk.ac.lkl.cram.model.TLActivity;
 public class LearningTypeChartFactory {
     private static final Logger LOGGER = Logger.getLogger(LearningTypeChartFactory.class.getName());
 
-    private static final Color ACQUISITION_COLOR = new Color(101, 220, 241);  
-    private static final Color DISCUSSION_COLOR = new Color(121, 173, 236);  
-    private static final Color INQUIRY_COLOR = new Color(250, 128, 128);  
-    private static final Color PRACTICE_COLOR = new Color(190, 152, 221);  
-    private static final Color PRODUCTION_COLOR = new Color(188, 234, 117); 
-    private static final Color COLLABORATION_COLOR = new Color(0xFFCD00);
+    static final Color ACQUISITION_COLOR = new Color(101, 220, 241);  
+    static final Color DISCUSSION_COLOR = new Color(121, 173, 236);  
+    static final Color INQUIRY_COLOR = new Color(250, 128, 128);  
+    static final Color PRACTICE_COLOR = new Color(190, 152, 221);  
+    static final Color PRODUCTION_COLOR = new Color(188, 234, 117); 
+    static final Color COLLABORATION_COLOR = new Color(0xFFCD00);
 
 
     /**
@@ -162,11 +162,11 @@ public class LearningTypeChartFactory {
 	plot.setOutlineVisible(false);
 	plot.setLabelGenerator(null);
 	plot.setSectionPaint("Acquisition", ACQUISITION_COLOR);
-	plot.setSectionPaint("Inquiry", INQUIRY_COLOR);
+        plot.setSectionPaint("Collaboration", COLLABORATION_COLOR);
 	plot.setSectionPaint("Discusssion", DISCUSSION_COLOR);
+	plot.setSectionPaint("Inquiry", INQUIRY_COLOR);
 	plot.setSectionPaint("Practice", PRACTICE_COLOR);
 	plot.setSectionPaint("Production", PRODUCTION_COLOR);
-        plot.setSectionPaint("Collaboration", COLLABORATION_COLOR);
 	LegendTitle legend = chart.getLegend();
 	legend.setItemFont(UIManager.getFont("Label.font"));
 	legend.setBackgroundPaint(backgroundPaint);
