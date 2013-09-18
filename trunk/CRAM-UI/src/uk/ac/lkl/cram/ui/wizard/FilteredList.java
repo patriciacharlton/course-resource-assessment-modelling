@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @param <E> 
  * @author Bernard Horan
  */
-public class FilteredList<E> implements List<E> {
+public class FilteredList<E> implements List<E> { 
     private static final Logger LOGGER = Logger.getLogger(FilteredList.class.getName());
 
     public static final String PROP_FILTER = "filter";
@@ -25,16 +25,16 @@ public class FilteredList<E> implements List<E> {
     
     private List<E> underlyingList;
     private List<E> filteredList;
-    private Filter filter;
+    private Filter<E> filter;
     private Comparator<E> listComparator;
-    private PropertyChangeSupport propertySupport;
+    private PropertyChangeSupport propertySupport; 
     
     
     public FilteredList(List<E> innerList) {
 	propertySupport = new PropertyChangeSupport(this);
 	underlyingList = innerList;
 	//Catch all filter
-	filter = new Filter() {
+	filter = new Filter<E>() {
 
 	    @Override
 	    public boolean isMatched(Object object) {
@@ -52,15 +52,15 @@ public class FilteredList<E> implements List<E> {
     }
     
     
-    public void setFilter(Filter aFilter) {
-	Filter oldValue = filter;
+    public void setFilter(Filter<E> aFilter) {
+	Filter<E> oldValue = filter;
 	this.filter = aFilter;
 	applyFilter();
 	propertySupport.firePropertyChange(PROP_FILTER, oldValue, filter);
     }
     
-    public void setComparator(Comparator aComparator) {
-	Comparator oldValue = listComparator;
+    public void setComparator(Comparator<E> aComparator) {
+	Comparator<E> oldValue = listComparator;
 	this.listComparator = aComparator;
 	applyComparator();
 	propertySupport.firePropertyChange(PROP_COMPARATOR, oldValue, filter);

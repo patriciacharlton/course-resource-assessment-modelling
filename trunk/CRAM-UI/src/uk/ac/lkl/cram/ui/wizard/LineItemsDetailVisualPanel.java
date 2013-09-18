@@ -5,24 +5,25 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.util.WeakHashMap;
-import uk.ac.lkl.cram.ui.obsolete.TableTestForm;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
-import uk.ac.lkl.cram.ui.*;
 import javax.swing.JFrame;
 import uk.ac.lkl.cram.model.AbstractModuleTime;
-import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
 import uk.ac.lkl.cram.model.PreparationTime;
 import uk.ac.lkl.cram.model.SupportTime;
+import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
+import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
+import uk.ac.lkl.cram.ui.SelectAllAdapter;
 
 /**
  * $Date$
  * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings("serial")
 public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(LineItemsDetailVisualPanel.class.getName());
     public final static String PROP_VALID = "valid";
@@ -47,16 +48,19 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	};
 	lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_NAME, nameListener);
         lineItem.addPropertyChangeListener(TLALineItem.PROP_ACTIVITY, new PropertyChangeListener() {
-
-            @Override
-            public void propertyChange(PropertyChangeEvent pce) {
-                TLActivity oldActivity = (TLActivity) pce.getOldValue();
-                oldActivity.removePropertyChangeListener(TLActivity.PROP_NAME, nameListener);
-                TLActivity newActivity = (TLActivity) pce.getNewValue();
-                newActivity.addPropertyChangeListener(TLActivity.PROP_NAME, nameListener);
-                tlActivityNameChanged();
-            }
-        });
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		TLActivity oldActivity = (TLActivity) pce.getOldValue();
+		if (oldActivity != null) {
+		    oldActivity.removePropertyChangeListener(TLActivity.PROP_NAME, nameListener);
+		}
+		TLActivity newActivity = (TLActivity) pce.getNewValue();
+		if (newActivity != null) {
+		    newActivity.addPropertyChangeListener(TLActivity.PROP_NAME, nameListener);
+		    tlActivityNameChanged();
+		}
+	    }
+	});
         weeklyHoursField.setValue(lineItem.getWeeklyLearnerHourCount());
         weeklyHoursField.addFocusListener(new SelectAllAdapter());
 	new FormattedTextFieldAdapter(weeklyHoursField) {
@@ -570,13 +574,13 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TableTestForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TableTestForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TableTestForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TableTestForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         final JFrame frame = new JFrame("Line Item Wizard Panel");

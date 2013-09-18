@@ -7,12 +7,9 @@ import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
-import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.ONE_SIZE_FOR_ALL;
-import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.PERSONALISED;
-import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.SOCIAL;
-import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
+import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
@@ -23,7 +20,7 @@ import uk.ac.lkl.cram.model.TLActivity;
 public class LineItemsDetailWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(LineItemsDetailWizardPanel.class.getName());
 
-    private boolean isValid = false;
+    private boolean isValid = false; 
     private ChangeSupport changeSupport = new ChangeSupport(this);
     /**
      * The visual component that displays this panel. If you need to access the
@@ -97,8 +94,7 @@ public class LineItemsDetailWizardPanel implements WizardDescriptor.Panel<Wizard
     @Override
     public void readSettings(WizardDescriptor wiz) {
 	// use wiz.getProperty to retrieve previous panel state
-        wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, getInfoMessage());
-
+	wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, getInfoMessage());
     }
 
     @Override
