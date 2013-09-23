@@ -71,10 +71,10 @@ public class LearningType implements Serializable {
     }
 
     private void checkSum() {
-	if (acquisition + inquiry + discussion + practice + production + collaboration != 100) {
-	    throw new RuntimeException("Checksum failed");
+	int sum = acquisition + inquiry + discussion + practice + production + collaboration;
+	if (sum != 100) {
+	    throw new RuntimeException("Checksum failed: " + sum);
 	}
-
     }
 
     public int getAcquisition() {
