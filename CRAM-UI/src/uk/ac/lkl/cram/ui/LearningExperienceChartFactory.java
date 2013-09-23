@@ -28,8 +28,8 @@ import uk.ac.lkl.cram.model.AELMTest;
 import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.ONE_SIZE_FOR_ALL;
 import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.PERSONALISED;
 import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.SOCIAL;
-import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
@@ -75,9 +75,9 @@ public class LearningExperienceChartFactory {
 	};
 	
 	for (TLALineItem lineItem : module.getTLALineItems()) {
-	    LOGGER.info("adding listener to : " + lineItem.getName());
+	    LOGGER.info("adding listeners to : " + lineItem.getName());
 	    lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_LEARNING_EXPERIENCE, learningExperienceListener);
-	    
+	    lineItem.addPropertyChangeListener(learningExperienceListener);
 	}
 	module.addPropertyChangeListener(new PropertyChangeListener() {
 
@@ -88,14 +88,16 @@ public class LearningExperienceChartFactory {
 		    if (pce.getOldValue() != null) {
 			//This has been removed
 			TLALineItem lineItem = (TLALineItem) pce.getOldValue();
-			LOGGER.info("removing listener from: " + lineItem.getName());
+			LOGGER.info("removing listeners from: " + lineItem.getName());
 			lineItem.getActivity().removePropertyChangeListener(TLActivity.PROP_LEARNING_EXPERIENCE, learningExperienceListener);
+                        lineItem.removePropertyChangeListener(learningExperienceListener);
 		    }
 		    if (pce.getNewValue() != null) {
 			//This has been added
 			TLALineItem lineItem = (TLALineItem) pce.getNewValue();
-			LOGGER.info("adding listener to: " + lineItem);
+			LOGGER.info("adding listeners to: " + lineItem);
 			lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_LEARNING_EXPERIENCE, learningExperienceListener);
+                        lineItem.addPropertyChangeListener(learningExperienceListener);
 		    }
 		}
 		populateDataset(dataset, module);
@@ -145,15 +147,15 @@ public class LearningExperienceChartFactory {
 	    float total = lineItem.getTotalLearnerHourCount(m);
 	    switch (tla.getLearningExperience()) {
 		case PERSONALISED: {
-		    personalised = personalised + (total * 100);
+		    personalised += (total * 100);
 		    break;
 		}
 		case SOCIAL: {
-		    social = social + (total * 100);
+		    social += (total * 100);
 		    break;
 		}
 		case ONE_SIZE_FOR_ALL: {
-		    oneSizeForAll = oneSizeForAll + (total * 100);
+		    oneSizeForAll += (total * 100);
 		    break;
 		}
 	    }
