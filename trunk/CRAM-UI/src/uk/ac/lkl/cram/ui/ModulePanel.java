@@ -71,42 +71,11 @@ public class ModulePanel extends javax.swing.JPanel {
 	
 	TableModel tableModel = new PresentationTableModel(module);
 	presentationTable.setModel(tableModel);
-	presentationTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+	presentationTable.getColumnModel().getColumn(0).setPreferredWidth(70);
 	presentationTable.getTableHeader().setPreferredSize(new Dimension(presentationTable.getColumnModel().getTotalColumnWidth(),36));
 
 	
-//	module.addPropertyChangeListener(Module.PROP_NAME, new PropertyChangeListener() {
-//
-//	    @Override
-//	    public void propertyChange(PropertyChangeEvent pce) {
-//		moduleNameField.setText((String) pce.getNewValue());
-//	    }
-//	});
-//	
-//	module.addPropertyChangeListener(Module.PROP_HOUR_COUNT, new PropertyChangeListener() {
-//
-//	    @Override
-//	    public void propertyChange(PropertyChangeEvent pce) {
-//		LOGGER.info("hour count: " + pce.getNewValue());
-//		hourCountField.setValue(pce.getNewValue());
-//	    }
-//	});
-//	
-//	module.addPropertyChangeListener(Module.PROP_WEEK_COUNT, new PropertyChangeListener() {
-//
-//	    @Override
-//	    public void propertyChange(PropertyChangeEvent pce) {
-//		weekCountField.setValue(pce.getNewValue());
-//	    }
-//	});
-//	
-//	module.addPropertyChangeListener(Module.PROP_GROUP_SIZE, new PropertyChangeListener() {
-//
-//	    @Override
-//	    public void propertyChange(PropertyChangeEvent pce) {
-//		tutorGroupSizeField.setValue(pce.getNewValue());
-//	    }
-//	});
+
     }
     
 
