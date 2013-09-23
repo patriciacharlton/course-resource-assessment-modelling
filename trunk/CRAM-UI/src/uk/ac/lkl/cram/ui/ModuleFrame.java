@@ -1,5 +1,6 @@
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -7,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.MessageFormat;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -15,16 +17,20 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
+import org.openide.DialogDisplayer;
+import org.openide.WizardDescriptor;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
  * $Date$
  * $Revision$
  * @author bernard
  */
+@SuppressWarnings("serial")
 public class ModuleFrame extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
     private final Module module;
@@ -163,7 +169,11 @@ public class ModuleFrame extends javax.swing.JFrame {
         moduleMenu.add(modifyLineItemMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(addLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.addLineItemMI.text")); // NOI18N
-        addLineItemMI.setEnabled(false);
+        addLineItemMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addLineItemMIActionPerformed(evt);
+            }
+        });
         moduleMenu.add(addLineItemMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(removeLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.removeLineItemMI.text")); // NOI18N
@@ -189,7 +199,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	PresentationOkCancelDialog dialog = new PresentationOkCancelDialog(new javax.swing.JFrame(), true, module);
 	dialog.setTitle("Modify Runs");
 	dialog.setVisible(true);
-	LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
+	//LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
 	//TODO--undo
     }//GEN-LAST:event_modifyRunsMIActionPerformed
 
@@ -200,6 +210,10 @@ public class ModuleFrame extends javax.swing.JFrame {
     private void removeLineItemMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLineItemMIActionPerformed
 	removeSelectedLineItem();
     }//GEN-LAST:event_removeLineItemMIActionPerformed
+
+    private void addLineItemMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLineItemMIActionPerformed
+        addLineItem();
+    }//GEN-LAST:event_addLineItemMIActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,7 +275,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 
     private JXTaskPane createCourseDataPane() {
 	JXTaskPane courseDataPane = new JXTaskPane();
-	courseDataPane.setTitle("Course Data");
+	courseDataPane.setTitle("Module Data");
 	courseDataPane.add(new ModulePanel(module));
 	return courseDataPane;
     }
@@ -274,7 +288,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		selectedLineItem = (LineItem) pce.getNewValue();
-		LOGGER.info("selected line item: " + selectedLineItem);
+		//LOGGER.info("selected line item: " + selectedLineItem);
 		modifyLineItemMI.setEnabled(selectedLineItem != null);
 		removeLineItemMI.setEnabled(selectedLineItem != null);
 	    }
@@ -350,7 +364,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	    TLAOkCancelDialog dialog = new TLAOkCancelDialog(new javax.swing.JFrame(), true, module, (TLALineItem) selectedLineItem);
 	    dialog.setTitle("Modify TLA");
 	    dialog.setVisible(true);
-	    LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
+	    //LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
 	    //TODO--undo
 	} else {
 	    LOGGER.warning("Unable to edit this line item");
@@ -358,6 +372,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     }
     
     private void removeSelectedLineItem() {
+        //TODO -- undo
 	if (selectedLineItem instanceof TLALineItem) {
 	    int reply = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete \'" + selectedLineItem.getName() + "\'?", "Delete TLA", JOptionPane.YES_NO_OPTION);
 	    if (reply == JOptionPane.YES_OPTION) {
@@ -368,6 +383,25 @@ public class ModuleFrame extends javax.swing.JFrame {
 	} else {
 	    LOGGER.warning("Unable to remove this line item");
 	}
+    }
+    
+    private void addLineItem() {
+        //TODO -- undo
+        TLACreatorWizardIterator iterator = new TLACreatorWizardIterator(module);
+	WizardDescriptor wizardDescriptor = new WizardDescriptor(iterator);
+	iterator.initialize(wizardDescriptor);
+	// {0} will be replaced by WizardDescriptor.Panel.getComponent().getName()
+	// {1} will be replaced by WizardDescriptor.Iterator.name()
+	wizardDescriptor.setTitleFormat(new MessageFormat("{0} ({1})"));
+	wizardDescriptor.setTitle("TLA Creator Wizard");
+	Dialog dialog = DialogDisplayer.getDefault().createDialog(wizardDescriptor);
+        dialog.setVisible(true);
+        dialog.toFront();
+        boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
+	//LOGGER.info("Cancelled: " + cancelled);
+        if (!cancelled) {
+            module.addTLALineItem(iterator.getLineItem());
+        }
     }
 
     JMenu getWindowMenu() {
