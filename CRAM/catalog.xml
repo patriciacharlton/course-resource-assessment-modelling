@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/Users/bernard/eclipse/workspace/CRAM/src/uk/ac/lkl/cram/ldse/tlas.xsd" uri="xml-resources/jaxb/ldse/tlas.xsd"/>
+    <system systemId="file:/Users/bernard/eclipse/workspace/CRAM/ldse/tlas.xsd" uri="xml-resources/jaxb/ldse/tlas.xsd"/>
+</catalog>
