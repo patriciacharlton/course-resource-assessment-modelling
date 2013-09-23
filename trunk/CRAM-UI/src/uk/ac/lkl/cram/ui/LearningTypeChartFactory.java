@@ -64,15 +64,15 @@ public class LearningTypeChartFactory {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
-		//LOGGER.info("property change: " + pce);
+		LOGGER.info("property change: " + pce);
 		populateDataset(dataset, module);
 	    }
 	};
 	
 	for (TLALineItem lineItem : module.getTLALineItems()) {
-	    LOGGER.info("adding listener to : " + lineItem.getName());
+	    LOGGER.info("adding listeners to : " + lineItem.getName());
 	    lineItem.getActivity().getLearningType().addPropertyChangeListener(learningTypeListener);
-	    
+	    lineItem.addPropertyChangeListener(learningTypeListener);
 	}
 	module.addPropertyChangeListener(Module.PROP_TLA_LINEITEM, new PropertyChangeListener() {
 	    @Override
@@ -82,14 +82,16 @@ public class LearningTypeChartFactory {
 		    if (pce.getOldValue() != null) {
 			//This has been removed
 			TLALineItem lineItem = (TLALineItem) pce.getOldValue();
-			LOGGER.info("removing listener from: " + lineItem.getName());
+			LOGGER.info("removing listeners from: " + lineItem.getName());
 			lineItem.getActivity().getLearningType().removePropertyChangeListener(learningTypeListener);
+                        lineItem.removePropertyChangeListener(learningTypeListener);
 		    }
 		    if (pce.getNewValue() != null) {
 			//This has been added
 			TLALineItem lineItem = (TLALineItem) pce.getNewValue();
-			LOGGER.info("adding listener to: " + lineItem);
+			LOGGER.info("adding listeners to: " + lineItem);
 			lineItem.getActivity().getLearningType().addPropertyChangeListener(learningTypeListener);
+                        lineItem.addPropertyChangeListener(learningTypeListener);
 		    }
 		}
 		populateDataset(dataset, module);
