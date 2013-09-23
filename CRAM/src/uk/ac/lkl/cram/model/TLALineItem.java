@@ -4,7 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.IdentityHashMap;
 import java.util.Map;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -13,12 +12,13 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 @XmlType(propOrder = {"weeklyLearnerHourCount", "nonWeeklyLearnerHourCount", "activity", "preparationMap", "supportMap"})
+@SuppressWarnings("serial")
 public class TLALineItem implements LineItem {
 
-    private static final long serialVersionUID = 1L;
     public static final String PROP_ACTIVITY = "activity";
     public static final String PROP_MAX_GROUP_SIZE = "maxGroupSize";
     public static final String PROP_NON_WEEKLY = "nonWeekly";
