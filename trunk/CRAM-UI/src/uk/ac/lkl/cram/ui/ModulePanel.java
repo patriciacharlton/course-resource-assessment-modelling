@@ -9,15 +9,17 @@ import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings("serial")
 public class ModulePanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ModulePanel.class.getName());
 
 
     /**
      * Creates new form ModuleWizardPanel
-     * @param m
+     * @param module
      */
     public ModulePanel(final Module module) {
 	initComponents();
@@ -41,8 +43,8 @@ public class ModulePanel extends javax.swing.JPanel {
 	    @Override
 	    public void updateValue(Object value) {
 		int hourCount = (Integer) value;
-		module.setTotalCreditHourCount((int) hourCount);
-	    }
+		module.setTotalCreditHourCount(hourCount);
+                }
 	};
 	
 	weekCountField.setValue(module.getWeekCount());
@@ -52,7 +54,7 @@ public class ModulePanel extends javax.swing.JPanel {
 	    @Override
 	    public void updateValue(Object value) {
 		int weekCount = (Integer) value;
-		module.setWeekCount((int) weekCount);
+		module.setWeekCount(weekCount);
 	    }
 	};
 	
@@ -63,7 +65,7 @@ public class ModulePanel extends javax.swing.JPanel {
 	    @Override
 	    public void updateValue(Object value) {
 		int tutorGroupSize = (Integer) value;
-		module.setTutorGroupSize((int) tutorGroupSize);
+		module.setTutorGroupSize(tutorGroupSize);
 	    }
 	};
 	
