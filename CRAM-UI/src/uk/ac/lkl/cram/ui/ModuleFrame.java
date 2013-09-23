@@ -90,6 +90,8 @@ public class ModuleFrame extends javax.swing.JFrame {
         windowMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(730, 600));
+        setPreferredSize(new java.awt.Dimension(730, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         leftTaskPaneContainer.setPaintBorderInsets(false);
@@ -102,8 +104,8 @@ public class ModuleFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 277;
-        gridBagConstraints.ipady = 421;
+        gridBagConstraints.ipadx = 490;
+        gridBagConstraints.ipady = 600;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.7;
         gridBagConstraints.weighty = 1.0;
@@ -118,8 +120,8 @@ public class ModuleFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 266;
-        gridBagConstraints.ipady = 421;
+        gridBagConstraints.ipadx = 250;
+        gridBagConstraints.ipady = 600;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.3;
         gridBagConstraints.weighty = 1.0;

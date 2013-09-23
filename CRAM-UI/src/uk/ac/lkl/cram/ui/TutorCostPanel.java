@@ -139,7 +139,7 @@ public class TutorCostPanel extends javax.swing.JPanel {
 	    if (row == table.getModel().getRowCount() - 1) {
 		setFont(this.getFont().deriveFont(Font.ITALIC));
 	    }
-
+	    setToolTipText((String) value);
 	    return this;
 	}
     }
