@@ -1,0 +1,1220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tlas>
+    <tla>
+        <id>DefaultTutorPresentation</id>
+        <name>Tutor Presentation</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <recommendedTLA>DefaultOnlinePresentationByTutorSynchronous</recommendedTLA>
+        <groupSize>50</groupSize>
+        <acquisition>100</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultStudentPresentation</id>
+        <name>Student Presentation</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <recommendedTLA>DefaultOnlinePresentationByStudentsAsynchronous</recommendedTLA>
+        <recommendedTLA>DefaultOnlinePresentationByStudentsSynchronous</recommendedTLA>
+        <recommendedTLA>DefaultAdaptiveTELgroupActivity</recommendedTLA>
+        <groupSize>50</groupSize>
+        <acquisition>98</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>2</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTutorGuidedClassDiscussion</id>
+        <name>Tutor Guided Class Discussion</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <recommendedTLA>DefaultOnlineTutorGuidedClassDiscussionAsynchronous</recommendedTLA>
+        <recommendedTLA>DefaultOnlineTutorGuidedClassDiscussionSynchronous</recommendedTLA>
+        <groupSize>50</groupSize>
+        <acquisition>80</acquisition>
+        <discussion>20</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultSmallGroupDiscussion</id>
+        <name>Small Group Discussion</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <recommendedTLA>DefaultTELresourceBasedGroupActivity2</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>25</acquisition>
+        <discussion>75</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultResourceBasedGroupActivity</id>
+        <name>Resource Based Group Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultTELresourceBasedGroupActivity</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>8</acquisition>
+        <discussion>75</discussion>
+        <inquiry>17</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultResourceBasedIndividualActivity</id>
+        <name>Resource Based Individual Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultTELresourceBasedIndividualActivity</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>40</acquisition>
+        <discussion>0</discussion>
+        <inquiry>60</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultGroupPracticalActivity</id>
+        <name>Group Practical Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultAdaptiveDigitalGroupActivity</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedGroupActivity</recommendedTLA>
+        <recommendedTLA>DefaultAdaptiveTELgroupActivity</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>11</acquisition>
+        <discussion>15</discussion>
+        <inquiry>20</inquiry>
+        <practice>44</practice>
+        <production>10</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultIndividualPracticalActivity</id>
+        <name>Individual Practical Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultAdaptiveTELIndividualActivity</recommendedTLA>
+        <recommendedTLA>DefaultIndividualProject</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>0</discussion>
+        <inquiry>45</inquiry>
+        <practice>25</practice>
+        <production>20</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultFormativeActivity</id>
+        <name>Formative Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultTELbasedFormativeAssignment</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>50</practice>
+        <production>50</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELformativeActivity</id>
+        <name>T E Lformative Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultFormativeActivity</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>50</practice>
+        <production>50</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlinePresentationByTutorSynchronous</id>
+        <name>Online Presentation By Tutor Synchronous</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <recommendedTLA>DefaultTutorPresentation</recommendedTLA>
+        <groupSize>50</groupSize>
+        <acquisition>100</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineTutorGuidedClassDiscussionSynchronous</id>
+        <name>Online Tutor Guided Class Discussion Synchronous</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <recommendedTLA>DefaultOnlineTutorGuidedClassDiscussionAsynchronous</recommendedTLA>
+        <recommendedTLA>DefaultTutorGuidedClassDiscussion</recommendedTLA>
+        <groupSize>50</groupSize>
+        <acquisition>98</acquisition>
+        <discussion>2</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineSmallGroupDiscussionSynchronous</id>
+        <name>Online Small Group Discussion Synchronous</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultOnlineSmallGroupDiscussionAsynchronous</recommendedTLA>
+        <recommendedTLA>DefaultSmallGroupDiscussion</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>35</acquisition>
+        <discussion>65</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlinePresentationByStudentsAsynchronous</id>
+        <name>Online Presentation By Students Asynchronous</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <recommendedTLA>DefaultStudentPresentation</recommendedTLA>
+        <groupSize>50</groupSize>
+        <acquisition>98</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>2</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineSmallGroupDiscussionAsynchronous</id>
+        <name>Online Small Group Discussion Asynchronous</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultSmallGroupDiscussion</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>35</acquisition>
+        <discussion>65</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELresourceBasedGroupActivity</id>
+        <name>T E Lresource Based Group Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultGroupPracticalActivity</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>45</acquisition>
+        <discussion>25</discussion>
+        <inquiry>30</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELresourceBasedIndividualActivity</id>
+        <name>T E Lresource Based Individual Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultIndividualPracticalActivity</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>60</acquisition>
+        <discussion>0</discussion>
+        <inquiry>40</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultAdaptiveDigitalGroupActivity</id>
+        <name>Adaptive Digital Group Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultGroupPracticalActivity</recommendedTLA>
+        <recommendedTLA>DefaultAdaptiveTELgroupActivity</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedGroupActivity</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>8</discussion>
+        <inquiry>42</inquiry>
+        <practice>20</practice>
+        <production>10</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultAdaptiveDigitalIndividualActivity</id>
+        <name>Adaptive Digital Individual Activity</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultAdaptiveTELIndividualActivity</recommendedTLA>
+        <recommendedTLA>DefaultIndividualPracticalActivity</recommendedTLA>
+        <recommendedTLA>DefaultTELresourceBasedIndividualActivity1</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>0</discussion>
+        <inquiry>25</inquiry>
+        <practice>45</practice>
+        <production>20</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlinePresentationByStudentsSynchronous1</id>
+        <name>Online Presentation By Students Synchronous</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <recommendedTLA>DefaultOnlinePresentationByStudentsAsynchronous1</recommendedTLA>
+        <recommendedTLA>DefaultStudentPresentation2</recommendedTLA>
+        <groupSize>50</groupSize>
+        <acquisition>98</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>2</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineTutorGuidedClassDiscussionAsynchronous</id>
+        <name>Online Tutor Guided Class Discussion Asynchronous</name>
+        <sessionType>Tutor Supported Class</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <recommendedTLA>DefaultOnlineTutorGuidedClassDiscussionSynchronous</recommendedTLA>
+        <recommendedTLA>DefaultTutorGuidedClassDiscussion</recommendedTLA>
+        <groupSize>50</groupSize>
+        <acquisition>98</acquisition>
+        <discussion>2</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTutorPresentation1</id>
+        <name>Tutor Presentation</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <recommendedTLA>DefaultOnlinePresentationByTutorSynchronous1</recommendedTLA>
+        <groupSize>10</groupSize>
+        <acquisition>100</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTutorGuidedGroupDiscussion</id>
+        <name>Tutor Guided Group Discussion</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultOnlineTutorGuidedGroupDiscussionAsynchronous</recommendedTLA>
+        <recommendedTLA>DefaultOnlineTutorGuidedGroupDiscussionSynchronous</recommendedTLA>
+        <groupSize>10</groupSize>
+        <acquisition>80</acquisition>
+        <discussion>20</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultResourceBasedGroupActivity1</id>
+        <name>Resource Based Group Activity</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultTELresourceBasedGroupActivity1</recommendedTLA>
+        <groupSize>10</groupSize>
+        <acquisition>17</acquisition>
+        <discussion>50</discussion>
+        <inquiry>33</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultResourceBasedIndividualActivity1</id>
+        <name>Resource Based Individual Activity</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultTELresourceBasedIndividualActivity1</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>40</acquisition>
+        <discussion>0</discussion>
+        <inquiry>60</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultGroupPracticalActivity1</id>
+        <name>Group Practical Activity</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultAdaptiveTELgroupActivity</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedGroupActivity1</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>11</acquisition>
+        <discussion>15</discussion>
+        <inquiry>20</inquiry>
+        <practice>10</practice>
+        <production>44</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultIndividualPracticalActivity1</id>
+        <name>Individual Practical Activity</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultAdaptiveTELIndividualActivity</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>0</discussion>
+        <inquiry>45</inquiry>
+        <practice>25</practice>
+        <production>20</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlinePresentationByTutorSynchronous1</id>
+        <name>Online Presentation By Tutor Synchronous</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <recommendedTLA>DefaultTutorPresentation1</recommendedTLA>
+        <groupSize>10</groupSize>
+        <acquisition>100</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineTutorGuidedGroupDiscussionSynchronous</id>
+        <name>Online Tutor Guided Group Discussion Synchronous</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultTutorGuidedGroupDiscussion</recommendedTLA>
+        <recommendedTLA>DefaultOnlineTutorGuidedGroupDiscussionAsynchronous</recommendedTLA>
+        <groupSize>10</groupSize>
+        <acquisition>80</acquisition>
+        <discussion>20</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlinePresentationByStudentsAsynchronous1</id>
+        <name>Online Presentation By Students Asynchronous</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <groupSize>10</groupSize>
+        <acquisition>90</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>10</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineTutorGuidedGroupDiscussionAsynchronous</id>
+        <name>Online Tutor Guided Group Discussion Asynchronous</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <recommendedTLA>DefaultOnlineTutorGuidedGroupDiscussionSynchronous</recommendedTLA>
+        <recommendedTLA>DefaultTutorGuidedGroupDiscussion</recommendedTLA>
+        <groupSize>10</groupSize>
+        <acquisition>60</acquisition>
+        <discussion>40</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELresourceBasedGroupActivity1</id>
+        <name>T E Lresource Based Group Activity</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultGroupPracticalActivity1</recommendedTLA>
+        <groupSize>2</groupSize>
+        <acquisition>40</acquisition>
+        <discussion>30</discussion>
+        <inquiry>30</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELresourceBasedIndividualActivity1</id>
+        <name>T E Lresource Based Individual Activity</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultIndividualPracticalActivity1</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>60</acquisition>
+        <discussion>0</discussion>
+        <inquiry>40</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultAdaptiveDigitalGroupActivity1</id>
+        <name>Adaptive Digital Group Activity</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultAdaptiveTELgroupActivity</recommendedTLA>
+        <recommendedTLA>DefaultGroupPracticalActivity1</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedGroupActivity1</recommendedTLA>
+        <groupSize>2</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>9</discussion>
+        <inquiry>41</inquiry>
+        <practice>20</practice>
+        <production>10</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultAdaptiveDigitalIndividualActivity1</id>
+        <name>Adaptive Digital Individual Activity</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultAdaptiveTELIndividualActivity</recommendedTLA>
+        <recommendedTLA>DefaultIndividualPracticalActivity1</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedIndividualActivity1</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>0</discussion>
+        <inquiry>25</inquiry>
+        <practice>45</practice>
+        <production>20</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlinePresentationByStudentsSynchronous</id>
+        <name>Online Presentation By Students Synchronous</name>
+        <sessionType>Tutor Supported Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultStudentPresentation</recommendedTLA>
+        <groupSize>10</groupSize>
+        <acquisition>90</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>10</production>
+        <number_of_classes>5</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTutorAssessedFromativeAssignment</id>
+        <name>Tutor Assessed Formative Assignment</name>
+        <sessionType>Tutor Supported Individual Work</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultTELbasedFormativeAssignment</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>20</acquisition>
+        <discussion>0</discussion>
+        <inquiry>20</inquiry>
+        <practice>40</practice>
+        <production>20</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultIndividualTuition</id>
+        <name>Individual Tuition</name>
+        <sessionType>Tutor Supported Individual Work</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <recommendedTLA>DefaultOnlineIndividualTuition</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>20</acquisition>
+        <discussion>80</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineIndividualTuition</id>
+        <name>Online Individual Tuition</name>
+        <sessionType>Tutor Supported Individual Work</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultIndividualTuition</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>20</acquisition>
+        <discussion>80</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultPeerAssessedFormativeAssignment</id>
+        <name>Peer Assessed Formative Assignment</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultTELpeerAssessedFormativeAssignment</recommendedTLA>
+        <groupSize>2</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>50</practice>
+        <production>50</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultResourceBasedGroupActivity2</id>
+        <name>Resource Based Group Activity</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultTELresourceBasedGroupActivity2</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>40</acquisition>
+        <discussion>10</discussion>
+        <inquiry>50</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultStudentOnlyGroupDiscussion</id>
+        <name>Student Only Group Discussion</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultOnlineStudentOnlyGroupDiscussionSynchronous</recommendedTLA>
+        <recommendedTLA>DefaultOnlineStudentOnlyGroupDiscussionAsynchronous</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>25</acquisition>
+        <discussion>75</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultGroupPracticalActivity2</id>
+        <name>Group Practical Activity</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <recommendedTLA>DefaultAdaptiveTELgroupActivity</recommendedTLA>
+        <recommendedTLA>DefaultTELresourceBasedGroupActivity2</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedGroupActivity2</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>15</discussion>
+        <inquiry>20</inquiry>
+        <practice>10</practice>
+        <production>45</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELpeerAssessedFormativeAssignment</id>
+        <name>T E Lpeer Assessed Formative Assignment</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultPeerAssessedFormativeAssignment</recommendedTLA>
+        <groupSize>2</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>50</practice>
+        <production>50</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELresourceBasedGroupActivity2</id>
+        <name>T E Lresource Based Group Activity</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultGroupPracticalActivity2</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>45</acquisition>
+        <discussion>25</discussion>
+        <inquiry>30</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineStudentOnlyGroupDiscussionSynchronous</id>
+        <name>Online Student Only Group Discussion Synchronous</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Social Constructivism</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <recommendedTLA>DefaultOnlineStudentOnlyGroupDiscussionAsynchronous</recommendedTLA>
+        <recommendedTLA>DefaultSmallGroupDiscussion</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>5</acquisition>
+        <discussion>95</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultOnlineStudentOnlyGroupDiscussionAsynchronous</id>
+        <name>Online Student Only Group Discussion Asynchronous</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultOnlineStudentOnlyGroupDiscussionSynchronous</recommendedTLA>
+        <recommendedTLA>DefaultStudentOnlyGroupDiscussion</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>5</acquisition>
+        <discussion>95</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultAdaptiveTELgroupActivity</id>
+        <name>Adaptive T E Lgroup Activity</name>
+        <sessionType>Independent Group Work</sessionType>
+        <learningExperience>Social</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultAdaptiveDigitalGroupActivity</recommendedTLA>
+        <recommendedTLA>DefaultAdaptiveDigitalGroupActivity1</recommendedTLA>
+        <recommendedTLA>DefaultTELresourceBasedGroupActivity</recommendedTLA>
+        <recommendedTLA>DefaultTELresourceBasedGroupActivity1</recommendedTLA>
+        <recommendedTLA>DefaultTELresourceBasedGroupActivity2</recommendedTLA>
+        <groupSize>5</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>8</discussion>
+        <inquiry>42</inquiry>
+        <practice>20</practice>
+        <production>10</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultResourceBasedIndividualActivity2</id>
+        <name>Resource Based Individual Activity</name>
+        <sessionType>Independent Individual Work</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultTELresourceBasedIndividualActivity2</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>40</acquisition>
+        <discussion>0</discussion>
+        <inquiry>60</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultIndividualPracticalActivity2</id>
+        <name>Individual Practical Activity</name>
+        <sessionType>Independent Individual Work</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultAdaptiveTELgroupActivity</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>0</discussion>
+        <inquiry>45</inquiry>
+        <practice>25</practice>
+        <production>20</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultIndividualProject</id>
+        <name>Individual Project</name>
+        <sessionType>Independent Individual Work</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultTELresourceBasedIndividualActivity</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>10</acquisition>
+        <discussion>0</discussion>
+        <inquiry>25</inquiry>
+        <practice>50</practice>
+        <production>15</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELresourceBasedIndividualActivity2</id>
+        <name>T E Lresource Based Individual Activity</name>
+        <sessionType>Independent Individual Work</sessionType>
+        <learningExperience>One Size Fits All</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultIndividualPracticalActivity2</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>40</acquisition>
+        <discussion>0</discussion>
+        <inquiry>60</inquiry>
+        <practice>0</practice>
+        <production>0</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultAdaptiveTELIndividualActivity</id>
+        <name>Adaptive T E L Individual Activity</name>
+        <sessionType>Independent Individual Work</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultAdaptiveDigitalIndividualActivity</recommendedTLA>
+        <recommendedTLA>DefaultAdaptiveDigitalIndividualActivity1</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedIndividualActivity</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedIndividualActivity1</recommendedTLA>
+        <recommendedTLA>DefaultResourceBasedIndividualActivity2</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>80</practice>
+        <production>20</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELbasedFormativeAssignment</id>
+        <name>T E Lbased Formative Assignment</name>
+        <sessionType>Independent Individual Work</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultFormativeActivity</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>80</practice>
+        <production>20</production>
+        <number_of_classes>1</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTutorAssessedSummativeAssessment</id>
+        <name>Tutor Assessed Summative Assessment</name>
+        <sessionType>Summative Assessment</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultTELBasedSummativeAssessment</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>100</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultTELBasedSummativeAssessment</id>
+        <name>T E L Based Summative Assessment</name>
+        <sessionType>Summative Assessment</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <recommendedTLA>DefaultEssay</recommendedTLA>
+        <recommendedTLA>DefaultExam</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>100</production>
+        <number_of_classes>0</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultExam</id>
+        <name>Exam</name>
+        <sessionType>Summative Assessment</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultEssay</recommendedTLA>
+        <recommendedTLA>DefaultTELBasedSummativeAssessment</recommendedTLA>
+        <recommendedTLA>DefaultPerformanceDesign</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>100</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultEssay</id>
+        <name>Essay</name>
+        <sessionType>Summative Assessment</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultExam</recommendedTLA>
+        <recommendedTLA>DefaultDissertation</recommendedTLA>
+        <recommendedTLA>DefaultPerformanceDesign</recommendedTLA>
+        <recommendedTLA>DefaultProjectReport</recommendedTLA>
+        <recommendedTLA>DefaultTELBasedSummativeAssessment</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>0</inquiry>
+        <practice>0</practice>
+        <production>100</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultDissertation</id>
+        <name>Dissertation</name>
+        <sessionType>Summative Assessment</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultEssay</recommendedTLA>
+        <recommendedTLA>DefaultPerformanceDesign</recommendedTLA>
+        <recommendedTLA>DefaultTELBasedSummativeAssessment</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>50</inquiry>
+        <practice>0</practice>
+        <production>50</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultPerformanceDesign</id>
+        <name>Performance Design</name>
+        <sessionType>Summative Assessment</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultTELBasedSummativeAssessment</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>40</inquiry>
+        <practice>30</practice>
+        <production>30</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+    <tla>
+        <id>DefaultProjectReport</id>
+        <name>Project Report</name>
+        <sessionType>Summative Assessment</sessionType>
+        <learningExperience>Personalised</learningExperience>
+        <learningApproach>Cognitive Apprenticeship</learningApproach>
+        <learningApproach>Collaborative Learning</learningApproach>
+        <learningApproach>Constructionism</learningApproach>
+        <learningApproach>Didactic Instruction</learningApproach>
+        <learningApproach>Experiential Situated Learning</learningApproach>
+        <learningApproach>Guided Discovery Learning</learningApproach>
+        <learningApproach>Inquiry Learning</learningApproach>
+        <learningApproach>Problem Case-based Learning</learningApproach>
+        <learningApproach>Social Constructivism</learningApproach>
+        <recommendedTLA>DefaultDissertation</recommendedTLA>
+        <recommendedTLA>DefaultEssay</recommendedTLA>
+        <recommendedTLA>DefaultTELBasedSummativeAssessment</recommendedTLA>
+        <groupSize>1</groupSize>
+        <acquisition>0</acquisition>
+        <discussion>0</discussion>
+        <inquiry>40</inquiry>
+        <practice>30</practice>
+        <production>30</production>
+        <number_of_classes>50</number_of_classes>
+    </tla>
+</tlas>
