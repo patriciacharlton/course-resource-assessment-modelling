@@ -19,6 +19,7 @@ import uk.ac.lkl.cram.model.Module;
  * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings("serial")
 public class LineItemPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(LineItemPanel.class.getName());
 
@@ -133,7 +134,8 @@ public class LineItemPanel extends javax.swing.JPanel {
 	return selectedLineItem;
     }
     
-    class LineItemRenderer extends DefaultTableCellRenderer {
+    @SuppressWarnings("serial")
+    private class LineItemRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
@@ -144,8 +146,10 @@ public class LineItemPanel extends javax.swing.JPanel {
 	    //Italicise the last row
 	    if (row == table.getModel().getRowCount() - 1) {
 		setFont(this.getFont().deriveFont(Font.ITALIC));
-	    }
-	    setToolTipText((String) value);
+                setToolTipText("Learning hours not includes in TLAs");
+	    } else {
+                setToolTipText((String) value);
+            }   
 
 	    return this;
 	}

@@ -11,8 +11,10 @@ import uk.ac.lkl.cram.model.ModulePresentation;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings("serial")
 public class PresentationPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(PresentationPanel.class.getName());
     private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<JFormattedTextField, Boolean>();
@@ -198,15 +200,18 @@ public class PresentationPanel extends javax.swing.JPanel {
         add(studentCountTitle);
 
         org.openide.awt.Mnemonics.setLocalizedText(studentFeeTitle, org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.studentFeeTitle.text")); // NOI18N
+        studentFeeTitle.setToolTipText(org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.studentFeeTitle.toolTipText")); // NOI18N
         studentFeeTitle.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         studentFeeTitle.setLineWrap(true);
         add(studentFeeTitle);
 
         org.openide.awt.Mnemonics.setLocalizedText(juniorCostTitle, org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.juniorCostTitle.text")); // NOI18N
+        juniorCostTitle.setToolTipText(org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.juniorCostTitle.toolTipText")); // NOI18N
         juniorCostTitle.setLineWrap(true);
         add(juniorCostTitle);
 
         org.openide.awt.Mnemonics.setLocalizedText(seniorCostTitle, org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.seniorCostTitle.text")); // NOI18N
+        seniorCostTitle.setToolTipText(org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.seniorCostTitle.toolTipText")); // NOI18N
         seniorCostTitle.setLineWrap(true);
         add(seniorCostTitle);
 

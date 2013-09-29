@@ -2,17 +2,29 @@
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Frame;
 import java.awt.Paint;
+import java.awt.event.MouseEvent;
 import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.WeakHashMap;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.general.DefaultPieDataset;
@@ -30,6 +42,14 @@ import uk.ac.lkl.cram.model.TLActivity;
  */
 public class LearningTypeChartFactory {
     private static final Logger LOGGER = Logger.getLogger(LearningTypeChartFactory.class.getName());
+    
+    private final static String ACQUISITION = "Acquisition";
+    private final static String COLLABORATION = "Collaboration";
+    private final static String DISCUSSION = "Discussion";
+    private final static String INQUIRY = "Inquiry";
+    private final static String PRACTICE = "Practice";
+    private final static String PRODUCTION = "Production";
+    
 
     static final Color ACQUISITION_COLOR = new Color(101, 220, 241);  
     static final Color DISCUSSION_COLOR = new Color(121, 173, 236);  
@@ -37,23 +57,54 @@ public class LearningTypeChartFactory {
     static final Color PRACTICE_COLOR = new Color(190, 152, 221);  
     static final Color PRODUCTION_COLOR = new Color(188, 234, 117); 
     static final Color COLLABORATION_COLOR = new Color(0xFFCD00);
+    
+    private static Map<String, Set<TLALineItem>> learningTypeMap = new WeakHashMap<String, Set<TLALineItem>>();
 
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-	JFrame frame = new JFrame("Learning Type Test");
+        JFrame frame = new JFrame("Learning Type Test");
 	Module m = AELMTest.populateModule();
 	ChartPanel chartPanel = createChartPanel(m);
 	frame.setContentPane(chartPanel);
 	frame.setVisible(true);
     }
     
-    public static ChartPanel createChartPanel(Module m) {
+    public static ChartPanel createChartPanel(final Module m) {
+        final Cursor crossHair = new Cursor(Cursor.CROSSHAIR_CURSOR);
+        final Cursor normal = new Cursor(Cursor.DEFAULT_CURSOR);
 	PieDataset dataset = createDataSet(m);
 	JFreeChart chart = createChart(dataset);
-	ChartPanel chartPanel = new ChartPanel(chart);
+	final ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.addChartMouseListener(new ChartMouseListener() {
+
+            @Override
+            public void chartMouseClicked(ChartMouseEvent cme) {
+                MouseEvent trigger = cme.getTrigger();
+                if (trigger.getButton() == MouseEvent.BUTTON1) {
+                    if (cme.getEntity() instanceof PieSectionEntity) {
+                        PieSectionEntity pieSection = (PieSectionEntity) cme.getEntity();
+                        Set<TLALineItem> relevantTLAs = learningTypeMap.get(pieSection.getSectionKey().toString());
+                        ChartPopupDialog popup = new ChartPopupDialog((Frame) SwingUtilities.getWindowAncestor(chartPanel), true);
+                        popup.setTLAs(relevantTLAs);
+                        popup.setTitle("Activities with " + pieSection.getSectionKey().toString());
+                        popup.setVisible(true);                       
+                    }
+                }
+                    
+            }
+
+            @Override
+            public void chartMouseMoved(ChartMouseEvent cme) {
+                if (cme.getEntity() instanceof PieSectionEntity) {
+                    chartPanel.setCursor(crossHair);
+                } else {
+                    chartPanel.setCursor(normal);
+    }
+            }
+        });
 	return chartPanel;
     }
 
@@ -70,7 +121,7 @@ public class LearningTypeChartFactory {
 	};
 	
 	for (TLALineItem lineItem : module.getTLALineItems()) {
-	    LOGGER.info("adding listeners to : " + lineItem.getName());
+	    //LOGGER.info("adding listeners to : " + lineItem.getName());
 	    lineItem.getActivity().getLearningType().addPropertyChangeListener(learningTypeListener);
 	    lineItem.addPropertyChangeListener(learningTypeListener);
 	}
@@ -105,7 +156,11 @@ public class LearningTypeChartFactory {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
-	    total += lineItem.getTotalLearnerHourCount(m) * activity.getLearningType().getAcquisition();
+            int acquisition = activity.getLearningType().getAcquisition();
+            if (acquisition > 0) {
+                total += lineItem.getTotalLearnerHourCount(m) * acquisition;
+                learningTypeMap.get(ACQUISITION).add(lineItem);              
+            }
 	}
 	return total;
     }
@@ -114,7 +169,11 @@ public class LearningTypeChartFactory {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
-	    total += lineItem.getTotalLearnerHourCount(m) * activity.getLearningType().getInquiry();
+            int inquiry = activity.getLearningType().getInquiry();
+            if (inquiry > 0) {
+                total += lineItem.getTotalLearnerHourCount(m) * inquiry;
+                learningTypeMap.get(INQUIRY).add(lineItem);
+            }
 	}
 	return total;
     }
@@ -123,7 +182,11 @@ public class LearningTypeChartFactory {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
-	    total += lineItem.getTotalLearnerHourCount(m) * activity.getLearningType().getDiscussion();
+            int discussion = activity.getLearningType().getDiscussion();
+            if (discussion > 0) {
+                total += lineItem.getTotalLearnerHourCount(m) * discussion;
+                learningTypeMap.get(DISCUSSION).add(lineItem);
+            }
 	}
 	return total;
     }
@@ -132,7 +195,11 @@ public class LearningTypeChartFactory {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
-	    total += lineItem.getTotalLearnerHourCount(m) * activity.getLearningType().getPractice();
+            int practice = activity.getLearningType().getPractice();
+            if (practice > 0) {
+                total += lineItem.getTotalLearnerHourCount(m) * practice;
+                learningTypeMap.get(PRACTICE).add(lineItem);
+            }
 	}
 	return total;
     }
@@ -141,7 +208,11 @@ public class LearningTypeChartFactory {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
-	    total += lineItem.getTotalLearnerHourCount(m) * activity.getLearningType().getProduction();
+            int production = activity.getLearningType().getProduction();
+            if (production > 0) {
+                total += lineItem.getTotalLearnerHourCount(m) * production;
+                learningTypeMap.get(PRODUCTION).add(lineItem);
+            }
 	}
 	return total;
     }
@@ -150,7 +221,11 @@ public class LearningTypeChartFactory {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
-	    total += lineItem.getTotalLearnerHourCount(m) * activity.getLearningType().getCollaboration();
+            int collaboration = activity.getLearningType().getCollaboration();
+            if (collaboration > 0) {
+                total += lineItem.getTotalLearnerHourCount(m) * collaboration;
+                learningTypeMap.get(COLLABORATION).add(lineItem);
+            }
 	}
 	return total;
     }
@@ -163,12 +238,12 @@ public class LearningTypeChartFactory {
 	plot.setBackgroundPaint(backgroundPaint);
 	plot.setOutlineVisible(false);
 	plot.setLabelGenerator(null);
-	plot.setSectionPaint("Acquisition", ACQUISITION_COLOR);
-        plot.setSectionPaint("Collaboration", COLLABORATION_COLOR);
-	plot.setSectionPaint("Discusssion", DISCUSSION_COLOR);
-	plot.setSectionPaint("Inquiry", INQUIRY_COLOR);
-	plot.setSectionPaint("Practice", PRACTICE_COLOR);
-	plot.setSectionPaint("Production", PRODUCTION_COLOR);
+	plot.setSectionPaint(ACQUISITION, ACQUISITION_COLOR);
+        plot.setSectionPaint(COLLABORATION, COLLABORATION_COLOR);
+	plot.setSectionPaint(DISCUSSION, DISCUSSION_COLOR);
+	plot.setSectionPaint(INQUIRY, INQUIRY_COLOR);
+	plot.setSectionPaint(PRACTICE, PRACTICE_COLOR);
+	plot.setSectionPaint(PRODUCTION, PRODUCTION_COLOR);
 	LegendTitle legend = chart.getLegend();
 	legend.setItemFont(UIManager.getFont("Label.font"));
 	legend.setBackgroundPaint(backgroundPaint);
@@ -178,11 +253,28 @@ public class LearningTypeChartFactory {
     }
 
     private static void populateDataset(DefaultPieDataset dataset, Module m) {
-	dataset.setValue("Acquisition", getTotalAcquisition(m));
-	dataset.setValue("Collaboration", getTotalCollaboration(m));
-	dataset.setValue("Discusssion", getTotalDiscussion(m));
-	dataset.setValue("Inquiry", getTotalInquiry(m));
-	dataset.setValue("Practice", getTotalPractice(m));
-	dataset.setValue("Production", getTotalProduction(m));
+        initializeMap();
+	dataset.setValue(ACQUISITION, getTotalAcquisition(m));
+	dataset.setValue(COLLABORATION, getTotalCollaboration(m));
+	dataset.setValue(DISCUSSION, getTotalDiscussion(m));
+	dataset.setValue(INQUIRY, getTotalInquiry(m));
+	dataset.setValue(PRACTICE, getTotalPractice(m));
+	dataset.setValue(PRODUCTION, getTotalProduction(m));
+    }
+
+    private static void initializeMap() {
+        Comparator<TLALineItem> tlaLineItemComparator = new Comparator<TLALineItem>() {
+
+            @Override
+            public int compare(TLALineItem a, TLALineItem b) {
+                return a.getName().compareTo(b.getName());
+            }
+        };
+        learningTypeMap.put(ACQUISITION, new TreeSet<TLALineItem>(tlaLineItemComparator));
+	learningTypeMap.put(COLLABORATION, new TreeSet<TLALineItem>(tlaLineItemComparator));
+	learningTypeMap.put(DISCUSSION, new TreeSet<TLALineItem>(tlaLineItemComparator));
+	learningTypeMap.put(INQUIRY, new TreeSet<TLALineItem>(tlaLineItemComparator));
+	learningTypeMap.put(PRACTICE, new TreeSet<TLALineItem>(tlaLineItemComparator));
+	learningTypeMap.put(PRODUCTION, new TreeSet<TLALineItem>(tlaLineItemComparator));
     }
 }

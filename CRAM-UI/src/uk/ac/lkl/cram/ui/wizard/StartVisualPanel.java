@@ -7,7 +7,7 @@ import javax.swing.JPanel;
  * $Revision$
  * @author bernard
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class StartVisualPanel extends JPanel {
 
     /**

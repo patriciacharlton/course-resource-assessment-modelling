@@ -21,9 +21,13 @@ import javax.swing.table.TableColumnModel;
 
 /**
  * GroupableTableHeaderUI
+ * $Date$
+ * $Revision$
  *
  * @version 1.0 10/20/98
- * @author Nobuo Tamemasa, Bernard Horan Original version from
+ * @author Nobuo Tamemasa
+ * @author Bernard Horan
+ * Original version from
  * http://www.crionics.com/public/swing_examples/JTableExamples1.html
  */
 public class GroupableTableHeaderUI extends BasicTableHeaderUI {
@@ -43,11 +47,11 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 	Map<ColumnGroup, Rectangle> h = new HashMap<ColumnGroup, Rectangle>();
 	int columnMargin = header.getColumnModel().getColumnMargin();
 
-	Enumeration enumeration = header.getColumnModel().getColumns();
+	Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
 	while (enumeration.hasMoreElements()) {
 	    cellRect.height = size.height;
 	    cellRect.y = 0;
-	    TableColumn aColumn = (TableColumn) enumeration.nextElement();
+	    TableColumn aColumn = enumeration.nextElement();
 	    Iterator<ColumnGroup> cGroups = ((GroupableTableHeader) header).getColumnGroups(aColumn);
 	    if (cGroups != null) {
 		int groupHeight = 0;
@@ -122,9 +126,9 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 	return height;
     }
 
-    private Dimension createHeaderSize(long width) {
+    private Dimension createHeaderSize(long w) {
 	TableColumnModel columnModel = header.getColumnModel();
-	width += columnModel.getColumnMargin() * columnModel.getColumnCount();
+	long width = w + columnModel.getColumnMargin() * columnModel.getColumnCount();
 	if (width > Integer.MAX_VALUE) {
 	    width = Integer.MAX_VALUE;
 	}
@@ -134,10 +138,10 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
     @Override
     public Dimension getPreferredSize(JComponent c) {
 	long width = 0;
-	Enumeration enumeration = header.getColumnModel().getColumns();
+	Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
 	while (enumeration.hasMoreElements()) {
-	    TableColumn aColumn = (TableColumn) enumeration.nextElement();
-	    width = width + aColumn.getPreferredWidth();
+	    TableColumn aColumn = enumeration.nextElement();
+	    width += aColumn.getPreferredWidth();
 	}
 	return createHeaderSize(width);
     }

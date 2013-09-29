@@ -1,26 +1,30 @@
 
 package uk.ac.lkl.cram.ui;
 
-import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import uk.ac.lkl.cram.model.AELMTest;
-import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.ui.obsolete.TableTestForm;
+import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings("serial")
 public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ListOfTLAWizardPanel.class.getName());
 
@@ -119,6 +123,11 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 
         editButton.setText("Edit...");
         editButton.setEnabled(false);
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
         jPanel1.add(editButton);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -167,6 +176,14 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 	}
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        int index = activitiesTable.getSelectedRow();
+        TLALineItem li = module.getTLALineItems().get(index);
+        TLAOkCancelDialog dialog = new TLAOkCancelDialog((Frame) SwingUtilities.getWindowAncestor(this), true, module, li);
+        dialog.setTitle("Modify TLA");
+        dialog.setVisible(true);
+    }//GEN-LAST:event_editButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable activitiesTable;
     private javax.swing.JButton addButton;
@@ -212,12 +229,12 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     }
 
     private void addLineItem(TLALineItem lineItem) {
-	LOGGER.info("Adding lineItem: " + lineItem);
+	//LOGGER.info("Adding lineItem: " + lineItem);
 	module.addTLALineItem(lineItem);
     }
 
     private void removeLineItem(TLALineItem li) {
-        LOGGER.info("Removing line item: " + li);
+        //LOGGER.info("Removing line item: " + li);
         module.removeTLALineItem(li);
     }
 

@@ -101,7 +101,7 @@ public class ModulePanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         presentationTable = new javax.swing.JTable();
 
-        moduleDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Details..."));
+        moduleDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Details"));
 
         jLabel3.setText("Number of Hours:");
 

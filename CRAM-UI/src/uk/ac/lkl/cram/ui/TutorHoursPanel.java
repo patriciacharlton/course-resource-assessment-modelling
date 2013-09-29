@@ -3,18 +3,20 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Component;
 import java.awt.Font;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import uk.ac.lkl.cram.ui.table.ColumnGroup;
-import uk.ac.lkl.cram.ui.table.GroupableTableHeader;
 import javax.swing.table.TableColumnModel;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.ui.table.ColumnGroup;
+import uk.ac.lkl.cram.ui.table.GroupableTableHeader;
 
 /**
  * $Date$
  * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class TutorHoursPanel extends javax.swing.JPanel {
 
     /**
@@ -37,6 +39,7 @@ public class TutorHoursPanel extends javax.swing.JPanel {
 	g_3rd.add(tableColumnModel.getColumn(5));
 	g_3rd.add(tableColumnModel.getColumn(6));
 	GroupableTableHeader tableHeader = new GroupableTableHeader(tableColumnModel);
+        tableHeader.setToolTipText("(number of weeks * weekly hours) + non-weekly hours");
 	tableHeader.addColumnGroup(g_2nd);
 	tableHeader.addColumnGroup(g_3rd);
 	tutorHoursTable.setTableHeader(tableHeader);
@@ -102,7 +105,7 @@ public class TutorHoursPanel extends javax.swing.JPanel {
     private javax.swing.JTable tutorHoursTable;
     // End of variables declaration//GEN-END:variables
 
-    class LineItemRenderer extends DefaultTableCellRenderer {
+    private class LineItemRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
@@ -117,5 +120,19 @@ public class TutorHoursPanel extends javax.swing.JPanel {
 	    setToolTipText((String) value);
 	    return this;
 	}
+    }
+    
+    public static void main(String args[]) {
+        final JFrame frame = new JFrame("Tutor Hours Panel Panel");
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new TutorHoursPanel(new Module()));
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                frame.setVisible(true);
+            }
+        });
     }
 }

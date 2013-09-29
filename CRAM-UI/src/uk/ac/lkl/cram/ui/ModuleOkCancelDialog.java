@@ -15,10 +15,12 @@ import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
+ * $Revision$
  * @author bernard
  */
 public class ModuleOkCancelDialog extends javax.swing.JDialog {
     private static final Logger LOGGER = Logger.getLogger(ModuleOkCancelDialog.class.getName());
+    private static final long serialVersionUID = 1L;
 
     private ModuleWizardPanel mwPanel;
 
@@ -59,7 +61,7 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
 	mwPanel = new ModuleWizardPanel(module);
 	tabbedPane.addTab("Module", mwPanel);
 	final ListOfTLAWizardPanel lotlawp = new ListOfTLAWizardPanel(module);
-	tabbedPane.addTab("TLAs", lotlawp);
+	tabbedPane.addTab("Activities", lotlawp);
 	tabbedPane.addChangeListener(new ChangeListener() {
 	    @Override
 	    public void stateChanged(ChangeEvent ce) {
@@ -68,7 +70,7 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
 		}
 	    }
 	});
-
+        tabbedPane.setToolTipTextAt(1, "Teaching & Learning Activities");
     }
 
     /**
@@ -187,7 +189,6 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                System.out.println(dialog.getReturnStatus());
                 if (dialog.getReturnStatus() == RET_OK) {
                     AELMTest.runReport(module);
                 }

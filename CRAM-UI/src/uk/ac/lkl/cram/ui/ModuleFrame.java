@@ -2,8 +2,6 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -14,7 +12,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.KeyStroke;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
 import org.openide.DialogDisplayer;
@@ -44,10 +41,10 @@ public class ModuleFrame extends javax.swing.JFrame {
         this.module = module;
         initComponents();
 	
-	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+//	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+//	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+//	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+//	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
 	leftTaskPaneContainer.add(createCourseDataPane());
 	leftTaskPaneContainer.add(createLineItemPane());
@@ -198,7 +195,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void modifyRunsMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyRunsMIActionPerformed
-	PresentationOkCancelDialog dialog = new PresentationOkCancelDialog(new javax.swing.JFrame(), true, module);
+	PresentationOkCancelDialog dialog = new PresentationOkCancelDialog(this, true, module);
 	dialog.setTitle("Modify Runs");
 	dialog.setVisible(true);
 	//LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
@@ -278,6 +275,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private JXTaskPane createCourseDataPane() {
 	JXTaskPane courseDataPane = new JXTaskPane();
 	courseDataPane.setTitle("Module Data");
+        courseDataPane.setScrollOnExpand(true);
 	courseDataPane.add(new ModulePanel(module));
 	return courseDataPane;
     }
@@ -285,6 +283,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private JXTaskPane createLineItemPane() {
 	JXTaskPane lineItemPane = new JXTaskPane();
 	lineItemPane.setTitle("Student Hours");
+        lineItemPane.setScrollOnExpand(true);
 	final LineItemPanel lineItemPanel = new LineItemPanel(module);
 	lineItemPanel.addPropertyChangeListener(LineItemPanel.PROP_SELECTED_LINEITEM, new PropertyChangeListener() {
 	    @Override
@@ -312,6 +311,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     
     private JXTaskPane createTutorHoursPane() {
 	JXTaskPane tutorHoursPane = new JXTaskPane();
+        tutorHoursPane.setScrollOnExpand(true);
 	tutorHoursPane.setTitle("Tutor Hours");
 	tutorHoursPane.add(new TutorHoursPanel(module));
 	tutorHoursPane.setCollapsed(true);
@@ -320,6 +320,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     
     private JXTaskPane createTutorCostPane() {
 	JXTaskPane tutorCostPane = new JXTaskPane();
+        tutorCostPane.setScrollOnExpand(true);
 	tutorCostPane.setTitle("Tutor Cost");
 	tutorCostPane.add(new TutorCostPanel(module));
 	tutorCostPane.setCollapsed(true);
@@ -329,6 +330,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private JXTaskPane createLearningTypeChartPane() {
 	JXTaskPane typeChartPane = new JXTaskPane();
 	typeChartPane.setTitle("Learning Types");
+        typeChartPane.setScrollOnExpand(true);
 	ChartPanel chartPanel = LearningTypeChartFactory.createChartPanel(module);
 	chartPanel.setPreferredSize(new Dimension(150, 200));
 	typeChartPane.add(chartPanel);
@@ -337,6 +339,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 
     private JXTaskPane createLearningExperienceChartPane() {
 	JXTaskPane experienceChartPane = new JXTaskPane();
+        experienceChartPane.setScrollOnExpand(true);
 	experienceChartPane.setTitle("Learning Experiences");
 	ChartPanel chartPanel = LearningExperienceChartFactory.createChartPanel(module);
 	chartPanel.setPreferredSize(new Dimension(125,200));
@@ -347,6 +350,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private JXTaskPane createHoursChartPane() {
 	JXTaskPane hoursChartPane = new JXTaskPane();
 	hoursChartPane.setTitle("Hours");
+        hoursChartPane.setScrollOnExpand(true);
 	ChartPanel chartPanel = HoursChartFactory.createChartPanel(module);
 	chartPanel.setPreferredSize(new Dimension(200, 200));
 	hoursChartPane.add(chartPanel);
@@ -355,6 +359,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 
     private JXTaskPane createTotalCostsPane() {
 	JXTaskPane costPane = new JXTaskPane();
+        costPane.setScrollOnExpand(true);
 	costPane.setTitle("Summary");
 	costPane.add(new CostPanel(module));
 	costPane.setCollapsed(true);
@@ -363,7 +368,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     
     private void modifySelectedLineItem() {
 	if (selectedLineItem instanceof TLALineItem) {
-	    TLAOkCancelDialog dialog = new TLAOkCancelDialog(new javax.swing.JFrame(), true, module, (TLALineItem) selectedLineItem);
+	    TLAOkCancelDialog dialog = new TLAOkCancelDialog(this, true, module, (TLALineItem) selectedLineItem);
 	    dialog.setTitle("Modify TLA");
 	    dialog.setVisible(true);
 	    //LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());

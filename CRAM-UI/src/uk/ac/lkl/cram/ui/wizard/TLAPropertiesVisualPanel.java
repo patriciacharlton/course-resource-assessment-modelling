@@ -210,12 +210,16 @@ public class TLAPropertiesVisualPanel extends JPanel {
         studentInteractionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.studentInteractionPanel.border.title"))); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(tutorPresentCB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.tutorPresentCB.text")); // NOI18N
+        tutorPresentCB.setToolTipText(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.tutorPresentCB.toolTipText")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(locationSpecificCB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.locationSpecificCB.text")); // NOI18N
+        locationSpecificCB.setToolTipText(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.locationSpecificCB.toolTipText")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(onlineCB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.onlineCB.text")); // NOI18N
+        onlineCB.setToolTipText(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.onlineCB.toolTipText")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(timeSpecificCB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.timeSpecificCB.text")); // NOI18N
+        timeSpecificCB.setToolTipText(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.timeSpecificCB.toolTipText")); // NOI18N
 
         javax.swing.GroupLayout studentInteractionPanelLayout = new javax.swing.GroupLayout(studentInteractionPanel);
         studentInteractionPanel.setLayout(studentInteractionPanelLayout);
