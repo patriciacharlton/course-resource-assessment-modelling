@@ -75,7 +75,7 @@ public class LearningExperienceChartFactory {
 	};
 	
 	for (TLALineItem lineItem : module.getTLALineItems()) {
-	    LOGGER.info("adding listeners to : " + lineItem.getName());
+	    //LOGGER.info("adding listeners to : " + lineItem.getName());
 	    lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_LEARNING_EXPERIENCE, learningExperienceListener);
 	    lineItem.addPropertyChangeListener(learningExperienceListener);
 	}

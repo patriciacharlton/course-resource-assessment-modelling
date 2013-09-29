@@ -72,7 +72,7 @@ public class HoursChartFactory {
 	for (ModulePresentation modulePresentation : module.getModulePresentations()) {
 	    modulePresentation.addPropertyChangeListener(ModulePresentation.PROP_STUDENT_COUNT, presentationListener);
 	    for (TLALineItem lineItem : module.getTLALineItems()) {
-		LOGGER.info("adding listener to : " + lineItem.getName());
+		//LOGGER.info("adding listener to : " + lineItem.getName());
 		SupportTime st = lineItem.getSupportTime(modulePresentation);
 		st.addPropertyChangeListener(presentationListener);
 		PreparationTime pt = lineItem.getPreparationTime(modulePresentation);

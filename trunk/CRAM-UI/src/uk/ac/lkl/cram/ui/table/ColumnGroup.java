@@ -19,11 +19,16 @@ import javax.swing.table.TableColumn;
 
 /**
  * ColumnGroup
+ * $Date$
+ * $Revision$
  *
  * @version 1.0 10/20/98
- * @author Nobuo TamemasaBernard Horan Original version from
+ * @author Nobuo Tamemasa
+ * @author Bernard Horan 
+ * Original version from
  * http://www.crionics.com/public/swing_examples/JTableExamples1.html
  */
+@SuppressWarnings("ClassWithoutLogger")
 public class ColumnGroup {
 
     protected TableCellRenderer renderer;
@@ -34,10 +39,11 @@ public class ColumnGroup {
     public ColumnGroup(String text) {
 	this(null, text);
     }
-
+    
     public ColumnGroup(TableCellRenderer renderer, String text) {
 	if (renderer == null) {
 	    this.renderer = new DefaultTableCellRenderer() {
+                private static final long serialVersionUID = 1L;
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
@@ -63,6 +69,7 @@ public class ColumnGroup {
     /**
      * @param obj TableColumn or ColumnGroup
      */
+    @SuppressWarnings("unchecked")
     public void add(Object obj) {
 	if (obj == null) {
 	    return;
@@ -75,6 +82,7 @@ public class ColumnGroup {
      * @param g
      * @return  
      */
+    @SuppressWarnings("unchecked")
     public List<ColumnGroup> getColumnGroups(TableColumn c, ArrayList g) {
 	g.add(this);
 	if (list.contains(c)) {

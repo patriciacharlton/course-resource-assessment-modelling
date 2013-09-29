@@ -7,8 +7,7 @@ import java.text.ParseException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.JFrame;
-import javax.swing.JSlider;
-import javax.swing.UIManager;
+import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import uk.ac.lkl.cram.model.AELMTest;
@@ -18,6 +17,7 @@ import uk.ac.lkl.cram.model.TLActivity;
  *
  * @author Bernard Horan
  */
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class TLAWizardPanel extends javax.swing.JPanel {
     private TLActivity tlActivity;
     
@@ -27,68 +27,67 @@ public class TLAWizardPanel extends javax.swing.JPanel {
      */
     public TLAWizardPanel(TLActivity tla) {
 	this.tlActivity = tla;
-        UIManager.put("Slider.paintValue", true);
         initComponents();
 	
 	tlActivity.getLearningType().addPropertyChangeListener(new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
-		learningTypeSliderChanged();
+		learningTypeSpinnerChanged();
 	    }
 	});	
 	
-	acquisitionSlider.setValue(tlActivity.getLearningType().getAcquisition());
-        acquisitionSlider.addChangeListener(new ChangeListener() {
+	acquisitionSpinner.setValue(tlActivity.getLearningType().getAcquisition());
+        acquisitionSpinner.addChangeListener(new ChangeListener() {
 
 	    @Override
 	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int aquisition = source.getValue();
+		JSpinner source = (JSpinner) ce.getSource();
+                int aquisition = (Integer) source.getValue();
                 tlActivity.getLearningType().setAcquisition(aquisition);			    
 	    }
 	});
 	
-	discussionSlider.setValue(tlActivity.getLearningType().getDiscussion());
-        discussionSlider.addChangeListener(new ChangeListener() {
+	discussionSpinner.setValue(tlActivity.getLearningType().getDiscussion());
+        discussionSpinner.addChangeListener(new ChangeListener() {
 
 	    @Override
 	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int discussion = source.getValue();
+		JSpinner source = (JSpinner) ce.getSource();
+                int discussion = (Integer) source.getValue();
                 tlActivity.getLearningType().setDiscussion(discussion);	
 	    }
 	});
 	
-        inquirySlider.setValue(tlActivity.getLearningType().getInquiry());
-	inquirySlider.addChangeListener(new ChangeListener() {
+        inquirySpinner.setValue(tlActivity.getLearningType().getInquiry());
+	inquirySpinner.addChangeListener(new ChangeListener() {
 
 	    @Override
 	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int inquiry = source.getValue();
+		JSpinner source = (JSpinner) ce.getSource();
+                int inquiry = (Integer) source.getValue();
                 tlActivity.getLearningType().setInquiry(inquiry);			    
 	    }
 	});
 	
-        practiceSlider.setValue(tlActivity.getLearningType().getPractice());
-	practiceSlider.addChangeListener(new ChangeListener() {
+        practiceSpinner.setValue(tlActivity.getLearningType().getPractice());
+	practiceSpinner.addChangeListener(new ChangeListener() {
 
 	    @Override
 	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int practice = source.getValue();
+		JSpinner source = (JSpinner) ce.getSource();
+                int practice = (Integer) source.getValue();
                 tlActivity.getLearningType().setPractice(practice);			    
 	    }
 	});
 	
-        productionSlider.setValue(tlActivity.getLearningType().getProduction());
-	productionSlider.addChangeListener(new ChangeListener() {
+        productionSpinner.setValue(tlActivity.getLearningType().getProduction());
+	productionSpinner.addChangeListener(new ChangeListener() {
 
 	    @Override
 	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int production = source.getValue();
+		JSpinner source = (JSpinner) ce.getSource();
+                int production = (Integer) source.getValue();
                 tlActivity.getLearningType().setProduction(production);			    
 	    }
 	});
@@ -115,7 +114,7 @@ public class TLAWizardPanel extends javax.swing.JPanel {
             }
         };
         totalLearningTypeField.setFormatterFactory(aff);
-        learningTypeSliderChanged();
+        learningTypeSpinnerChanged();
     }
 
     /**
@@ -130,16 +129,16 @@ public class TLAWizardPanel extends javax.swing.JPanel {
         learningExperiencePanel = new javax.swing.JPanel();
         learningTypePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        acquisitionSlider = new javax.swing.JSlider();
         jLabel2 = new javax.swing.JLabel();
-        inquirySlider = new javax.swing.JSlider();
         jLabel3 = new javax.swing.JLabel();
-        discussionSlider = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
-        practiceSlider = new javax.swing.JSlider();
         jLabel5 = new javax.swing.JLabel();
-        productionSlider = new javax.swing.JSlider();
         totalLearningTypeField = new javax.swing.JFormattedTextField();
+        discussionSpinner = new javax.swing.JSpinner();
+        inquirySpinner = new javax.swing.JSpinner();
+        acquisitionSpinner = new javax.swing.JSpinner();
+        practiceSpinner = new javax.swing.JSpinner();
+        productionSpinner = new javax.swing.JSpinner();
 
         learningExperiencePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Nature of Learning Experience"));
 
@@ -151,95 +150,88 @@ public class TLAWizardPanel extends javax.swing.JPanel {
         );
         learningExperiencePanelLayout.setVerticalGroup(
             learningExperiencePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 286, Short.MAX_VALUE)
+            .add(0, 418, Short.MAX_VALUE)
         );
 
         learningTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("% each learning type it elicits"));
 
         jLabel1.setText("Acquisition:");
 
-        acquisitionSlider.setMajorTickSpacing(10);
-        acquisitionSlider.setPaintTicks(true);
-
         jLabel2.setText("Inquiry:");
-
-        inquirySlider.setMajorTickSpacing(10);
-        inquirySlider.setPaintTicks(true);
 
         jLabel3.setText("Discussion:");
 
-        discussionSlider.setMajorTickSpacing(10);
-        discussionSlider.setPaintTicks(true);
-
         jLabel4.setText("Practice:");
-
-        practiceSlider.setMajorTickSpacing(10);
-        practiceSlider.setPaintTicks(true);
 
         jLabel5.setText("Production:");
 
-        productionSlider.setMajorTickSpacing(10);
-        productionSlider.setPaintTicks(true);
-
         totalLearningTypeField.setEditable(false);
         totalLearningTypeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        discussionSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        discussionSpinner.setBounds(new java.awt.Rectangle(0, 0, 37, 28));
+
+        inquirySpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        inquirySpinner.setBounds(new java.awt.Rectangle(0, 0, 37, 28));
+
+        acquisitionSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        acquisitionSpinner.setBounds(new java.awt.Rectangle(0, 0, 37, 28));
+
+        practiceSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        practiceSpinner.setBounds(new java.awt.Rectangle(0, 0, 37, 28));
+
+        productionSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        productionSpinner.setBounds(new java.awt.Rectangle(0, 0, 37, 28));
 
         org.jdesktop.layout.GroupLayout learningTypePanelLayout = new org.jdesktop.layout.GroupLayout(learningTypePanel);
         learningTypePanel.setLayout(learningTypePanelLayout);
         learningTypePanelLayout.setHorizontalGroup(
             learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, learningTypePanelLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel1)
-                    .add(jLabel3)
-                    .add(jLabel2)
-                    .add(jLabel4)
-                    .add(jLabel5))
-                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(learningTypePanelLayout.createSequentialGroup()
+                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(totalLearningTypeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(learningTypePanelLayout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(acquisitionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 143, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(inquirySlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 135, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(discussionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 143, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(practiceSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 143, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(productionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 143, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .add(learningTypePanelLayout.createSequentialGroup()
-                        .add(73, 73, 73)
-                        .add(totalLearningTypeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                            .add(jLabel1)
+                            .add(jLabel2)
+                            .add(jLabel3)
+                            .add(jLabel4)
+                            .add(jLabel5))
+                        .add(0, 0, 0)
+                        .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(acquisitionSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(inquirySpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(discussionSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(practiceSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(productionSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .add(185, 185, 185))
         );
-
-        learningTypePanelLayout.linkSize(new java.awt.Component[] {acquisitionSlider, discussionSlider, inquirySlider, practiceSlider, productionSlider}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
         learningTypePanelLayout.setVerticalGroup(
             learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(learningTypePanelLayout.createSequentialGroup()
-                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(acquisitionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(learningTypePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jLabel1)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel2)
-                    .add(inquirySlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(discussionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(acquisitionSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel1))
+                .add(12, 12, 12)
+                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(inquirySpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel2))
+                .add(0, 0, 0)
+                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(discussionSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel3))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(practiceSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(practiceSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel4))
-                .add(6, 6, 6)
-                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(productionSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, 0)
+                .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(productionSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel5))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(0, 0, 0)
                 .add(totalLearningTypeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -249,28 +241,24 @@ public class TLAWizardPanel extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(learningTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(49, 49, 49)
                 .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(0, 0, 0)
+            .add(layout.createSequentialGroup()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(learningTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-
-        layout.linkSize(new java.awt.Component[] {learningExperiencePanel, learningTypePanel}, org.jdesktop.layout.GroupLayout.VERTICAL);
-
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSlider acquisitionSlider;
-    private javax.swing.JSlider discussionSlider;
-    private javax.swing.JSlider inquirySlider;
+    private javax.swing.JSpinner acquisitionSpinner;
+    private javax.swing.JSpinner discussionSpinner;
+    private javax.swing.JSpinner inquirySpinner;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -278,17 +266,17 @@ public class TLAWizardPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel learningExperiencePanel;
     private javax.swing.JPanel learningTypePanel;
-    private javax.swing.JSlider practiceSlider;
-    private javax.swing.JSlider productionSlider;
+    private javax.swing.JSpinner practiceSpinner;
+    private javax.swing.JSpinner productionSpinner;
     private javax.swing.JFormattedTextField totalLearningTypeField;
     // End of variables declaration//GEN-END:variables
 
-    private void learningTypeSliderChanged() {
-        int totalLearningType = acquisitionSlider.getValue();
-        totalLearningType += inquirySlider.getValue();
-        totalLearningType += discussionSlider.getValue();
-        totalLearningType += productionSlider.getValue();
-        totalLearningType += practiceSlider.getValue();
+    private void learningTypeSpinnerChanged() {
+        int totalLearningType = (Integer) acquisitionSpinner.getValue();
+        totalLearningType += (Integer) inquirySpinner.getValue();
+        totalLearningType += (Integer) discussionSpinner.getValue();
+        totalLearningType += (Integer) productionSpinner.getValue();
+        totalLearningType += (Integer) practiceSpinner.getValue();
         totalLearningTypeField.setValue(totalLearningType);
         Color fieldColour; 
         if (totalLearningType == 100) {
