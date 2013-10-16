@@ -197,6 +197,7 @@ public class CRAMApplication {
 
     private boolean openModule() {
         JFileChooser jfc = new JFileChooser();
+        jfc.setAcceptAllFileFilterUsed(false);
         jfc.setDialogTitle("Open CRAM Module");
         FileFilter filter = new FileNameExtensionFilter("CRAM Module File", "mamx");
         jfc.addChoosableFileFilter(filter);
@@ -223,6 +224,7 @@ public class CRAMApplication {
     private void saveModule(ModuleFrame moduleFrame) {
         Module module = moduleFrame.getModule();
         JFileChooser jfc = new JFileChooser();
+        jfc.setAcceptAllFileFilterUsed(false);
         jfc.setDialogTitle("Save CRAM Module");
         FileFilter filter = new FileNameExtensionFilter("CRAM Module File", "mamx");
         jfc.setFileFilter(filter);

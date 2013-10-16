@@ -115,7 +115,7 @@ public class LearningTypeChartFactory {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
-		LOGGER.info("property change: " + pce);
+		//LOGGER.info("property change: " + pce);
 		populateDataset(dataset, module);
 	    }
 	};
