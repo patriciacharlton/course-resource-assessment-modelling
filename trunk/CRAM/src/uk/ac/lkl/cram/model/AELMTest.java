@@ -8,14 +8,16 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
-import uk.ac.lkl.cram.model.io.ModuleMarshaller;
+import uk.ac.lkl.cram.model.ModulePresentation.Run;
 import uk.ac.lkl.cram.model.io.ModuleExporter;
+import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 
 /**
  * $Date$
  * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings("ClassWithoutLogger")
 public class AELMTest {
 
 	/**
@@ -33,9 +35,9 @@ public class AELMTest {
             module.setTotalCreditHourCount(300);
             module.setWeekCount(12);
             module.setTutorGroupSize(15);
-            module.setPresentationOne(new ModulePresentation(15, 1610, 182, 450));
-            module.setPresentationTwo(new ModulePresentation(20, 1695, 182, 450));
-            module.setPresentationThree(new ModulePresentation(20, 1695, 182, 450));
+            module.setPresentationOne(new ModulePresentation(Run.FIRST, 15, 1610, 182, 450));
+            module.setPresentationTwo(new ModulePresentation(Run.SECOND, 20, 1695, 182, 450));
+            module.setPresentationThree(new ModulePresentation(Run.THIRD, 20, 1695, 182, 450));
             addTutoredDiscussionOnline(module);
             addReadingOnlineAndOffline(module);
             addFormativePractice(module);
@@ -48,6 +50,7 @@ public class AELMTest {
             return module;
         }
 
+        @SuppressWarnings("deprecation")
 	private static void addTutoredDiscussionOnline(Module module) {
 		TLActivity tla = new TLActivity("Tutored discussion online");
 		tla.setLearningType(new LearningType(10, 20, 70, 0, 0));
@@ -69,6 +72,7 @@ public class AELMTest {
 		module.addTLALineItem(li);
 	}
 	
+        @SuppressWarnings("deprecation")
 	private static void addReadingOnlineAndOffline(Module module) {
 		TLActivity tla = new TLActivity("Reading online and offline");
 		tla.setLearningType(new LearningType(100, 0, 0, 0, 0));
@@ -90,6 +94,7 @@ public class AELMTest {
 		module.addTLALineItem(li);
 	}
 	
+        @SuppressWarnings("deprecation")
 	private static void addFormativePractice(Module module) {
 		TLActivity tla = new TLActivity("Formative practice\t");
 		tla.setLearningType(new LearningType(0, 0, 0, 50, 50));
@@ -111,6 +116,7 @@ public class AELMTest {
 		module.addTLALineItem(li);
 	}
 	
+        @SuppressWarnings("deprecation")
 	private static void addSummativeAssessment(Module module) {
 		TLActivity tla = new TLActivity("Summative Assessment\t");
 		tla.setLearningType(new LearningType(0, 0, 0, 0, 100));
@@ -132,6 +138,7 @@ public class AELMTest {
 		module.addTLALineItem(li);
 	}
 	
+        @SuppressWarnings("deprecation")
 	private static void addBuildingUpOwnNotes(Module module) {
 		TLActivity tla = new TLActivity("Building up own notes\t");
 		tla.setLearningType(new LearningType(0, 40, 0, 60, 0));
@@ -153,6 +160,7 @@ public class AELMTest {
 		module.addTLALineItem(li);
 	}
 	
+        @SuppressWarnings("deprecation")
 	private static void addExploringResources(Module module) {
 		TLActivity tla = new TLActivity("Exploring resources\t");
 		tla.setLearningType(new LearningType(30, 70, 0, 0, 0));
@@ -174,6 +182,7 @@ public class AELMTest {
 		module.addTLALineItem(li);
 	}
 	
+        @SuppressWarnings("deprecation")
 	private static void addApplicationOfConcept(Module module) {
 		TLActivity tla = new TLActivity("Application of Concept\t");
 		tla.setLearningType(new LearningType(0, 0, 0, 100, 0));
@@ -195,6 +204,7 @@ public class AELMTest {
 		module.addTLALineItem(li);
 	}
 	
+        @SuppressWarnings("deprecation")
 	private static void addPersonalTuition(Module module) {
 		TLActivity tla = new TLActivity("Personal Tuition\t");
 		tla.setLearningType(new LearningType(0, 0, 100, 0, 0));
@@ -230,6 +240,7 @@ public class AELMTest {
 		reportCosts(module);
 	}
 
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void reportActivity(Module module) {
 		for (TLALineItem lineItem : module.getTLALineItems()) {
 			TLActivity tla = lineItem.getActivity();
@@ -242,6 +253,7 @@ public class AELMTest {
 		System.out.println("Self regulated learning:\t" + module.getSelfRegulatedLearningHourCount());
 	}
 
+        @SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void reportPreparations(Module module) {
 		System.out.println("\n1st run: preparation hours");
 		reportPresentationPreparation(module, module.getPresentationOne());
@@ -251,6 +263,7 @@ public class AELMTest {
 		reportPresentationPreparation(module, module.getPresentationThree());
 	}
 	
+        @SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void reportSupport(Module module) {
 		System.out.println("\n1st run: Individual tutor time to support the work of each group or individual");
 		reportPresentationSupport(module, module.getPresentationOne());
@@ -260,6 +273,7 @@ public class AELMTest {
 		reportPresentationSupport(module, module.getPresentationThree());
 	}
 	
+        @SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void reportPresentationPreparation(Module module, ModulePresentation modulePresentation) {
 		for (TLALineItem lineItem : module.getTLALineItems()) {
 			TLActivity tla = lineItem.getActivity();
@@ -277,6 +291,7 @@ public class AELMTest {
 		System.out.println("\t" + DecimalFormat.getCurrencyInstance().format(module.getTotalPreparationCost(modulePresentation)));
 	}
 
+        @SuppressWarnings("UseOfSystemOutOrSystemErr")
 	private static void reportPresentationSupport(Module module, ModulePresentation modulePresentation) {
 		for (TLALineItem lineItem : module.getTLALineItems()) {
 			TLActivity tla = lineItem.getActivity();
@@ -304,6 +319,7 @@ public class AELMTest {
 		System.out.println("\t" + DecimalFormat.getCurrencyInstance().format(module.getTotalSupportCost(modulePresentation)));
 	}
 
+        @SuppressWarnings({"AssignmentReplaceableWithOperatorAssignment", "UseOfSystemOutOrSystemErr"})
 	public static void reportLearningTypes(Module module) {
 		float acquisition = 0, inquiry = 0, discussion = 0, practice = 0, production = 0;
 		for (TLALineItem lineItem : module.getTLALineItems()) {
@@ -319,6 +335,7 @@ public class AELMTest {
 		System.out.println("\nLearning Types:\t\t" + acquisition + "\t" + inquiry + "\t" + discussion + "\t" + practice + "\t" + production);
 	}
 	
+        @SuppressWarnings({"AssignmentReplaceableWithOperatorAssignment", "UseOfSystemOutOrSystemErr"})
 	public static void reportLearningExperience(Module module) {
 		float personalised = 0, social = 0, oneSizeForAll = 0;
 		for (TLALineItem lineItem : module.getTLALineItems()) {
@@ -342,6 +359,7 @@ public class AELMTest {
 		System.out.println("\nLearning Experience:\t" + personalised + "\t" + social + "\t" + oneSizeForAll );
 	}
 
+        @SuppressWarnings("UseOfSystemOutOrSystemErr")
 	private static void reportCosts(Module module) {
 		NumberFormat formatter = DecimalFormat.getCurrencyInstance();
 		formatter.setMaximumFractionDigits(0);

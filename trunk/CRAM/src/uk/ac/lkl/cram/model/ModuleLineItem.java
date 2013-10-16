@@ -2,7 +2,7 @@ package uk.ac.lkl.cram.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.IdentityHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -11,16 +11,18 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 @XmlType(propOrder = {"name", "supportMap"})
+@SuppressWarnings("ClassWithoutLogger")
 public class ModuleLineItem implements LineItem {
 
     private static final long serialVersionUID = 1L;
     
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
     @XmlElement(name = "supportMap")
-    private Map<ModulePresentation, SupportTime> supportMap = new IdentityHashMap<ModulePresentation, SupportTime>();
+    private Map<ModulePresentation, SupportTime> supportMap = new HashMap<ModulePresentation, SupportTime>();
     
     @XmlElement
     private String name;
@@ -68,6 +70,7 @@ public class ModuleLineItem implements LineItem {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

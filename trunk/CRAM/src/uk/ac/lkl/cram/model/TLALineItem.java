@@ -2,7 +2,7 @@ package uk.ac.lkl.cram.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.IdentityHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,7 +16,7 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
  * @author Bernard Horan
  */
 @XmlType(propOrder = {"weeklyLearnerHourCount", "nonWeeklyLearnerHourCount", "activity", "preparationMap", "supportMap"})
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class TLALineItem implements LineItem {
 
     public static final String PROP_ACTIVITY = "activity";
@@ -28,11 +28,11 @@ public class TLALineItem implements LineItem {
     
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
     @XmlElement(name = "preparationMap")
-    private Map<ModulePresentation, PreparationTime> preparationMap = new IdentityHashMap<ModulePresentation, PreparationTime>();
+    private Map<ModulePresentation, PreparationTime> preparationMap = new HashMap<ModulePresentation, PreparationTime>();
     
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
     @XmlElement(name = "supportMap")
-    private Map<ModulePresentation, SupportTime> supportMap = new IdentityHashMap<ModulePresentation, SupportTime>();
+    private Map<ModulePresentation, SupportTime> supportMap = new HashMap<ModulePresentation, SupportTime>();
     
     private TLActivity activity;
     
@@ -179,6 +179,7 @@ public class TLALineItem implements LineItem {
     }
 
     @Override
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
 	if (obj == null) {
 	    return false;

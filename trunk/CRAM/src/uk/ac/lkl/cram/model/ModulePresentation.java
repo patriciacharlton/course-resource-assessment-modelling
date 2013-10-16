@@ -4,9 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.logging.Logger;
-
 import javax.xml.bind.annotation.XmlAttribute;
-
 import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**
@@ -27,18 +25,26 @@ public class ModulePresentation implements Serializable, Calculable {
     private int fee;
     private int juniorCostPerDay;
     private int seniorCostPerDay;
+    @XmlAttribute
+    private Run run;
     private PropertyChangeSupport propertySupport;
 
-    public ModulePresentation(int studentCount, int fee, int juniorCostPerDay, int seniorCostPerDay) {
-	this();
+    public ModulePresentation(Run aRun, int studentCount, int fee, int juniorCostPerDay, int seniorCostPerDay) {
+	this(aRun);
 	this.studentCount = studentCount;
 	this.fee = fee;
 	this.juniorCostPerDay = juniorCostPerDay;
 	this.seniorCostPerDay = seniorCostPerDay;
     }
 
+    public ModulePresentation(Run aRun) {
+	this();
+        run = aRun;
+    }
+    
     public ModulePresentation() {
-	super();
+        super();
+        run = Run.FIRST;
 	propertySupport = new PropertyChangeSupport(this);
     }
 
@@ -121,37 +127,32 @@ public class ModulePresentation implements Serializable, Calculable {
 
     @Override
     public int hashCode() {
-	int hash = 7;
-	hash = 37 * hash + this.studentCount;
-	hash = 37 * hash + this.fee;
-	hash = 37 * hash + this.juniorCostPerDay;
-	hash = 37 * hash + this.seniorCostPerDay;
-	return hash;
+        int hash = 5;
+        hash = 89 * hash + (this.run != null ? this.run.hashCode() : 0);
+        return hash;
     }
 
     @Override
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final ModulePresentation other = (ModulePresentation) obj;
-	if (this.studentCount != other.studentCount) {
-	    return false;
-	}
-	if (this.fee != other.fee) {
-	    return false;
-	}
-	if (this.juniorCostPerDay != other.juniorCostPerDay) {
-	    return false;
-	}
-	if (this.seniorCostPerDay != other.seniorCostPerDay) {
-	    return false;
-	}
-	return true;
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ModulePresentation other = (ModulePresentation) obj;
+        if (this.run != other.run) {
+            return false;
+        }
+        return true;
     }
+
+    
+    
+    
+    @SuppressWarnings("PublicInnerClass")
+    public enum Run {FIRST, SECOND, THIRD};
 
     
 }
