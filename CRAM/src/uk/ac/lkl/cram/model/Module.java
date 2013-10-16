@@ -1,6 +1,5 @@
 package uk.ac.lkl.cram.model;
 
-import uk.ac.lkl.cram.model.calculations.Calculable;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -8,12 +7,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import uk.ac.lkl.cram.model.ModulePresentation.Run;
+import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**
  * $Date$
@@ -57,9 +57,9 @@ public class Module implements Serializable, Calculable {
     public Module() {
 	propertySupport = new PropertyChangeSupport(this);
 	moduleName = "";
-	presentations[0] = new ModulePresentation();
-	presentations[1] = new ModulePresentation();
-	presentations[2] = new ModulePresentation();
+	presentations[0] = new ModulePresentation(Run.FIRST);
+	presentations[1] = new ModulePresentation(Run.SECOND);
+	presentations[2] = new ModulePresentation(Run.THIRD);
 		}
 
     public Module(String name) {
@@ -79,6 +79,7 @@ public class Module implements Serializable, Calculable {
         propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, i, li, null);
     }
 
+    @SuppressWarnings("ReturnOfCollectionOrArrayField")
     public List<TLALineItem> getTLALineItems() {
 	return tlaLineItems;
     }
@@ -121,6 +122,7 @@ public class Module implements Serializable, Calculable {
 	presentations[2] = modulePresentation;
     }
 
+    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getSelfRegulatedLearningHourCount() {
 	float totalHourCount = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -145,6 +147,7 @@ public class Module implements Serializable, Calculable {
 	moduleLineItems.add(mi);
     }
 
+    @SuppressWarnings("ReturnOfCollectionOrArrayField")
     List<ModuleLineItem> getModuleItems() {
 	return moduleLineItems;
     }
@@ -153,6 +156,7 @@ public class Module implements Serializable, Calculable {
 	return tutorGroupSize;
     }
 
+    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalPreparationHours(ModulePresentation modulePresentation) {
 	float totalHours = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -164,6 +168,7 @@ public class Module implements Serializable, Calculable {
 	return totalHours;
     }
 
+    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalPreparationCost(ModulePresentation modulePresentation) {
 	float totalHours = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -175,6 +180,7 @@ public class Module implements Serializable, Calculable {
 	return totalHours;
     }
 
+    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalSupportHours(ModulePresentation modulePresentation) {
 	float totalHours = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -188,6 +194,7 @@ public class Module implements Serializable, Calculable {
 	return totalHours;
     }
 
+    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalSupportCost(ModulePresentation modulePresentation) {
 	float totalCost = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -277,6 +284,7 @@ public class Module implements Serializable, Calculable {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;

@@ -1,13 +1,16 @@
 package uk.ac.lkl.cram.model;
 
 import java.util.List;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
+import uk.ac.lkl.cram.model.ModulePresentation.Run;
 
 /**
- *
- * @author bernard
+ * $Date$
+ * $Revision$
+ * @author bernard horan
  */
+@SuppressWarnings("ClassWithoutLogger")
 public class TLALineItemTest extends CRAMTest {
     
     public TLALineItemTest() {
@@ -17,6 +20,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getMaximumGroupSize method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetMaximumGroupSize() {
         System.out.println("getMaximumGroupSize");
 	ModulePresentation createdPresentation = createdModule.getPresentationOne();
@@ -33,6 +37,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getWeeklyLearnerHourCount method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetWeeklyLearnerHourCount() {
         System.out.println("getWeeklyLearnerHourCount");
         int index = 0;
@@ -47,6 +52,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of setWeeklyLearnerHourCount method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testSetWeeklyLearnerHourCount() {
         System.out.println("setWeeklyLearnerHourCount");
         float f = 3.0F;
@@ -59,6 +65,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getNonWeeklyLearnerHourCount method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetNonWeeklyLearnerHourCount() {
         System.out.println("getNonWeeklyLearnerHourCount");
         int index = 0;
@@ -73,6 +80,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of setNonWeeklyLearnerHourCount method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testSetNonWeeklyLearnerHourCount() {
         System.out.println("setNonWeeklyLearnerHourCount");
         float f = 3.0F;
@@ -85,6 +93,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getTotalLearnerHourCount method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetTotalLearnerHourCount() {
         System.out.println("getTotalLearnerHourCount");
         int index = 0;
@@ -99,9 +108,10 @@ public class TLALineItemTest extends CRAMTest {
      * Test of setPreparationTime method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testSetPreparationTime() {
         System.out.println("setPreparationTime");
-        ModulePresentation mp = new ModulePresentation();
+        ModulePresentation mp = new ModulePresentation(Run.FIRST);
         PreparationTime pt = new PreparationTime();
         TLALineItem instance = new TLALineItem();
         instance.setPreparationTime(mp, pt);
@@ -112,6 +122,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getPreparationTime method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetPreparationTime() {
         System.out.println("getPreparationTime");
         ModulePresentation createdPresentation = createdModule.getPresentationOne();
@@ -128,9 +139,10 @@ public class TLALineItemTest extends CRAMTest {
      * Test of setSupportTime method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testSetSupportTime() {
         System.out.println("setSupportTime");
-        ModulePresentation mp = new ModulePresentation();
+        ModulePresentation mp = new ModulePresentation(Run.FIRST);
         SupportTime st = new SupportTime();
         TLALineItem instance = new TLALineItem();
         instance.setSupportTime(mp, st);
@@ -141,6 +153,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getSupportTime method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetSupportTime() {
         System.out.println("getSupportTime");
         ModulePresentation createdPresentation = createdModule.getPresentationOne();
@@ -157,6 +170,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getActivity method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetActivity() {
         System.out.println("getActivity");
         int index = 0;
@@ -171,6 +185,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getName method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetName() {
         System.out.println("getName");
         int index = 0;
@@ -185,6 +200,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getTotalHours method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetTotalHours() {
         System.out.println("getTotalHours");
         ModulePresentation createdPresentation = createdModule.getPresentationOne();
@@ -202,6 +218,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getCost method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetCost() {
         System.out.println("getCost");
         ModulePresentation createdPresentation = createdModule.getPresentationOne();
@@ -219,6 +236,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of setActivity method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testSetActivity() {
         System.out.println("setActivity");
         TLActivity selectedTLA = new TLActivity();
