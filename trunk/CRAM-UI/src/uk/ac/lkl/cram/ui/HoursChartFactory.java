@@ -125,7 +125,6 @@ public class HoursChartFactory {
 	plot.setOutlineVisible(false);
 	StackedBarRenderer sbRenderer = (StackedBarRenderer) plot.getRenderer();
 	sbRenderer.setBarPainter(new StandardBarPainter());
-	sbRenderer.setShadowVisible(true);
 	CategoryAxis categoryAxis = plot.getDomainAxis();
 	categoryAxis.setLabelFont(chartFont);
 	NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();

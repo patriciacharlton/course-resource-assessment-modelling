@@ -4,6 +4,7 @@ package uk.ac.lkl.cram.ui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.text.DecimalFormat;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -13,6 +14,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.ui.table.ToolTipHeader;
 
 /**
  * $Date$
@@ -22,6 +25,8 @@ import uk.ac.lkl.cram.model.Module;
 @SuppressWarnings("serial")
 public class LineItemPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(LineItemPanel.class.getName());
+    private static final String[] toolTipStr = {"","","","non-weekly hours + (weekly hours * number of weeks)"};
+    private static final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat( "#.0" );
 
     public static final String PROP_SELECTED_LINEITEM = " selected_line_item";
     private LineItem selectedLineItem = null;
@@ -48,9 +53,14 @@ public class LineItemPanel extends javax.swing.JPanel {
 		}
 	    }
 	});
-	TableCellRenderer renderer = new LineItemRenderer();
-	activitiesTable.setDefaultRenderer(String.class, renderer);
+	TableCellRenderer activityRenderer = new ActivityRenderer();
+	activitiesTable.getColumnModel().getColumn(0).setCellRenderer(activityRenderer);
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+	TableCellRenderer totalRenderer = new TotalRenderer();
+	activitiesTable.getColumnModel().getColumn(3).setCellRenderer(totalRenderer);
+	ToolTipHeader ttHeader = new ToolTipHeader(activitiesTable.getColumnModel());
+	ttHeader.setToolTipStrings(toolTipStr);
+	activitiesTable.setTableHeader(ttHeader);
 	activitiesTable.getTableHeader().setPreferredSize(new Dimension(activitiesTable.getColumnModel().getTotalColumnWidth(),36));
 	setSize(activitiesTable.getSize());
     }
@@ -135,7 +145,7 @@ public class LineItemPanel extends javax.swing.JPanel {
     }
     
     @SuppressWarnings("serial")
-    private class LineItemRenderer extends DefaultTableCellRenderer {
+    private class ActivityRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
@@ -154,5 +164,30 @@ public class LineItemPanel extends javax.swing.JPanel {
 	    return this;
 	}
     }
+    
+    private class TotalRenderer extends DefaultTableCellRenderer {
 
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value,
+		boolean isSelected, boolean hasFocus, int row, int column) {
+	    value = DECIMAL_FORMATTER.format((Number)value);
+	    super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+		    row, column);
+	    setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+	    int rowCount = module.getTLALineItems().size();
+	    //We may have a dummy row at the bottom of the table
+	    if (row < rowCount) {
+	    TLALineItem li = module.getTLALineItems().get(row);
+	    StringBuilder builder = new StringBuilder();
+	    builder.append(li.getNonWeeklyLearnerHourCount());
+	    builder.append(" + (");
+	    builder.append(li.getWeeklyLearnerHourCount());
+	    builder.append(" * ");
+	    builder.append(module.getWeekCount());
+	    builder.append(")");
+	    setToolTipText(builder.toString());
+	    }
+	    return this;
+	}
+    }
 }

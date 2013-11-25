@@ -8,6 +8,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import uk.ac.lkl.cram.model.AELMTest;
@@ -135,12 +136,12 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(tabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-                .add(0, 0, 0)
+                .add(tabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 318, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
                     .add(okButton))
-                .addContainerGap())
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getRootPane().setDefaultButton(okButton);
@@ -176,6 +177,18 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+        try {
+	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	} catch (ClassNotFoundException ex) {
+	    java.util.logging.Logger.getLogger(PresentationOkCancelDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+	} catch (InstantiationException ex) {
+	    java.util.logging.Logger.getLogger(PresentationOkCancelDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+	} catch (IllegalAccessException ex) {
+	    java.util.logging.Logger.getLogger(PresentationOkCancelDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+	} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+	    java.util.logging.Logger.getLogger(PresentationOkCancelDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+	}
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
 	    @Override

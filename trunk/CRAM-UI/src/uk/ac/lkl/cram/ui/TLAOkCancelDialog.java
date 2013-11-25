@@ -73,6 +73,10 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
 	lidvp.addPropertyChangeListener(LineItemsDetailVisualPanel.PROP_VALID, validityListener);
 	setSize(getPreferredSize());
     }
+    
+    public void setSelectedIndex(int index) {
+	tabbedPane.setSelectedIndex(index);
+    }
 
     /**
      * @return the return status of this dialog - one of RET_OK or RET_CANCEL
