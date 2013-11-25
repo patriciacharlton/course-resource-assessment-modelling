@@ -40,7 +40,7 @@ import uk.ac.lkl.cram.model.TLActivity;
 public class LearningExperienceChartFactory {   
     private static final Logger LOGGER = Logger.getLogger(LearningExperienceChartFactory.class.getName());
 
-    private static final Color ONE_SIZE_FITS_ALL_COLOR = new Color(242,242,242);
+    private static final Color ONE_SIZE_FITS_ALL_COLOR = Color.WHITE;
     private static final Color PERSONALISED_COLOR = new Color(128,128,128);
     private static final Color SOCIAL_COLOR = new Color(42,42,42);
 
@@ -120,14 +120,11 @@ public class LearningExperienceChartFactory {
 	sbRenderer.setBarPainter(new StandardBarPainter());
 	//sbRenderer.setItemMargin(0.5); //Makes no difference
 	//sbRenderer.setMaximumBarWidth(0.25); //reduces width of bar as proportion of overall width
-	sbRenderer.setShadowVisible(true);
 	sbRenderer.setRenderAsPercentages(true);
 	sbRenderer.setSeriesPaint(0, PERSONALISED_COLOR);
 	sbRenderer.setSeriesPaint(1, SOCIAL_COLOR);
 	sbRenderer.setSeriesPaint(2, ONE_SIZE_FITS_ALL_COLOR);
 	CategoryAxis categoryAxis = plot.getDomainAxis();
-	categoryAxis.setLowerMargin(0.20000000000000001D);
-	categoryAxis.setUpperMargin(0.20000000000000001D);
 	//categoryAxis.setCategoryMargin(0.5D);//Makes no difference
 	categoryAxis.setVisible(false);
 	NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();

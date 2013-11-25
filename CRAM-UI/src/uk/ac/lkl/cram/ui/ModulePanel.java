@@ -109,6 +109,7 @@ public class ModulePanel extends javax.swing.JPanel {
 
         jLabel2.setText("Tutor Group Size:");
 
+        tutorGroupSizeField.setColumns(4);
         tutorGroupSizeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         hourCountField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -133,8 +134,8 @@ public class ModulePanel extends javax.swing.JPanel {
                     .add(moduleDetailsPanelLayout.createSequentialGroup()
                         .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(tutorGroupSizeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .add(tutorGroupSizeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(0, 0, 0))
         );
 
         moduleDetailsPanelLayout.linkSize(new java.awt.Component[] {hourCountField, tutorGroupSizeField, weekCountField}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
@@ -143,7 +144,7 @@ public class ModulePanel extends javax.swing.JPanel {
             moduleDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(moduleDetailsPanelLayout.createSequentialGroup()
                 .add(moduleDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(tutorGroupSizeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tutorGroupSizeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel2))
                 .add(moduleDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel3)
@@ -162,7 +163,7 @@ public class ModulePanel extends javax.swing.JPanel {
             moduleNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(moduleNamePanelLayout.createSequentialGroup()
                 .add(0, 0, 0)
-                .add(moduleNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                .add(moduleNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
                 .add(0, 0, 0))
         );
         moduleNamePanelLayout.setVerticalGroup(
@@ -200,7 +201,6 @@ public class ModulePanel extends javax.swing.JPanel {
             }
         });
         presentationTable.setEnabled(false);
-        presentationTable.setFocusTraversalKeysEnabled(false);
         presentationTable.setFocusable(false);
         presentationTable.setRowSelectionAllowed(false);
         presentationTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -213,7 +213,7 @@ public class ModulePanel extends javax.swing.JPanel {
             presentationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(presentationPanelLayout.createSequentialGroup()
                 .add(0, 0, 0)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .add(0, 0, 0))
         );
         presentationPanelLayout.setVerticalGroup(
@@ -233,7 +233,7 @@ public class ModulePanel extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(0, 0, 0)
                         .add(moduleDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
         );

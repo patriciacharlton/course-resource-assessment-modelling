@@ -236,6 +236,8 @@ public class LearningTypeChartFactory {
 	chart.setBackgroundPaint(backgroundPaint);
 	PiePlot plot = (PiePlot) chart.getPlot();
 	plot.setBackgroundPaint(backgroundPaint);
+	plot.setShadowXOffset(0);
+	plot.setShadowYOffset(0);
 	plot.setOutlineVisible(false);
 	plot.setLabelGenerator(null);
 	plot.setSectionPaint(ACQUISITION, ACQUISITION_COLOR);

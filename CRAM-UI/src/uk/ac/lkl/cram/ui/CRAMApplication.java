@@ -24,6 +24,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
@@ -48,6 +50,18 @@ public class CRAMApplication {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        try {
+            //Set System LAF
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException e) {
+            LOGGER.log(Level.WARNING, "Could not set systemlook and feel", e);
+        } catch (ClassNotFoundException e) {
+            LOGGER.log(Level.SEVERE, "Failed to find class", e);
+        } catch (InstantiationException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to instatiate", ex);
+        } catch (IllegalAccessException ex) {
+            LOGGER.log(Level.SEVERE, "Unknown exception", ex);
+        }
         for (int i = 0; i < args.length; i++) {
             LOGGER.log(Level.INFO, "arg[{0}]: {1}", new Object[]{i, args[i]});
         }
@@ -66,7 +80,6 @@ public class CRAMApplication {
                 LOGGER.log(Level.WARNING, null, e);
             }
         }
-
         CRAMApplication application = new CRAMApplication();
         application.startUp();
     }

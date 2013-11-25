@@ -190,7 +190,6 @@ public class PresentationPanel extends javax.swing.JPanel {
         presentation3SeniorField = new javax.swing.JFormattedTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.border.title"))); // NOI18N
-        setPreferredSize(new java.awt.Dimension(428, 156));
         setLayout(new java.awt.GridLayout(4, 5));
         add(presentationsTitle);
 
