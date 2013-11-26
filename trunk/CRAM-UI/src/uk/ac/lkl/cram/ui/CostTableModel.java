@@ -57,11 +57,11 @@ public class CostTableModel extends AbstractTableModel implements PropertyChange
 		case 0:
 		    return mp.getStudentCount();
 		case 1:
-		    return module.getTotalSupportHours(mp);
+		    return (int) module.getTotalSupportHours(mp);
 		case 2:
-		    return module.getTotalPreparationHours(mp);
+		    return (int) module.getTotalPreparationHours(mp);
 		case 3:
-		    return module.getTotalHours(mp);
+		    return (int) module.getTotalHours(mp);
 		case 4:
 		    return mp.getIncome();
 		case 5:
