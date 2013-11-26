@@ -2,6 +2,7 @@
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.text.NumberFormat;
 import java.util.Enumeration;
 import javax.swing.JFrame;
@@ -28,9 +29,9 @@ public class CostPanel extends javax.swing.JPanel {
 	costTable.setModel(new CostTableModel(module));
 	TableColumnModel tableColumnModel = costTable.getColumnModel();
 	Enumeration<TableColumn> columnEnum = tableColumnModel.getColumns();
+	columnEnum.nextElement().setCellRenderer(new ActivityRenderer());
 	DefaultTableCellRenderer tcRenderer = new TCRenderer();
-	tcRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
-	columnEnum.nextElement(); //Skip first column
+	tcRenderer.setHorizontalAlignment(SwingConstants.RIGHT);	
 	while (columnEnum.hasMoreElements()) {
 	    columnEnum.nextElement().setCellRenderer(tcRenderer);
 	}
@@ -104,30 +105,43 @@ public static void main(String[] args) {
 	frame.setVisible(true);
     }
 
-    class TCRenderer extends DefaultTableCellRenderer {
-	NumberFormat formatter = NumberFormat.getCurrencyInstance();
-	
+    private static class TCRenderer extends DefaultTableCellRenderer {
+
+	static NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+
 	public TCRenderer() {
-	    formatter.setMaximumFractionDigits(0);
+	    currencyFormatter.setMaximumFractionDigits(0);
 	}
+
 	@Override
 	public Component getTableCellRendererComponent(JTable table,
-                                      Object value,
-                                      boolean isSelected,
-                                      boolean hasFocus,
-                                      int row,
-                                      int column) {
-	    //Only format if in row 4 or greater
-	    if (row > 3) {
-	    try {
-		    if (value != null) {
-			value = formatter.format(value);
-		    }
-		} catch (IllegalArgumentException e) {
-		}
-	    }
+		Object value,
+		boolean isSelected,
+		boolean hasFocus,
+		int row,
+		int column) {
+	    //Only format currency if in row 4 or greater
+	    if (row > 3) {		
+		if (value != null) {
+		    value = currencyFormatter.format(value);
+		}		
+	    } 
 	    return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	    
+
+	}
+    }
+    
+    private class ActivityRenderer extends DefaultTableCellRenderer {
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value,
+		boolean isSelected, boolean hasFocus, int row, int column) {
+
+	    super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+		    row, column);
+	    setToolTipText((String) value);
+
+	    return this;
 	}
     }
 

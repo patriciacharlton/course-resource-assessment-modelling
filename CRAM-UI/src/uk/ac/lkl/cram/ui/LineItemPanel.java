@@ -156,7 +156,7 @@ public class LineItemPanel extends javax.swing.JPanel {
 	    //Italicise the last row
 	    if (row == table.getModel().getRowCount() - 1) {
 		setFont(this.getFont().deriveFont(Font.ITALIC));
-                setToolTipText("Learning hours not includes in TLAs");
+                setToolTipText("Learning hours not included in TLAs");
 	    } else {
                 setToolTipText((String) value);
             }   
