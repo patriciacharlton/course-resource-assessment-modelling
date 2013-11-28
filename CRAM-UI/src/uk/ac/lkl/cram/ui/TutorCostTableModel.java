@@ -127,7 +127,7 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
     public void propertyChange(PropertyChangeEvent pce) {
 	if (pce instanceof IndexedPropertyChangeEvent) {
 	    IndexedPropertyChangeEvent ipce = (IndexedPropertyChangeEvent) pce;
-	    fireTableRowsInserted(ipce.getIndex() - 1, ipce.getIndex());
+	    fireTableRowsInserted(ipce.getIndex(), ipce.getIndex());
 	} else {
 	    //LOGGER.info("event propertyName: " + pce.getPropertyName() + " newValue: " + pce.getNewValue());
 	    //TODO, catch all for any property
