@@ -6,17 +6,14 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
-import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.TLALineItem;
-import uk.ac.lkl.cram.ui.obsolete.TableTestForm;
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
@@ -103,6 +100,10 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(activitiesTable);
+        activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(250);
+        activitiesTable.getColumnModel().getColumn(1).setResizable(false);
+        activitiesTable.getColumnModel().getColumn(2).setResizable(false);
+        activitiesTable.getColumnModel().getColumn(3).setResizable(false);
 
         addButton.setText("Add...");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -179,9 +180,10 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         int index = activitiesTable.getSelectedRow();
         TLALineItem li = module.getTLALineItems().get(index);
-        TLAOkCancelDialog dialog = new TLAOkCancelDialog((Frame) SwingUtilities.getWindowAncestor(this), true, module, li);
-        dialog.setTitle("Modify TLA");
-        dialog.setVisible(true);
+	Dialog parentDialog = (Dialog) SwingUtilities.getWindowAncestor(this);
+        TLAOkCancelDialog tlaDialog = new TLAOkCancelDialog((Frame)parentDialog.getParent(), true, module, li);
+        tlaDialog.setTitle("Modify TLA");
+        tlaDialog.setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -192,41 +194,6 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TableTestForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TableTestForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TableTestForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TableTestForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        final JFrame frame = new JFrame("TLA Wizard Panel");
-        frame.add(new ListOfTLAWizardPanel(AELMTest.populateModule()));
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                frame.setVisible(true);
-            }
-        });
-    }
 
     private void addLineItem(TLALineItem lineItem) {
 	//LOGGER.info("Adding lineItem: " + lineItem);
