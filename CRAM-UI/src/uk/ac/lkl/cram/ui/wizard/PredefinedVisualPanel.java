@@ -261,7 +261,7 @@ public class PredefinedVisualPanel extends JPanel {
         feedbackPanelLayout.setVerticalGroup(
             feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(feedbackPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(teacherFeedbackRB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(peerFeedbackRB)
@@ -362,6 +362,9 @@ public class PredefinedVisualPanel extends JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {feedbackPanel, studentInteractionPanel});
+
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList activityList;
