@@ -45,7 +45,9 @@ public class StartupDialog extends javax.swing.JDialog {
         buildLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Course Resource Appraisal Model");
         setResizable(false);
+        setUndecorated(true);
 
         iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/CRAM.jpg"))); // NOI18N
         getContentPane().add(iconLabel, java.awt.BorderLayout.CENTER);
