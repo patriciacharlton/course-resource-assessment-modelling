@@ -8,8 +8,54 @@ $Revision$
         <title>Course Resource Appraisal Model</title>
         <script src="http://java.com/js/deployJava.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <!-- Bootstrap -->
-        <link href="bootstrap.min.css" rel="stylesheet" media="screen">
+        <style>
+            body {
+                    margin: 20px 20px 20px 20px;
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-size: 14px;
+                    line-height: 20px;
+                    color: #333333;
+                    background-color: #ffffff;
+            }
+            a {
+                color: #0088cc;
+                text-decoration: none;
+              }
+
+            a:hover,
+            a:focus {
+              color: #005580;
+              text-decoration: underline;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+              margin: 20px 0 20px;
+              font-family: inherit;
+              font-weight: bold;
+              line-height: 20px;
+              color: inherit;
+            }
+            em {
+                font-style: italic;
+              }
+            
+            article,
+            aside,
+            details,
+            figcaption,
+            figure,
+            footer,
+            header,
+            hgroup,
+            nav,
+            section {
+              display: block;
+            }
+        </style>    
     </head>
     <body>
         <h1>Course Resource Appraisal Model</h1>
@@ -26,20 +72,23 @@ $Revision$
         <p>
             A prototype version of the tool (known as the CRAM tool) is now
             available for user evaluation purposes. To launch the CRAM Tool, 
-            click on the 'Launch' button below. The
-        current version does not include functionality to <em>undo</em> user edits
-        or to successfully <em>cancel</em> changes made in dialogue boxes. Download
-	an <a href="AELM.mamx" download="AELM.mamx">example module</a>.
+            click on the &lsquo;Launch&rsquo; button below. The
+        current version does not include any functionality to <em>undo</em> user edits
+        or to successfully <em>cancel</em> changes made in dialogue boxes. We have
+	provided an <a href="AELM.mamx" download="AELM.mamx">example module</a>  
+        if you don&rsquo;t want to start from scratch.
         </p>
         <p>
             To report an issue or suggest an improvement, use the 
             <a target="_blank" href="http://code.google.com/p/course-resource-assessment-modelling/issues/list" >issues list</a>.
         </p>
+        <p>
         <script>
             deployJava.createWebStartLaunchButton("${JNLP.FILE}");
         </script>
+        </p>
         <p>(Build @revision@ on @date@)</p>
-        <p></p>
+        
         <!-- Or use the following link element to launch with the application -->
         <!--
         <a href="${JNLP.FILE}">Launch the application</a>
