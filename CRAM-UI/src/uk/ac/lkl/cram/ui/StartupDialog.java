@@ -6,6 +6,7 @@ import javax.swing.JButton;
 
 /**
  * $Date$
+ * $Revision$
  * @author bernard
  */
 public class StartupDialog extends javax.swing.JDialog {

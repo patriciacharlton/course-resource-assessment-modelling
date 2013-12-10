@@ -5,11 +5,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
-import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
  * $Date$
+ * $Revision$
  * @author bernard
  */
 public class ModuleTableModel extends AbstractTableModel implements PropertyChangeListener {
