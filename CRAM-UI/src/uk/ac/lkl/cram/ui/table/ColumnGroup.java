@@ -79,8 +79,8 @@ public class ColumnGroup {
 
     /**
      * @param c TableColumn
-     * @param g
-     * @return  
+     * @param g List of ColumnGroup or Column
+     * @return  List of ColumnGroup
      */
     @SuppressWarnings("unchecked")
     public List<ColumnGroup> getColumnGroups(TableColumn c, ArrayList g) {

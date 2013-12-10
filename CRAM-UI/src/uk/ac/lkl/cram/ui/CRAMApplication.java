@@ -263,6 +263,7 @@ public class CRAMApplication {
     private boolean createNewModule() {
         Module module = new Module();
         ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
+	dialog.setSize(dialog.getPreferredSize());
         dialog.setVisible(true);
         if (dialog.getReturnStatus() == ModuleOkCancelDialog.RET_OK) {
             return addModule(module, "Untitled " + MODULE_COUNT++);
@@ -274,7 +275,7 @@ public class CRAMApplication {
     private boolean quitApplication(Window aWindow) {
         int confirm = JOptionPane.showConfirmDialog(aWindow,
                 "Are you sure you want to quit?",
-                "Quit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                "Quit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
         return (confirm == JOptionPane.YES_OPTION);
     }
 

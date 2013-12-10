@@ -25,14 +25,17 @@ import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ListOfTLAWizardPanel.class.getName());
 
-    private final Module module;
+    private Module module;
 
+    public ListOfTLAWizardPanel() {
+	initComponents();
+    }
+    
     /**
      * Creates new form ListOfTLAWizardPanel
      * @param module 
      */
-    public ListOfTLAWizardPanel(Module module) {
-	initComponents();
+    public void setModule(Module module) {
 	this.module = module;
 	activitiesTable.setModel(new ModuleTableModel(module, false));
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);

@@ -15,7 +15,7 @@ import uk.ac.lkl.cram.model.Module;
 public class ModuleTableModel extends AbstractTableModel implements PropertyChangeListener {
     private static final Logger LOGGER = Logger.getLogger(ModuleTableModel.class.getName());
 
-    private static final String[] COLUMN_NAMES = {"<html>Activity</html>", "<html>Weekly<br>Hours</html>", "<html>Non-Weekly<br>Hours</html>", "<html>Total<br>Hours</html>"};
+    private static final String[] COLUMN_NAMES = {"<html>Activity</html>", "<html>Weekly<br>Learner Hours</html>", "<html>Non-Weekly<br>Learner Hours</html>", "<html>Total<br>Learner Hours</html>"};
     private final Module module;
     private final boolean includeSelfRegulated;
     

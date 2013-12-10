@@ -7,19 +7,19 @@ import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class ModuleWizardPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ModuleWizardPanel.class.getName());
 
 
-    /**
-     * Creates new form ModuleWizardPanel
-     * @param module
-     */
-    public ModuleWizardPanel(final Module module) {
-	initComponents();
-
+    public ModuleWizardPanel() {
+	initComponents();	
+        setSize(getPreferredSize());
+    }
+    
+    public void setModule(final Module module) {
 	SelectAllAdapter saa = new SelectAllAdapter();
 	
 	moduleNameField.setText(module.getModuleName());
@@ -66,7 +66,6 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
 	};
 		
 	presentationPanel.initializeModule(module);
-        setSize(getPreferredSize());
     }
     
 
@@ -90,13 +89,14 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
         moduleNameField = new javax.swing.JTextField();
         presentationPanel = new uk.ac.lkl.cram.ui.PresentationPanel();
 
-        moduleDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Details..."));
+        moduleDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Details"));
 
         jLabel3.setText("Number of Hours:");
 
         jLabel4.setText("Number of Weeks:");
 
         jLabel2.setText("Tutor Group Size:");
+        jLabel2.setToolTipText("Number of students per tutor (for a large course)");
 
         tutorGroupSizeField.setColumns(4);
         tutorGroupSizeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
@@ -175,7 +175,7 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
                 .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(0, 0, 0)
                 .add(moduleDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -206,7 +206,9 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
     public static void main(String args[]) {
         final JFrame frame = new JFrame("Module Wizard Panel");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new ModuleWizardPanel(AELMTest.populateModule()));
+	ModuleWizardPanel mwp = new ModuleWizardPanel();
+	mwp.setModule(AELMTest.populateModule());
+        frame.add(mwp);
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

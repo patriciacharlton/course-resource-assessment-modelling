@@ -22,6 +22,7 @@ public class ToolTipHeader extends JTableHeader {
 
     @Override
     public String getToolTipText(MouseEvent e) {
+	System.out.println("ToolTipHeader.getToolTipText");
 	int col = columnAtPoint(e.getPoint());
 	int modelCol = getTable().convertColumnIndexToModel(col);
 	String retStr;

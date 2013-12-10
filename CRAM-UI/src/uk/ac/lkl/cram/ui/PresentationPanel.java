@@ -194,6 +194,7 @@ public class PresentationPanel extends javax.swing.JPanel {
         add(presentationsTitle);
 
         org.openide.awt.Mnemonics.setLocalizedText(studentCountTitle, org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.studentCountTitle.text")); // NOI18N
+        studentCountTitle.setToolTipText(org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.studentCountTitle.toolTipText")); // NOI18N
         studentCountTitle.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         studentCountTitle.setLineWrap(true);
         add(studentCountTitle);

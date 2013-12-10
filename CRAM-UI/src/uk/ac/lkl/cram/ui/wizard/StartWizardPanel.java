@@ -4,6 +4,10 @@ import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
+/*
+ * $Date$
+ * $Revision$
+ */
 public class StartWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
 
     /**
