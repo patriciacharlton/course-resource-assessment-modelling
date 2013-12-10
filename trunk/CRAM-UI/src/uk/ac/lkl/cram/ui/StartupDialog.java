@@ -58,7 +58,7 @@ public class StartupDialog extends javax.swing.JDialog {
         openModuleButton.setText("Open Module...");
         jPanel1.add(openModuleButton);
 
-        quitButton.setText("Quit");
+        quitButton.setText("Quit...");
         jPanel1.add(quitButton);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);

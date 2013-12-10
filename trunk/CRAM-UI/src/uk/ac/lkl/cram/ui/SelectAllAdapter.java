@@ -5,6 +5,10 @@ import java.awt.event.FocusEvent;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+/*
+ * $Date$
+ * $Revision$
+ */
 public class SelectAllAdapter extends FocusAdapter {
 
     @Override

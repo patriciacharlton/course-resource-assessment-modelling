@@ -9,8 +9,6 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 
@@ -22,8 +20,6 @@ import uk.ac.lkl.cram.model.Module;
 public class ModuleOkCancelDialog extends javax.swing.JDialog {
     private static final Logger LOGGER = Logger.getLogger(ModuleOkCancelDialog.class.getName());
     private static final long serialVersionUID = 1L;
-
-    private ModuleWizardPanel mwPanel;
 
     /**
      * A return status code - returned if Cancel button has been pressed
@@ -59,19 +55,8 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
 		doClose(RET_CANCEL);
 	    }
 	});
-	mwPanel = new ModuleWizardPanel(module);
-	tabbedPane.addTab("Module", mwPanel);
-	final ListOfTLAWizardPanel lotlawp = new ListOfTLAWizardPanel(module);
-	tabbedPane.addTab("Activities", lotlawp);
-	tabbedPane.addChangeListener(new ChangeListener() {
-	    @Override
-	    public void stateChanged(ChangeEvent ce) {
-		if (tabbedPane.getSelectedComponent() == lotlawp) {
-		    //mwPanel.accept();
-		}
-	    }
-	});
-        tabbedPane.setToolTipTextAt(1, "Teaching & Learning Activities");
+	moduleWizardPanel.setModule(module);
+	listOfTLAWizardPanel.setModule(module);
     }
 
     /**
@@ -92,9 +77,11 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
 
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        tabbedPane = new javax.swing.JTabbedPane();
+        moduleWizardPanel = new uk.ac.lkl.cram.ui.ModuleWizardPanel();
+        listOfTLAWizardPanel = new uk.ac.lkl.cram.ui.ListOfTLAWizardPanel();
 
         setTitle("New Module");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
@@ -115,6 +102,8 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
             }
         });
 
+        listOfTLAWizardPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Teaching & Learning Activities"));
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,12 +112,12 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
                 .add(0, 0, 0)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(0, 317, Short.MAX_VALUE)
+                        .add(0, 0, Short.MAX_VALUE)
                         .add(okButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 67, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cancelButton))
-                    .add(tabbedPane))
-                .add(0, 0, 0))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, moduleWizardPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, listOfTLAWizardPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)))
         );
 
         layout.linkSize(new java.awt.Component[] {cancelButton, okButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
@@ -136,7 +125,10 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(tabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 318, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .add(moduleWizardPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(listOfTLAWizardPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
@@ -210,8 +202,9 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private uk.ac.lkl.cram.ui.ListOfTLAWizardPanel listOfTLAWizardPanel;
+    private uk.ac.lkl.cram.ui.ModuleWizardPanel moduleWizardPanel;
     private javax.swing.JButton okButton;
-    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 
 }
