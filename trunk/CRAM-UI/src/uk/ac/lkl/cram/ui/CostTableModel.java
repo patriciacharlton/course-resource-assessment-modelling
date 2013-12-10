@@ -9,6 +9,7 @@ import uk.ac.lkl.cram.model.ModulePresentation;
 
 /**
  * $Date$
+ * $Revision$
  * @author bernard
  */
 public class CostTableModel extends AbstractTableModel implements PropertyChangeListener {

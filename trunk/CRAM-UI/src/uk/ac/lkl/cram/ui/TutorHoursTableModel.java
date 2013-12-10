@@ -13,6 +13,7 @@ import uk.ac.lkl.cram.model.SupportTime;
 
 /**
  * $Date$
+ * $Revision$
  * @author bernard
  */
 public class TutorHoursTableModel extends AbstractTableModel implements PropertyChangeListener {

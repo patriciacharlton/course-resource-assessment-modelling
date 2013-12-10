@@ -18,7 +18,8 @@ import static javax.swing.SwingConstants.LEFT;
 import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
- *
+ * $Date$
+ * $Revision$
  * @author bernard
  */
 @SuppressWarnings("serial")

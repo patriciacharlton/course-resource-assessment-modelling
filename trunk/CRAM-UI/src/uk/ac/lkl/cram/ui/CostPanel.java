@@ -2,7 +2,6 @@
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Component;
-import java.awt.Font;
 import java.text.NumberFormat;
 import java.util.Enumeration;
 import javax.swing.JFrame;
@@ -16,6 +15,7 @@ import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class CostPanel extends javax.swing.JPanel {
