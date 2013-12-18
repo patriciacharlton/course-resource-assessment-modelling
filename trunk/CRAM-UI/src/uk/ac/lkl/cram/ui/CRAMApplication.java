@@ -50,7 +50,10 @@ public class CRAMApplication {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        try {
+        System.setProperty("apple.awt.graphics.EnableQ2DX", "true");
+	    System.setProperty("apple.laf.useScreenMenuBar", "true");
+	    System.setProperty("com.apple.mrj.application.apple.menu.about.name", "CRAM");
+	try {
             //Set System LAF
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException e) {
@@ -65,22 +68,24 @@ public class CRAMApplication {
         for (int i = 0; i < args.length; i++) {
             LOGGER.log(Level.INFO, "arg[{0}]: {1}", new Object[]{i, args[i]});
         }
+	CRAMApplication application = new CRAMApplication();
         if (System.getProperty("os.name").contains("Mac")) {
             LOGGER.info("mac");
+	    
             try {
                 Object app = Class.forName("com.apple.eawt.Application").getMethod("getApplication",
                         (Class[]) null).invoke(null, (Object[]) null);
 
                 Object ql = Proxy.newProxyInstance(Class.forName("com.apple.eawt.QuitHandler")
                         .getClassLoader(), new Class[]{Class.forName("com.apple.eawt.QuitHandler")},
-                        new QuitListener());
+                        new QuitListener(application));
                 app.getClass().getMethod("setQuitHandler", new Class[]{
                     Class.forName("com.apple.eawt.QuitHandler")}).invoke(app, new Object[]{ql});
             } catch (Exception e) {
                 LOGGER.log(Level.WARNING, null, e);
             }
         }
-        CRAMApplication application = new CRAMApplication();
+        
         application.startUp();
     }
 
@@ -304,15 +309,28 @@ public class CRAMApplication {
     }
     
     private static class QuitListener implements InvocationHandler {
+	private final CRAMApplication application;
+
+	private QuitListener(CRAMApplication application) {
+	    this.application = application;
+	}
 
         @Override
         public Object invoke(Object o, Method method, Object[] os) throws Throwable {
-            LOGGER.info("Quit listener");
+	    Object quitResponse = os[1];
+	    Class qrClass = Class.forName("com.apple.eawt.QuitResponse");
+	    Method cancelQuitMethod = qrClass.getDeclaredMethod("cancelQuit", (Class[]) null);
+	    Method performQuitMethod = qrClass.getDeclaredMethod("performQuit", (Class[]) null);
+	    if (application.quitApplication(application.startupDialog)) {
+		performQuitMethod.invoke(quitResponse, (Object[]) null);
+	    } else {
+		cancelQuitMethod.invoke(quitResponse, (Object[])null);
+	    }
             return null;
         }
     
     }
-
+    
     private class WindowMenuListener implements MenuListener {
 
         @Override
