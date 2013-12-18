@@ -299,7 +299,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private JXTaskPane createTutorCostPane() {
 	JXTaskPane tutorCostPane = new JXTaskPane();
         tutorCostPane.setScrollOnExpand(true);
-	tutorCostPane.setTitle("Tutor Cost");
+	tutorCostPane.setTitle("Tutor Costs");
 	tutorCostPane.add(new TutorCostPanel(module));
 	tutorCostPane.setCollapsed(true);
 	return tutorCostPane;
