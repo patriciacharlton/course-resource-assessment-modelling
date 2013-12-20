@@ -111,6 +111,7 @@ public class HoursChartFactory {
 		populateDataset(dataset, module);
 	    }
 	});
+        module.addPropertyChangeListener(Module.PROP_GROUP_SIZE, presentationListener);
 	return dataset;
     }
     
