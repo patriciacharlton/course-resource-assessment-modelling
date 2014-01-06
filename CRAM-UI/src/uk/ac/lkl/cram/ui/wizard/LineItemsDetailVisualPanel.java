@@ -5,6 +5,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -85,15 +86,21 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	final JFormattedTextField.AbstractFormatter seniorRateFormatter = new JFormattedTextField.AbstractFormatter() {
 
             @Override
-            public Object stringToValue(String string) throws ParseException {
+            public Object stringToValue(String string) {
 		//LOGGER.info("String: " + string);
-		Float seniorRate = Float.valueOf(string)/100;
-		//LOGGER.info("Senior rate: " + seniorRate);
-                return seniorRate;
-            }
+		string = string.replace("%", ""); //To fix issue 16
+		try {
+		    Float seniorRate = Float.valueOf(string) / 100;
+		    //LOGGER.info("Senior rate: " + seniorRate);
+		    return seniorRate;
+		} catch (NumberFormatException pe) {
+		    LOGGER.log(Level.SEVERE, string, pe);
+		    return 0;
+		}
+	    }
 
             @Override
-            public String valueToString(Object f) throws ParseException {
+            public String valueToString(Object f) {
 		//LOGGER.info("value: " + f + " class: " + f.getClass());
 		Float seniorRate = (Float) f * 100;
                 return String.valueOf(seniorRate) + '%';
