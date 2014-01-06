@@ -1,9 +1,7 @@
 package uk.ac.lkl.cram.ui;
 
-import java.awt.Dimension;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.table.TableModel;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 
@@ -69,12 +67,7 @@ public class ModulePanel extends javax.swing.JPanel {
 	    }
 	};
 	
-	TableModel tableModel = new PresentationTableModel(module);
-	presentationTable.setModel(tableModel);
-	presentationTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-	presentationTable.getTableHeader().setPreferredSize(new Dimension(presentationTable.getColumnModel().getTotalColumnWidth(),36));
-
-	
+	presentationPanel.initializeModule(module);
 
     }
     
@@ -97,9 +90,7 @@ public class ModulePanel extends javax.swing.JPanel {
         weekCountField = new javax.swing.JFormattedTextField();
         moduleNamePanel = new javax.swing.JPanel();
         moduleNameField = new javax.swing.JTextField();
-        presentationPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        presentationTable = new javax.swing.JTable();
+        presentationPanel = new uk.ac.lkl.cram.ui.PresentationPanel();
 
         moduleDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Details"));
 
@@ -163,7 +154,7 @@ public class ModulePanel extends javax.swing.JPanel {
             moduleNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(moduleNamePanelLayout.createSequentialGroup()
                 .add(0, 0, 0)
-                .add(moduleNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                .add(moduleNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                 .add(0, 0, 0))
         );
         moduleNamePanelLayout.setVerticalGroup(
@@ -173,69 +164,18 @@ public class ModulePanel extends javax.swing.JPanel {
                 .add(moduleNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
-        presentationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Runs"));
-
-        presentationTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Run", "Student Count", "Fee", "Junior Cost per day", "Senior Cost per Day"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        presentationTable.setEnabled(false);
-        presentationTable.setFocusable(false);
-        presentationTable.setRowSelectionAllowed(false);
-        presentationTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        presentationTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(presentationTable);
-
-        org.jdesktop.layout.GroupLayout presentationPanelLayout = new org.jdesktop.layout.GroupLayout(presentationPanel);
-        presentationPanel.setLayout(presentationPanelLayout);
-        presentationPanelLayout.setHorizontalGroup(
-            presentationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(presentationPanelLayout.createSequentialGroup()
-                .add(0, 0, 0)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .add(0, 0, 0))
-        );
-        presentationPanelLayout.setVerticalGroup(
-            presentationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(presentationPanelLayout.createSequentialGroup()
-                .add(0, 0, 0)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 95, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 0, Short.MAX_VALUE))
-        );
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
+                .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(0, 0, 0)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(layout.createSequentialGroup()
-                        .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(0, 0, 0)
-                        .add(moduleDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .add(moduleDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(0, 0, 0)
+                .add(presentationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                .add(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -244,6 +184,7 @@ public class ModulePanel extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(moduleDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(moduleNamePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(0, 0, 0)
                 .add(presentationPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, 0))
         );
@@ -253,12 +194,10 @@ public class ModulePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel moduleDetailsPanel;
     private javax.swing.JTextField moduleNameField;
     private javax.swing.JPanel moduleNamePanel;
-    private javax.swing.JPanel presentationPanel;
-    private javax.swing.JTable presentationTable;
+    private uk.ac.lkl.cram.ui.PresentationPanel presentationPanel;
     private javax.swing.JFormattedTextField tutorGroupSizeField;
     private javax.swing.JFormattedTextField weekCountField;
     // End of variables declaration//GEN-END:variables
