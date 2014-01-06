@@ -79,7 +79,6 @@ public class ModuleFrame extends javax.swing.JFrame {
         quitMI = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
-        modifyRunsMI = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         modifyLineItemMI = new javax.swing.JMenuItem();
         addLineItemMI = new javax.swing.JMenuItem();
@@ -88,7 +87,6 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(730, 600));
-        setPreferredSize(new java.awt.Dimension(730, 600));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         leftTaskPaneContainer.setPaintBorderInsets(false);
@@ -148,14 +146,6 @@ public class ModuleFrame extends javax.swing.JFrame {
         windowMenuBar.add(editMenu);
 
         org.openide.awt.Mnemonics.setLocalizedText(moduleMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.moduleMenu.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(modifyRunsMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.modifyRunsMI.text")); // NOI18N
-        modifyRunsMI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyRunsMIActionPerformed(evt);
-            }
-        });
-        moduleMenu.add(modifyRunsMI);
         moduleMenu.add(jSeparator1);
 
         org.openide.awt.Mnemonics.setLocalizedText(modifyLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.modifyLineItemMI.text")); // NOI18N
@@ -194,14 +184,6 @@ public class ModuleFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void modifyRunsMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyRunsMIActionPerformed
-	PresentationOkCancelDialog dialog = new PresentationOkCancelDialog(this, true, module);
-	dialog.setTitle("Modify Runs");
-	dialog.setVisible(true);
-	//LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
-	//TODO--undo
-    }//GEN-LAST:event_modifyRunsMIActionPerformed
-
     private void modifyLineItemMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyLineItemMIActionPerformed
         modifySelectedLineItem();
     }//GEN-LAST:event_modifyLineItemMIActionPerformed
@@ -236,7 +218,6 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
     private javax.swing.JMenuItem modifyLineItemMI;
-    private javax.swing.JMenuItem modifyRunsMI;
     private javax.swing.JMenu moduleMenu;
     private javax.swing.JMenuItem newMI;
     private javax.swing.JMenuItem openMI;
