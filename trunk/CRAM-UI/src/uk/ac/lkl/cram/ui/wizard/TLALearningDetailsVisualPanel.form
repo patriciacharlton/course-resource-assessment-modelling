@@ -25,10 +25,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="tlaNamePanel" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="learningTypePanel" min="-2" pref="242" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="learningExperiencePanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="learningTypePanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="learningExperiencePanel" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -40,10 +39,7 @@
               <Component id="tlaNamePanel" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="learningTypePanel" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="learningExperiencePanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="learningExperiencePanel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -62,14 +58,14 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="personalisedRB" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="socialRB" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="osfaRB" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="61" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -135,21 +131,30 @@
                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="inquirySlider" alignment="0" pref="150" max="32767" attributes="0"/>
-                          <Component id="discussionSlider" alignment="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="collaborationSlider" alignment="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="acquisitionSlider" alignment="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="practiceSlider" pref="0" max="32767" attributes="0"/>
-                          <Component id="productionSlider" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="totalLearningTypeField" min="-2" pref="70" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="inquirySlider" alignment="0" pref="150" max="32767" attributes="0"/>
+                      <Component id="discussionSlider" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="collaborationSlider" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="acquisitionSlider" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="practiceSlider" pref="0" max="32767" attributes="0"/>
+                      <Component id="productionSlider" pref="0" max="32767" attributes="0"/>
                   </Group>
+                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="acquisitionTF" min="-2" max="-2" attributes="0"/>
+                      <Component id="collaborationTF" min="-2" max="-2" attributes="0"/>
+                      <Component id="discussionTF" min="-2" max="-2" attributes="0"/>
+                      <Component id="inquiryTF" min="-2" max="-2" attributes="0"/>
+                      <Component id="practiceTF" min="-2" max="-2" attributes="0"/>
+                      <Component id="productionTF" linkSize="1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="normaliseButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="totalLearningTypeField" linkSize="1" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -160,34 +165,43 @@
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jLabel1" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="acquisitionSlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="acquisitionTF" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jLabel2" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="collaborationSlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="collaborationTF" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jLabel3" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="discussionSlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="discussionTF" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jLabel4" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="inquirySlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="inquiryTF" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="practiceSlider" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="practiceTF" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="productionSlider" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel6" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="productionTF" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="totalLearningTypeField" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="totalLearningTypeField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="normaliseButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -251,6 +265,7 @@
         <Component class="javax.swing.JFormattedTextField" name="totalLearningTypeField">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="4"/>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
         </Component>
@@ -264,6 +279,87 @@
             <Property name="majorTickSpacing" type="int" value="10"/>
             <Property name="paintTicks" type="boolean" value="true"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="acquisitionTF">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="4"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="acquisitionSlider" sourcePath="${value}" target="acquisitionTF" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="collaborationTF">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="4"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="collaborationSlider" sourcePath="${value}" target="collaborationTF" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="discussionTF">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="4"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="discussionSlider" sourcePath="${value}" target="discussionTF" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="inquiryTF">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="4"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="inquirySlider" sourcePath="${value}" target="inquiryTF" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="practiceTF">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="4"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="practiceSlider" sourcePath="${value}" target="practiceTF" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="productionTF">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="4"/>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="productionSlider" sourcePath="${value}" target="productionTF" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="normaliseButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Normalise"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normaliseButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -281,7 +377,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="tlaNameField" max="32767" attributes="0"/>
+                  <Component id="tlaNameField" pref="537" max="32767" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               </Group>
           </Group>
