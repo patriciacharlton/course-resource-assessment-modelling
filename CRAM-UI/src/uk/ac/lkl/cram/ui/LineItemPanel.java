@@ -167,27 +167,31 @@ public class LineItemPanel extends javax.swing.JPanel {
     
     private class TotalRenderer extends DefaultTableCellRenderer {
 
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-		boolean isSelected, boolean hasFocus, int row, int column) {
-	    value = DECIMAL_FORMATTER.format((Number)value);
-	    super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
-		    row, column);
-	    setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
-	    int rowCount = module.getTLALineItems().size();
-	    //We may have a dummy row at the bottom of the table
-	    if (row < rowCount) {
-	    TLALineItem li = module.getTLALineItems().get(row);
-	    StringBuilder builder = new StringBuilder();
-	    builder.append(li.getNonWeeklyLearnerHourCount());
-	    builder.append(" + (");
-	    builder.append(li.getWeeklyLearnerHourCount());
-	    builder.append(" * ");
-	    builder.append(module.getWeekCount());
-	    builder.append(")");
-	    setToolTipText(builder.toString());
-	    }
-	    return this;
-	}
+        @Override
+        @SuppressWarnings("AssignmentToMethodParameter")
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                boolean isSelected, boolean hasFocus, int row, int column) {
+            value = DECIMAL_FORMATTER.format((Number) value);
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+                    row, column);
+            setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+            int rowCount = module.getTLALineItems().size();
+            //We may have a dummy row at the bottom of the table
+            if (row < rowCount) {
+                TLALineItem li = module.getTLALineItems().get(row);
+                @SuppressWarnings("StringBufferWithoutInitialCapacity")
+                StringBuilder builder = new StringBuilder();
+                builder.append(li.getNonWeeklyLearnerHourCount());
+                builder.append(" + (");
+                builder.append(li.getWeeklyLearnerHourCount());
+                builder.append(" * ");
+                builder.append(module.getWeekCount());
+                builder.append(")");
+                setToolTipText(builder.toString());
+            } else {
+                setToolTipText("Remainder of Student Hours");
+            }
+            return this;
+        }
     }
 }
