@@ -72,22 +72,52 @@
 
     -->
     <target name="-pre-jar" description="Sets the buildversion and build date for the current build">
-    <exec outputproperty="svna.version" executable="svnversion">
-        <arg value="-c" />
-        <redirector>
-            <outputfilterchain>
-                <tokenfilter>
-                    <replaceregex pattern="^[0-9]*:?" replace="" flags="g"/>
-                    <replaceregex pattern="M" replace="" flags="g"/>
-                </tokenfilter>
-            </outputfilterchain>
-        </redirector>
-    </exec>
-    <echo>Version found from SVN: ${svna.version}</echo>
-    <replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@revision@" value="${svna.version}" />
-    <tstamp/>
-    <echo>Today's date: ${TODAY}</echo>
-    <replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@date@" value="${TODAY}" />
+        <exec outputproperty="svna.version" executable="svnversion">
+            <arg value="-c" />
+            <redirector>
+                <outputfilterchain>
+                    <tokenfilter>
+                        <replaceregex pattern="^[0-9]*:?" replace="" flags="g"/>
+                        <replaceregex pattern="M" replace="" flags="g"/>
+                    </tokenfilter>
+                </outputfilterchain>
+            </redirector>
+        </exec>
+        <echo>Version found from SVN: ${svna.version}</echo>
+        <replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@revision@" value="${svna.version}" />
+        <tstamp/>
+        <echo>Today's date: ${TODAY}</echo>
+        <replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@date@" value="${TODAY}" />
     
+    </target>    
+    
+    <taskdef name="bundleapp"
+             classname="com.oracle.appbundler.AppBundlerTask"   
+             classpath="lib/appbundler-1.0.jar" />
+    
+    <target depends="default" name="bundleCRAM" description="Create a Mac app">
+        <bundleapp outputdirectory="dist"
+            name="CRAM Tool"
+            displayname="CRAM Tool"
+            icon="star.icns"
+            shortversion="${svna.version}"
+            identifier="uk.ac.lkl.cram.ui.CRAMApplication"
+            copyright="IOE 2014"
+            mainclassname="uk/ac/lkl/cram/ui/CRAMApplication">
+            <classpath dir="${dist.dir}">
+                <include name="**/*.jar"/>
+                <include name="**/lib/*.jar"/>
+            </classpath>
+            <option value="-Dapple.laf.useScreenMenuBar=true"/>
+        </bundleapp>
+        <!--Zip the app-->
+        <exec executable="zip" dir="${dist.dir}">
+            <arg value="-r" />
+            <arg value="CRAM Tool.zip" />
+            <arg value="CRAM Tool.app" />
+        </exec>
+        <!--Delete the app-->
+        <!--<delete file="${dist.dir}/CRAM Tool.app"/>-->
     </target>
+    
 </project>
