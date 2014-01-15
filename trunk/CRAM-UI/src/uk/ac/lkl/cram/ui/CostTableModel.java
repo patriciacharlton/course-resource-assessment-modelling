@@ -12,11 +12,12 @@ import uk.ac.lkl.cram.model.ModulePresentation;
  * $Revision$
  * @author bernard
  */
+@SuppressWarnings("serial")
 public class CostTableModel extends AbstractTableModel implements PropertyChangeListener {
     private static final Logger LOGGER = Logger.getLogger(CostTableModel.class.getName());
 
     private static final String[] COLUMN_NAMES = {"", "Run 1", "Run 2", "Run 3"};
-    private static final String[] ROW_NAMES = {"Student Nos", "Support Hours", "Prep. Hours", "Total Hours", "Income", "Cost", "Profit"};
+    private static final String[] ROW_NAMES = {"Student Nos", "Support Hours", "Prep. Hours", "Total Hours", "Income", "Cost", "Difference"};
     private final Module module;
     
     CostTableModel(Module module) {

@@ -192,7 +192,7 @@ public class TLAPropertiesVisualPanel extends JPanel {
                     .addComponent(peerFeedbackRB)
                     .addComponent(telFeedbackRB)
                     .addComponent(noFeedbackRB))
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         feedbackPanelLayout.setVerticalGroup(
             feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
