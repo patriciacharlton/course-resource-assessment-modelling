@@ -4,6 +4,8 @@ package uk.ac.lkl.cram.ui;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -55,6 +57,14 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 			deleteButton.setEnabled(true);
 			editButton.setEnabled(true);
 		    }
+		}
+	    }
+	});
+        activitiesTable.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+		    editButtonActionPerformed(null);
 		}
 	    }
 	});
