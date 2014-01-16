@@ -17,7 +17,7 @@ public class TLALineItemTest extends CRAMTest {
     }
 
     /**
-     * Test of getMaximumGroupSize method, of class TLALineItem.
+     * Test of getMaximumGroupSizeForPresentation method, of class TLALineItem.
      */
     @Test
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
@@ -29,7 +29,7 @@ public class TLALineItemTest extends CRAMTest {
         for (TLALineItem createdLineItem : getCreatedLineItems()) {
             TLALineItem importedLineItem = getImportedLineItems().get(index);
             index++;
-            assertEquals(createdLineItem.getMaximumGroupSize(createdModule, createdPresentation), importedLineItem.getMaximumGroupSize(importedModule, importedPresentation));
+            assertEquals(createdLineItem.getMaximumGroupSizeForPresentation(createdPresentation), importedLineItem.getMaximumGroupSizeForPresentation(importedPresentation));
         }
     }
 

@@ -3,6 +3,7 @@ package uk.ac.lkl.cram.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -13,12 +14,13 @@ import javax.xml.bind.annotation.XmlType;
  * $Revision$
  * @author Bernard Horan
  */
-@XmlType(propOrder = {"name", "studentTeacherInteraction", "learnerFeedback", "learningType", "learningExperience"})
+@XmlType(propOrder = {"name", "maximumGroupSize", "studentTeacherInteraction", "learnerFeedback", "learningType", "learningExperience"})
 public class TLActivity implements Serializable {   
 
     private static final long serialVersionUID = 1L;
     public static final String PROP_NAME = "name";
     public static final String PROP_LEARNING_EXPERIENCE = "learning_experience";
+    public static final String PROP_MAX_GROUP_SIZE = "maxGroupSize";
     
     private LearningType learningType; //acquisition, practice, etc.
     
@@ -26,6 +28,10 @@ public class TLActivity implements Serializable {
     
     private StudentTeacherInteraction studentTeacherInteraction;
     private String name;
+    
+    //The maximum number of students for this TLA
+    //E.g. Ten students for a face to face tutorial
+    private int maximumGroupSize;
     
     private LearnerFeedback learnerFeedback;
     
@@ -39,6 +45,7 @@ public class TLActivity implements Serializable {
 	learningExperience = EnumeratedLearningExperience.ONE_SIZE_FOR_ALL; //Default
 	learnerFeedback = LearnerFeedback.NONE; //Default
 	studentTeacherInteraction = new StudentTeacherInteraction();
+	maximumGroupSize = 0;
     }
     
     public TLActivity(String name) {
@@ -113,15 +120,27 @@ public class TLActivity implements Serializable {
     void setStudentTeacherInteraction(StudentTeacherInteraction studentTeacherInteraction) {
 	this.studentTeacherInteraction = studentTeacherInteraction;
     }
+    
+    public int getMaximumGroupSize() {
+	return maximumGroupSize;
+    }
+    
+    @XmlAttribute
+    public void setMaximumGroupSize(int i) {
+        int oldValue = maximumGroupSize;
+        maximumGroupSize = i;
+        propertySupport.firePropertyChange(PROP_MAX_GROUP_SIZE, oldValue, maximumGroupSize);
+    }
 
     @Override
     public int hashCode() {
-	int hash = 5;
-	hash = 47 * hash + (this.learningType != null ? this.learningType.hashCode() : 0);
-	hash = 47 * hash + (this.learningExperience != null ? this.learningExperience.hashCode() : 0);
-	hash = 47 * hash + (this.studentTeacherInteraction != null ? this.studentTeacherInteraction.hashCode() : 0);
-	hash = 47 * hash + (this.name != null ? this.name.hashCode() : 0);
-	hash = 47 * hash + (this.learnerFeedback != null ? this.learnerFeedback.hashCode() : 0);
+	int hash = 3;
+	hash = 97 * hash + Objects.hashCode(this.learningType);
+	hash = 97 * hash + (this.learningExperience != null ? this.learningExperience.hashCode() : 0);
+	hash = 97 * hash + Objects.hashCode(this.studentTeacherInteraction);
+	hash = 97 * hash + Objects.hashCode(this.name);
+	hash = 97 * hash + this.maximumGroupSize;
+	hash = 97 * hash + (this.learnerFeedback != null ? this.learnerFeedback.hashCode() : 0);
 	return hash;
     }
 
@@ -134,16 +153,19 @@ public class TLActivity implements Serializable {
 	    return false;
 	}
 	final TLActivity other = (TLActivity) obj;
-	if (this.learningType != other.learningType && (this.learningType == null || !this.learningType.equals(other.learningType))) {
+	if (!Objects.equals(this.learningType, other.learningType)) {
 	    return false;
 	}
 	if (this.learningExperience != other.learningExperience) {
 	    return false;
 	}
-	if (this.studentTeacherInteraction != other.studentTeacherInteraction && (this.studentTeacherInteraction == null || !this.studentTeacherInteraction.equals(other.studentTeacherInteraction))) {
+	if (!Objects.equals(this.studentTeacherInteraction, other.studentTeacherInteraction)) {
 	    return false;
 	}
-	if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+	if (!Objects.equals(this.name, other.name)) {
+	    return false;
+	}
+	if (this.maximumGroupSize != other.maximumGroupSize) {
 	    return false;
 	}
 	if (this.learnerFeedback != other.learnerFeedback) {
@@ -151,6 +173,8 @@ public class TLActivity implements Serializable {
 	}
 	return true;
     }
+
+    
 
     
     

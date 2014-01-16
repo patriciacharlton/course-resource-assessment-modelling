@@ -60,8 +60,8 @@ public class ModulePresentation implements Serializable, Calculable {
 	return studentCount;
     }
 
-    int getNumberOfIndividuals_Groups(Module m, TLALineItem lineItem) {
-	float i = ((float) studentCount / (float) lineItem.getMaximumGroupSize(m, this));
+    int getNumberOfIndividuals_Groups(TLALineItem lineItem) {
+	float i = ((float) studentCount / (float) lineItem.getMaximumGroupSizeForPresentation(this));
 	return (int) (i + 0.99);
     }
 

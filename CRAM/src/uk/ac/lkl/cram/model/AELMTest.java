@@ -55,6 +55,7 @@ public class AELMTest {
 		TLActivity tla = new TLActivity("Tutored discussion online");
 		tla.setLearningType(new LearningType(10, 20, 70, 0, 0));
 		tla.setLearningExperience(EnumeratedLearningExperience.SOCIAL);
+		tla.setMaximumGroupSize(5);
 		StudentTeacherInteraction sti = new StudentTeacherInteraction();
 		sti.setOnline(true);
 		sti.setLocationSpecific(false);
@@ -297,7 +298,7 @@ public class AELMTest {
 			TLActivity tla = lineItem.getActivity();
 			SupportTime st = lineItem.getSupportTime(modulePresentation);
 			System.out.print(tla.getName() + '\t');
-			System.out.print(modulePresentation.getNumberOfIndividuals_Groups(module, lineItem) + "; ");		
+			System.out.print(modulePresentation.getNumberOfIndividuals_Groups(lineItem) + "; ");		
 			System.out.print(st.getWeekly() + "; ");
 			System.out.print(st.getNonWeekly() + "; ");
 			System.out.print(st.getTotalHours(module, modulePresentation, lineItem) + "; ");
