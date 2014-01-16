@@ -20,19 +20,20 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 public class TLALineItem implements LineItem {
 
     public static final String PROP_ACTIVITY = "activity";
-    public static final String PROP_MAX_GROUP_SIZE = "maxGroupSize";
     public static final String PROP_NON_WEEKLY = "nonWeekly";
     public static final String PROP_WEEKLY = "weekly";
+    //The number of hours per week that the student is expected to spend learning
     private float weeklyLearnerHourCount;
+    //The number of hours of non-regular learning hours (e.g. for an assessment)
     private float nonWeeklyLearnerHourCount;
     
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
     @XmlElement(name = "preparationMap")
-    private Map<ModulePresentation, PreparationTime> preparationMap = new HashMap<ModulePresentation, PreparationTime>();
+    private Map<ModulePresentation, PreparationTime> preparationMap = new HashMap<>();
     
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
     @XmlElement(name = "supportMap")
-    private Map<ModulePresentation, SupportTime> supportMap = new HashMap<ModulePresentation, SupportTime>();
+    private Map<ModulePresentation, SupportTime> supportMap = new HashMap<>();
     
     private TLActivity activity;
     
@@ -52,13 +53,13 @@ public class TLALineItem implements LineItem {
         this.nonWeeklyLearnerHourCount = nonWeeklyLearnerHourCount;
     }
 
-    public int getMaximumGroupSize(Module m, ModulePresentation presentation) {
+    public int getMaximumGroupSizeForPresentation(ModulePresentation presentation) {
         switch (activity.getLearningExperience()) {
 	    case PERSONALISED: {
 		return 1;
 	    }
 	    case SOCIAL: {
-		return m.getTutorGroupSize();
+		return activity.getMaximumGroupSize();
 	    }
 	    case ONE_SIZE_FOR_ALL: {
 		return presentation.getStudentCount();

@@ -35,17 +35,22 @@ public class Module implements Serializable, Calculable {
 
     @XmlElementWrapper(name = "tlaLineItems")
     @XmlElement(name = "tlaLineItem")
-    private List<TLALineItem> tlaLineItems = new ArrayList<TLALineItem>();
+    private List<TLALineItem> tlaLineItems = new ArrayList<>();
     
     @XmlElementWrapper(name = "moduleLineItems")
     @XmlElement(name = "moduleLineItem")
-    private List<ModuleLineItem> moduleLineItems = new ArrayList<ModuleLineItem>();
+    private List<ModuleLineItem> moduleLineItems = new ArrayList<>();
     
     @XmlAttribute
     private int totalCreditHours;
     
     private String moduleName;
     private int weekCount;
+    //This is the size of the tutor group for the module
+    //This has an impact only on the module contributions line items
+    //E.g. if there is a cohort of 40 students, with a tutor group size
+    //of 20, then there will be two tutor groups, and thus 
+    //two lots of tutor group contributions
     private int tutorGroupSize;
     
     @XmlElementWrapper(name = "presentations")
@@ -60,7 +65,7 @@ public class Module implements Serializable, Calculable {
 	presentations[0] = new ModulePresentation(Run.FIRST);
 	presentations[1] = new ModulePresentation(Run.SECOND);
 	presentations[2] = new ModulePresentation(Run.THIRD);
-		}
+    }
 
     public Module(String name) {
 	this();
@@ -235,7 +240,7 @@ public class Module implements Serializable, Calculable {
     }
 
     public List<LineItem> getLineItems() {
-	List<LineItem> cramItems = new ArrayList<LineItem>();
+	List<LineItem> cramItems = new ArrayList<>();
 	cramItems.addAll(tlaLineItems);
 	cramItems.addAll(moduleLineItems);
 	return cramItems;

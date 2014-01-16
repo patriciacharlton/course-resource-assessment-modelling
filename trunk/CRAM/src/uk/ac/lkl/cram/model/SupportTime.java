@@ -17,7 +17,7 @@ public class SupportTime extends AbstractModuleTime {
     }
 
     public float getTotalHours(Module module, ModulePresentation modulePresentation, TLALineItem lineItem) {
-	float numberOfIndividuals_Groups = modulePresentation.getNumberOfIndividuals_Groups(module, lineItem);
+	float numberOfIndividuals_Groups = modulePresentation.getNumberOfIndividuals_Groups(lineItem);
 	if (numberOfIndividuals_Groups > 0) {
 	    return (module.getWeekCount() * weekly + non_weekly) * numberOfIndividuals_Groups;
 	} else {
