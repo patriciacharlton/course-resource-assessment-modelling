@@ -41,7 +41,7 @@ public class PredefinedVisualPanel extends JPanel {
 	interactionMatcher = InteractionMatcher.TUTOR_PRESENT;
 	matchingFeedback = LearnerFeedback.NONE;
 	List<TLActivity> predefinedList = getPredefinedList();
-	filteredList = new FilteredList<TLActivity>(predefinedList);
+	filteredList = new FilteredList<>(predefinedList);
 	filteredList.setComparator(new Comparator<TLActivity>() {
 
 	    @Override
@@ -50,7 +50,7 @@ public class PredefinedVisualPanel extends JPanel {
 	    }
 	});
 	applyFilter();
-	PredefinedListModel<TLActivity> listModel = new PredefinedListModel<TLActivity>(filteredList);
+	PredefinedListModel<TLActivity> listModel = new PredefinedListModel<>(filteredList);
 	activityList.setModel(listModel);
 	listModel.addListDataListener(new ListDataListener() {
 
@@ -156,7 +156,7 @@ public class PredefinedVisualPanel extends JPanel {
     }
     
     private List<TLActivity> getPredefinedList() {
-	List<TLActivity> predefinedList = new ArrayList<TLActivity>();
+	List<TLActivity> predefinedList = new ArrayList<>();
 	Module m = AELMTest.populateModule();
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    predefinedList.add(lineItem.getActivity());
@@ -340,9 +340,7 @@ public class PredefinedVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(feedbackPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

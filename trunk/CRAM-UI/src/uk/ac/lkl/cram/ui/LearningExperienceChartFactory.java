@@ -159,6 +159,6 @@ public class LearningExperienceChartFactory {
 	}
 	dataset.setValue(personalised, "Personalised", "Learning Experience");
 	dataset.setValue(social, "Social", "Learning Experience");
-	dataset.setValue(oneSizeForAll, "One Size For All", "Learning Experience");
+	dataset.setValue(oneSizeForAll, "Same for All", "Learning Experience");
     }
 }
