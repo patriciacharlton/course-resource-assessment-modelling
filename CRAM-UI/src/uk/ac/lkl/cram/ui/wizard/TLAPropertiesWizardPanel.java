@@ -84,13 +84,15 @@ public class TLAPropertiesWizardPanel implements WizardDescriptor.Panel<WizardDe
         StringBuilder builder = new StringBuilder();
         switch (tla.getLearningExperience()) {
             case ONE_SIZE_FOR_ALL:
-                builder.append("one size for all");
+                builder.append("Same for All");
                 break;
             case PERSONALISED:
-                builder.append("personalised");
+                builder.append("Personalised");
                 break;
             case SOCIAL:
-                builder.append("social");
+                builder.append("Social (size: ");
+		builder.append(tla.getMaximumGroupSize());
+		builder.append(")");
                 break;
         }
         return builder.toString();

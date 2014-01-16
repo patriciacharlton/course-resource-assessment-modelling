@@ -1,22 +1,32 @@
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JSlider;
+import javax.swing.ListCellRenderer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import uk.ac.lkl.cram.model.EnumeratedLearningExperience;
 import uk.ac.lkl.cram.model.TLActivity;
+import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
 import uk.ac.lkl.cram.ui.TextFieldAdapter;
 
 /**
@@ -133,36 +143,47 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    }
 	};
 	
-	ActionListener learningExperienceListener = new ActionListener() {
+	EnumeratedLearningExperience[] learningExperiences = {EnumeratedLearningExperience.PERSONALISED, EnumeratedLearningExperience.SOCIAL, EnumeratedLearningExperience.ONE_SIZE_FOR_ALL};
+	ComboBoxModel<EnumeratedLearningExperience> cbModel = new DefaultComboBoxModel<>(learningExperiences);
+	learningExperienceComboBox.setModel(cbModel);
+	learningExperienceComboBox.addActionListener(new ActionListener() {
 
 	    @Override
-	    public void actionPerformed(ActionEvent ae) {
-		String actionCommand = ae.getActionCommand();
-		EnumeratedLearningExperience le = EnumeratedLearningExperience.valueOf(actionCommand);
-		tlActivity.setLearningExperience(le);
+	    public void actionPerformed(ActionEvent e) {
+		EnumeratedLearningExperience ele = (EnumeratedLearningExperience) learningExperienceComboBox.getSelectedItem();
+		tlActivity.setLearningExperience(ele);
+		boolean enableMaxGroupSize = ele == EnumeratedLearningExperience.SOCIAL;
+		maxGroupSizeTF.setEnabled(enableMaxGroupSize);
+		maxGroupSizeLabel.setEnabled(enableMaxGroupSize);
+		if (enableMaxGroupSize) {
+		    maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
+		} else {
+		    maxGroupSizeTF.setValue(0);
+		}
+	    }
+	});
+	
+	cbModel.setSelectedItem(tlActivity.getLearningExperience());
+	learningExperienceComboBox.setRenderer(new LearningExperienceRenderer());
+	maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
+	maxGroupSizeTF.addFocusListener(new FocusAdapter() {
+	    @Override
+	    public void focusLost(FocusEvent e) {
+		try {
+		    maxGroupSizeTF.commitEdit();
+		} catch (ParseException ex) {
+		    LOGGER.log(Level.SEVERE, "Failed to parse", ex);
+		}
+	    }
+	
+	});
+	new FormattedTextFieldAdapter(maxGroupSizeTF) {
+	    @Override
+	    public void updateValue(Object value) {
+		Integer maxGroupSize = (int) value;
+		tlActivity.setMaximumGroupSize(maxGroupSize);
 	    }
 	};
-	
-	personalisedRB.addActionListener(learningExperienceListener);
-	personalisedRB.setActionCommand(EnumeratedLearningExperience.PERSONALISED.name());
-	socialRB.addActionListener(learningExperienceListener);
-	socialRB.setActionCommand(EnumeratedLearningExperience.SOCIAL.name());
-	osfaRB.addActionListener(learningExperienceListener);
-	osfaRB.setActionCommand(EnumeratedLearningExperience.ONE_SIZE_FOR_ALL.name());
-	EnumeratedLearningExperience le = tlActivity.getLearningExperience();
-	switch (le) {
-	    case PERSONALISED: {
-		personalisedRB.setSelected(true);
-		break;
-	    }
-	    case SOCIAL: {
-		socialRB.setSelected(true);
-		break;
-	    }
-	    case ONE_SIZE_FOR_ALL:
-		osfaRB.setSelected(true);
-		break;
-	}
 	
 	
         final JFormattedTextField.AbstractFormatter learningFieldFormatter = new JFormattedTextField.AbstractFormatter() {
@@ -210,11 +231,10 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        learningExperienceBG = new javax.swing.ButtonGroup();
         learningExperiencePanel = new javax.swing.JPanel();
-        personalisedRB = new javax.swing.JRadioButton();
-        socialRB = new javax.swing.JRadioButton();
-        osfaRB = new javax.swing.JRadioButton();
+        learningExperienceComboBox = new javax.swing.JComboBox();
+        maxGroupSizeLabel = new javax.swing.JLabel();
+        maxGroupSizeTF = new javax.swing.JFormattedTextField();
         learningTypePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         acquisitionSlider = new javax.swing.JSlider();
@@ -241,36 +261,38 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 
         learningExperiencePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Nature of Learning Experience"));
 
-        learningExperienceBG.add(personalisedRB);
-        personalisedRB.setText("Personalised");
+        learningExperienceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Personalised", "Social", "Same for All" }));
 
-        learningExperienceBG.add(socialRB);
-        socialRB.setText("Social");
+        maxGroupSizeLabel.setText("Max. Group Size:");
+        maxGroupSizeLabel.setEnabled(false);
 
-        learningExperienceBG.add(osfaRB);
-        osfaRB.setText("One Size fits All");
+        maxGroupSizeTF.setColumns(4);
+        maxGroupSizeTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        maxGroupSizeTF.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout learningExperiencePanelLayout = new org.jdesktop.layout.GroupLayout(learningExperiencePanel);
         learningExperiencePanel.setLayout(learningExperiencePanelLayout);
         learningExperiencePanelLayout.setHorizontalGroup(
             learningExperiencePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(learningExperiencePanelLayout.createSequentialGroup()
-                .add(35, 35, 35)
-                .add(learningExperiencePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(personalisedRB)
-                    .add(socialRB)
-                    .add(osfaRB))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(learningExperienceComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, Short.MAX_VALUE))
+            .add(learningExperiencePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(maxGroupSizeLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(maxGroupSizeTF, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         learningExperiencePanelLayout.setVerticalGroup(
             learningExperiencePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(learningExperiencePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(personalisedRB)
+                .add(0, 0, 0)
+                .add(learningExperienceComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(socialRB)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(osfaRB)
+                .add(learningExperiencePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(maxGroupSizeLabel)
+                    .add(maxGroupSizeTF, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -444,7 +466,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
             tlaNamePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tlaNamePanelLayout.createSequentialGroup()
                 .add(0, 0, 0)
-                .add(tlaNameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                .add(tlaNameField)
                 .add(0, 0, 0))
         );
         tlaNamePanelLayout.setVerticalGroup(
@@ -471,7 +493,9 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
                 .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(learningTypePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(layout.createSequentialGroup()
+                        .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, Short.MAX_VALUE))))
         );
 
         bindingGroup.bind();
@@ -496,17 +520,16 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.ButtonGroup learningExperienceBG;
+    private javax.swing.JComboBox learningExperienceComboBox;
     private javax.swing.JPanel learningExperiencePanel;
     private javax.swing.JPanel learningTypePanel;
+    private javax.swing.JLabel maxGroupSizeLabel;
+    private javax.swing.JFormattedTextField maxGroupSizeTF;
     private javax.swing.JButton normaliseButton;
-    private javax.swing.JRadioButton osfaRB;
-    private javax.swing.JRadioButton personalisedRB;
     private javax.swing.JSlider practiceSlider;
     private javax.swing.JTextField practiceTF;
     private javax.swing.JSlider productionSlider;
     private javax.swing.JTextField productionTF;
-    private javax.swing.JRadioButton socialRB;
     private javax.swing.JTextField tlaNameField;
     private javax.swing.JPanel tlaNamePanel;
     private javax.swing.JFormattedTextField totalLearningTypeField;
@@ -607,4 +630,28 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         }
     }
 
+    private class LearningExperienceRenderer extends JLabel implements ListCellRenderer {
+	private Map<EnumeratedLearningExperience, String> renditionMap = new HashMap<>();
+	public LearningExperienceRenderer() {
+	    setOpaque(true);
+	    renditionMap.put(EnumeratedLearningExperience.PERSONALISED, "Personalised");
+	    renditionMap.put(EnumeratedLearningExperience.SOCIAL, "Social");
+	    renditionMap.put(EnumeratedLearningExperience.ONE_SIZE_FOR_ALL, "Same for All");
+	}
+
+	@Override
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+	    //The value should be an EnumeratedLearningExperience
+	    EnumeratedLearningExperience ele = (EnumeratedLearningExperience) value;
+	    setText(renditionMap.get(ele));
+	    if (isSelected) {
+		setBackground(list.getSelectionBackground());
+		setForeground(list.getSelectionForeground());
+	    } else {
+		setBackground(list.getBackground());
+		setForeground(list.getForeground());
+	    }
+	    return this;
+	}
+    }
 }

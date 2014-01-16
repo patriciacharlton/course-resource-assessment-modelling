@@ -135,13 +135,15 @@ public class PredefinedWizardPanel implements WizardDescriptor.Panel<WizardDescr
         //Learning experience
         switch (tla.getLearningExperience()) {
             case ONE_SIZE_FOR_ALL:
-                builder.append("one size for all");
+                builder.append("Same for All");
                 break;
             case PERSONALISED:
-                builder.append("personalised");
+                builder.append("Personalised");
                 break;
             case SOCIAL:
-                builder.append("social");
+                builder.append("Social (size: ");
+		builder.append(tla.getMaximumGroupSize());
+		builder.append(")");
                 break;
         }
         
@@ -149,33 +151,33 @@ public class PredefinedWizardPanel implements WizardDescriptor.Panel<WizardDescr
         StudentTeacherInteraction sti = tla.getStudentTeacherInteraction();
         if (sti.isOnline()) {
             builder.append(", ");
-            builder.append("online");
+            builder.append("Online");
         }
         if (sti.isLocationSpecific()) {
             builder.append(", ");
-            builder.append("location-specific");
+            builder.append("Location-specific");
         }
         if (sti.isTimeSpecific()) {
             builder.append(", ");
-            builder.append("time-specific");
+            builder.append("Time-specific");
         }
         if (sti.isTutorSupported()) {
             builder.append(", ");
-            builder.append("tutor-present");
+            builder.append("Tutor-present");
         }
         //Student Feedback      
         switch (tla.getLearnerFeedback()) {
             case PEER_ONLY:
                 builder.append(", ");
-                builder.append("peer feedback");
+                builder.append("Peer feedback");
                 break;
             case TEL:
                 builder.append(", ");
-                builder.append("TEL feedback");
+                builder.append("Computer-based feedback");
                 break;
             case TUTOR:
                 builder.append(", ");
-                builder.append("tutor feedback");
+                builder.append("Teacher feedback");
                 break;
         }
         return builder.toString();
