@@ -3,7 +3,6 @@ package uk.ac.lkl.cram.ui.wizard;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.ParseException;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +27,7 @@ import uk.ac.lkl.cram.ui.SelectAllAdapter;
 public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(LineItemsDetailVisualPanel.class.getName());
     public final static String PROP_VALID = "valid";
-    private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<JFormattedTextField, Boolean>();
+    private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<>();
     
     private final TLALineItem lineItem;
 
@@ -88,13 +87,13 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
             @Override
             public Object stringToValue(String string) {
 		//LOGGER.info("String: " + string);
-		string = string.replace("%", ""); //To fix issue 16
+		String s = string.replace("%", ""); //To fix issue 16
 		try {
-		    Float seniorRate = Float.valueOf(string) / 100;
+		    Float seniorRate = Float.valueOf(s) / 100;
 		    //LOGGER.info("Senior rate: " + seniorRate);
 		    return seniorRate;
 		} catch (NumberFormatException pe) {
-		    LOGGER.log(Level.SEVERE, string, pe);
+		    LOGGER.log(Level.SEVERE, s, pe);
 		    return 0;
 		}
 	    }
@@ -102,7 +101,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
             @Override
             public String valueToString(Object f) {
 		//LOGGER.info("value: " + f + " class: " + f.getClass());
-		Float seniorRate = (Float) f * 100;
+		int seniorRate = (int) ((Float) f * 100);
+                //LOGGER.info("seniorRate: " + seniorRate);
                 return String.valueOf(seniorRate) + '%';
             }
         };
@@ -213,25 +213,28 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		String property = pce.getPropertyName();
-		if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
-		    if (!isFieldDirty(weeklyPreparationFields[1])) {
-			float run2Weekly = pt1.getWeekly() / 10;
-			run2Weekly = (float) Math.ceil(run2Weekly);
-			weeklyPreparationFields[1].setValue(run2Weekly);
-			float run3Weekly = run2Weekly / 10;
-			run3Weekly = (float) Math.ceil(run3Weekly);
-			weeklyPreparationFields[2].setValue(run3Weekly);
-		    }
-		} else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
-		    if (!isFieldDirty(nonWeeklyPreparationFields[1])) {
-			float run2NonWeekly = pt1.getNonWeekly() / 10;
-			run2NonWeekly = (float) Math.ceil(run2NonWeekly);
-			nonWeeklyPreparationFields[1].setValue(run2NonWeekly);
-			float run3NonWeekly = run2NonWeekly / 10;
-			run3NonWeekly = (float) Math.ceil(run3NonWeekly);
-			nonWeeklyPreparationFields[2].setValue(run3NonWeekly);
-		    }
-		}
+                switch (property) {
+                    case AbstractModuleTime.PROP_WEEKLY:
+                        if (!isFieldDirty(weeklyPreparationFields[1])) {
+                            float run2Weekly = pt1.getWeekly() / 10;
+                            run2Weekly = (float) Math.ceil(run2Weekly);
+                            weeklyPreparationFields[1].setValue(run2Weekly);
+                            float run3Weekly = run2Weekly / 10;
+                            run3Weekly = (float) Math.ceil(run3Weekly);
+                            weeklyPreparationFields[2].setValue(run3Weekly);
+                        }
+                        break;
+                    case AbstractModuleTime.PROP_NON_WEEKLY:
+                        if (!isFieldDirty(nonWeeklyPreparationFields[1])) {
+                            float run2NonWeekly = pt1.getNonWeekly() / 10;
+                            run2NonWeekly = (float) Math.ceil(run2NonWeekly);
+                            nonWeeklyPreparationFields[1].setValue(run2NonWeekly);
+                            float run3NonWeekly = run2NonWeekly / 10;
+                            run3NonWeekly = (float) Math.ceil(run3NonWeekly);
+                            nonWeeklyPreparationFields[2].setValue(run3NonWeekly);
+                        }
+                        break;
+                }
 	    }
 	});
 	
@@ -240,17 +243,20 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		String property = pce.getPropertyName();
-		if (property.equals(AbstractModuleTime.PROP_WEEKLY)) {
-		    if (!isFieldDirty(weeklySupportFields[1])) {
-			weeklySupportFields[1].setValue(st1.getWeekly());
-			weeklySupportFields[2].setValue(st1.getWeekly());
-		    }
-		} else if (property.equals(AbstractModuleTime.PROP_NON_WEEKLY)) {
-		    if (!isFieldDirty(nonWeeklySupportFields[1])) {
-			nonWeeklySupportFields[1].setValue(st1.getNonWeekly());
-			nonWeeklySupportFields[2].setValue(st1.getNonWeekly());
-		    }
-		}
+                switch (property) {
+                    case AbstractModuleTime.PROP_WEEKLY:
+                        if (!isFieldDirty(weeklySupportFields[1])) {
+                            weeklySupportFields[1].setValue(st1.getWeekly());
+                            weeklySupportFields[2].setValue(st1.getWeekly());
+                        }
+                        break;
+                    case AbstractModuleTime.PROP_NON_WEEKLY:
+                        if (!isFieldDirty(nonWeeklySupportFields[1])) {
+                            nonWeeklySupportFields[1].setValue(st1.getNonWeekly());
+                            nonWeeklySupportFields[2].setValue(st1.getNonWeekly());
+                        }
+                        break;
+                }
 	    }
 	});
 	tlActivityNameChanged();
@@ -568,11 +574,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -580,13 +582,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
