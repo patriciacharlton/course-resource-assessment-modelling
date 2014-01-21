@@ -617,10 +617,14 @@ made subject to such option by the copyright holder.
         <taskdef name="copy-template-page" classname="org.netbeans.modules.javawebstart.anttasks.CopyTemplatePageTask"
             classpath="${libs.JWSAntTasks.classpath}"/>
         <copy-template-page destfile="${jnlp.dest.dir}/launch.html" template="preview-${jnlp.descriptor}.html" destdir="${jnlp.dest.dir}"/>
-        
+        <!--substitute SVN keywords-->
         <replace file="${jnlp.dest.dir}/launch.html" token="@revision@" value="${svna.version}" />
         <tstamp/>
         <replace file="${jnlp.dest.dir}/launch.html" token="@date@" value="${TODAY}" />
+	<!--Copy image files-->
+	<copy todir="${jnlp.dest.dir}/images">
+	    <fileset dir="images"/>
+	</copy>
     </target>
     
 </project>
