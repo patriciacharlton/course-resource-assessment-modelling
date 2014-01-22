@@ -26,7 +26,6 @@ public class Module implements Serializable, Calculable {
 
     private static final Logger LOGGER = Logger.getLogger(Module.class.getName());
 
-    private static final long serialVersionUID = 1L;
     public static final String PROP_TLA_LINEITEM = "tlaLineItem";
     public static final String PROP_NAME = "name";
     public static final String PROP_HOUR_COUNT = "hour_count";
@@ -45,6 +44,8 @@ public class Module implements Serializable, Calculable {
     private int totalCreditHours;
     
     private String moduleName;
+    //This is the number of weeks the module runs
+    //Some activities may run less than the number of weeks
     private int weekCount;
     //This is the size of the tutor group for the module
     //This has an impact only on the module contributions line items
@@ -167,7 +168,7 @@ public class Module implements Serializable, Calculable {
 	for (TLALineItem lineItem : tlaLineItems) {
 	    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 	    if (pt != null) {
-		totalHours = totalHours + pt.getTotalHours(this);
+		totalHours = totalHours + pt.getTotalHours(lineItem);
 	    }
 	}
 	return totalHours;
@@ -175,14 +176,14 @@ public class Module implements Serializable, Calculable {
 
     @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalPreparationCost(ModulePresentation modulePresentation) {
-	float totalHours = 0;
+	float totalCost = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
 	    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 	    if (pt != null) {
-		totalHours = totalHours + pt.getCost(this, modulePresentation);
+		totalCost = totalCost + pt.getTotalCost(lineItem, modulePresentation);
 	    }
 	}
-	return totalHours;
+	return totalCost;
     }
 
     @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
@@ -190,11 +191,11 @@ public class Module implements Serializable, Calculable {
 	float totalHours = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
 	    SupportTime st = lineItem.getSupportTime(modulePresentation);
-	    totalHours = totalHours + st.getTotalHours(this, modulePresentation, lineItem);
+	    totalHours = totalHours + st.getTotalHours(modulePresentation, lineItem);
 	}
 	for (ModuleLineItem moduleItem : moduleLineItems) {
 	    SupportTime st = moduleItem.getSupportTime(modulePresentation);
-	    totalHours = totalHours + st.getTotalHours(this, modulePresentation);
+	    totalHours = totalHours + st.getTotalHours(this, modulePresentation, moduleItem);
 	}
 	return totalHours;
     }
@@ -204,11 +205,11 @@ public class Module implements Serializable, Calculable {
 	float totalCost = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
 	    SupportTime st = lineItem.getSupportTime(modulePresentation);
-	    totalCost = totalCost + st.getCost(this, modulePresentation, lineItem);
+	    totalCost = totalCost + st.getTotalCost(modulePresentation, lineItem);
 	}
 	for (ModuleLineItem moduleItem : moduleLineItems) {
 	    SupportTime st = moduleItem.getSupportTime(modulePresentation);
-	    totalCost = totalCost + st.getCost(this, modulePresentation, moduleItem);
+	    totalCost = totalCost + st.getTotalCost(this, modulePresentation, moduleItem);
 	}
 	return totalCost;
     }
@@ -265,79 +266,76 @@ public class Module implements Serializable, Calculable {
 	propertySupport.removePropertyChangeListener(propertyName, listener);
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((moduleLineItems == null) ? 0 : moduleLineItems.hashCode());
-		result = prime * result
-				+ ((moduleName == null) ? 0 : moduleName.hashCode());
-		result = prime * result + Arrays.hashCode(presentations);
-		result = prime * result
-				+ ((tlaLineItems == null) ? 0 : tlaLineItems.hashCode());
-		result = prime * result + totalCreditHours;
-		result = prime * result + tutorGroupSize;
-		result = prime * result + weekCount;
-		return result;
-	}
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result
+		+ ((moduleLineItems == null) ? 0 : moduleLineItems.hashCode());
+	result = prime * result
+		+ ((moduleName == null) ? 0 : moduleName.hashCode());
+	result = prime * result + Arrays.hashCode(presentations);
+	result = prime * result
+		+ ((tlaLineItems == null) ? 0 : tlaLineItems.hashCode());
+	result = prime * result + totalCreditHours;
+	result = prime * result + tutorGroupSize;
+	result = prime * result + weekCount;
+	return result;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
     @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Module)) {
-			return false;
-		}
-		Module other = (Module) obj;
-		if (moduleLineItems == null) {
-			if (other.moduleLineItems != null) {
-				return false;
-			}
-		} else if (!moduleLineItems.equals(other.moduleLineItems)) {
-			return false;
-		}
-		if (moduleName == null) {
-			if (other.moduleName != null) {
-				return false;
-			}
-		} else if (!moduleName.equals(other.moduleName)) {
-			return false;
-		}
-		if (!Arrays.equals(presentations, other.presentations)) {
-			return false;
-		}
-		if (tlaLineItems == null) {
-			if (other.tlaLineItems != null) {
-				return false;
-			}
-		} else if (!tlaLineItems.equals(other.tlaLineItems)) {
-			return false;
-		}
-		if (totalCreditHours != other.totalCreditHours) {
-			return false;
-		}
-		if (tutorGroupSize != other.tutorGroupSize) {
-			return false;
-		}
-		if (weekCount != other.weekCount) {
-			return false;
-		}
-		return true;
+    public boolean equals(Object obj) {
+	if (this == obj) {
+	    return true;
 	}
-
-    
-
-    
+	if (obj == null) {
+	    return false;
+	}
+	if (!(obj instanceof Module)) {
+	    return false;
+	}
+	Module other = (Module) obj;
+	if (moduleLineItems == null) {
+	    if (other.moduleLineItems != null) {
+		return false;
+	    }
+	} else if (!moduleLineItems.equals(other.moduleLineItems)) {
+	    return false;
+	}
+	if (moduleName == null) {
+	    if (other.moduleName != null) {
+		return false;
+	    }
+	} else if (!moduleName.equals(other.moduleName)) {
+	    return false;
+	}
+	if (!Arrays.equals(presentations, other.presentations)) {
+	    return false;
+	}
+	if (tlaLineItems == null) {
+	    if (other.tlaLineItems != null) {
+		return false;
+	    }
+	} else if (!tlaLineItems.equals(other.tlaLineItems)) {
+	    return false;
+	}
+	if (totalCreditHours != other.totalCreditHours) {
+	    return false;
+	}
+	if (tutorGroupSize != other.tutorGroupSize) {
+	    return false;
+	}
+	if (weekCount != other.weekCount) {
+	    return false;
+	}
+	return true;
+    }
+ 
 }

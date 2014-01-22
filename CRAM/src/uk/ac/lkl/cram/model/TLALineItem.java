@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -15,15 +16,18 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
  * $Revision$
  * @author Bernard Horan
  */
-@XmlType(propOrder = {"weeklyLearnerHourCount", "nonWeeklyLearnerHourCount", "activity", "preparationMap", "supportMap"})
+@XmlType(propOrder = {"weeklyLearnerHourCount", "weekCount", "nonWeeklyLearnerHourCount", "activity", "preparationMap", "supportMap"})
 @SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class TLALineItem implements LineItem {
 
     public static final String PROP_ACTIVITY = "activity";
     public static final String PROP_NON_WEEKLY = "nonWeekly";
+    public static final String PROP_WEEKCOUNT = "weekCount";
     public static final String PROP_WEEKLY = "weekly";
     //The number of hours per week that the student is expected to spend learning
     private float weeklyLearnerHourCount;
+    //The number of weeks that this activity runs
+    private int weekCount;   
     //The number of hours of non-regular learning hours (e.g. for an assessment)
     private float nonWeeklyLearnerHourCount;
     
@@ -43,13 +47,15 @@ public class TLALineItem implements LineItem {
         propertySupport = new PropertyChangeSupport(this);
         activity = new TLActivity();
 	this.weeklyLearnerHourCount = 0f;
+	this.weekCount = 0;
 	this.nonWeeklyLearnerHourCount = 0f;
     }
 
-    TLALineItem(TLActivity activity, float weeklyLearnerHourCount, float nonWeeklyLearnerHourCount) {
+    TLALineItem(TLActivity activity, float weeklyLearnerHourCount, int weekCount, float nonWeeklyLearnerHourCount) {
         this();
         this.activity = activity;
         this.weeklyLearnerHourCount = weeklyLearnerHourCount;
+	this.weekCount = weekCount;
         this.nonWeeklyLearnerHourCount = nonWeeklyLearnerHourCount;
     }
 
@@ -81,6 +87,28 @@ public class TLALineItem implements LineItem {
         propertySupport.firePropertyChange(PROP_WEEKLY, oldValue, weeklyLearnerHourCount);
     }
 
+    /**
+     * Get the value of weekCount
+     *
+     * @return the value of weekCount
+     */
+    @Override
+    public int getWeekCount() {
+	return weekCount;
+    }
+
+    /**
+     * Set the value of weekCount
+     *
+     * @param weekCount new value of weekCount
+     */
+    @XmlAttribute
+    public void setWeekCount(int weekCount) {
+	int oldWeekCount = this.weekCount;
+	this.weekCount = weekCount;
+	propertySupport.firePropertyChange(PROP_WEEKCOUNT, oldWeekCount, weekCount);
+    }
+    
     public float getNonWeeklyLearnerHourCount() {
         return nonWeeklyLearnerHourCount;
     }
@@ -93,7 +121,7 @@ public class TLALineItem implements LineItem {
     }
 
     public float getTotalLearnerHourCount(Module module) {
-        return module.getWeekCount() * weeklyLearnerHourCount + nonWeeklyLearnerHourCount;
+        return weekCount * weeklyLearnerHourCount + nonWeeklyLearnerHourCount;
     }
 
     void setPreparationTime(ModulePresentation mp, PreparationTime pt) {
@@ -141,7 +169,7 @@ public class TLALineItem implements LineItem {
 
     @Override
     public float getCost(SupportTime st, Module module, ModulePresentation mp) {
-        return st.getCost(module, mp, this);
+        return st.getTotalCost(mp, this);
     }
 
     @Override
@@ -171,16 +199,16 @@ public class TLALineItem implements LineItem {
     @Override
     public int hashCode() {
 	int hash = 7;
-	hash = 19 * hash + Float.floatToIntBits(this.weeklyLearnerHourCount);
-	hash = 19 * hash + Float.floatToIntBits(this.nonWeeklyLearnerHourCount);
-	hash = 19 * hash + (this.preparationMap != null ? this.preparationMap.hashCode() : 0);
-	hash = 19 * hash + (this.supportMap != null ? this.supportMap.hashCode() : 0);
-	hash = 19 * hash + (this.activity != null ? this.activity.hashCode() : 0);
+	hash = 53 * hash + Float.floatToIntBits(this.weeklyLearnerHourCount);
+	hash = 53 * hash + this.weekCount;
+	hash = 53 * hash + Float.floatToIntBits(this.nonWeeklyLearnerHourCount);
+	hash = 53 * hash + Objects.hashCode(this.preparationMap);
+	hash = 53 * hash + Objects.hashCode(this.supportMap);
+	hash = 53 * hash + Objects.hashCode(this.activity);
 	return hash;
     }
 
     @Override
-    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
 	if (obj == null) {
 	    return false;
@@ -192,20 +220,22 @@ public class TLALineItem implements LineItem {
 	if (Float.floatToIntBits(this.weeklyLearnerHourCount) != Float.floatToIntBits(other.weeklyLearnerHourCount)) {
 	    return false;
 	}
+	if (this.weekCount != other.weekCount) {
+	    return false;
+	}
 	if (Float.floatToIntBits(this.nonWeeklyLearnerHourCount) != Float.floatToIntBits(other.nonWeeklyLearnerHourCount)) {
 	    return false;
 	}
-	if (this.preparationMap != other.preparationMap && (this.preparationMap == null || !this.preparationMap.equals(other.preparationMap))) {
+	if (!Objects.equals(this.preparationMap, other.preparationMap)) {
 	    return false;
 	}
-	if (this.supportMap != other.supportMap && (this.supportMap == null || !this.supportMap.equals(other.supportMap))) {
+	if (!Objects.equals(this.supportMap, other.supportMap)) {
 	    return false;
 	}
-	if (this.activity != other.activity && (this.activity == null || !this.activity.equals(other.activity))) {
+	if (!Objects.equals(this.activity, other.activity)) {
 	    return false;
 	}
 	return true;
     }
-    
-    
+   
 }

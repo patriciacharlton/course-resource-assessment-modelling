@@ -5,12 +5,13 @@ import java.io.Serializable;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public interface LineItem extends Serializable, Calculable {
 
     public SupportTime getSupportTime(ModulePresentation mp);
-    
+
     public PreparationTime getPreparationTime(ModulePresentation mp);
 
     public void setSupportTime(ModulePresentation mp, SupportTime st);
@@ -20,5 +21,6 @@ public interface LineItem extends Serializable, Calculable {
     public float getCost(SupportTime st, Module module, ModulePresentation mp);
 
     public float getTotalHours(SupportTime st, Module module, ModulePresentation mp);
-    
+
+    public int getWeekCount();
 }

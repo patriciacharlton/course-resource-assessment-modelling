@@ -21,8 +21,8 @@ public class TLALineItemTest extends CRAMTest {
      */
     @Test
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public void testGetMaximumGroupSize() {
-        System.out.println("getMaximumGroupSize");
+    public void testGetMaximumGroupSizeForPresentation() {
+        System.out.println("getMaximumGroupSizeForPresentation");
 	ModulePresentation createdPresentation = createdModule.getPresentationOne();
 	ModulePresentation importedPresentation = importedModule.getPresentationOne();
         int index = 0;
@@ -61,6 +61,32 @@ public class TLALineItemTest extends CRAMTest {
         assertEquals(f, instance.getWeeklyLearnerHourCount(), 0.0);
     }
 
+    /**
+     * Test of getWeekCount method, of class TLALineItem.
+     */
+    @Test
+    public void testGetWeekCount() {
+	System.out.println("getWeekCount");
+	int index = 0;
+        for (TLALineItem createdLineItem : getCreatedLineItems()) {
+            TLALineItem importedLineItem = getImportedLineItems().get(index);
+            index++;
+            assertEquals(createdLineItem.getWeekCount(), importedLineItem.getWeekCount(),0.1);
+        }
+    }
+    
+    /**
+     * Test of setWeekCount method, of class TLALineItem.
+     */
+    @Test
+    public void testSetWeekCount() {
+	System.out.println("setWeekCount");
+	int weekCount = 0;
+	TLALineItem instance = new TLALineItem();
+	instance.setWeekCount(weekCount);
+	assertEquals(weekCount, instance.getWeeklyLearnerHourCount(), 0.0);
+    }
+    
     /**
      * Test of getNonWeeklyLearnerHourCount method, of class TLALineItem.
      */
@@ -215,7 +241,7 @@ public class TLALineItemTest extends CRAMTest {
     }
 
     /**
-     * Test of getCost method, of class TLALineItem.
+     * Test of getTotalCost method, of class TLALineItem.
      */
     @Test
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
@@ -245,6 +271,19 @@ public class TLALineItemTest extends CRAMTest {
         assertEquals(selectedTLA, instance.getActivity());
     }
 
+    /**
+     * Test of equals method, of class TLALineItem.
+     */
+    @Test
+    public void testEquals() {
+	System.out.println("equals");
+	Object obj = null;
+	TLALineItem instance = new TLALineItem();
+	boolean expResult = false;
+	boolean result = instance.equals(obj);
+	assertEquals(expResult, result);
+    }
+    
     private List<TLALineItem> getImportedLineItems() {
         return importedModule.getTLALineItems();
     }

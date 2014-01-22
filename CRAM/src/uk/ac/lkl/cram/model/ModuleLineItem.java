@@ -4,6 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -14,18 +16,19 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
  * $Revision$
  * @author Bernard Horan
  */
-@XmlType(propOrder = {"name", "supportMap"})
+@XmlType(propOrder = {"name", "weekCount", "supportMap"})
 @SuppressWarnings("ClassWithoutLogger")
 public class ModuleLineItem implements LineItem {
 
-    private static final long serialVersionUID = 1L;
-    
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
     @XmlElement(name = "supportMap")
-    private Map<ModulePresentation, SupportTime> supportMap = new HashMap<ModulePresentation, SupportTime>();
+    private Map<ModulePresentation, SupportTime> supportMap = new HashMap<>();
     
-    @XmlElement
+    @XmlAttribute
     private String name;
+    
+    @XmlAttribute
+    private int weekCount;
     
     private PropertyChangeSupport propertySupport;
 
@@ -33,9 +36,10 @@ public class ModuleLineItem implements LineItem {
 	propertySupport = new PropertyChangeSupport(this);
     }
 
-    public ModuleLineItem(String name) {
+    public ModuleLineItem(String name, int weekCount) {
         this();
         this.name = name;
+	this.weekCount = weekCount;
     }
 
     @Override
@@ -52,63 +56,57 @@ public class ModuleLineItem implements LineItem {
     public String getName() {
         return name;
     }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
+    
+    /**
+     * Get the value of weekCount
+     *
+     * @return the value of weekCount
      */
+    @Override
+    public int getWeekCount() {
+	return weekCount;
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result
-                + ((supportMap == null) ? 0 : supportMap.hashCode());
-        return result;
+	int hash = 7;
+	hash = 13 * hash + Objects.hashCode(this.supportMap);
+	hash = 13 * hash + Objects.hashCode(this.name);
+	hash = 13 * hash + this.weekCount;
+	return hash;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof ModuleLineItem)) {
-            return false;
-        }
-        ModuleLineItem other = (ModuleLineItem) obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (supportMap == null) {
-            if (other.supportMap != null) {
-                return false;
-            }
-        } else {
-            if (!supportMap.equals(other.supportMap)) {
-                return false;
-            }
-        }
-        return true;
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	final ModuleLineItem other = (ModuleLineItem) obj;
+	if (!Objects.equals(this.supportMap, other.supportMap)) {
+	    return false;
+	}
+	if (!Objects.equals(this.name, other.name)) {
+	    return false;
+	}
+	if (this.weekCount != other.weekCount) {
+	    return false;
+	}
+	return true;
     }
+
+    
 
     @Override
     public float getCost(SupportTime st, Module module, ModulePresentation mp) {
-        return st.getCost(module, mp, this);
+        return st.getTotalCost(module, mp, this);
     }
 
     @Override
     public float getTotalHours(SupportTime st, Module module, ModulePresentation mp) {
-	return st.getTotalHours(module, mp);
+	return st.getTotalHours(module, mp, this);
     }
     
     @Override
@@ -125,12 +123,12 @@ public class ModuleLineItem implements LineItem {
     public PreparationTime getPreparationTime(ModulePresentation mp) {
 	return new PreparationTime() {
 	    @Override
-	    public float getCost(Module module, ModulePresentation modulePresentation) {
+	    public float getTotalCost(LineItem li, ModulePresentation modulePresentation) {
 		return 0;
 	    }
 
 	    @Override
-	    public float getTotalHours(Module module) {
+	    public float getTotalHours(LineItem li) {
 		return 0;
 	    }
 	};
