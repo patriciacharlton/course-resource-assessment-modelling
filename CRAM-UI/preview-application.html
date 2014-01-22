@@ -10,10 +10,9 @@ $Revision$
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<style>
             body {
-                margin-top: 20px;
                 margin-left: 50px;
                 margin-right: 50px;
-                margin-bottom: 20px;
+                margin-bottom: 50px;
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
                 font-size: 14px;
                 line-height: 20px;
@@ -36,11 +35,11 @@ $Revision$
             h4,
             h5,
             h6 {
-		margin: 20px 0 20px;
 		font-family: inherit;
 		font-weight: bold;
-		line-height: 20px;
 		color: inherit;
+                margin-bottom: 5px;
+                margin-top: 20px;
             }
             em {
                 font-style: italic;
@@ -65,6 +64,7 @@ $Revision$
 	    }
 	    p {
 		width: 65%;
+                margin-top: 0;
 	    }
         </style>
     </head>
@@ -129,6 +129,29 @@ $Revision$
 <!--
     <a href="${JNLP.FILE}">Launch the application</a>
 -->
+<h2>Troubleshooting</h2>
+<p>
+    We recommend using a Firefox browser on Apple Macintosh due to recent changes
+    that Apple have introduced into the Safari browser. You may also encounter
+    the following problems.
+</p>
+<h3>Application Blocked</h3>
+<p>
+    If you see a dialogue box that displays the message &lsquo;Application Blocked by
+    Security Settings&rsquo;, then you will need to adjust the security settings
+    of your Java control panel by <a href="http://www.java.com/en/download/help/jcp_security.xml">following these instructions</a>.
+</p>
+<h3>Unidentified Developer (Mac only)</h3>
+<p>
+    If you see a dialog box that displays the message &lsquo;&ldquo;launch.jnlp&rdquo; 
+    can't be opened because it is from an unidentified developer&rsquo;, you will
+    need to adjust the security settings on your Mac. On Mac OS X 10.9 (&lsquo;Mavericks&rsquo;) and Mac OS X 10.8 
+    (&lsquo;Snow Leopard&rsquo;) Apple has changed its security model to only 
+    support applications from the Mac App Store and identified developers. 
+    In most cases, this prohibits <em>jnlp/java-web-start</em> applications 
+    from launching. You may adjust these settings by <a href="http://support.apple.com/kb/HT5290?viewlocale=en_US&locale=en_US">following the instructions
+    on Apple&rsquo;s web site</a>.
+</p>
 <footer>Copyright 2014, London Knowledge Lab</footer>
 </body>
 </html>
