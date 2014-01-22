@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 /**
  * $Date$
+ * $Revision$
  * @author Bernard Horan
  */
 public class AbstractModuleTime implements Serializable {
@@ -26,11 +27,11 @@ public class AbstractModuleTime implements Serializable {
 	this(0f, 0f, 0f);
     }
 
-    public AbstractModuleTime(float f, float g, float h) {
+    public AbstractModuleTime(float weekly, float non_weekly, float seniorRate) {
 	propertySupport = new PropertyChangeSupport(this);
-	this.weekly = f;
-	this.non_weekly = g;
-	this.seniorRate = h;
+	this.weekly = weekly;
+	this.non_weekly = non_weekly;
+	this.seniorRate = seniorRate;
     }
 
     public float getNonWeekly() {

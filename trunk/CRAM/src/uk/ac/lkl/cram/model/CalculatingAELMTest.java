@@ -10,7 +10,6 @@ public class CalculatingAELMTest extends AELMTest{
 
 	/**
 	 * @param args
-	 * @throws NoSuchMethodException  
 	 */
 	public static void main(String[] args)  {
 	    Module m = populateModule();
@@ -39,7 +38,7 @@ public class CalculatingAELMTest extends AELMTest{
 	}
 
 	public static void reportPresentationPreparation(final Module module, final ModulePresentation modulePresentation) {
-		for (TLALineItem lineItem : module.getTLALineItems()) {
+		for (final TLALineItem lineItem : module.getTLALineItems()) {
 			TLActivity tla = lineItem.getActivity();
 			final PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 			if (pt != null) {
@@ -49,7 +48,7 @@ public class CalculatingAELMTest extends AELMTest{
 				Evaluator getTotalHours = new Evaluator(pt, module) {
 				    @Override
 				    protected void evaluate() {
-					setValue(pt.getTotalHours(module));
+					setValue(pt.getTotalHours(lineItem));
 				    }
 				};
 				System.out.print(getTotalHours.getValue() + "; ");
@@ -58,7 +57,7 @@ public class CalculatingAELMTest extends AELMTest{
 
 				    @Override
 				    protected void evaluate() {
-					setValue(pt.getCost(module, modulePresentation));
+					setValue(pt.getTotalCost(lineItem, modulePresentation));
 				    }
 				};
 				System.out.println(DecimalFormat.getCurrencyInstance().format(getCost.getValue()));
