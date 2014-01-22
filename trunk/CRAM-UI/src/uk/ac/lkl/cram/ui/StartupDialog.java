@@ -1,7 +1,9 @@
 package uk.ac.lkl.cram.ui;
 
 
+import java.awt.Color;
 import java.util.ResourceBundle;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 /**
@@ -9,19 +11,22 @@ import javax.swing.JButton;
  * $Revision$
  * @author bernard
  */
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class StartupDialog extends javax.swing.JDialog {
-        private static final ResourceBundle bundle = ResourceBundle.getBundle("uk/ac/lkl/cram/ui/Bundle");
 
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("uk/ac/lkl/cram/ui/Bundle");
 
     /**
      * Creates new form StartupDialog
+     *
      * @param parent
-     * @param modal  
+     * @param modal
      */
     public StartupDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        StringBuilder builder = new StringBuilder();
+        getRootPane().setBorder(BorderFactory.createLineBorder(Color.black, 2));
+        StringBuilder builder = new StringBuilder(10);
         builder.append("Build: ");
         builder.append(bundle.getString("build.version"));
         builder.append(" Date: ");
@@ -47,10 +52,10 @@ public class StartupDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Course Resource Appraisal Model");
-        setResizable(false);
         setUndecorated(true);
+        setResizable(false);
 
-        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/CRAM.jpg"))); // NOI18N
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/CRAM.png"))); // NOI18N
         getContentPane().add(iconLabel, java.awt.BorderLayout.CENTER);
 
         newModuleButton.setText("New Module...");
@@ -129,7 +134,7 @@ public class StartupDialog extends javax.swing.JDialog {
     JButton getOpenModuleButtion() {
         return openModuleButton;
     }
-    
+
     JButton getQuitButton() {
         return quitButton;
     }
