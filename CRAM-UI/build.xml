@@ -95,7 +95,7 @@
              classname="com.oracle.appbundler.AppBundlerTask"   
              classpath="lib/appbundler-1.0.jar" />
     
-    <target depends="default" name="bundleCRAM" description="Create a Mac app">
+    <target depends="default" name="bundleCRAMApp" description="Create a Mac app">
         <bundleapp outputdirectory="dist"
             name="CRAM Tool"
             displayname="CRAM Tool"
@@ -118,6 +118,25 @@
         </exec>
         <!--Delete the app-->
         <!--<delete file="${dist.dir}/CRAM Tool.app"/>-->
+    </target>
+    
+    <target name="package-for-launch4j" depends="default">
+        <property location="/Users/bernard/eclipse/launch4j" name="launch4j.dir"/>
+        <property name="launch4j.jar.name" value="CRAMApp-launch4j"/>
+        <property name="launch4j.jar" value="${dist.dir}/${launch4j.jar.name}.jar"/>
+        <echo message="Packaging ${application.title} into a single JAR at ${launch4j.jar}"/>
+        <jar destfile="${dist.dir}/temp_final.jar" filesetmanifest="skip">
+            <zipgroupfileset dir="dist" includes="*.jar"/>
+            <zipgroupfileset dir="dist/lib" includes="*.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+        <zip destfile="${launch4j.jar}">
+            <zipfileset src="${dist.dir}/temp_final.jar"
+                        excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
+        </zip>
+        <delete file="${dist.dir}/temp_final.jar"/>
     </target>
     
 </project>

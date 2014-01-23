@@ -12,13 +12,16 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -45,15 +48,19 @@ public class CRAMApplication {
 
     private static final Logger LOGGER = Logger.getLogger(CRAMApplication.class.getName());
     private static int MODULE_COUNT = 1;
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
+        // Get the global logger to configure it
+        Logger logger = Logger.getLogger("uk.ac.lkl.cram");
+        logger.setLevel(Level.ALL);
+        FileHandler txtHandler = new FileHandler("CRAMLog.txt");
+        txtHandler.setFormatter(new SimpleFormatter());
+        logger.addHandler(txtHandler);
+                
         System.setProperty("apple.awt.graphics.EnableQ2DX", "true");
-	    System.setProperty("apple.laf.useScreenMenuBar", "true");
-	    System.setProperty("com.apple.mrj.application.apple.menu.about.name", "CRAM");
-	try {
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "CRAM");
+        try {
             //Set System LAF
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException e) {
@@ -68,10 +75,10 @@ public class CRAMApplication {
         for (int i = 0; i < args.length; i++) {
             LOGGER.log(Level.INFO, "arg[{0}]: {1}", new Object[]{i, args[i]});
         }
-	CRAMApplication application = new CRAMApplication();
+        CRAMApplication application = new CRAMApplication();
         if (System.getProperty("os.name").contains("Mac")) {
             LOGGER.info("mac");
-	    
+
             try {
                 Object app = Class.forName("com.apple.eawt.Application").getMethod("getApplication",
                         (Class[]) null).invoke(null, (Object[]) null);
@@ -81,11 +88,11 @@ public class CRAMApplication {
                         new QuitListener(application));
                 app.getClass().getMethod("setQuitHandler", new Class[]{
                     Class.forName("com.apple.eawt.QuitHandler")}).invoke(app, new Object[]{ql});
-            } catch (Exception e) {
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 LOGGER.log(Level.WARNING, null, e);
             }
         }
-        
+
         application.startUp();
     }
 
@@ -95,7 +102,7 @@ public class CRAMApplication {
     private Set<JFrame> windows;
 
     CRAMApplication() {
-        windows = new TreeSet<JFrame>(new Comparator<JFrame>() {
+        windows = new TreeSet<>(new Comparator<JFrame>() {
             @Override
             public int compare(JFrame a, JFrame b) {
                 return a.getTitle().compareTo(b.getTitle());
@@ -226,11 +233,8 @@ public class CRAMApplication {
                 ModuleUnmarshaller unmarshaller = new ModuleUnmarshaller(file);
                 Module  importedModule = unmarshaller.unmarshallModule();
                 return addModule(importedModule, file.getName());
-            } catch (IOException i) {
+            } catch (    IOException | JAXBException i) {
                 LOGGER.log(Level.SEVERE, "Failed to open file", i);
-                return false;
-            } catch (JAXBException c) {
-                LOGGER.log(Level.SEVERE, "Failed to open file", c);
                 return false;
             }
             
@@ -268,7 +272,7 @@ public class CRAMApplication {
     private boolean createNewModule() {
         Module module = new Module();
         ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
-	dialog.setSize(dialog.getPreferredSize());
+        dialog.setSize(dialog.getPreferredSize());
         dialog.setVisible(true);
         if (dialog.getReturnStatus() == ModuleOkCancelDialog.RET_OK) {
             return addModule(module, "Untitled " + MODULE_COUNT++);
