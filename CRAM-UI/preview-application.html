@@ -66,6 +66,20 @@ $Revision$
 		width: 65%;
                 margin-top: 0;
 	    }
+	    code,
+	    pre {
+		padding: 0 3px 2px;
+		font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+		font-size: 12px;
+		color: #333333;
+		border-radius: 3px;
+	    }
+	    code {
+		padding: 2px 4px;
+		white-space: nowrap;
+		background-color: #f7f7f9;
+		border: 1px solid #e1e1e8;
+	    }
         </style>
     </head>
     <body>
@@ -88,7 +102,7 @@ $Revision$
 	    online product for use in all IOE departments.
 	</p>
 
-	<a href="images/ExampleModule.jpg">
+	<a href="images/ExampleModule.jpg"  target="_blank">
 	    <img class="cram"
 		 alt="Example Module"
 		 src="images/ExampleModule.jpg" 
@@ -100,7 +114,7 @@ $Revision$
 	    click on the &lsquo;Launch&rsquo; button below. Alternatively, you can 
 	    download a stand-alone <a href="CRAM%20Tool.zip">Macintosh</a> 
             or <a href="CRAM.exe">Windows</a> version of the tool. Both <u>require</u> the 
-    <a title="Get Java..." href="http://www.java.com/en/download/index.jsp">current
+    <a title="Get Java..." href="http://www.java.com/en/download/index.jsp" target="_blank">current
         version of Java</a> 
     installed on your system. The current
     version of the CRAM tool does not include any functionality to <em>undo</em>
@@ -114,7 +128,7 @@ $Revision$
 <p> To report an issue or suggest an enhancement, use the 
     <a
         target="_blank"
-	href="http://code.google.com/p/course-resource-assessment-modelling/issues/list">issues
+	href="http://code.google.com/p/course-resource-assessment-modelling/issues/list" target="_blank">issues
         list</a>.
 </p>
 
@@ -136,11 +150,21 @@ $Revision$
     the following problems.
 </p>
 <h3>Application Blocked</h3>
-<p>
+
+	    
+    <p>
     If you see a dialogue box that displays the message &lsquo;Application Blocked by
     Security Settings&rsquo;, then you will need to adjust the security settings
-    of your Java control panel by <a href="http://www.java.com/en/download/help/jcp_security.xml">following these instructions</a>.
+    of your Java control panel by <a href="http://www.java.com/en/download/help/jcp_security.xml" target="_blank">following these instructions</a>.
+    We recommend that you add <code>http://privatewww.essex.ac.uk/</code> to the
+    <a href="http://www.java.com/en/download/faq/exception_sitelist.xml" target="_blank">Exception Site List</a>,
+    instead of adjusting the Security Level. PLEASE NOTE, Java will present
+    you with a <a href="images/JavaSecurityWarning.jpg" target="_blank">Security Warning</a> that requires you to accept the risk of running
+    this application. If you do not wish to adjust your Java security settings,
+    we recommend that you download the stand-alone version of the tool, as 
+    mentioned earlier.
 </p>
+
 <h3>Unidentified Developer (Mac only)</h3>
 <p>
     If you see a dialog box that displays the message &lsquo;&ldquo;launch.jnlp&rdquo; 
@@ -148,9 +172,8 @@ $Revision$
     need to adjust the security settings on your Mac. On Mac OS X 10.9 (&lsquo;Mavericks&rsquo;) and Mac OS X 10.8 
     (&lsquo;Snow Leopard&rsquo;) Apple has changed its security model to only 
     support applications from the Mac App Store and identified developers. 
-    In most cases, this prohibits <em>jnlp/java-web-start</em> applications 
-    from launching. You may adjust these settings by <a href="http://support.apple.com/kb/HT5290?viewlocale=en_US&locale=en_US">following the instructions
-    on Apple&rsquo;s web site</a>.
+    You may adjust these settings by <a href="http://support.apple.com/kb/HT5290?viewlocale=en_US&locale=en_US" target="_blank">following the instructions
+    on Apple&rsquo;s web site</a>. 
 </p>
 <footer>Copyright 2014, London Knowledge Lab</footer>
 </body>
