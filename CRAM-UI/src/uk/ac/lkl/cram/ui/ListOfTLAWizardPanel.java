@@ -88,20 +88,20 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 
         activitiesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Activity", "Weekly Hours", "Non-Weekly Hours", "Total Hours"
+                "Activity", "Number of Weeks", "Weekly Hours", "Non-Weekly Hours", "Total Hours"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -117,6 +117,7 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
         activitiesTable.getColumnModel().getColumn(1).setResizable(false);
         activitiesTable.getColumnModel().getColumn(2).setResizable(false);
         activitiesTable.getColumnModel().getColumn(3).setResizable(false);
+        activitiesTable.getColumnModel().getColumn(4).setResizable(false);
 
         addButton.setText("Add...");
         addButton.addActionListener(new java.awt.event.ActionListener() {

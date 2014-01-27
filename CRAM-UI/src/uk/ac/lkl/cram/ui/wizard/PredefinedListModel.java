@@ -11,7 +11,7 @@ import javax.swing.AbstractListModel;
  * @author Bernard Horan 
  */
 @SuppressWarnings("serial")
-public class PredefinedListModel<E> extends AbstractListModel implements PropertyChangeListener {
+public class PredefinedListModel<E> extends AbstractListModel<E> implements PropertyChangeListener {
     private FilteredList<E> filteredList;
     
     public PredefinedListModel(FilteredList<E> fList) {

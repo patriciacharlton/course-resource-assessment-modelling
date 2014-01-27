@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import uk.ac.lkl.cram.model.AELMTest;
@@ -50,7 +51,7 @@ public class PredefinedVisualPanel extends JPanel {
 	    }
 	});
 	applyFilter();
-	PredefinedListModel<TLActivity> listModel = new PredefinedListModel<>(filteredList);
+	ListModel<TLActivity> listModel = new PredefinedListModel<>(filteredList);
 	activityList.setModel(listModel);
 	listModel.addListDataListener(new ListDataListener() {
 
@@ -118,8 +119,8 @@ public class PredefinedVisualPanel extends JPanel {
 		applyFilter();
 	    }
 	};
-	teacherFeedbackRB.addActionListener(feedbackListener);
-	teacherFeedbackRB.setActionCommand(LearnerFeedback.TUTOR.name());
+	tutorFeedbackRB.addActionListener(feedbackListener);
+	tutorFeedbackRB.setActionCommand(LearnerFeedback.TUTOR.name());
 	peerFeedbackRB.addActionListener(feedbackListener);
 	peerFeedbackRB.setActionCommand(LearnerFeedback.PEER_ONLY.name());
 	telFeedbackRB.addActionListener(feedbackListener);
@@ -128,7 +129,7 @@ public class PredefinedVisualPanel extends JPanel {
 	noFeedbackRB.setActionCommand(LearnerFeedback.NONE.name());
 	switch (matchingFeedback) {
 	    case TUTOR: {
-		teacherFeedbackRB.setSelected(true);
+		tutorFeedbackRB.setSelected(true);
 		break;
 	    }
 	    case PEER_ONLY: {
@@ -151,7 +152,7 @@ public class PredefinedVisualPanel extends JPanel {
 	return "Select Predefined Activity";
     }
     
-    JList getActivityList() {
+    JList<TLActivity> getActivityList() {
 	return activityList;
     }
     
@@ -206,10 +207,10 @@ public class PredefinedVisualPanel extends JPanel {
         studentFeedbackBG = new javax.swing.ButtonGroup();
         studentInteractionBG = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
-        activityList = new javax.swing.JList();
+        activityList = new javax.swing.JList<TLActivity>();
         panelTitleLabel = new javax.swing.JLabel();
         feedbackPanel = new javax.swing.JPanel();
-        teacherFeedbackRB = new javax.swing.JRadioButton();
+        tutorFeedbackRB = new javax.swing.JRadioButton();
         peerFeedbackRB = new javax.swing.JRadioButton();
         telFeedbackRB = new javax.swing.JRadioButton();
         noFeedbackRB = new javax.swing.JRadioButton();
@@ -233,8 +234,8 @@ public class PredefinedVisualPanel extends JPanel {
 
         feedbackPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.feedbackPanel.border.title"))); // NOI18N
 
-        studentFeedbackBG.add(teacherFeedbackRB);
-        org.openide.awt.Mnemonics.setLocalizedText(teacherFeedbackRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.teacherFeedbackRB.text")); // NOI18N
+        studentFeedbackBG.add(tutorFeedbackRB);
+        org.openide.awt.Mnemonics.setLocalizedText(tutorFeedbackRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.tutorFeedbackRB.text")); // NOI18N
 
         studentFeedbackBG.add(peerFeedbackRB);
         org.openide.awt.Mnemonics.setLocalizedText(peerFeedbackRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.peerFeedbackRB.text")); // NOI18N
@@ -252,7 +253,7 @@ public class PredefinedVisualPanel extends JPanel {
             .addGroup(feedbackPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teacherFeedbackRB)
+                    .addComponent(tutorFeedbackRB)
                     .addComponent(peerFeedbackRB)
                     .addComponent(telFeedbackRB)
                     .addComponent(noFeedbackRB))
@@ -262,7 +263,7 @@ public class PredefinedVisualPanel extends JPanel {
             feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(feedbackPanelLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(teacherFeedbackRB)
+                .addComponent(tutorFeedbackRB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(peerFeedbackRB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -365,7 +366,7 @@ public class PredefinedVisualPanel extends JPanel {
 
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList activityList;
+    private javax.swing.JList<TLActivity> activityList;
     private javax.swing.JPanel feedbackPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -377,10 +378,10 @@ public class PredefinedVisualPanel extends JPanel {
     private javax.swing.ButtonGroup studentFeedbackBG;
     private javax.swing.ButtonGroup studentInteractionBG;
     private javax.swing.JPanel studentInteractionPanel;
-    private javax.swing.JRadioButton teacherFeedbackRB;
     private javax.swing.JRadioButton telFeedbackRB;
     private javax.swing.JRadioButton timeSpecificRB;
     private javax.swing.JTextArea tlaTextArea;
+    private javax.swing.JRadioButton tutorFeedbackRB;
     private javax.swing.JRadioButton tutorPresentRB;
     // End of variables declaration//GEN-END:variables
 
@@ -388,7 +389,7 @@ public class PredefinedVisualPanel extends JPanel {
 	tlaTextArea.setText(string);
     }
 
-    private class TLActivityRenderer extends JLabel implements ListCellRenderer {
+    private class TLActivityRenderer extends JLabel implements ListCellRenderer<TLActivity> {
 
 	TLActivityRenderer() {
 	    setOpaque(true);
@@ -397,7 +398,7 @@ public class PredefinedVisualPanel extends JPanel {
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends TLActivity> list, TLActivity tla, int index, boolean isSelected, boolean cellHasFocus) {
 	    if (isSelected) {
 		setBackground(list.getSelectionBackground());
 		setForeground(list.getSelectionForeground());
@@ -405,7 +406,6 @@ public class PredefinedVisualPanel extends JPanel {
 		setBackground(list.getBackground());
 		setForeground(list.getForeground());
 	    }
-	    TLActivity tla = (TLActivity) value;
 	    setText(tla.getName());
 	    return this;
 	}

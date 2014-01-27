@@ -117,7 +117,7 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cancelButton))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, moduleWizardPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, listOfTLAWizardPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, listOfTLAWizardPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)))
         );
 
         layout.linkSize(new java.awt.Component[] {cancelButton, okButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
@@ -172,13 +172,7 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
         
         try {
 	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException ex) {
-	    LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (InstantiationException ex) {
-	    LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (IllegalAccessException ex) {
-	    LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+	} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
 	    LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
 	}
         /* Create and display the dialog */

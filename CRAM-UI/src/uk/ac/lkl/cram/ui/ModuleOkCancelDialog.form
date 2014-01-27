@@ -37,7 +37,7 @@
                       <Component id="cancelButton" linkSize="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="moduleWizardPanel" alignment="1" pref="0" max="32767" attributes="0"/>
-                  <Component id="listOfTLAWizardPanel" alignment="1" pref="469" max="32767" attributes="0"/>
+                  <Component id="listOfTLAWizardPanel" alignment="1" pref="525" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>

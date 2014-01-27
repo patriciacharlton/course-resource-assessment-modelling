@@ -86,6 +86,9 @@
             </Property>
             <Property name="selectionMode" type="int" value="0"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;TLActivity&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -113,7 +116,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="teacherFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="tutorFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="peerFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="telFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="noFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -126,7 +129,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="teacherFeedbackRB" min="-2" max="-2" attributes="0"/>
+                  <Component id="tutorFeedbackRB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="peerFeedbackRB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -138,13 +141,13 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="teacherFeedbackRB">
+        <Component class="javax.swing.JRadioButton" name="tutorFeedbackRB">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="studentFeedbackBG"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.teacherFeedbackRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.tutorFeedbackRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>

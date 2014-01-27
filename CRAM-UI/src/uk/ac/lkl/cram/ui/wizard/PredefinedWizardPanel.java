@@ -177,7 +177,7 @@ public class PredefinedWizardPanel implements WizardDescriptor.Panel<WizardDescr
                 break;
             case TUTOR:
                 builder.append(", ");
-                builder.append("Teacher feedback");
+                builder.append("Tutor feedback");
                 break;
         }
         return builder.toString();

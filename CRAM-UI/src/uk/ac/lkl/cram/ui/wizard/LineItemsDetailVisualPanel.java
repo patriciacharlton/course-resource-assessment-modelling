@@ -30,6 +30,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<>();
     
     private final TLALineItem lineItem;
+    private final Module module;
 
     /**
      * Creates new form LineItemsDetailVisualPanel
@@ -38,6 +39,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
      */
     public LineItemsDetailVisualPanel(Module module, TLALineItem li) {
         this.lineItem = li;
+	this.module = module;
         initComponents();
         final PropertyChangeListener nameListener = new PropertyChangeListener() {
 
@@ -68,6 +70,15 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    @Override
 	    public void updateValue(Object value) {
 		lineItem.setWeeklyLearnerHourCount((Float)value);
+		checkValidity();
+	    }
+	};
+	weekCountField.setValue(lineItem.getWeekCount());
+	//TODO Focus listener to check for invalid data?
+	new FormattedTextFieldAdapter(weekCountField) {
+	    @Override
+	    public void updateValue(Object value) {
+		lineItem.setWeekCount((Integer) value);
 		checkValidity();
 	    }
 	};
@@ -272,6 +283,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private void checkValidity() {
 	boolean weeklyValid =  !(lineItem.getWeeklyLearnerHourCount()<= 0);
 	boolean nonWeeklyValid = !(lineItem.getNonWeeklyLearnerHourCount() <= 0);
+	//TODO check validity
+	//boolean weekCountValid = (lineItem.getWeekCount() <= module.getWeekCount());
 	if (nonWeeklyValid || weeklyValid) {
 	    firePropertyChange(PROP_VALID, false, true);
 	} else {
@@ -297,6 +310,10 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         weeklyHoursField = new javax.swing.JFormattedTextField();
         nonWeeklyHoursField = new javax.swing.JFormattedTextField();
+        jLabel9 = new javax.swing.JLabel();
+        weekCountField = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
         preparationPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
@@ -342,28 +359,46 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel2.setText(bundle.getString("NON-WEEKLY:")); // NOI18N
+        jLabel2.setToolTipText("Non-regular activities");
 
+        weeklyHoursField.setColumns(2);
         weeklyHoursField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         nonWeeklyHoursField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel9.setText("of");
+
+        weekCountField.setColumns(3);
+
+        jLabel10.setText("hours");
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         org.jdesktop.layout.GroupLayout activityPanelLayout = new org.jdesktop.layout.GroupLayout(activityPanel);
         activityPanel.setLayout(activityPanelLayout);
         activityPanelLayout.setHorizontalGroup(
             activityPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(activityPanelLayout.createSequentialGroup()
-                .add(69, 69, 69)
+                .addContainerGap()
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(weeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 53, Short.MAX_VALUE)
+                .add(weekCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel9)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(weeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel10)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(nonWeeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(59, 59, 59))
+                .addContainerGap())
         );
 
-        activityPanelLayout.linkSize(new java.awt.Component[] {nonWeeklyHoursField, weeklyHoursField}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+        activityPanelLayout.linkSize(new java.awt.Component[] {nonWeeklyHoursField, weekCountField, weeklyHoursField}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
         activityPanelLayout.setVerticalGroup(
             activityPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -372,7 +407,11 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 .add(nonWeeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
             .add(activityPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                 .add(jLabel1)
-                .add(weeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(weeklyHoursField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jLabel9)
+                .add(weekCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jLabel10))
+            .add(jSeparator2)
         );
 
         preparationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Preparation Hours"));
@@ -511,7 +550,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(activityPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+            .add(preparationPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(supportPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(tlaNamePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -532,6 +571,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel activityPanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -539,6 +579,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JSeparator jSeparator2;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
@@ -570,6 +612,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private javax.swing.JPanel supportPanel;
     private javax.swing.JTextField tlaNameField;
     private javax.swing.JPanel tlaNamePanel;
+    private javax.swing.JFormattedTextField weekCountField;
     private javax.swing.JFormattedTextField weeklyHoursField;
     // End of variables declaration//GEN-END:variables
 
