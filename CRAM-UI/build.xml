@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--$Date$-->
+<!--$Revision$-->
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
@@ -10,6 +12,7 @@
 <project name="CRAM-UI" default="default" basedir=".">
     <description>Builds, tests, and runs the project CRAM-UI.</description>
     <import file="nbproject/build-impl.xml"/>
+    <property file="launch4j.properties"/>
     <!--
 
     There exist several targets which are by default empty and which can be 
@@ -72,84 +75,94 @@
 
     -->
     <target name="-pre-jar" description="Sets the buildversion and build date for the current build">
-        <exec outputproperty="svna.version" executable="svnversion">
-            <arg value="-c" />
-            <redirector>
-                <outputfilterchain>
-                    <tokenfilter>
-                        <replaceregex pattern="^[0-9]*:?" replace="" flags="g"/>
-                        <replaceregex pattern="M" replace="" flags="g"/>
-                    </tokenfilter>
-                </outputfilterchain>
-            </redirector>
-        </exec>
-        <echo>Version found from SVN: ${svna.version}</echo>
-        <replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@revision@" value="${svna.version}" />
-        <tstamp/>
-        <echo>Today's date: ${TODAY}</echo>
-        <replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@date@" value="${TODAY}" />
+	<exec outputproperty="svna.version" executable="svnversion">
+	    <arg value="-c" />
+	    <redirector>
+		<outputfilterchain>
+		    <tokenfilter>
+			<replaceregex pattern="^[0-9]*:?" replace="" flags="g"/>
+			<replaceregex pattern="M" replace="" flags="g"/>
+		    </tokenfilter>
+		</outputfilterchain>
+	    </redirector>
+	</exec>
+	<echo>Version found from SVN: ${svna.version}</echo>
+	<replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@revision@" value="${svna.version}" />
+	<tstamp/>
+	<echo>Today's date: ${TODAY}</echo>
+	<replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@date@" value="${TODAY}" />
     
     </target>    
     
     <taskdef name="bundleapp"
-             classname="com.oracle.appbundler.AppBundlerTask"   
-             classpath="lib/appbundler-1.0.jar" />
+	     classname="com.oracle.appbundler.AppBundlerTask"   
+	     classpath="lib/appbundler-1.0.jar" />
     
-    <property location="/Users/bernard/eclipse/launch4j" name="launch4j.dir"/>
-    <taskdef name="launch4j"
-             classname="net.sf.launch4j.ant.Launch4jTask"
-             classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+    
     
     <target depends="jar" name="package" description="Package into binaries">
-        <property name="package.jar.name" value="CRAMApp-package"/>
-        <property name="package.jar" value="${dist.dir}/${package.jar.name}.jar"/>
-        <echo message="Packaging ${application.title} into a single JAR at ${package.jar}"/>
-        <jar destfile="${dist.dir}/temp_final.jar" filesetmanifest="skip">
-            <zipgroupfileset dir="dist" includes="*.jar"/>
-            <zipgroupfileset dir="dist/lib" includes="*.jar"/>
-            <manifest>
-                <attribute name="Main-Class" value="${main.class}"/>
-            </manifest>
-        </jar>
-        <zip destfile="${package.jar}">
-            <zipfileset src="${dist.dir}/temp_final.jar"
-                        excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
-        </zip>
-        <delete file="${dist.dir}/temp_final.jar"/>
-        <echo message="Creating Mac App"/>
-        <bundleapp outputdirectory="dist"
-                   name="CRAM Tool"
-                   displayname="CRAM Tool"
-                   icon="star.icns"
-                   shortversion="${svna.version}"
-                   identifier="uk.ac.lkl.cram.ui.CRAMApplication"
-                   copyright="IOE 2014"
-                   mainclassname="uk/ac/lkl/cram/ui/CRAMApplication">
-            <classpath file="${package.jar}"/>
-            <option value="-Dapple.laf.useScreenMenuBar=true"/>
-        </bundleapp>
-        <!--Zip the app-->
-        <exec executable="zip" dir="${dist.dir}">
-            <arg value="-r" />
-            <arg value="CRAM Tool.zip" />
-            <arg value="CRAM Tool.app" />
-        </exec>
-        <echo message="Creating Windows executable"/>
-        <property name="exe.file" value="${dist.dir}/CRAM.exe"/>
-        <launch4j>
-            <config headerType="gui" 
-                    outfile="${exe.file}"
-                    dontWrapJar="false" 
-                    jar="${package.jar}" 
-                    downloadurl="http://java.com/download" 
-                    errtitle="CRAM Tool" 
-                    icon="star.ico">  
-                <jre minVersion="1.7.0" 
-                     bundledjre64bit="false" 
-                     jdkpreference="preferJre"/>     
-            </config>
-        </launch4j>
-        <delete file="${package.jar}"/>
+	<property name="package.jar.name" value="CRAMApp-package"/>
+	<property name="package.jar" value="${dist.dir}/${package.jar.name}.jar"/>
+	<echo message="Packaging ${application.title} into a single JAR at ${package.jar}"/>
+	<jar destfile="${dist.dir}/temp_final.jar" filesetmanifest="skip">
+	    <zipgroupfileset dir="dist" includes="*.jar"/>
+	    <zipgroupfileset dir="dist/lib" includes="*.jar"/>
+	    <manifest>
+		<attribute name="Main-Class" value="${main.class}"/>
+	    </manifest>
+	</jar>
+	<zip destfile="${package.jar}">
+	    <zipfileset src="${dist.dir}/temp_final.jar"
+			excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
+	</zip>
+	<delete file="${dist.dir}/temp_final.jar"/>
+	<echo message="Creating Mac App"/>
+	<bundleapp outputdirectory="dist"
+		   name="{application.title}"
+		   displayname="{application.title}"
+		   icon="star.icns"
+		   shortversion="${svna.version}"
+		   identifier="{main.class}"
+		   copyright="IOE 2014"
+		   mainclassname="uk/ac/lkl/cram/ui/CRAMApplication">
+	    <classpath file="${package.jar}"/>
+	    <option value="-Dapple.laf.useScreenMenuBar=true"/>
+	</bundleapp>
+	<!--Zip the app-->
+	<exec executable="zip" dir="${dist.dir}">
+	    <arg value="-r" />
+	    <arg value="{application.title}.zip" />
+	    <arg value="{application.title}.app" />
+	</exec>
+	<antcall target="-buildWindows"/>
+	<delete file="${package.jar}"/>
     </target>
     
+    <target name="-buildWindows" depends="-launch4j-exists,-launch4j-no-exists"/>
+    
+    <target name="-launch4j-exists" if="launch4j.dir">
+	<echo message="Creating Windows executable"/>
+	<taskdef name="launch4j"
+		 classname="net.sf.launch4j.ant.Launch4jTask"
+		 classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+	<property name="exe.file" value="${dist.dir}/{application.title}.exe"/>
+	<launch4j>
+	    <config headerType="gui" 
+		    outfile="${exe.file}"
+		    dontWrapJar="false" 
+		    jar="${package.jar}" 
+		    downloadurl="http://java.com/download" 
+		    errtitle="{application.title}" 
+		    icon="star.ico">  
+		<jre minVersion="1.7.0" 
+		     bundledjre64bit="false" 
+		     jdkpreference="preferJre"/>     
+	    </config>
+	</launch4j>
+    </target>
+  
+    <target name="-launch4j-no-exists" unless="launch4j.dir">
+	<echo message="Cannot create Windows executable: launch4j does not exist"/>
+    </target>
+	  
 </project>
