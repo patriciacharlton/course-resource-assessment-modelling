@@ -51,8 +51,8 @@ public class TLAPropertiesVisualPanel extends JPanel {
 		tlActivity.setLearnerFeedback(lf);
 	    }
 	};
-	teacherFeedbackRB.addActionListener(feedbackListener);
-	teacherFeedbackRB.setActionCommand(LearnerFeedback.TUTOR.name());
+	tutorFeedbackRB.addActionListener(feedbackListener);
+	tutorFeedbackRB.setActionCommand(LearnerFeedback.TUTOR.name());
 	peerFeedbackRB.addActionListener(feedbackListener);
 	peerFeedbackRB.setActionCommand(LearnerFeedback.PEER_ONLY.name());
 	telFeedbackRB.addActionListener(feedbackListener);
@@ -62,7 +62,7 @@ public class TLAPropertiesVisualPanel extends JPanel {
 	LearnerFeedback lf = tlActivity.getLearnerFeedback();
 	switch (lf) {
 	    case TUTOR: {
-		teacherFeedbackRB.setSelected(true);
+		tutorFeedbackRB.setSelected(true);
 		break;
 	    }
 	    case PEER_ONLY: {
@@ -142,7 +142,7 @@ public class TLAPropertiesVisualPanel extends JPanel {
         tlaNamePanel = new javax.swing.JPanel();
         tlaNameField = new javax.swing.JTextField();
         feedbackPanel = new javax.swing.JPanel();
-        teacherFeedbackRB = new javax.swing.JRadioButton();
+        tutorFeedbackRB = new javax.swing.JRadioButton();
         peerFeedbackRB = new javax.swing.JRadioButton();
         telFeedbackRB = new javax.swing.JRadioButton();
         noFeedbackRB = new javax.swing.JRadioButton();
@@ -169,8 +169,8 @@ public class TLAPropertiesVisualPanel extends JPanel {
 
         feedbackPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.feedbackPanel.border.title"))); // NOI18N
 
-        feedbackBG.add(teacherFeedbackRB);
-        org.openide.awt.Mnemonics.setLocalizedText(teacherFeedbackRB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.teacherFeedbackRB.text")); // NOI18N
+        feedbackBG.add(tutorFeedbackRB);
+        org.openide.awt.Mnemonics.setLocalizedText(tutorFeedbackRB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.tutorFeedbackRB.text")); // NOI18N
 
         feedbackBG.add(peerFeedbackRB);
         org.openide.awt.Mnemonics.setLocalizedText(peerFeedbackRB, org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.peerFeedbackRB.text")); // NOI18N
@@ -188,7 +188,7 @@ public class TLAPropertiesVisualPanel extends JPanel {
             .addGroup(feedbackPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teacherFeedbackRB)
+                    .addComponent(tutorFeedbackRB)
                     .addComponent(peerFeedbackRB)
                     .addComponent(telFeedbackRB)
                     .addComponent(noFeedbackRB))
@@ -198,7 +198,7 @@ public class TLAPropertiesVisualPanel extends JPanel {
             feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(feedbackPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(teacherFeedbackRB)
+                .addComponent(tutorFeedbackRB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(peerFeedbackRB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -281,11 +281,11 @@ public class TLAPropertiesVisualPanel extends JPanel {
     private javax.swing.JCheckBox onlineCB;
     private javax.swing.JRadioButton peerFeedbackRB;
     private javax.swing.JPanel studentInteractionPanel;
-    private javax.swing.JRadioButton teacherFeedbackRB;
     private javax.swing.JRadioButton telFeedbackRB;
     private javax.swing.JCheckBox timeSpecificCB;
     private javax.swing.JTextField tlaNameField;
     private javax.swing.JPanel tlaNamePanel;
+    private javax.swing.JRadioButton tutorFeedbackRB;
     private javax.swing.JCheckBox tutorPresentCB;
     // End of variables declaration//GEN-END:variables
     }

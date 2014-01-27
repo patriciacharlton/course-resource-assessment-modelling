@@ -87,6 +87,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(730, 600));
+        setPreferredSize(new java.awt.Dimension(860, 930));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         leftTaskPaneContainer.setPaintBorderInsets(false);

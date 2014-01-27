@@ -13,10 +13,11 @@ import uk.ac.lkl.cram.model.TLALineItem;
  * $Revision$
  * @author bernard
  */
+@SuppressWarnings("serial")
 public class ModuleTableModel extends AbstractTableModel implements PropertyChangeListener {
     private static final Logger LOGGER = Logger.getLogger(ModuleTableModel.class.getName());
 
-    private static final String[] COLUMN_NAMES = {"<html>Activity</html>", "<html>Weekly<br>Learner Hours</html>", "<html>Non-Weekly<br>Learner Hours</html>", "<html>Total<br>Learner Hours</html>"};
+    private static final String[] COLUMN_NAMES = {"<html>Activity</html>", "<html>Number of<br>Weeks</html>", "<html>Weekly<br>Learner Hours</html>", "<html>Non-Weekly<br>Learner Hours</html>", "<html>Total<br>Learner Hours</html>"};
     private final Module module;
     private final boolean includeSelfRegulated;
     
@@ -62,6 +63,7 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
                     case 0:
                         return "Self-regulated Learning";
                     case 1:
+		    case 2:
                         return 0;
                     default:
                         return module.getSelfRegulatedLearningHourCount();
@@ -73,10 +75,12 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
             case 0:
                 return li.getActivity().getName();
             case 1:
-                return li.getWeeklyLearnerHourCount();
-            case 2:
-                return li.getNonWeeklyLearnerHourCount();
+                return li.getWeekCount();
+	    case 2:
+		return li.getWeeklyLearnerHourCount();
             case 3:
+                return li.getNonWeeklyLearnerHourCount();
+            case 4:
                 return li.getTotalLearnerHourCount(module);
 
         }

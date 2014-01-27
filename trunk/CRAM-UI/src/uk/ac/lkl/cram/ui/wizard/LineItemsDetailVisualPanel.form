@@ -17,7 +17,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="activityPanel" max="32767" attributes="0"/>
-          <Component id="preparationPanel" pref="492" max="32767" attributes="0"/>
+          <Component id="preparationPanel" max="32767" attributes="0"/>
           <Component id="supportPanel" max="32767" attributes="0"/>
           <Component id="tlaNamePanel" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -51,15 +51,23 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="weeklyHoursField" linkSize="1" min="-2" pref="51" max="-2" attributes="0"/>
-                  <EmptySpace pref="53" max="32767" attributes="0"/>
+                  <Component id="weekCountField" linkSize="2" min="-2" pref="50" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="weeklyHoursField" linkSize="2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="nonWeeklyHoursField" linkSize="1" min="-2" pref="55" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                  <Component id="nonWeeklyHoursField" linkSize="2" min="-2" pref="55" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -72,7 +80,11 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="weeklyHoursField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="weekCountField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -91,16 +103,38 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="NON-WEEKLY:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Non-regular activities"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="weeklyHoursField">
           <Properties>
+            <Property name="columns" type="int" value="2"/>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="nonWeeklyHoursField">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel9">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="of"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="weekCountField">
+          <Properties>
+            <Property name="columns" type="int" value="3"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel10">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="hours"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSeparator" name="jSeparator2">
+          <Properties>
+            <Property name="orientation" type="int" value="1"/>
           </Properties>
         </Component>
       </SubComponents>

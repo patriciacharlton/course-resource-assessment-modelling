@@ -57,7 +57,7 @@ public class LineItemPanel extends javax.swing.JPanel {
 	activitiesTable.getColumnModel().getColumn(0).setCellRenderer(activityRenderer);
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	TableCellRenderer totalRenderer = new TotalRenderer();
-	activitiesTable.getColumnModel().getColumn(3).setCellRenderer(totalRenderer);
+	activitiesTable.getColumnModel().getColumn(4).setCellRenderer(totalRenderer);
 	ToolTipHeader ttHeader = new ToolTipHeader(activitiesTable.getColumnModel());
 	ttHeader.setToolTipStrings(toolTipStr);
 	activitiesTable.setTableHeader(ttHeader);
@@ -79,20 +79,20 @@ public class LineItemPanel extends javax.swing.JPanel {
 
         activitiesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Activity", "Weekly Hours", "Non-Weekly Hours", "Total Hours"
+                "Activity", "Number of Weeks", "Weekly Learner Hours", "Non-Weekly Hours", "Total Hours"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -105,6 +105,7 @@ public class LineItemPanel extends javax.swing.JPanel {
         });
         activitiesTable.setRequestFocusEnabled(false);
         activitiesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        activitiesTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(activitiesTable);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -185,7 +186,7 @@ public class LineItemPanel extends javax.swing.JPanel {
                 builder.append(" + (");
                 builder.append(li.getWeeklyLearnerHourCount());
                 builder.append(" * ");
-                builder.append(module.getWeekCount());
+                builder.append(li.getWeekCount());
                 builder.append(")");
                 setToolTipText(builder.toString());
             } else {
