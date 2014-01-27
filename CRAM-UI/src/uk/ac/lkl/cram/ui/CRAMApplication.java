@@ -53,9 +53,10 @@ public class CRAMApplication {
         // Get the global logger to configure it
         Logger logger = Logger.getLogger("uk.ac.lkl.cram");
         logger.setLevel(Level.ALL);
-        FileHandler txtHandler = new FileHandler("CRAMLog.txt");
-        txtHandler.setFormatter(new SimpleFormatter());
-        logger.addHandler(txtHandler);
+        //TODO
+//        FileHandler txtHandler = new FileHandler("CRAMLog.txt");
+//        txtHandler.setFormatter(new SimpleFormatter());
+//        logger.addHandler(txtHandler);
                 
         System.setProperty("apple.awt.graphics.EnableQ2DX", "true");
         System.setProperty("apple.laf.useScreenMenuBar", "true");
