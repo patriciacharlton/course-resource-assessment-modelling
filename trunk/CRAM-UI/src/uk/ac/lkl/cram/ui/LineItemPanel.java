@@ -25,7 +25,7 @@ import uk.ac.lkl.cram.ui.table.ToolTipHeader;
 @SuppressWarnings("serial")
 public class LineItemPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(LineItemPanel.class.getName());
-    private static final String[] toolTipStr = {"","","","non-weekly hours + (weekly hours * number of weeks)"};
+    private static final String[] toolTipStr = {"","","","","non-weekly hours + (weekly hours * number of weeks)"};
     private static final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat( "#.0" );
 
     public static final String PROP_SELECTED_LINEITEM = " selected_line_item";

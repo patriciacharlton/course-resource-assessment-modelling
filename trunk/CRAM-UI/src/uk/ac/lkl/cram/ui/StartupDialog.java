@@ -1,9 +1,7 @@
 package uk.ac.lkl.cram.ui;
 
 
-import java.awt.Color;
 import java.util.ResourceBundle;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 /**
@@ -25,7 +23,6 @@ public class StartupDialog extends javax.swing.JDialog {
     public StartupDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        getRootPane().setBorder(BorderFactory.createLineBorder(Color.black, 2));
         StringBuilder builder = new StringBuilder(10);
         builder.append("Build: ");
         builder.append(bundle.getString("build.version"));
@@ -52,7 +49,6 @@ public class StartupDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Course Resource Appraisal Model");
-        setUndecorated(true);
         setResizable(false);
 
         iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/CRAM.png"))); // NOI18N
