@@ -118,8 +118,8 @@
 	<delete file="${dist.dir}/temp_final.jar"/>
 	<echo message="Creating Mac App"/>
 	<bundleapp outputdirectory="dist"
-		   name="{application.title}"
-		   displayname="{application.title}"
+		   name="${application.title}"
+		   displayname="${application.title}"
 		   icon="star.icns"
 		   shortversion="${svna.version}"
 		   identifier="{main.class}"
@@ -131,8 +131,8 @@
 	<!--Zip the app-->
 	<exec executable="zip" dir="${dist.dir}">
 	    <arg value="-r" />
-	    <arg value="{application.title}.zip" />
-	    <arg value="{application.title}.app" />
+	    <arg value="${application.title}.zip" />
+	    <arg value="${application.title}.app" />
 	</exec>
 	<antcall target="-buildWindows"/>
 	<delete file="${package.jar}"/>
@@ -145,14 +145,14 @@
 	<taskdef name="launch4j"
 		 classname="net.sf.launch4j.ant.Launch4jTask"
 		 classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
-	<property name="exe.file" value="${dist.dir}/{application.title}.exe"/>
+	<property name="exe.file" value="${dist.dir}/${application.title}.exe"/>
 	<launch4j>
 	    <config headerType="gui" 
 		    outfile="${exe.file}"
 		    dontWrapJar="false" 
 		    jar="${package.jar}" 
 		    downloadurl="http://java.com/download" 
-		    errtitle="{application.title}" 
+		    errtitle="${application.title}" 
 		    icon="star.ico">  
 		<jre minVersion="1.7.0" 
 		     bundledjre64bit="false" 
