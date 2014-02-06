@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<library>
+    <activities>
+        <activity name="Summative Assessment&#x9;" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+            <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="true"/>
+            <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="0" production="100"/>
+        </activity>
+        <activity name="Reflective journal" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="0" discussion="7" inquiry="0" practice="0" production="93"/>
+        </activity>
+        <activity name="Live student presentation" maximumGroupSize="10" learnerFeedback="PEER_ONLY" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="true" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="0" discussion="20" inquiry="0" practice="0" production="80"/>
+        </activity>
+        <activity name="Building up own notes&#x9;" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
+            <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="0" discussion="0" inquiry="40" practice="60" production="0"/>
+        </activity>
+        <activity name="Formative practice&#x9;" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+            <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="true"/>
+            <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="50" production="50"/>
+        </activity>
+        <activity name="Live tutor presentation" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="ONE_SIZE_FOR_ALL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="true" tutorSupported="true"/>
+            <learningType acquisition="70" collaboration="0" discussion="30" inquiry="0" practice="0" production="0"/>
+        </activity>
+        <activity name="Collaborative production" maximumGroupSize="10" learnerFeedback="PEER_ONLY" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="65" discussion="0" inquiry="0" practice="0" production="35"/>
+        </activity>
+        <activity name="Individual production" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="0" production="100"/>
+        </activity>
+        <activity name="Quiz" maximumGroupSize="0" learnerFeedback="TEL" learningExperience="PERSONALISED">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="100" production="0"/>
+        </activity>
+        <activity name="Game" maximumGroupSize="100" learnerFeedback="TEL" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="44" discussion="0" inquiry="0" practice="56" production="0"/>
+        </activity>
+        <activity name="Live tutored discussion" maximumGroupSize="50" learnerFeedback="TUTOR" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="true" tutorSupported="true"/>
+            <learningType acquisition="0" collaboration="0" discussion="100" inquiry="0" practice="0" production="0"/>
+        </activity>
+        <activity name="Personal Tuition&#x9;" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+            <studentTeacherInteraction locationSpecific="true" online="false" timeSpecific="true" tutorSupported="true"/>
+            <learningType acquisition="0" collaboration="0" discussion="100" inquiry="0" practice="0" production="0"/>
+        </activity>
+        <activity name="Application of Concept&#x9;" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
+            <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="100" production="0"/>
+        </activity>
+        <activity name="Blog" maximumGroupSize="0" learnerFeedback="PEER_ONLY" learningExperience="PERSONALISED">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="0" discussion="20" inquiry="0" practice="0" production="80"/>
+        </activity>
+        <activity name="Exploring resources&#x9;" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="30" collaboration="0" discussion="0" inquiry="70" practice="0" production="0"/>
+        </activity>
+        <activity name="Live student discussion" maximumGroupSize="30" learnerFeedback="PEER_ONLY" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="true" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="15" discussion="85" inquiry="0" practice="0" production="0"/>
+        </activity>
+        <activity name="Digital simulation" maximumGroupSize="10" learnerFeedback="TEL" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="31" discussion="31" inquiry="14" practice="24" production="0"/>
+        </activity>
+        <activity name="Field trip" maximumGroupSize="30" learnerFeedback="PEER_ONLY" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="true" online="false" timeSpecific="false" tutorSupported="true"/>
+            <learningType acquisition="0" collaboration="10" discussion="16" inquiry="37" practice="37" production="0"/>
+        </activity>
+        <activity name="Tutored discussion online" maximumGroupSize="5" learnerFeedback="TUTOR" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="true" tutorSupported="true"/>
+            <learningType acquisition="10" collaboration="0" discussion="70" inquiry="20" practice="0" production="0"/>
+        </activity>
+        <activity name="Reading online and offline" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="100" collaboration="0" discussion="0" inquiry="0" practice="0" production="0"/>
+        </activity>
+        <activity name="Role play" maximumGroupSize="20" learnerFeedback="TUTOR" learningExperience="SOCIAL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="true"/>
+            <learningType acquisition="0" collaboration="49" discussion="0" inquiry="0" practice="51" production="0"/>
+        </activity>
+        <activity name="Exploring interactive resource" maximumGroupSize="0" learnerFeedback="TEL" learningExperience="ONE_SIZE_FOR_ALL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="65" collaboration="0" discussion="0" inquiry="0" practice="0" production="35"/>
+        </activity>
+    </activities>
+</library>
