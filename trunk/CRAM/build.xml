@@ -71,4 +71,9 @@
     nbproject/build-impl.xml file. 
 
     -->
+    
+    <target name="-pre-jar">
+        <echo message="Copying default TLAs to build directory"/>       
+        <copy file="TLALibrary.xml" tofile="${build.classes.dir}/TLALibrary.xml" overwrite="true" encoding="UTF-8"/>
+    </target>
 </project>
