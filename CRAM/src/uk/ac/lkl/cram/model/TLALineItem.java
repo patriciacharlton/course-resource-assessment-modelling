@@ -68,7 +68,7 @@ public class TLALineItem implements LineItem {
 		return activity.getMaximumGroupSize();
 	    }
 	    case ONE_SIZE_FOR_ALL: {
-		return presentation.getStudentCount();
+		return presentation.getTotalStudentCount();
 	    }
 	    default: {
 		throw new RuntimeException("Invalid learning experience");
@@ -209,6 +209,7 @@ public class TLALineItem implements LineItem {
     }
 
     @Override
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
 	if (obj == null) {
 	    return false;

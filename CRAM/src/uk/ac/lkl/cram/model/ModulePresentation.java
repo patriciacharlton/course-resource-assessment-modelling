@@ -18,21 +18,28 @@ public class ModulePresentation implements Serializable, Calculable {
     private static final long serialVersionUID = 1L;
     public static final String PROP_JUNIOR_COST = "junior_cost";
     public static final String PROP_SENIOR_COST = "senior_cost";
-    public static final String PROP_FEE = "fee";
-    public static final String PROP_STUDENT_COUNT = "student_count";
+    public static final String PROP_HOME_FEE = "home_fee";
+    public static final String PROP_HOME_STUDENT_COUNT = "home_student_count";
+    public static final String PROP_OVERSEAS_FEE = "overseas_fee";
+    public static final String PROP_OVERSEAS_STUDENT_COUNT = "overseas_student_count";
     
-    private int studentCount;
-    private int fee;
+    private int homeStudentCount;
+    private int overseasFee;
+    private int homeFee;
+    private int overseasStudentCount;   
     private int juniorCostPerDay;
     private int seniorCostPerDay;
+    
     @XmlAttribute
     private Run run;
     private PropertyChangeSupport propertySupport;
 
-    public ModulePresentation(Run aRun, int studentCount, int fee, int juniorCostPerDay, int seniorCostPerDay) {
+    public ModulePresentation(Run aRun, int homeStudentCount, int homeFee, int overseasStudentCount, int overseasFee, int juniorCostPerDay, int seniorCostPerDay) {
 	this(aRun);
-	this.studentCount = studentCount;
-	this.fee = fee;
+	this.homeStudentCount = homeStudentCount;
+        this.overseasStudentCount = overseasStudentCount;
+	this.homeFee = homeFee;
+        this.overseasFee = overseasFee;
 	this.juniorCostPerDay = juniorCostPerDay;
 	this.seniorCostPerDay = seniorCostPerDay;
     }
@@ -56,40 +63,66 @@ public class ModulePresentation implements Serializable, Calculable {
 	return juniorCostPerDay;
     }
 
-    public int getStudentCount() {
-	return studentCount;
+    public int getHomeStudentCount() {
+	return homeStudentCount;
+    }
+
+    public int getOverseasStudentCount() {
+        return overseasStudentCount;
+    }
+    
+    public int getTotalStudentCount() {
+        return homeStudentCount + overseasStudentCount;
     }
 
     int getNumberOfIndividuals_Groups(TLALineItem lineItem) {
-	float i = ((float) studentCount / (float) lineItem.getMaximumGroupSizeForPresentation(this));
+	float i = ((float) getTotalStudentCount() / (float) lineItem.getMaximumGroupSizeForPresentation(this));
 	return (int) (i + 0.99);
     }
 
     int getNumberOfIndividuals_Groups(Module module) {
-	float i = ((float) studentCount / (float) module.getTutorGroupSize());
+	float i = ((float) getTotalStudentCount() / (float) module.getTutorGroupSize());
 	return (int) (i + 0.99);
     }
 
     public int getIncome() {
-	return fee * studentCount;
+	return (homeFee * homeStudentCount) + (overseasFee * overseasStudentCount);
     }
 
     @XmlAttribute
-    public void setStudentCount(int i) {
-	int oldValue = studentCount;
-	studentCount = i;
-	propertySupport.firePropertyChange(PROP_STUDENT_COUNT, oldValue, studentCount);
+    public void setHomeStudentCount(int i) {
+	int oldValue = homeStudentCount;
+	homeStudentCount = i;
+	propertySupport.firePropertyChange(PROP_HOME_STUDENT_COUNT, oldValue, homeStudentCount);
     }
 
     @XmlAttribute
-    public void setFee(int i) {
-	int oldValue = fee;
-	fee = i;
-	propertySupport.firePropertyChange(PROP_FEE, oldValue, fee);
+    public void setOverseasStudentCount(int overseasStudentCount) {
+        int oldOverseasStudentCount = this.overseasStudentCount;
+        this.overseasStudentCount = overseasStudentCount;
+        propertySupport.firePropertyChange(PROP_OVERSEAS_STUDENT_COUNT, oldOverseasStudentCount, overseasStudentCount);
+    }
+    
+    @XmlAttribute
+    public void setHomeFee(int i) {
+	int oldValue = homeFee;
+	homeFee = i;
+	propertySupport.firePropertyChange(PROP_HOME_FEE, oldValue, homeFee);
     }
 
-    public int getFee() {
-	return fee;
+    public int getHomeFee() {
+	return homeFee;
+    }
+    
+    @XmlAttribute
+    public void setOverseasFee(int overseasFee) {
+        int oldOverseasFee = this.overseasFee;
+        this.overseasFee = overseasFee;
+        propertySupport.firePropertyChange(PROP_OVERSEAS_FEE, oldOverseasFee, overseasFee);
+    }
+    
+    public int getOverseasFee() {
+        return overseasFee;
     }
 
     @XmlAttribute

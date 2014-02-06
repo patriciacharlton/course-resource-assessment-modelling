@@ -35,9 +35,9 @@ public class ExampleTest {
 	module.setTotalCreditHourCount(300);
 	module.setWeekCount(12);
 	module.setTutorGroupSize(15);
-	module.setPresentationOne(new ModulePresentation(Run.FIRST, 15, 1610, 182, 450));
-	module.setPresentationTwo(new ModulePresentation(Run.SECOND, 20, 1695, 182, 450));
-	module.setPresentationThree(new ModulePresentation(Run.THIRD, 20, 1695, 182, 450));
+	module.setPresentationOne(new ModulePresentation(Run.FIRST, 10, 500, 5, 1000, 182, 450));
+	module.setPresentationTwo(new ModulePresentation(Run.SECOND, 10, 500, 10, 1000, 182, 450));
+	module.setPresentationThree(new ModulePresentation(Run.THIRD, 10, 500, 10, 1000, 182, 450));
 	addTutoredDiscussionOnline(module);
 	addReadingOnlineAndOffline(module);
 	addFormativePractice(module);
@@ -361,7 +361,7 @@ public class ExampleTest {
 	Collection<ModulePresentation> presentations = module.getModulePresentations();
 	System.out.print("Student Nos.");
 	for (ModulePresentation mp : presentations) {
-	    System.out.print("\t\t" + mp.getStudentCount());
+	    System.out.print("\t\t" + mp.getTotalStudentCount());
 	}
 	System.out.print("\nSupport hrs");
 	for (ModulePresentation mp : presentations) {
