@@ -1,4 +1,4 @@
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.obsolete;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -84,9 +84,9 @@ public class PresentationTableModel extends AbstractTableModel implements Proper
             case 0:
                 return presentationName;
             case 1: 
-                return mp.getStudentCount();
+                return mp.getHomeStudentCount();
             case 2:
-                return mp.getFee();
+                return mp.getHomeFee();
             case 3:
                 return mp.getJuniorCost();
             case 4: 

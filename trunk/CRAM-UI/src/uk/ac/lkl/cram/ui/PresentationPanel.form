@@ -20,120 +20,310 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,0,-108,0,0,1,-90"/>
   </AuxValues>
 
-  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-    <Property name="columns" type="int" value="5"/>
-    <Property name="rows" type="int" value="4"/>
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="juniorCostLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation1JuniorField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation2JuniorField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation3JuniorField" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel1" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation1SeniorField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation2SeniorField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation3SeniorField" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="overseasStudentIncomeFeeLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation1OverseasStudentFeeField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation2OverseasStudentFeeField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation3OverseasStudentFeeField" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="overseasStudentCountLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation1OverseasStudentCountField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation2OverseasStudentCountField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation3OverseasStudentCountField" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="homeStudentIncomeFeeLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation1HomeStudentFeeField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation2HomeStudentFeeField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation3HomeStudentFeeField" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="homeStudentCountLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation1HomeStudentCountField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation2HomeStudentCountField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="presentation3HomeStudentCountField" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="209" max="-2" attributes="0"/>
+                      <Component id="presentation1Label" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <Component id="presentation2Label" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="presentation3Label" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="presentation1Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation2Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation3Label" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="homeStudentCountLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation1HomeStudentCountField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation2HomeStudentCountField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation3HomeStudentCountField" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="homeStudentIncomeFeeLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation1HomeStudentFeeField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation2HomeStudentFeeField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation3HomeStudentFeeField" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="overseasStudentCountLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation1OverseasStudentCountField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation2OverseasStudentCountField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation3OverseasStudentCountField" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="overseasStudentIncomeFeeLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation1OverseasStudentFeeField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation2OverseasStudentFeeField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation3OverseasStudentFeeField" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="juniorCostLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation1JuniorField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation2JuniorField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation3JuniorField" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="jLabel1" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation1SeniorField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation2SeniorField" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="presentation3SeniorField" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+      </Group>
+    </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="org.jdesktop.swingx.JXLabel" name="presentationsTitle">
-    </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="studentCountTitle">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.studentCountTitle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.studentCountTitle.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="verticalAlignment" type="int" value="3"/>
-        <Property name="lineWrap" type="boolean" value="true"/>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="studentFeeTitle">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.studentFeeTitle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.studentFeeTitle.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="verticalAlignment" type="int" value="3"/>
-        <Property name="lineWrap" type="boolean" value="true"/>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="juniorCostTitle">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.juniorCostTitle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.juniorCostTitle.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="lineWrap" type="boolean" value="true"/>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="seniorCostTitle">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.seniorCostTitle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.seniorCostTitle.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="lineWrap" type="boolean" value="true"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="presentation1Label">
       <Properties>
-        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.presentation1Label.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation1StudentCountField">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="1" type="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="11"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation1StudentFeeField">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="1" type="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="11"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation1JuniorField">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="1" type="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="11"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation1SeniorField">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="1" type="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="11"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="presentation2Label">
       <Properties>
-        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.presentation2Label.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation2StudentCountField">
+    <Component class="javax.swing.JLabel" name="presentation3Label">
       <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.presentation3Label.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="homeStudentCountLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.homeStudentCountLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation1HomeStudentCountField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format subtype="1" type="0"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="11"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation2StudentFeeField">
+    <Component class="javax.swing.JFormattedTextField" name="presentation2HomeStudentCountField">
       <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation3HomeStudentCountField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="homeStudentIncomeFeeLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.homeStudentIncomeFeeLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation1HomeStudentFeeField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation2HomeStudentFeeField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation3HomeStudentFeeField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="overseasStudentCountLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.overseasStudentCountLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation1OverseasStudentCountField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation2OverseasStudentCountField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation3OverseasStudentCountField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="overseasStudentIncomeFeeLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.overseasStudentIncomeFeeLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation1OverseasStudentFeeField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation2OverseasStudentFeeField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation3OverseasStudentFeeField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="juniorCostLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.juniorCostLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.juniorCostLabel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation1JuniorField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format subtype="1" type="0"/>
         </Property>
@@ -142,38 +332,7 @@
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="presentation2JuniorField">
       <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="1" type="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="11"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation2SeniorField">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="1" type="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="11"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="presentation3Label">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.presentation3Label.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation3StudentCountField">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format subtype="1" type="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="11"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="presentation3StudentFeeField">
-      <Properties>
+        <Property name="columns" type="int" value="5"/>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format subtype="1" type="0"/>
         </Property>
@@ -182,6 +341,36 @@
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="presentation3JuniorField">
       <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.jLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="PresentationPanel.jLabel1.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation1SeniorField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format subtype="1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="presentation2SeniorField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format subtype="1" type="0"/>
         </Property>
@@ -190,6 +379,7 @@
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="presentation3SeniorField">
       <Properties>
+        <Property name="columns" type="int" value="5"/>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format subtype="1" type="0"/>
         </Property>

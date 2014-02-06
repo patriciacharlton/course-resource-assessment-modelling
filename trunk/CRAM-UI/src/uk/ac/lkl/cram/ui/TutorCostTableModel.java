@@ -17,6 +17,7 @@ import uk.ac.lkl.cram.model.SupportTime;
  * $Revision$
  * @author bernard
  */
+@SuppressWarnings("serial")
 public class TutorCostTableModel extends AbstractTableModel implements PropertyChangeListener {
     private static final Logger LOGGER = Logger.getLogger(TutorCostTableModel.class.getName());
 
@@ -108,17 +109,17 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
 	    case 4: {
 		ModulePresentation mp = modulePresentations.get(0);
 		SupportTime st = li.getSupportTime(mp);
-		return li.getCost(st, module, mp);
+		return st.getTotalCost(module, mp, li);
 	    }
 	    case 5: {
 		ModulePresentation mp = modulePresentations.get(1);
 		SupportTime st = li.getSupportTime(mp);
-		return li.getCost(st, module, mp);
+		return st.getTotalCost(module, mp, li);
 	    }
 	    case 6: {
 		ModulePresentation mp = modulePresentations.get(2);
 		SupportTime st = li.getSupportTime(mp);
-		return li.getCost(st, module, mp);
+		return st.getTotalCost(module, mp, li);
 	    }
 	}
 	return null;
