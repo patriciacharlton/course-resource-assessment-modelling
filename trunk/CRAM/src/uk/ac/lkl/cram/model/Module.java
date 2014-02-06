@@ -22,6 +22,7 @@ import uk.ac.lkl.cram.model.calculations.Calculable;
  */
 @XmlRootElement(name = "module")
 @XmlType(propOrder = {"moduleName", "totalCreditHourCount", "weekCount", "tutorGroupSize", "tlaLineItems", "moduleLineItems", "presentations"})
+@SuppressWarnings("serial")
 public class Module implements Serializable, Calculable {
 
     private static final Logger LOGGER = Logger.getLogger(Module.class.getName());
@@ -191,7 +192,7 @@ public class Module implements Serializable, Calculable {
 	float totalHours = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
 	    SupportTime st = lineItem.getSupportTime(modulePresentation);
-	    totalHours = totalHours + st.getTotalHours(modulePresentation, lineItem);
+	    totalHours = totalHours + st.getTotalHours(this, modulePresentation, lineItem);
 	}
 	for (ModuleLineItem moduleItem : moduleLineItems) {
 	    SupportTime st = moduleItem.getSupportTime(modulePresentation);
@@ -205,7 +206,7 @@ public class Module implements Serializable, Calculable {
 	float totalCost = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
 	    SupportTime st = lineItem.getSupportTime(modulePresentation);
-	    totalCost = totalCost + st.getTotalCost(modulePresentation, lineItem);
+	    totalCost = totalCost + st.getTotalCost(this, modulePresentation, lineItem);
 	}
 	for (ModuleLineItem moduleItem : moduleLineItems) {
 	    SupportTime st = moduleItem.getSupportTime(modulePresentation);

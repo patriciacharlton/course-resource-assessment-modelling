@@ -163,16 +163,6 @@ public class TLALineItem implements LineItem {
     }
 
     @Override
-    public float getTotalHours(SupportTime st, Module module, ModulePresentation mp) {
-        return st.getTotalHours(module, mp, this);
-    }
-
-    @Override
-    public float getCost(SupportTime st, Module module, ModulePresentation mp) {
-        return st.getTotalCost(mp, this);
-    }
-
-    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
@@ -238,5 +228,12 @@ public class TLALineItem implements LineItem {
 	}
 	return true;
     }
+
+    @Override
+    public float getNumberOfIndividuals_Groups(ModulePresentation modulePresentation, Module module) {
+	float i = ((float) modulePresentation.getTotalStudentCount() / (float) getMaximumGroupSizeForPresentation(modulePresentation));
+	return (int) (i + 0.99);
+    }
+    
    
 }

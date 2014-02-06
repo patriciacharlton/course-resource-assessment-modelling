@@ -75,16 +75,6 @@ public class ModulePresentation implements Serializable, Calculable {
         return homeStudentCount + overseasStudentCount;
     }
 
-    int getNumberOfIndividuals_Groups(TLALineItem lineItem) {
-	float i = ((float) getTotalStudentCount() / (float) lineItem.getMaximumGroupSizeForPresentation(this));
-	return (int) (i + 0.99);
-    }
-
-    int getNumberOfIndividuals_Groups(Module module) {
-	float i = ((float) getTotalStudentCount() / (float) module.getTutorGroupSize());
-	return (int) (i + 0.99);
-    }
-
     public int getIncome() {
 	return (homeFee * homeStudentCount) + (overseasFee * overseasStudentCount);
     }
