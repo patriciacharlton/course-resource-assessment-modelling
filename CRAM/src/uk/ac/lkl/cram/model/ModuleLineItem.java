@@ -17,7 +17,7 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
  * @author Bernard Horan
  */
 @XmlType(propOrder = {"name", "weekCount", "supportMap"})
-@SuppressWarnings("ClassWithoutLogger")
+@SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class ModuleLineItem implements LineItem {
 
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
@@ -77,6 +77,7 @@ public class ModuleLineItem implements LineItem {
     }
 
     @Override
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
 	if (obj == null) {
 	    return false;
@@ -97,18 +98,6 @@ public class ModuleLineItem implements LineItem {
 	return true;
     }
 
-    
-
-    @Override
-    public float getCost(SupportTime st, Module module, ModulePresentation mp) {
-        return st.getTotalCost(module, mp, this);
-    }
-
-    @Override
-    public float getTotalHours(SupportTime st, Module module, ModulePresentation mp) {
-	return st.getTotalHours(module, mp, this);
-    }
-    
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
@@ -133,4 +122,11 @@ public class ModuleLineItem implements LineItem {
 	    }
 	};
     }
+
+    @Override
+    public float getNumberOfIndividuals_Groups(ModulePresentation modulePresentation, Module module) {
+	float i = ((float) modulePresentation.getTotalStudentCount() / (float) module.getTutorGroupSize());
+	return (int) (i + 0.99);
+    }
+    
 }

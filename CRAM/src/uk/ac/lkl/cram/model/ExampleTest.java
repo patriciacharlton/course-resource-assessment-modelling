@@ -290,18 +290,18 @@ public class ExampleTest {
 	    TLActivity tla = lineItem.getActivity();
 	    SupportTime st = lineItem.getSupportTime(modulePresentation);
 	    System.out.print(tla.getName() + '\t');
-	    System.out.print(modulePresentation.getNumberOfIndividuals_Groups(lineItem) + "; ");
+	    System.out.print(lineItem.getNumberOfIndividuals_Groups(modulePresentation, module) + "; ");
 	    System.out.print(st.getWeekly() + "; ");
 	    System.out.print(st.getNonWeekly() + "; ");
 	    System.out.print(st.getTotalHours(module, modulePresentation, lineItem) + "; ");
 	    System.out.print(DecimalFormat.getPercentInstance().format(st.getSeniorRate()) + "; ");
-	    System.out.println(DecimalFormat.getCurrencyInstance().format(st.getTotalCost(modulePresentation, lineItem)));
+	    System.out.println(DecimalFormat.getCurrencyInstance().format(st.getTotalCost(module, modulePresentation, lineItem)));
 	}
 
 	for (ModuleLineItem moduleItem : module.getModuleItems()) {
 	    SupportTime st = moduleItem.getSupportTime(modulePresentation);
 	    System.out.print(moduleItem.getName() + '\t');
-	    System.out.print(modulePresentation.getNumberOfIndividuals_Groups(module) + "; ");
+	    System.out.print(moduleItem.getNumberOfIndividuals_Groups(modulePresentation, module) + "; ");
 	    System.out.print(st.getWeekly() + "; ");
 	    System.out.print(st.getNonWeekly() + "; ");
 	    System.out.print(st.getTotalHours(module, modulePresentation, moduleItem) + "; ");

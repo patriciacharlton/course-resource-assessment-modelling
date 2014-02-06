@@ -1,7 +1,7 @@
 package uk.ac.lkl.cram.model;
 
-import uk.ac.lkl.cram.model.calculations.Calculable;
 import java.io.Serializable;
+import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**
  * $Date$
@@ -18,9 +18,7 @@ public interface LineItem extends Serializable, Calculable {
 
     public String getName();
 
-    public float getCost(SupportTime st, Module module, ModulePresentation mp);
-
-    public float getTotalHours(SupportTime st, Module module, ModulePresentation mp);
-
     public int getWeekCount();
+
+    public float getNumberOfIndividuals_Groups(ModulePresentation modulePresentation, Module module);
 }

@@ -65,6 +65,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of getWeekCount method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testGetWeekCount() {
 	System.out.println("getWeekCount");
 	int index = 0;
@@ -79,6 +80,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of setWeekCount method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testSetWeekCount() {
 	System.out.println("setWeekCount");
 	int weekCount = 0;
@@ -223,12 +225,13 @@ public class TLALineItemTest extends CRAMTest {
     }
 
     /**
-     * Test of getTotalHours method, of class TLALineItem.
+     * Test of getNumberOfIndividuals_Groups method, of class TLALineItem.
      */
     @Test
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public void testGetTotalHours() {
-        System.out.println("getTotalHours");
+    public void testGetNumberOfIndividuals_Groups() {
+        //public float getNumberOfIndividuals_Groups(ModulePresentation modulePresentation, Module module);
+        System.out.println("getNumberOfIndividuals_Groups");
         ModulePresentation createdPresentation = createdModule.getPresentationOne();
         ModulePresentation importedPresentation = importedModule.getPresentationOne();
         SupportTime st = new SupportTime();
@@ -236,25 +239,7 @@ public class TLALineItemTest extends CRAMTest {
         for (TLALineItem createdLineItem : getCreatedLineItems()) {
             TLALineItem importedLineItem = getImportedLineItems().get(index);
             index++;
-            assertEquals(createdLineItem.getTotalHours(st, createdModule, createdPresentation), importedLineItem.getTotalHours(st, importedModule, importedPresentation), 0.1);
-        }
-    }
-
-    /**
-     * Test of getTotalCost method, of class TLALineItem.
-     */
-    @Test
-    @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public void testGetCost() {
-        System.out.println("getCost");
-        ModulePresentation createdPresentation = createdModule.getPresentationOne();
-        ModulePresentation importedPresentation = importedModule.getPresentationOne();
-        SupportTime st = new SupportTime();
-        int index = 0;
-        for (TLALineItem createdLineItem : getCreatedLineItems()) {
-            TLALineItem importedLineItem = getImportedLineItems().get(index);
-            index++;
-            assertEquals(createdLineItem.getCost(st, createdModule, createdPresentation), importedLineItem.getCost(st, importedModule, importedPresentation), 0.1);
+            assertEquals(createdLineItem.getNumberOfIndividuals_Groups(createdPresentation, createdModule), importedLineItem.getNumberOfIndividuals_Groups(importedPresentation, importedModule), 0.1);
         }
     }
     
@@ -275,6 +260,7 @@ public class TLALineItemTest extends CRAMTest {
      * Test of equals method, of class TLALineItem.
      */
     @Test
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testEquals() {
 	System.out.println("equals");
 	Object obj = null;
