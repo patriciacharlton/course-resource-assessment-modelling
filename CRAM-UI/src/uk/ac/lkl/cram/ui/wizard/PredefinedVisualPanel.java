@@ -14,11 +14,9 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.LearnerFeedback;
-import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
-import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.model.TLALibrary;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.wizard.FilteredList.Filter;
 
@@ -158,9 +156,9 @@ public class PredefinedVisualPanel extends JPanel {
     
     private List<TLActivity> getPredefinedList() {
 	List<TLActivity> predefinedList = new ArrayList<>();
-	Module m = AELMTest.populateModule();
-	for (TLALineItem lineItem : m.getTLALineItems()) {
-	    predefinedList.add(lineItem.getActivity());
+	TLALibrary library = TLALibrary.getDefaultLibrary();
+	for (TLActivity activity : library.getActivities()) {
+	    predefinedList.add(activity);
 	}
 	return predefinedList;
     }
