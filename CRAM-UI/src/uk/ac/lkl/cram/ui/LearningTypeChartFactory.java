@@ -25,6 +25,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.entity.PieSectionEntity;
+import org.jfree.chart.labels.StandardPieToolTipGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.general.DefaultPieDataset;
@@ -58,7 +59,7 @@ public class LearningTypeChartFactory {
     static final Color PRODUCTION_COLOR = new Color(188, 234, 117); 
     static final Color COLLABORATION_COLOR = new Color(0xFFCD00);
     
-    private static Map<String, Set<TLALineItem>> learningTypeMap = new WeakHashMap<String, Set<TLALineItem>>();
+    private static Map<String, Set<TLALineItem>> learningTypeMap = new WeakHashMap<>();
 
 
     /**
@@ -235,6 +236,7 @@ public class LearningTypeChartFactory {
 	JFreeChart chart = ChartFactory.createPieChart(null, dataset, true, true, false);
 	chart.setBackgroundPaint(backgroundPaint);
 	PiePlot plot = (PiePlot) chart.getPlot();
+        plot.setToolTipGenerator(new StandardPieToolTipGenerator("{0} = {2}"));
 	plot.setBackgroundPaint(backgroundPaint);
 	plot.setShadowXOffset(0);
 	plot.setShadowYOffset(0);
@@ -272,11 +274,11 @@ public class LearningTypeChartFactory {
                 return a.getName().compareTo(b.getName());
             }
         };
-        learningTypeMap.put(ACQUISITION, new TreeSet<TLALineItem>(tlaLineItemComparator));
-	learningTypeMap.put(COLLABORATION, new TreeSet<TLALineItem>(tlaLineItemComparator));
-	learningTypeMap.put(DISCUSSION, new TreeSet<TLALineItem>(tlaLineItemComparator));
-	learningTypeMap.put(INQUIRY, new TreeSet<TLALineItem>(tlaLineItemComparator));
-	learningTypeMap.put(PRACTICE, new TreeSet<TLALineItem>(tlaLineItemComparator));
-	learningTypeMap.put(PRODUCTION, new TreeSet<TLALineItem>(tlaLineItemComparator));
+        learningTypeMap.put(ACQUISITION, new TreeSet<>(tlaLineItemComparator));
+	learningTypeMap.put(COLLABORATION, new TreeSet<>(tlaLineItemComparator));
+	learningTypeMap.put(DISCUSSION, new TreeSet<>(tlaLineItemComparator));
+	learningTypeMap.put(INQUIRY, new TreeSet<>(tlaLineItemComparator));
+	learningTypeMap.put(PRACTICE, new TreeSet<>(tlaLineItemComparator));
+	learningTypeMap.put(PRODUCTION, new TreeSet<>(tlaLineItemComparator));
     }
 }
