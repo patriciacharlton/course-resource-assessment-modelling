@@ -37,7 +37,7 @@
                   <Component id="learningTypePanel" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="learningExperiencePanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="214" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -88,18 +88,20 @@
       <SubComponents>
         <Component class="javax.swing.JComboBox" name="learningExperienceComboBox">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="Personalised"/>
-                <StringItem index="1" value="Social"/>
-                <StringItem index="2" value="Same for All"/>
-              </StringArray>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getComboBoxModel()" type="code"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;A &lt;em&gt;Personalised&lt;/em&gt; activity is one in which each student engages directly with a tutor.&lt;br/&gt;&#xa;For a &lt;em&gt;Same for All&lt;/em&gt; activity all students interact in the same way with a tutor or the materials.&lt;br/&gt;&#xa;For a &lt;em&gt;Social&lt;/em&gt; activity students are divided into tutor groups.&#xa;&lt;/html&gt;"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;EnumeratedLearningExperience&gt;"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="maxGroupSizeLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Max. Group Size:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="MAX. GROUP SIZE:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
@@ -203,7 +205,7 @@
                       <Component id="totalLearningTypeField" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="normaliseButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="24" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -211,7 +213,10 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Acquisition:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="ACQUISITION:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Learning through &lt;em&gt;acquisition&lt;/em&gt; is what learners&lt;br/&gt;&#xa;are doing when they are listening to a lecture&lt;br/&gt;&#xa;or podcast, reading from books or websites,&lt;br/&gt;&#xa;and watching demos or videos.&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="acquisitionSlider">
@@ -222,7 +227,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Collaboration:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="COLLABORATION:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Learning through &lt;em&gt;collaboration&lt;/em&gt; embraces mainly&lt;br/&gt;&#xa;discussion, practice, and production. Building on&lt;br/&gt;&#xa;investigations and acquisition it is about taking&lt;br/&gt;&#xa;part in the process of knowledge building itself.&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="collaborationSlider">
@@ -233,7 +241,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Discussion:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="DISCUSSION:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Learning through &lt;em&gt;discussion&lt;/em&gt; requires the learner&lt;br/&gt;&#xa;to articulate their ideas and questions, and to&lt;br/&gt;&#xa;challenge and respond to the ideas and questions&lt;br/&gt;&#xa;from the teacher, and/or from their peers.&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="discussionSlider">
@@ -244,7 +255,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Inquiry:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="INQUIRY:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Learning through &lt;em&gt;inquiry&lt;/em&gt; guides the learner to&lt;br/&gt;&#xa;explore, compare and critique the texts, documents&lt;br/&gt;&#xa;and resources that reflect the concepts and&lt;br/&gt;&#xa;ideas being taught.&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="inquirySlider">
@@ -255,7 +269,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Practice:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PRACTICE:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Learning through &lt;em&gt;practice&lt;/em&gt; enables the learner to&lt;br/&gt;&#xa;adapt their actions to the task goal, and use the&lt;br/&gt;&#xa;feedback to improve their next action. Feedback&lt;br/&gt;&#xa;may come from self-reflection, from peers, from&lt;br/&gt;&#xa;the teacher, or from the activity itself, if it shows&lt;br/&gt;&#xa;them how to improve the result of their action in&lt;br/&gt;&#xa;relation to the goal.&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="practiceSlider">
@@ -273,7 +290,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Production:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PRODUCTION:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Learning through &lt;em&gt;production&lt;/em&gt; is the way the&lt;br/&gt;&#xa;teacher motivates the learner to consolidate what&lt;br/&gt;&#xa;they have learned by articulating their current&lt;br/&gt;&#xa;conceptual understanding and how they used it&lt;br/&gt;&#xa;in practice.&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="productionSlider">
@@ -356,7 +376,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="normaliseButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Normalise"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="NORMALISE" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>

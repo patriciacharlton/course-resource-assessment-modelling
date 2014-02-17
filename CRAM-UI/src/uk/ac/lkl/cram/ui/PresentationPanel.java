@@ -283,6 +283,7 @@ public class PresentationPanel extends javax.swing.JPanel {
 
         homeStudentIncomeFeeLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         org.openide.awt.Mnemonics.setLocalizedText(homeStudentIncomeFeeLabel, org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.homeStudentIncomeFeeLabel.text")); // NOI18N
+        homeStudentIncomeFeeLabel.setToolTipText(org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.homeStudentIncomeFeeLabel.toolTipText")); // NOI18N
 
         presentation1HomeStudentFeeField.setColumns(5);
         presentation1HomeStudentFeeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
@@ -313,6 +314,7 @@ public class PresentationPanel extends javax.swing.JPanel {
 
         overseasStudentIncomeFeeLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         org.openide.awt.Mnemonics.setLocalizedText(overseasStudentIncomeFeeLabel, org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.overseasStudentIncomeFeeLabel.text")); // NOI18N
+        overseasStudentIncomeFeeLabel.setToolTipText(org.openide.util.NbBundle.getMessage(PresentationPanel.class, "PresentationPanel.overseasStudentIncomeFeeLabel.toolTipText")); // NOI18N
 
         presentation1OverseasStudentFeeField.setColumns(5);
         presentation1OverseasStudentFeeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
