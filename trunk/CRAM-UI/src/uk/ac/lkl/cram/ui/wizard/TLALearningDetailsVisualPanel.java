@@ -142,10 +142,8 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 		checkValidity();
 	    }
 	};
-	
-	EnumeratedLearningExperience[] learningExperiences = {EnumeratedLearningExperience.PERSONALISED, EnumeratedLearningExperience.SOCIAL, EnumeratedLearningExperience.ONE_SIZE_FOR_ALL};
-	ComboBoxModel<EnumeratedLearningExperience> cbModel = new DefaultComboBoxModel<>(learningExperiences);
-	learningExperienceComboBox.setModel(cbModel);
+
+	//learningExperienceComboBox.setModel(cbModel);
 	learningExperienceComboBox.addActionListener(new ActionListener() {
 
 	    @Override
@@ -163,7 +161,6 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    }
 	});
 	
-	cbModel.setSelectedItem(tlActivity.getLearningExperience());
 	learningExperienceComboBox.setRenderer(new LearningExperienceRenderer());
 	maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
 	maxGroupSizeTF.addFocusListener(new FocusAdapter() {
@@ -212,7 +209,14 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     
     @Override
     public String getName() {
-	return "Learning Details";
+	return java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("LEARNING DETAILS");
+    }
+    
+    private ComboBoxModel<EnumeratedLearningExperience> getComboBoxModel() {
+	EnumeratedLearningExperience[] learningExperiences = {EnumeratedLearningExperience.PERSONALISED, EnumeratedLearningExperience.SOCIAL, EnumeratedLearningExperience.ONE_SIZE_FOR_ALL};
+	ComboBoxModel<EnumeratedLearningExperience> cbModel = new DefaultComboBoxModel<>(learningExperiences);
+	cbModel.setSelectedItem(tlActivity.getLearningExperience());
+	return cbModel;
     }
     
     private void tlActivityNameChanged() {
@@ -232,7 +236,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         learningExperiencePanel = new javax.swing.JPanel();
-        learningExperienceComboBox = new javax.swing.JComboBox();
+        learningExperienceComboBox = new javax.swing.JComboBox<EnumeratedLearningExperience>();
         maxGroupSizeLabel = new javax.swing.JLabel();
         maxGroupSizeTF = new javax.swing.JFormattedTextField();
         learningTypePanel = new javax.swing.JPanel();
@@ -261,9 +265,11 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 
         learningExperiencePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Nature of Learning Experience"));
 
-        learningExperienceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Personalised", "Social", "Same for All" }));
+        learningExperienceComboBox.setModel(getComboBoxModel());
+        learningExperienceComboBox.setToolTipText("<html>A <em>Personalised</em> activity is one in which each student engages directly with a tutor.<br/>\nFor a <em>Same for All</em> activity all students interact in the same way with a tutor or the materials.<br/>\nFor a <em>Social</em> activity students are divided into tutor groups.\n</html>");
 
-        maxGroupSizeLabel.setText("Max. Group Size:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle"); // NOI18N
+        maxGroupSizeLabel.setText(bundle.getString("MAX. GROUP SIZE:")); // NOI18N
         maxGroupSizeLabel.setEnabled(false);
 
         maxGroupSizeTF.setColumns(4);
@@ -298,27 +304,32 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 
         learningTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("% each learning type it elicits"));
 
-        jLabel1.setText("Acquisition:");
+        jLabel1.setText(bundle.getString("ACQUISITION:")); // NOI18N
+        jLabel1.setToolTipText("<html>Learning through <em>acquisition</em> is what learners<br/>\nare doing when they are listening to a lecture<br/>\nor podcast, reading from books or websites,<br/>\nand watching demos or videos.\n</html>");
 
         acquisitionSlider.setMajorTickSpacing(10);
         acquisitionSlider.setPaintTicks(true);
 
-        jLabel2.setText("Collaboration:");
+        jLabel2.setText(bundle.getString("COLLABORATION:")); // NOI18N
+        jLabel2.setToolTipText("<html>Learning through <em>collaboration</em> embraces mainly<br/>\ndiscussion, practice, and production. Building on<br/>\ninvestigations and acquisition it is about taking<br/>\npart in the process of knowledge building itself.</html>");
 
         collaborationSlider.setMajorTickSpacing(10);
         collaborationSlider.setPaintTicks(true);
 
-        jLabel3.setText("Discussion:");
+        jLabel3.setText(bundle.getString("DISCUSSION:")); // NOI18N
+        jLabel3.setToolTipText("<html>Learning through <em>discussion</em> requires the learner<br/>\nto articulate their ideas and questions, and to<br/>\nchallenge and respond to the ideas and questions<br/>\nfrom the teacher, and/or from their peers.</html>");
 
         discussionSlider.setMajorTickSpacing(10);
         discussionSlider.setPaintTicks(true);
 
-        jLabel4.setText("Inquiry:");
+        jLabel4.setText(bundle.getString("INQUIRY:")); // NOI18N
+        jLabel4.setToolTipText("<html>Learning through <em>inquiry</em> guides the learner to<br/>\nexplore, compare and critique the texts, documents<br/>\nand resources that reflect the concepts and<br/>\nideas being taught.</html>");
 
         inquirySlider.setMajorTickSpacing(10);
         inquirySlider.setPaintTicks(true);
 
-        jLabel5.setText("Practice:");
+        jLabel5.setText(bundle.getString("PRACTICE:")); // NOI18N
+        jLabel5.setToolTipText("<html>Learning through <em>practice</em> enables the learner to<br/>\nadapt their actions to the task goal, and use the<br/>\nfeedback to improve their next action. Feedback<br/>\nmay come from self-reflection, from peers, from<br/>\nthe teacher, or from the activity itself, if it shows<br/>\nthem how to improve the result of their action in<br/>\nrelation to the goal.</html>");
 
         practiceSlider.setMajorTickSpacing(10);
         practiceSlider.setPaintTicks(true);
@@ -327,7 +338,8 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         totalLearningTypeField.setColumns(4);
         totalLearningTypeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        jLabel6.setText("Production:");
+        jLabel6.setText(bundle.getString("PRODUCTION:")); // NOI18N
+        jLabel6.setToolTipText("<html>Learning through <em>production</em> is the way the<br/>\nteacher motivates the learner to consolidate what<br/>\nthey have learned by articulating their current<br/>\nconceptual understanding and how they used it<br/>\nin practice.</html>");
 
         productionSlider.setMajorTickSpacing(10);
         productionSlider.setPaintTicks(true);
@@ -374,7 +386,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, productionSlider, org.jdesktop.beansbinding.ELProperty.create("${value}"), productionTF, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        normaliseButton.setText("Normalise");
+        normaliseButton.setText(bundle.getString("NORMALISE")); // NOI18N
         normaliseButton.setEnabled(false);
         normaliseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -455,7 +467,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
                 .add(learningTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(totalLearningTypeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(normaliseButton))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tlaNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Teaching & Learning Activity Name"));
@@ -495,7 +507,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
                     .add(learningTypePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(learningExperiencePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, Short.MAX_VALUE))))
+                        .add(0, 214, Short.MAX_VALUE))))
         );
 
         bindingGroup.bind();
@@ -520,7 +532,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JComboBox learningExperienceComboBox;
+    private javax.swing.JComboBox<EnumeratedLearningExperience> learningExperienceComboBox;
     private javax.swing.JPanel learningExperiencePanel;
     private javax.swing.JPanel learningTypePanel;
     private javax.swing.JLabel maxGroupSizeLabel;
@@ -588,7 +600,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
             LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        final JFrame frame = new JFrame("Enter Learning Details");
+        final JFrame frame = new JFrame(java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("ENTER LEARNING DETAILS"));
         frame.add(new TLALearningDetailsVisualPanel(new TLActivity("Dummy TLA")));
 
         /* Create and display the form */
@@ -630,20 +642,18 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         }
     }
 
-    private class LearningExperienceRenderer extends JLabel implements ListCellRenderer {
+    private class LearningExperienceRenderer extends JLabel implements ListCellRenderer<EnumeratedLearningExperience> {
 	private Map<EnumeratedLearningExperience, String> renditionMap = new HashMap<>();
-	public LearningExperienceRenderer() {
+	LearningExperienceRenderer() {
 	    setOpaque(true);
-	    renditionMap.put(EnumeratedLearningExperience.PERSONALISED, "Personalised");
-	    renditionMap.put(EnumeratedLearningExperience.SOCIAL, "Social");
-	    renditionMap.put(EnumeratedLearningExperience.ONE_SIZE_FOR_ALL, "Same for All");
+	    renditionMap.put(EnumeratedLearningExperience.PERSONALISED, java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("PERSONALISED"));
+	    renditionMap.put(EnumeratedLearningExperience.SOCIAL, java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("SOCIAL"));
+	    renditionMap.put(EnumeratedLearningExperience.ONE_SIZE_FOR_ALL, java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("SAME FOR ALL"));
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-	    //The value should be an EnumeratedLearningExperience
-	    EnumeratedLearningExperience ele = (EnumeratedLearningExperience) value;
-	    setText(renditionMap.get(ele));
+	public Component getListCellRendererComponent(JList<? extends EnumeratedLearningExperience> list, EnumeratedLearningExperience value, int index, boolean isSelected, boolean cellHasFocus) {
+	    setText(renditionMap.get(value));
 	    if (isSelected) {
 		setBackground(list.getSelectionBackground());
 		setForeground(list.getSelectionForeground());

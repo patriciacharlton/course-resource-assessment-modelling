@@ -27,6 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.MenuEvent;
@@ -61,7 +62,11 @@ public class CRAMApplication {
         System.setProperty("apple.awt.graphics.EnableQ2DX", "true");
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "CRAM");
-        try {
+	//Tooltips
+	ToolTipManager.sharedInstance().setInitialDelay(10);
+	ToolTipManager.sharedInstance().setDismissDelay(3000);
+	ToolTipManager.sharedInstance().setReshowDelay(1000);
+	try {
             //Set System LAF
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException e) {
