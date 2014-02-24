@@ -96,7 +96,7 @@ public class ExampleTest {
 
     @SuppressWarnings("deprecation")
     protected static void addFormativePractice(Module module) {
-	TLActivity tla = new TLActivity("Formative practice\t");
+	TLActivity tla = new TLActivity("Formative practice");
 	tla.setLearningType(new LearningType(0, 0, 0, 50, 50));
 	tla.setLearningExperience(EnumeratedLearningExperience.PERSONALISED);
 	StudentTeacherInteraction sti = new StudentTeacherInteraction();
@@ -118,7 +118,7 @@ public class ExampleTest {
 
     @SuppressWarnings("deprecation")
     protected static void addSummativeAssessment(Module module) {
-	TLActivity tla = new TLActivity("Summative Assessment\t");
+	TLActivity tla = new TLActivity("Summative Assessment");
 	tla.setLearningType(new LearningType(0, 0, 0, 0, 100));
 	tla.setLearningExperience(EnumeratedLearningExperience.PERSONALISED);
 	StudentTeacherInteraction sti = new StudentTeacherInteraction();
@@ -140,7 +140,7 @@ public class ExampleTest {
 
     @SuppressWarnings("deprecation")
     protected static void addBuildingUpOwnNotes(Module module) {
-	TLActivity tla = new TLActivity("Building up own notes\t");
+	TLActivity tla = new TLActivity("Building up own notes");
 	tla.setLearningType(new LearningType(0, 40, 0, 60, 0));
 	tla.setLearningExperience(EnumeratedLearningExperience.ONE_SIZE_FOR_ALL);
 	StudentTeacherInteraction sti = new StudentTeacherInteraction();
@@ -162,7 +162,7 @@ public class ExampleTest {
 
     @SuppressWarnings("deprecation")
     protected static void addExploringResources(Module module) {
-	TLActivity tla = new TLActivity("Exploring resources\t");
+	TLActivity tla = new TLActivity("Exploring resources");
 	tla.setLearningType(new LearningType(30, 70, 0, 0, 0));
 	tla.setLearningExperience(EnumeratedLearningExperience.ONE_SIZE_FOR_ALL);
 	StudentTeacherInteraction sti = new StudentTeacherInteraction();
@@ -184,7 +184,7 @@ public class ExampleTest {
 
     @SuppressWarnings("deprecation")
     protected static void addApplicationOfConcept(Module module) {
-	TLActivity tla = new TLActivity("Application of Concept\t");
+	TLActivity tla = new TLActivity("Application of Concept");
 	tla.setLearningType(new LearningType(0, 0, 0, 100, 0));
 	tla.setLearningExperience(EnumeratedLearningExperience.ONE_SIZE_FOR_ALL);
 	StudentTeacherInteraction sti = new StudentTeacherInteraction();
@@ -206,7 +206,7 @@ public class ExampleTest {
 
     @SuppressWarnings("deprecation")
     protected static void addPersonalTuition(Module module) {
-	TLActivity tla = new TLActivity("Personal Tuition\t");
+	TLActivity tla = new TLActivity("Personal Tuition");
 	tla.setLearningType(new LearningType(0, 0, 100, 0, 0));
 	tla.setLearningExperience(EnumeratedLearningExperience.PERSONALISED);
 	StudentTeacherInteraction sti = new StudentTeacherInteraction();

@@ -41,8 +41,7 @@ public class Module implements Serializable, Calculable {
     @XmlElement(name = "moduleLineItem")
     private List<ModuleLineItem> moduleLineItems = new ArrayList<>();
     
-    @XmlAttribute
-    private int totalCreditHours;
+    private int totalCreditHourCount;
     
     private String moduleName;
     //This is the number of weeks the module runs
@@ -96,7 +95,7 @@ public class Module implements Serializable, Calculable {
     }
 
     public int getTotalCreditHourCount() {
-	return totalCreditHours;
+	return totalCreditHourCount;
     }
 
     public int getWeekCount() {
@@ -135,7 +134,7 @@ public class Module implements Serializable, Calculable {
 	for (TLALineItem lineItem : tlaLineItems) {
 	    totalHourCount = totalHourCount + lineItem.getTotalLearnerHourCount(this);
 	}
-	return totalCreditHours - totalHourCount;
+	return totalCreditHourCount - totalHourCount;
     }
 
     ModulePresentation getPresentationOne() {
@@ -234,10 +233,11 @@ public class Module implements Serializable, Calculable {
 	propertySupport.firePropertyChange(PROP_NAME, oldValue, moduleName);
     }
 
+    @XmlAttribute
     public void setTotalCreditHourCount(int i) {
-	int oldValue = totalCreditHours;
-	totalCreditHours = i;
-	propertySupport.firePropertyChange(PROP_HOUR_COUNT, oldValue, totalCreditHours);
+	int oldValue = totalCreditHourCount;
+	totalCreditHourCount = i;
+	propertySupport.firePropertyChange(PROP_HOUR_COUNT, oldValue, totalCreditHourCount);
 	
     }
 
@@ -281,7 +281,7 @@ public class Module implements Serializable, Calculable {
 	result = prime * result + Arrays.hashCode(presentations);
 	result = prime * result
 		+ ((tlaLineItems == null) ? 0 : tlaLineItems.hashCode());
-	result = prime * result + totalCreditHours;
+	result = prime * result + totalCreditHourCount;
 	result = prime * result + tutorGroupSize;
 	result = prime * result + weekCount;
 	return result;
@@ -327,7 +327,7 @@ public class Module implements Serializable, Calculable {
 	} else if (!tlaLineItems.equals(other.tlaLineItems)) {
 	    return false;
 	}
-	if (totalCreditHours != other.totalCreditHours) {
+	if (totalCreditHourCount != other.totalCreditHourCount) {
 	    return false;
 	}
 	if (tutorGroupSize != other.tutorGroupSize) {
