@@ -227,7 +227,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		    makeFieldDirty(textField);
 		}
 	    };
-	    higherCostSupportFields[supportIndex].setFormatterFactory(aff);
+	    lowerCostSupportFields[supportIndex].setFormatterFactory(aff);
 	    supportIndex++;
 	}
 	
