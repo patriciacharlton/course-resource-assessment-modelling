@@ -17,8 +17,8 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="activityPanel" max="32767" attributes="0"/>
-          <Component id="preparationPanel" max="32767" attributes="0"/>
-          <Component id="supportPanel" max="32767" attributes="0"/>
+          <Component id="preparationPanel" pref="0" max="32767" attributes="0"/>
+          <Component id="supportPanel" pref="0" max="32767" attributes="0"/>
           <Component id="tlaNamePanel" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
@@ -33,6 +33,7 @@
               <Component id="preparationPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="supportPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -152,13 +153,13 @@
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="4"/>
+        <Property name="columns" type="int" value="5"/>
         <Property name="rows" type="int" value="4"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="blankPreparationLabel">
         </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel2">
+        <Component class="org.jdesktop.swingx.JXLabel" name="hoursPerWeekPreparationLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="WEEKLY HOURS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -167,7 +168,7 @@
             <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel1">
+        <Component class="org.jdesktop.swingx.JXLabel" name="nonWeeklyHoursPreparationLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="NON-WEEKLY HOURS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -176,15 +177,31 @@
             <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="org.jdesktop.swingx.JXLabel" name="higherCostPreparationLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="% SENIOR" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="HIGHER_COST" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="STAFF_COST_TOOLTIP" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="verticalAlignment" type="int" value="3"/>
+            <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="presentation1Label">
+        <Component class="org.jdesktop.swingx.JXLabel" name="lowerCostPreparationLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="LOWER_COST" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="STAFF_COST_TOOLTIP" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="verticalAlignment" type="int" value="3"/>
+            <Property name="lineWrap" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="presentation1PreparationLabel">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="11"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -202,12 +219,23 @@
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation1SeniorPreparation">
+        <Component class="javax.swing.JFormattedTextField" name="presentation1HigherCostPreparation">
           <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="1" type="0"/>
+            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="presentation2Label">
+        <Component class="javax.swing.JFormattedTextField" name="presentation1LowerCostPreparation">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="1" type="0"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="11"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="presentation2PreparationLabel">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="11"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -225,12 +253,23 @@
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation2SeniorPreparation">
+        <Component class="javax.swing.JFormattedTextField" name="presentation2HigherCostPreparation">
           <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="1" type="0"/>
+            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
+        <Component class="javax.swing.JFormattedTextField" name="presentation2LowerCostPreparation">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="1" type="0"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="11"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="presentation3PreparationLabel">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="11"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -248,8 +287,19 @@
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation3SeniorPreparation">
+        <Component class="javax.swing.JFormattedTextField" name="presentation3HigherCostPreparation">
           <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="1" type="0"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="11"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="presentation3LowerCostPreparation">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="1" type="0"/>
+            </Property>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
@@ -268,13 +318,13 @@
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="4"/>
+        <Property name="columns" type="int" value="5"/>
         <Property name="rows" type="int" value="4"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="blankSupportLabel">
         </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel3">
+        <Component class="org.jdesktop.swingx.JXLabel" name="hoursPerWeekSupportLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="WEEKLY HOURS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -283,7 +333,7 @@
             <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel4">
+        <Component class="org.jdesktop.swingx.JXLabel" name="nonWeeklyHoursSupportLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="NON-WEEKLY HOURS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -292,12 +342,28 @@
             <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel1">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="% SENIOR" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="HIGHER_COST" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="SUPPORT_TOOLTIP" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="verticalAlignment" type="int" value="3"/>
+            <Property name="lineWrap" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="LOWER_COST" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="SUPPORT_TOOLTIP" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="verticalAlignment" type="int" value="3"/>
+            <Property name="lineWrap" type="boolean" value="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="presentation1Label1">
@@ -318,7 +384,12 @@
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation1SeniorSupport">
+        <Component class="javax.swing.JFormattedTextField" name="presentation1HigherCostSupport">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="11"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="presentation1LowerCostSupport">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
@@ -341,7 +412,12 @@
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation2SeniorSupport">
+        <Component class="javax.swing.JFormattedTextField" name="presentation2HigherCostSupport">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="11"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="presentation2LowerCostSupport">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
@@ -364,7 +440,12 @@
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="presentation3SeniorSupport">
+        <Component class="javax.swing.JFormattedTextField" name="presentation3HigherCostSupport">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="11"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="presentation3LowerCostSupport">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="11"/>
           </Properties>
