@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <library>
     <activities>
-        <activity name="Summative Assessment&#x9;" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+        <activity name="Summative Assessment" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
             <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="true"/>
             <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="0" production="100"/>
         </activity>
@@ -13,11 +13,11 @@
             <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="true" tutorSupported="false"/>
             <learningType acquisition="0" collaboration="0" discussion="20" inquiry="0" practice="0" production="80"/>
         </activity>
-        <activity name="Building up own notes&#x9;" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
+        <activity name="Building up own notes" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
             <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="false"/>
             <learningType acquisition="0" collaboration="0" discussion="0" inquiry="40" practice="60" production="0"/>
         </activity>
-        <activity name="Formative practice&#x9;" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+        <activity name="Formative practice" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
             <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="true"/>
             <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="50" production="50"/>
         </activity>
@@ -45,11 +45,11 @@
             <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="true" tutorSupported="true"/>
             <learningType acquisition="0" collaboration="0" discussion="100" inquiry="0" practice="0" production="0"/>
         </activity>
-        <activity name="Personal Tuition&#x9;" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+        <activity name="Personal Tuition" maximumGroupSize="0" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
             <studentTeacherInteraction locationSpecific="true" online="false" timeSpecific="true" tutorSupported="true"/>
             <learningType acquisition="0" collaboration="0" discussion="100" inquiry="0" practice="0" production="0"/>
         </activity>
-        <activity name="Application of Concept&#x9;" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
+        <activity name="Application of Concept" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
             <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="false"/>
             <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="100" production="0"/>
         </activity>
@@ -57,7 +57,7 @@
             <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
             <learningType acquisition="0" collaboration="0" discussion="20" inquiry="0" practice="0" production="80"/>
         </activity>
-        <activity name="Exploring resources&#x9;" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
+        <activity name="Exploring resources" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
             <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
             <learningType acquisition="30" collaboration="0" discussion="0" inquiry="70" practice="0" production="0"/>
         </activity>
