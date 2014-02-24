@@ -1,10 +1,13 @@
 package uk.ac.lkl.cram.model;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.beans.PropertyVetoException;
 import java.io.Serializable;
-
+import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * $Date$
@@ -12,6 +15,8 @@ import javax.xml.bind.annotation.XmlAttribute;
  * @author Bernard Horan
  */
 public class AbstractModuleTime implements Serializable {
+    private static final Logger LOGGER = Logger.getLogger(AbstractModuleTime.class.getName());
+
     public static final String PROP_NON_WEEKLY = "non_weekly";
     public static final String PROP_SENIOR_RATE = "senior_rate";
     public static final String PROP_WEEKLY = "weekly";
@@ -19,15 +24,15 @@ public class AbstractModuleTime implements Serializable {
     protected static final float HOURS_PER_DAY = 7.5F;
     private static final long serialVersionUID = 1L;
     protected float non_weekly;
-    protected float seniorRate; //Between 0 and 1
+    protected int seniorRate; //Between 0 and 100
     protected float weekly;
     private PropertyChangeSupport propertySupport;
 
     public AbstractModuleTime() {
-	this(0f, 0f, 0f);
+	this(0f, 0f, 0);
     }
 
-    public AbstractModuleTime(float weekly, float non_weekly, float seniorRate) {
+    public AbstractModuleTime(float weekly, float non_weekly, int seniorRate) {
 	propertySupport = new PropertyChangeSupport(this);
 	this.weekly = weekly;
 	this.non_weekly = non_weekly;
@@ -38,8 +43,12 @@ public class AbstractModuleTime implements Serializable {
 	return non_weekly;
     }
 
-    public float getSeniorRate() {
+    public int getSeniorRate() {
 	return seniorRate;
+    }
+    
+    public int getJuniorRate() {
+	return 100 - seniorRate;
     }
 
     public float getWeekly() {
@@ -54,13 +63,18 @@ public class AbstractModuleTime implements Serializable {
     }
 
     @XmlAttribute
-    public void setSeniorRate(float i) {
-	if (i > 1) {
-	    throw new RuntimeException("Senior Rate should be between 0 and 1, not " + i);
+    public void setSeniorRate(int i) {
+	if (i > 100) {
+	    throw new RuntimeException("Senior Rate should be between 0 and 100, not " + i);
 	}
 	float oldValue = seniorRate;
 	seniorRate = i;
 	propertySupport.firePropertyChange(PROP_SENIOR_RATE, oldValue, seniorRate);
+    }
+    
+    @XmlTransient
+    public void setJuniorRate(int i) {
+	setSeniorRate(100 - i);
     }
 
     @XmlAttribute
@@ -77,23 +91,25 @@ public class AbstractModuleTime implements Serializable {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }
+    
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	propertySupport.addPropertyChangeListener(propertyName, listener);
+    }
+    
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	propertySupport.removePropertyChangeListener(propertyName, listener);
+    }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
 	result = prime * result + Float.floatToIntBits(non_weekly);
-	result = prime * result + Float.floatToIntBits(seniorRate);
+	result = prime * result + seniorRate;
 	result = prime * result + Float.floatToIntBits(weekly);
 	return result;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
 	if (this == obj) {
@@ -110,8 +126,7 @@ public class AbstractModuleTime implements Serializable {
 		.floatToIntBits(other.non_weekly)) {
 	    return false;
 	}
-	if (Float.floatToIntBits(seniorRate) != Float
-		.floatToIntBits(other.seniorRate)) {
+	if (this.seniorRate != other.seniorRate) {
 	    return false;
 	}
 	if (Float.floatToIntBits(weekly) != Float.floatToIntBits(other.weekly)) {
@@ -119,4 +134,6 @@ public class AbstractModuleTime implements Serializable {
 	}
 	return true;
     }
+
+    
 }

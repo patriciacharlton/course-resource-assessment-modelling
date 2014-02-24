@@ -170,10 +170,12 @@ public class ModulePresentation implements Serializable, Calculable {
         }
         return true;
     }
-
     
-    
-    
+    @Override
+    public String toString() {
+	return "ModulePresentation[" + run.name() + "]";
+    }
+   
     @SuppressWarnings("PublicInnerClass")
     public enum Run {FIRST, SECOND, THIRD};
 

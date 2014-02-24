@@ -63,12 +63,12 @@ public class ExampleTest {
 	tla.setStudentTeacherInteraction(sti);
 	tla.setLearnerFeedback(LearnerFeedback.TUTOR);
 	TLALineItem li = new TLALineItem(tla, 3.3f, 10, 0f);
-	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(20f, 30f, 1f));
-	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(5f, 2f, 1f));
-	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0.5f, 0, 1f));
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(2.5f, 3f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(2.5f, 2f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(2.5f, 1f, 0f));
+	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(20f, 30f, 100));
+	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(5f, 2f, 100));
+	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0.5f, 0, 100));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(2.5f, 3f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(2.5f, 2f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(2.5f, 1f, 0));
 	module.addTLALineItem(li);
     }
 
@@ -85,12 +85,12 @@ public class ExampleTest {
 	tla.setStudentTeacherInteraction(sti);
 	tla.setLearnerFeedback(LearnerFeedback.NONE);
 	TLALineItem li = new TLALineItem(tla, 6.7f, 12, 0f);
-	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(20f, 10f, 1f));
-	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(3f, 2f, 1f));
-	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0.5f, 0, 1f));
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 27f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 10f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 5f, 0f));
+	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(20f, 10f, 100));
+	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(3f, 2f, 100));
+	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0.5f, 0, 100));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 27f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 10f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 5f, 0));
 	module.addTLALineItem(li);
     }
 
@@ -107,12 +107,12 @@ public class ExampleTest {
 	tla.setStudentTeacherInteraction(sti);
 	tla.setLearnerFeedback(LearnerFeedback.TUTOR);
 	TLALineItem li = new TLALineItem(tla, 0, 12, 22f);
-	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 8f, 1f));
-	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 2f, 1f));
-	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0.5f, 1f));
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 1f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 1f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 1f, 0f));
+	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 8f, 100));
+	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 2f, 100));
+	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0.5f, 100));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 1f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 1f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 1f, 0));
 	module.addTLALineItem(li);
     }
 
@@ -129,12 +129,12 @@ public class ExampleTest {
 	tla.setStudentTeacherInteraction(sti);
 	tla.setLearnerFeedback(LearnerFeedback.TUTOR);
 	TLALineItem li = new TLALineItem(tla, 0, 12, 23f);
-	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 12f, 1f));
-	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 2f, 1f));
-	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0.5f, 1f));
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 1.5f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 1.5f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 1.5f, 0f));
+	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 12f, 100));
+	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 2f, 100));
+	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0.5f, 100));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 1.5f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 1.5f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 1.5f, 0));
 	module.addTLALineItem(li);
     }
 
@@ -151,12 +151,12 @@ public class ExampleTest {
 	tla.setStudentTeacherInteraction(sti);
 	tla.setLearnerFeedback(LearnerFeedback.NONE);
 	TLALineItem li = new TLALineItem(tla, 3.3f, 12, 0);
-	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 1f, 1f));
-	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 0f, 1f));
-	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0f, 1f));
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 0f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 0f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 0f, 0f));
+	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 1f, 100));
+	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 0f, 100));
+	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0f, 100));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 0f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 0f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 0f, 0));
 	module.addTLALineItem(li);
     }
 
@@ -173,12 +173,12 @@ public class ExampleTest {
 	tla.setStudentTeacherInteraction(sti);
 	tla.setLearnerFeedback(LearnerFeedback.NONE);
 	TLALineItem li = new TLALineItem(tla, 2.1f, 12, 0);
-	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 1f, 1f));
-	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 0f, 1f));
-	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0f, 1f));
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 0f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 0f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 0f, 0f));
+	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 1f, 100));
+	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 0f, 100));
+	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0f, 100));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 0f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 0f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 0f, 0));
 	module.addTLALineItem(li);
     }
 
@@ -195,12 +195,12 @@ public class ExampleTest {
 	tla.setStudentTeacherInteraction(sti);
 	tla.setLearnerFeedback(LearnerFeedback.NONE);
 	TLALineItem li = new TLALineItem(tla, 5f, 12, 0);
-	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 1f, 1f));
-	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 0f, 1f));
-	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0f, 1f));
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 0f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 0f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 0f, 0f));
+	li.setPreparationTime(module.getPresentationOne(), new PreparationTime(0f, 1f, 100));
+	li.setPreparationTime(module.getPresentationTwo(), new PreparationTime(0f, 0f, 100));
+	li.setPreparationTime(module.getPresentationThree(), new PreparationTime(0f, 0f, 100));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 0f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 0f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 0f, 0));
 	module.addTLALineItem(li);
     }
 
@@ -217,9 +217,9 @@ public class ExampleTest {
 	tla.setStudentTeacherInteraction(sti);
 	tla.setLearnerFeedback(LearnerFeedback.TUTOR);
 	TLALineItem li = new TLALineItem(tla, 0f, 12, 1.5f);
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 1.5f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 1.5f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 1.5f, 0f));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 1.5f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 1.5f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 1.5f, 0));
 	module.addTLALineItem(li);
     }
 
