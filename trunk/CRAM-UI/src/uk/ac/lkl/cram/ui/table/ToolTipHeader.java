@@ -12,6 +12,7 @@ import javax.swing.table.TableColumnModel;
  * @author Bernard Horan Original version from
  * http://www.crionics.com/public/swing_examples/JTableExamples6.html
  */
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class ToolTipHeader extends JTableHeader {
 
     private String[] toolTips;
@@ -22,15 +23,12 @@ public class ToolTipHeader extends JTableHeader {
 
     @Override
     public String getToolTipText(MouseEvent e) {
-	System.out.println("ToolTipHeader.getToolTipText");
 	int col = columnAtPoint(e.getPoint());
 	int modelCol = getTable().convertColumnIndexToModel(col);
 	String retStr;
 	try {
 	    retStr = toolTips[modelCol];
-	} catch (NullPointerException ex) {
-	    retStr = "";
-	} catch (ArrayIndexOutOfBoundsException ex) {
+	} catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
 	    retStr = "";
 	}
 	if (retStr.length() < 1) {
@@ -39,6 +37,7 @@ public class ToolTipHeader extends JTableHeader {
 	return retStr;
     }
 
+    @SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
     public void setToolTipStrings(String[] toolTips) {
 	this.toolTips = toolTips;
     }
