@@ -48,9 +48,9 @@ public class AELMTest extends ExampleTest {
 
     private static void addModuleContributions(Module module) {
 	ModuleLineItem li = new ModuleLineItem("Module Contributions\t", 12);
-	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 21.5f, 0f));
-	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 21.5f, 0f));
-	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 21.5f, 0f));
+	li.setSupportTime(module.getPresentationOne(), new SupportTime(0f, 21.5f, 0));
+	li.setSupportTime(module.getPresentationTwo(), new SupportTime(0f, 21.5f, 0));
+	li.setSupportTime(module.getPresentationThree(), new SupportTime(0f, 21.5f, 0));
 	module.addModuleItem(li);
     }
 
