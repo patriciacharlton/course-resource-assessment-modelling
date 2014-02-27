@@ -48,7 +48,7 @@ public class CalculatingAELMTest extends AELMTest{
 				Evaluator getTotalHours = new Evaluator(pt, module) {
 				    @Override
 				    protected void evaluate() {
-					setValue(pt.getTotalHours(lineItem));
+					setValue(pt.getTotalHours(module, lineItem));
 				    }
 				};
 				System.out.print(getTotalHours.getValue() + "; ");
@@ -57,7 +57,7 @@ public class CalculatingAELMTest extends AELMTest{
 
 				    @Override
 				    protected void evaluate() {
-					setValue(pt.getTotalCost(lineItem, modulePresentation));
+					setValue(pt.getTotalCost(module, modulePresentation, lineItem));
 				    }
 				};
 				System.out.println(DecimalFormat.getCurrencyInstance().format(getCost.getValue()));

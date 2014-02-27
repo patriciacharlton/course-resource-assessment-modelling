@@ -69,10 +69,10 @@ public class TLALineItemTest extends CRAMTest {
     public void testGetWeekCount() {
 	System.out.println("getWeekCount");
 	int index = 0;
-        for (TLALineItem createdLineItem : getCreatedLineItems()) {
-            TLALineItem importedLineItem = getImportedLineItems().get(index);
+        for (LineItem createdLineItem : createdModule.getTLALineItems()) {
+            LineItem importedLineItem = importedModule.getLineItems().get(index);
             index++;
-            assertEquals(createdLineItem.getWeekCount(), importedLineItem.getWeekCount(),0.1);
+            assertEquals(createdLineItem.getWeekCount(createdModule), importedLineItem.getWeekCount(importedModule),0.1);
         }
     }
     

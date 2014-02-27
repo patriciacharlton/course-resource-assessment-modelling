@@ -168,7 +168,7 @@ public class Module implements Serializable, Calculable {
 	for (TLALineItem lineItem : tlaLineItems) {
 	    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 	    if (pt != null) {
-		totalHours = totalHours + pt.getTotalHours(lineItem);
+		totalHours = totalHours + pt.getTotalHours(this, lineItem);
 	    }
 	}
 	return totalHours;
@@ -180,7 +180,7 @@ public class Module implements Serializable, Calculable {
 	for (TLALineItem lineItem : tlaLineItems) {
 	    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 	    if (pt != null) {
-		totalCost = totalCost + pt.getTotalCost(lineItem, modulePresentation);
+		totalCost = totalCost + pt.getTotalCost(this, modulePresentation, lineItem);
 	    }
 	}
 	return totalCost;

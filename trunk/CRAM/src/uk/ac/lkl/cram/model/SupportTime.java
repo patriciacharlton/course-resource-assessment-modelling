@@ -5,7 +5,7 @@ package uk.ac.lkl.cram.model;
  * $Revision$
  * @author Bernard Horan
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class SupportTime extends AbstractModuleTime {
 
     SupportTime() {
@@ -19,7 +19,7 @@ public class SupportTime extends AbstractModuleTime {
     public float getTotalHours(Module module, ModulePresentation modulePresentation, LineItem li) {
 	float numberOfIndividuals_Groups = li.getNumberOfIndividuals_Groups(modulePresentation, module);
 	if (numberOfIndividuals_Groups > 0) {
-	    return (li.getWeekCount() * weekly + non_weekly) * numberOfIndividuals_Groups;
+	    return (li.getWeekCount(module) * weekly + non_weekly) * numberOfIndividuals_Groups;
 	} else {
 	    return non_weekly;
 	}
