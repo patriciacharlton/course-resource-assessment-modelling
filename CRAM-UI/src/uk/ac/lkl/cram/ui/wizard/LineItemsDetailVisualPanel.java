@@ -6,6 +6,8 @@ import java.beans.PropertyChangeListener;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import uk.ac.lkl.cram.model.AbstractModuleTime;
@@ -99,7 +101,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 return new PercentFormatter();
             }
         };
-	
+        
+        InputVerifier verifier = new PercentVerifier();	
 	
 	//Preparation Fields
 	final JFormattedTextField[] weeklyPreparationFields = new JFormattedTextField[3];
@@ -150,6 +153,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		}
 	    };
 	    higherCostPreparationFields[preparationIndex].setFormatterFactory(aff);
+            higherCostPreparationFields[preparationIndex].setInputVerifier(verifier);
 	    lineItem.getPreparationTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new HigherCostPropertyListener(higherCostPreparationFields[preparationIndex]));
 	    
 	    lowerCostPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getJuniorRate());
@@ -162,6 +166,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		}
 	    };
 	    lowerCostPreparationFields[preparationIndex].setFormatterFactory(aff);
+            lowerCostPreparationFields[preparationIndex].setInputVerifier(verifier);
 	    lineItem.getPreparationTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new LowerCostPropertyListener(lowerCostPreparationFields[preparationIndex]));
 	    
 	    preparationIndex++;
@@ -217,6 +222,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		}
 	    };
 	    higherCostSupportFields[supportIndex].setFormatterFactory(aff);
+            higherCostSupportFields[supportIndex].setInputVerifier(verifier);
+	    lineItem.getSupportTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new HigherCostPropertyListener(higherCostSupportFields[supportIndex]));
 	    
 	    lowerCostSupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getJuniorRate());
 	    lowerCostSupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
@@ -228,7 +235,9 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		}
 	    };
 	    lowerCostSupportFields[supportIndex].setFormatterFactory(aff);
-	    supportIndex++;
+	    lowerCostSupportFields[supportIndex].setInputVerifier(verifier);
+	    lineItem.getSupportTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new LowerCostPropertyListener(lowerCostSupportFields[supportIndex]));
+            supportIndex++;
 	}
 	
 	ModulePresentation mp1 = module.getModulePresentations().get(0);
@@ -774,7 +783,16 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    String s = string.replace("%", ""); //To fix issue 16
 	    try {
 		Integer rate = Integer.valueOf(s);
-		//LOGGER.info("PercentFormatter  rate: " + seniorRate);
+		//LOGGER.info("PercentFormatter  rate: " + rate);
+                setEditValid(true);
+                if (rate > 100) {
+                    setEditValid(false);
+                    rate = 100;
+                }
+                if (rate < 0) {
+                    setEditValid(false);
+                    rate = 0;
+                }
 		return rate;
 	    } catch (NumberFormatException pe) {
 		LOGGER.log(Level.SEVERE, s, pe);
@@ -789,5 +807,16 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    //LOGGER.info("rate: " + rate);
 	    return String.valueOf(rate) + '%';
 	}
+    }
+    
+    //Percent verifier
+    private class PercentVerifier extends InputVerifier {
+
+        @Override
+        public boolean verify(JComponent input) {
+            JFormattedTextField tf = (JFormattedTextField) input;
+            return tf.isEditValid();
+        }
+        
     }
 }
