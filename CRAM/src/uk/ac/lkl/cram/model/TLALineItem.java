@@ -27,6 +27,7 @@ public class TLALineItem implements LineItem {
     //The number of hours per week that the student is expected to spend learning
     private float weeklyLearnerHourCount;
     //The number of weeks that this activity runs
+    @XmlAttribute
     private int weekCount;   
     //The number of hours of non-regular learning hours (e.g. for an assessment)
     private float nonWeeklyLearnerHourCount;
@@ -90,10 +91,11 @@ public class TLALineItem implements LineItem {
     /**
      * Get the value of weekCount
      *
+     * @param m 
      * @return the value of weekCount
      */
     @Override
-    public int getWeekCount() {
+    public int getWeekCount(Module m) {
 	return weekCount;
     }
 
@@ -102,7 +104,6 @@ public class TLALineItem implements LineItem {
      *
      * @param weekCount new value of weekCount
      */
-    @XmlAttribute
     public void setWeekCount(int weekCount) {
 	int oldWeekCount = this.weekCount;
 	this.weekCount = weekCount;

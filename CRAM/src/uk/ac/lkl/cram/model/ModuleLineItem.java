@@ -16,7 +16,7 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
  * $Revision$
  * @author Bernard Horan
  */
-@XmlType(propOrder = {"name", "weekCount", "supportMap"})
+@XmlType(propOrder = {"name", "supportMap"})
 @SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class ModuleLineItem implements LineItem {
 
@@ -27,19 +27,15 @@ public class ModuleLineItem implements LineItem {
     @XmlAttribute
     private String name;
     
-    @XmlAttribute
-    private int weekCount;
-    
     private PropertyChangeSupport propertySupport;
 
     public ModuleLineItem() {
 	propertySupport = new PropertyChangeSupport(this);
     }
 
-    public ModuleLineItem(String name, int weekCount) {
+    public ModuleLineItem(String name) {
         this();
         this.name = name;
-	this.weekCount = weekCount;
     }
 
     @Override
@@ -60,11 +56,12 @@ public class ModuleLineItem implements LineItem {
     /**
      * Get the value of weekCount
      *
+     * @param m 
      * @return the value of weekCount
      */
     @Override
-    public int getWeekCount() {
-	return weekCount;
+    public int getWeekCount(Module m) {
+	return m.getWeekCount();
     }
 
     @Override
@@ -72,7 +69,6 @@ public class ModuleLineItem implements LineItem {
 	int hash = 7;
 	hash = 13 * hash + Objects.hashCode(this.supportMap);
 	hash = 13 * hash + Objects.hashCode(this.name);
-	hash = 13 * hash + this.weekCount;
 	return hash;
     }
 
@@ -92,9 +88,6 @@ public class ModuleLineItem implements LineItem {
 	if (!Objects.equals(this.name, other.name)) {
 	    return false;
 	}
-	if (this.weekCount != other.weekCount) {
-	    return false;
-	}
 	return true;
     }
 
@@ -112,12 +105,12 @@ public class ModuleLineItem implements LineItem {
     public PreparationTime getPreparationTime(ModulePresentation mp) {
 	return new PreparationTime() {
 	    @Override
-	    public float getTotalCost(LineItem li, ModulePresentation modulePresentation) {
+	    public float getTotalCost(Module m, ModulePresentation modulePresentation, LineItem li) {
 		return 0;
 	    }
 
 	    @Override
-	    public float getTotalHours(LineItem li) {
+	    public float getTotalHours(Module m, LineItem li) {
 		return 0;
 	    }
 	};

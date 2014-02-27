@@ -239,7 +239,7 @@ public class ExampleTest {
 	    System.out.print(tla.getName() + '\t');
 	    System.out.print(lineItem.getWeeklyLearnerHourCount() + "; ");
 	    System.out.print(lineItem.getNonWeeklyLearnerHourCount() + "; ");
-	    System.out.print(lineItem.getWeekCount() + "; ");
+	    System.out.print(lineItem.getWeekCount(module) + "; ");
 	    System.out.print(lineItem.getTotalLearnerHourCount(module) + "; ");
 	    System.out.println(tla.getLearnerFeedback());
 	}
@@ -275,9 +275,9 @@ public class ExampleTest {
 		System.out.print(tla.getName() + '\t');
 		System.out.print(pt.getWeekly() + "; ");
 		System.out.print(pt.getNonWeekly() + "; ");
-		System.out.print(pt.getTotalHours(lineItem) + "; ");
+		System.out.print(pt.getTotalHours(module, lineItem) + "; ");
 		System.out.print(DecimalFormat.getPercentInstance().format(pt.getSeniorRate()) + "; ");
-		System.out.println(DecimalFormat.getCurrencyInstance().format(pt.getTotalCost(lineItem, modulePresentation)));
+		System.out.println(DecimalFormat.getCurrencyInstance().format(pt.getTotalCost(module, modulePresentation, lineItem)));
 	    }
 	}
 	System.out.print("\t" + module.getTotalPreparationHours(modulePresentation));

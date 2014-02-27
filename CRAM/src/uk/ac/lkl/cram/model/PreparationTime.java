@@ -5,7 +5,7 @@ package uk.ac.lkl.cram.model;
  * $Revision$
  * @author Bernard Horan
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class PreparationTime extends AbstractModuleTime {
 
     PreparationTime() {
@@ -16,12 +16,12 @@ public class PreparationTime extends AbstractModuleTime {
 	super(weekly, non_weekly, seniorRate);
     }
 
-    public float getTotalHours(LineItem li) {
-	return li.getWeekCount() * weekly + non_weekly;
+    public float getTotalHours(Module m, LineItem li) {
+	return li.getWeekCount(m) * weekly + non_weekly;
     }
 
-    public float getTotalCost(LineItem li, ModulePresentation modulePresentation) {
+    public float getTotalCost(Module m, ModulePresentation modulePresentation, LineItem li) {
 	float senior = seniorRate / 100f;
-	return (((senior * getTotalHours(li) * modulePresentation.getSeniorCost()) + ((1 - senior) * getTotalHours(li) * modulePresentation.getJuniorCost())) / HOURS_PER_DAY);
+	return (((senior * getTotalHours(m, li) * modulePresentation.getSeniorCost()) + ((1 - senior) * getTotalHours(m, li) * modulePresentation.getJuniorCost())) / HOURS_PER_DAY);
     }
 }
