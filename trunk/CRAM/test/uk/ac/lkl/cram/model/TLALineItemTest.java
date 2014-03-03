@@ -11,7 +11,7 @@ import uk.ac.lkl.cram.model.ModulePresentation.Run;
  * @author bernard horan
  */
 @SuppressWarnings("ClassWithoutLogger")
-public class TLALineItemTest extends CRAMTest {
+public class TLALineItemTest extends CRAMTestAbstract {
     
     public TLALineItemTest() {
     }

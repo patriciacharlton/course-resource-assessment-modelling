@@ -1,9 +1,7 @@
 package uk.ac.lkl.cram.model;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.beans.PropertyVetoException;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -26,7 +24,7 @@ public class AbstractModuleTime implements Serializable {
     protected float non_weekly;
     protected int seniorRate; //Between 0 and 100
     protected float weekly;
-    private PropertyChangeSupport propertySupport;
+    private final transient PropertyChangeSupport propertySupport;
 
     public AbstractModuleTime() {
 	this(0f, 0f, 0);

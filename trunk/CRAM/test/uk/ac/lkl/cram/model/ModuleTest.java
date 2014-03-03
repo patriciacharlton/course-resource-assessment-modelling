@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
  * $Date$
  * @author Bernard Horan
  */
-public class ModuleTest extends CRAMTest {
+public class ModuleTest extends CRAMTestAbstract {
 
     public ModuleTest() {
     }

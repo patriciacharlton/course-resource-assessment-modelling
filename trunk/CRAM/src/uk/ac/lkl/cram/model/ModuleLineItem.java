@@ -19,15 +19,13 @@ import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 @XmlType(propOrder = {"name", "supportMap"})
 @SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class ModuleLineItem implements LineItem {
-
+    public static final String PROP_NAME = "name";
+    private String name;
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
     @XmlElement(name = "supportMap")
     private Map<ModulePresentation, SupportTime> supportMap = new HashMap<>();
     
-    @XmlAttribute
-    private String name;
-    
-    private PropertyChangeSupport propertySupport;
+    private final transient PropertyChangeSupport propertySupport;
 
     public ModuleLineItem() {
 	propertySupport = new PropertyChangeSupport(this);
@@ -45,14 +43,26 @@ public class ModuleLineItem implements LineItem {
 
     @Override
     public SupportTime getSupportTime(ModulePresentation mp) {
-        return supportMap.get(mp);
+        SupportTime st = supportMap.get(mp);
+        if (st == null) {
+            st = new SupportTime();
+            supportMap.put(mp, st);
+        }
+        return st;
     }
-
+   
     @Override
     public String getName() {
         return name;
     }
-    
+
+    @XmlAttribute
+    public void setName(String name) {
+        String oldName = this.name;
+        this.name = name;
+        propertySupport.firePropertyChange(PROP_NAME, oldName, name);
+    }
+
     /**
      * Get the value of weekCount
      *
@@ -120,6 +130,11 @@ public class ModuleLineItem implements LineItem {
     public float getNumberOfIndividuals_Groups(ModulePresentation modulePresentation, Module module) {
 	float i = ((float) modulePresentation.getTotalStudentCount() / (float) module.getTutorGroupSize());
 	return (int) (i + 0.99);
+    }
+
+    @Override
+    public void removeFrom(Module m) {
+        m.removeModuleItem(this);
     }
     
 }

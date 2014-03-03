@@ -3,7 +3,6 @@ package uk.ac.lkl.cram.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlAttribute;
 /**
  * $Date$
@@ -11,6 +10,7 @@ import javax.xml.bind.annotation.XmlAttribute;
  * @author Bernard Horan
  */
 
+@SuppressWarnings("ClassWithoutLogger")
 public class LearningType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public class LearningType implements Serializable {
     private int practice = 0;
     private int production = 0;
     private int collaboration = 0;
-    private PropertyChangeSupport propertySupport;
+    private final transient PropertyChangeSupport propertySupport;
 
 
     LearningType() {
@@ -164,6 +164,7 @@ public class LearningType implements Serializable {
     }
 
     @Override
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

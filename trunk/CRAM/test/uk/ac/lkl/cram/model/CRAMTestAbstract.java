@@ -16,7 +16,7 @@ import uk.ac.lkl.cram.model.io.ModuleUnmarshaller;
  *
  * @author bernard
  */
-public abstract class CRAMTest {
+public abstract class CRAMTestAbstract {
     protected static final boolean USE_XML = true;
     protected Module createdModule;
     protected File moduleFile;

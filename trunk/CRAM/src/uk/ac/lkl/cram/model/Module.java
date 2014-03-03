@@ -28,6 +28,7 @@ public class Module implements Serializable, Calculable {
     private static final Logger LOGGER = Logger.getLogger(Module.class.getName());
 
     public static final String PROP_TLA_LINEITEM = "tlaLineItem";
+    public static final String PROP_MODULE_LINEITEM = "moduleLineItem";
     public static final String PROP_NAME = "name";
     public static final String PROP_HOUR_COUNT = "hour_count";
     public static final String PROP_WEEK_COUNT = "week_count";
@@ -58,7 +59,7 @@ public class Module implements Serializable, Calculable {
     @XmlElement(name = "modulePresentation")
     private ModulePresentation[] presentations = new ModulePresentation[3];
     
-    private PropertyChangeSupport propertySupport;
+    private final transient PropertyChangeSupport propertySupport;
 
     public Module() {
 	propertySupport = new PropertyChangeSupport(this);
@@ -79,10 +80,21 @@ public class Module implements Serializable, Calculable {
 	propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, index, null, lineItem);
     }
     
-    public void removeTLALineItem(TLALineItem  li) {
+    void removeTLALineItem(TLALineItem  li) {
         int i = tlaLineItems.indexOf(li);
 	tlaLineItems.remove(i);
         propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, i, li, null);
+    }
+    
+    void removeModuleItem(ModuleLineItem moduleItem) {
+        int i = moduleLineItems.indexOf(moduleItem);
+        moduleLineItems.remove(i);
+        propertySupport.fireIndexedPropertyChange(PROP_MODULE_LINEITEM, i, moduleItem, null);
+    }
+    
+    public void removeLineItem(LineItem li) {
+        //Double dispatch
+        li.removeFrom(this);
     }
 
     @SuppressWarnings("ReturnOfCollectionOrArrayField")
@@ -149,12 +161,14 @@ public class Module implements Serializable, Calculable {
 	return presentations[2];
     }
 
-    void addModuleItem(ModuleLineItem mi) {
+    public void addModuleItem(ModuleLineItem mi) {
 	moduleLineItems.add(mi);
+	int index = moduleLineItems.indexOf(mi);
+	propertySupport.fireIndexedPropertyChange(PROP_MODULE_LINEITEM, index, null, mi);
     }
 
     @SuppressWarnings("ReturnOfCollectionOrArrayField")
-    List<ModuleLineItem> getModuleItems() {
+    public List<ModuleLineItem> getModuleItems() {
 	return moduleLineItems;
     }
 
@@ -338,5 +352,7 @@ public class Module implements Serializable, Calculable {
 	}
 	return true;
     }
+
+    
  
 }
