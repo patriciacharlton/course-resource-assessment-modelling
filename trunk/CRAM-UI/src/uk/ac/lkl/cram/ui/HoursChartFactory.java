@@ -26,6 +26,7 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.util.SortOrder;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.ModulePresentation;
 import uk.ac.lkl.cram.model.PreparationTime;
 import uk.ac.lkl.cram.model.SupportTime;
@@ -79,6 +80,11 @@ public class HoursChartFactory {
 		PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 		pt.addPropertyChangeListener(presentationListener);
 	    }
+            for (ModuleLineItem lineItem : module.getModuleItems()) {
+		//LOGGER.info("adding listener to : " + lineItem.getName());
+		SupportTime st = lineItem.getSupportTime(modulePresentation);
+		st.addPropertyChangeListener(presentationListener);
+	    }
 	}
 	
 	module.addPropertyChangeListener(Module.PROP_TLA_LINEITEM, new PropertyChangeListener() {
@@ -106,6 +112,33 @@ public class HoursChartFactory {
 			    st.addPropertyChangeListener(presentationListener);
 			    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 			    pt.addPropertyChangeListener(presentationListener);
+			}
+		    }
+		}
+		populateDataset(dataset, module);
+	    }
+	});
+        module.addPropertyChangeListener(Module.PROP_MODULE_LINEITEM, new PropertyChangeListener() {
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		if (pce instanceof IndexedPropertyChangeEvent) {
+		    LOGGER.info("indexed change: " + pce);
+		    if (pce.getOldValue() != null) {
+			//This has been removed
+			ModuleLineItem lineItem = (ModuleLineItem) pce.getOldValue();
+			LOGGER.info("removing listeners from: " + lineItem.getName());
+			for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+			    SupportTime st = lineItem.getSupportTime(modulePresentation);
+			    st.removePropertyChangeListener(presentationListener);
+			}			
+		    }
+		    if (pce.getNewValue() != null) {
+			//This has been added
+			ModuleLineItem lineItem = (ModuleLineItem) pce.getNewValue();
+			LOGGER.info("adding listeners to: " + lineItem);
+			for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+			    SupportTime st = lineItem.getSupportTime(modulePresentation);
+			    st.addPropertyChangeListener(presentationListener);
 			}
 		    }
 		}

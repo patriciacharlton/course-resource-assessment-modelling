@@ -3,32 +3,71 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 import java.util.Enumeration;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import uk.ac.lkl.cram.model.LineItem;
+import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.ui.table.ColumnGroup;
 import uk.ac.lkl.cram.ui.table.GroupableTableHeader;
-import javax.swing.table.TableColumnModel;
-import uk.ac.lkl.cram.model.Module;
 
 /**
  * $Date$
  * $Revision$
  * @author Bernard Horan
  */
+@SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class TutorCostPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form TutorCostPanel
-     * @param module 
+     * @param module
+     * @param sharedSelectionModel  
      */
-    public TutorCostPanel(Module module) {
+    public TutorCostPanel(final Module module, final LineItemSelectionModel sharedSelectionModel) {
 	initComponents();
 	tutorCostTable.setModel(new TutorCostTableModel(module));
-	tutorCostTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+	tutorCostTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                if (!lse.getValueIsAdjusting()) {
+                    int index = tutorCostTable.getSelectedRow();
+                    LineItem selectedLineItem = null;
+                    if (index != -1) {
+                        int lineItemCount = module.getLineItems().size();
+                        //Last row isn't really a lineItem, it's the totals row
+                        if (index < lineItemCount) {
+                            selectedLineItem = module.getLineItems().get(index);
+                        }
+                    }
+                    sharedSelectionModel.setSelectedLineItem(selectedLineItem);
+                }
+            }
+        });
+        sharedSelectionModel.addPropertyChangeListener(new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent lse) {
+                LineItem selectedItem = (LineItem) lse.getNewValue();
+                int index = module.getLineItems().indexOf(selectedItem);
+                if (index == -1) {
+                    tutorCostTable.clearSelection();
+                } else {
+                tutorCostTable.getSelectionModel().setSelectionInterval(index, index);
+                tutorCostTable.scrollRectToVisible(new Rectangle(tutorCostTable.getCellRect(index, 0, true)));
+                }
+            }
+        });
+        tutorCostTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	TableColumnModel tableColumnModel = tutorCostTable.getColumnModel();
 	Enumeration<TableColumn> columnEnum = tableColumnModel.getColumns();
 	final NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -105,7 +144,6 @@ public class TutorCostPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tutorCostTable.setEnabled(false);
         tutorCostTable.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(tutorCostTable);
 
@@ -127,7 +165,11 @@ public class TutorCostPanel extends javax.swing.JPanel {
     private javax.swing.JTable tutorCostTable;
     // End of variables declaration//GEN-END:variables
 
-    class LineItemRenderer extends DefaultTableCellRenderer {
+    JTable getTable() {
+        return tutorCostTable;
+    }
+
+    private class LineItemRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,

@@ -3,10 +3,17 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.ui.table.ColumnGroup;
 import uk.ac.lkl.cram.ui.table.GroupableTableHeader;
@@ -18,15 +25,49 @@ import uk.ac.lkl.cram.ui.table.GroupableTableHeader;
  */
 @SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class TutorHoursPanel extends javax.swing.JPanel {
+    private static final Logger LOGGER = Logger.getLogger(TutorHoursPanel.class.getName());
+
 
     /**
      * Creates new form TutorHoursPanel
-     * @param module 
+     * @param module
+     * @param sharedSelectionModel  
      */
-    public TutorHoursPanel(Module module) {
+    public TutorHoursPanel(final Module module, final LineItemSelectionModel sharedSelectionModel) {
 	initComponents();
 	tutorHoursTable.setModel(new TutorHoursTableModel(module));
-	tutorHoursTable.setDefaultRenderer(String.class, new LineItemRenderer());
+	tutorHoursTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                if (!lse.getValueIsAdjusting()) {
+                    int index = tutorHoursTable.getSelectedRow();
+                    LineItem selectedLineItem = null;
+                    if (index != -1) {
+                        int lineItemCount = module.getLineItems().size();
+                        //Last row isn't really a lineItem, it's the totals row
+                        if (index < lineItemCount) {
+                            selectedLineItem = module.getLineItems().get(index);
+                        }
+                    }
+                    sharedSelectionModel.setSelectedLineItem(selectedLineItem);
+                }
+            }
+        });
+        sharedSelectionModel.addPropertyChangeListener(new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent lse) {
+                LineItem selectedItem = (LineItem) lse.getNewValue();
+                int index = module.getLineItems().indexOf(selectedItem);
+                if (index == -1) {
+                    tutorHoursTable.clearSelection();
+                } else {
+                tutorHoursTable.getSelectionModel().setSelectionInterval(index, index);
+                tutorHoursTable.scrollRectToVisible(new Rectangle(tutorHoursTable.getCellRect(index, 0, true)));
+                }
+            }
+        });
+        tutorHoursTable.setDefaultRenderer(String.class, new LineItemRenderer());
 
 	tutorHoursTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	TableColumnModel tableColumnModel = tutorHoursTable.getColumnModel();
@@ -85,7 +126,6 @@ public class TutorHoursPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tutorHoursTable.setEnabled(false);
         tutorHoursTable.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(tutorHoursTable);
 
@@ -104,6 +144,10 @@ public class TutorHoursPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tutorHoursTable;
     // End of variables declaration//GEN-END:variables
+
+    JTable getTable() {
+        return tutorHoursTable;
+    }
 
     private class LineItemRenderer extends DefaultTableCellRenderer {
 
@@ -125,7 +169,7 @@ public class TutorHoursPanel extends javax.swing.JPanel {
     public static void main(String args[]) {
         final JFrame frame = new JFrame("Tutor Hours Panel Panel");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new TutorHoursPanel(new Module()));
+        frame.add(new TutorHoursPanel(new Module(), new LineItemSelectionModel()));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

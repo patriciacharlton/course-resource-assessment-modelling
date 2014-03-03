@@ -75,7 +75,7 @@ public class ModuleTableModel extends AbstractTableModel implements PropertyChan
             case 0:
                 return li.getActivity().getName();
             case 1:
-                return li.getWeekCount();
+                return li.getWeekCount(module);
 	    case 2:
 		return li.getWeeklyLearnerHourCount();
             case 3:

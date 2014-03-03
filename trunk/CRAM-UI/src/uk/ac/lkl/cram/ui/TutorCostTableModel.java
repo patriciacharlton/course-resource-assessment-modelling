@@ -93,17 +93,17 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
 	    case 1: {
 		ModulePresentation mp = modulePresentations.get(0);
 		PreparationTime pt = li.getPreparationTime(mp);
-		return pt.getTotalCost(li, mp);
+		return pt.getTotalCost(module, mp, li);
 	    }
 	    case 2: {
 		ModulePresentation mp = modulePresentations.get(1);
 		PreparationTime pt = li.getPreparationTime(mp);
-		return pt.getTotalCost(li, mp);
+		return pt.getTotalCost(module, mp, li);
 	    }
 	    case 3: {
 		ModulePresentation mp = modulePresentations.get(2);
 		PreparationTime pt = li.getPreparationTime(mp);
-		return pt.getTotalCost(li, mp);
+		return pt.getTotalCost(module, mp, li);
 	    }	    
 	    //Support
 	    case 4: {

@@ -83,7 +83,7 @@ public class LearningExperienceChartFactory {
 	    lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_LEARNING_EXPERIENCE, learningExperienceListener);
 	    lineItem.addPropertyChangeListener(learningExperienceListener);
 	}
-	module.addPropertyChangeListener(new PropertyChangeListener() {
+	module.addPropertyChangeListener(Module.PROP_TLA_LINEITEM, new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
