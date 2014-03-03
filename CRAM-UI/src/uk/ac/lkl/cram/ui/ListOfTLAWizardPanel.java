@@ -216,7 +216,7 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 
     private void removeLineItem(TLALineItem li) {
         //LOGGER.info("Removing line item: " + li);
-        module.removeTLALineItem(li);
+        li.removeFrom(module);
     }
 
 }

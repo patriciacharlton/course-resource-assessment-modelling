@@ -90,11 +90,11 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 		return li.getName();
 	    //Preparation
 	    case 1:
-		return li.getPreparationTime(modulePresentations.get(0)).getTotalHours(li);
+		return li.getPreparationTime(modulePresentations.get(0)).getTotalHours(module, li);
 	    case 2:
-		return li.getPreparationTime(modulePresentations.get(1)).getTotalHours(li);
+		return li.getPreparationTime(modulePresentations.get(1)).getTotalHours(module, li);
 	    case 3:
-		return li.getPreparationTime(modulePresentations.get(2)).getTotalHours(li);
+		return li.getPreparationTime(modulePresentations.get(2)).getTotalHours(module, li);
 	    //Support
 	    case 4: {
 		ModulePresentation mp = modulePresentations.get(0);

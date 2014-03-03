@@ -4,6 +4,7 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;
@@ -19,6 +20,7 @@ import org.openide.WizardDescriptor;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
@@ -31,7 +33,9 @@ import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 public class ModuleFrame extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
     private final Module module;
-    private LineItem selectedLineItem;
+    private final LineItemSelectionModel sharedSelectionModel = new LineItemSelectionModel();
+    private final MouseListener doubleClickListener;
+    
 
     /**
      * Creates new form ModuleFrame
@@ -40,7 +44,24 @@ public class ModuleFrame extends javax.swing.JFrame {
     public ModuleFrame(Module module) {
         this.module = module;
         initComponents();
-	
+        sharedSelectionModel.addPropertyChangeListener(new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                modifyLineItemMI.setEnabled(evt.getNewValue() != null);
+                removeLineItemMI.setEnabled(evt.getNewValue() != null);
+            }
+        });
+        
+        doubleClickListener = new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+		    modifySelectedLineItem();
+		}
+	    }
+	};
+        
 //	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 //	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 //	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -80,8 +101,9 @@ public class ModuleFrame extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        addTLALineItemMI = new javax.swing.JMenuItem();
+        addModuleLineItemMI = new javax.swing.JMenuItem();
         modifyLineItemMI = new javax.swing.JMenuItem();
-        addLineItemMI = new javax.swing.JMenuItem();
         removeLineItemMI = new javax.swing.JMenuItem();
         windowMenu = new javax.swing.JMenu();
 
@@ -149,6 +171,22 @@ public class ModuleFrame extends javax.swing.JFrame {
         org.openide.awt.Mnemonics.setLocalizedText(moduleMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.moduleMenu.text")); // NOI18N
         moduleMenu.add(jSeparator1);
 
+        org.openide.awt.Mnemonics.setLocalizedText(addTLALineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.addTLALineItemMI.text")); // NOI18N
+        addTLALineItemMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTLALineItemMIActionPerformed(evt);
+            }
+        });
+        moduleMenu.add(addTLALineItemMI);
+
+        org.openide.awt.Mnemonics.setLocalizedText(addModuleLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.addModuleLineItemMI.text")); // NOI18N
+        addModuleLineItemMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addModuleLineItemMIActionPerformed(evt);
+            }
+        });
+        moduleMenu.add(addModuleLineItemMI);
+
         org.openide.awt.Mnemonics.setLocalizedText(modifyLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.modifyLineItemMI.text")); // NOI18N
         modifyLineItemMI.setEnabled(false);
         modifyLineItemMI.addActionListener(new java.awt.event.ActionListener() {
@@ -157,14 +195,6 @@ public class ModuleFrame extends javax.swing.JFrame {
             }
         });
         moduleMenu.add(modifyLineItemMI);
-
-        org.openide.awt.Mnemonics.setLocalizedText(addLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.addLineItemMI.text")); // NOI18N
-        addLineItemMI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addLineItemMIActionPerformed(evt);
-            }
-        });
-        moduleMenu.add(addLineItemMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(removeLineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.removeLineItemMI.text")); // NOI18N
         removeLineItemMI.setEnabled(false);
@@ -193,9 +223,13 @@ public class ModuleFrame extends javax.swing.JFrame {
 	removeSelectedLineItem();
     }//GEN-LAST:event_removeLineItemMIActionPerformed
 
-    private void addLineItemMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLineItemMIActionPerformed
-        addLineItem();
-    }//GEN-LAST:event_addLineItemMIActionPerformed
+    private void addTLALineItemMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTLALineItemMIActionPerformed
+        addTLALineItem();
+    }//GEN-LAST:event_addTLALineItemMIActionPerformed
+
+    private void addModuleLineItemMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addModuleLineItemMIActionPerformed
+        addModuleLineItem();
+    }//GEN-LAST:event_addModuleLineItemMIActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,7 +245,8 @@ public class ModuleFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem addLineItemMI;
+    private javax.swing.JMenuItem addModuleLineItemMI;
+    private javax.swing.JMenuItem addTLALineItemMI;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JScrollPane jScrollPane1;
@@ -244,27 +279,9 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane lineItemPane = new JXTaskPane();
 	lineItemPane.setTitle("Student Hours");
         lineItemPane.setScrollOnExpand(true);
-	final LineItemPanel lineItemPanel = new LineItemPanel(module);
-	lineItemPanel.addPropertyChangeListener(LineItemPanel.PROP_SELECTED_LINEITEM, new PropertyChangeListener() {
-	    @Override
-	    public void propertyChange(PropertyChangeEvent pce) {
-		selectedLineItem = (LineItem) pce.getNewValue();
-		//LOGGER.info("selected line item: " + selectedLineItem);
-		modifyLineItemMI.setEnabled(selectedLineItem != null);
-		removeLineItemMI.setEnabled(selectedLineItem != null);
-	    }
-	});
-
+	LineItemPanel lineItemPanel = new LineItemPanel(module, sharedSelectionModel);
 	JTable table = lineItemPanel.getTable();
-	table.addMouseListener(new MouseAdapter() {
-	    @Override
-	    public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() == 2) {
-		    modifySelectedLineItem();
-		}
-	    }
-	});
-
+	table.addMouseListener(doubleClickListener);
 	lineItemPane.add(lineItemPanel);
 	return lineItemPane;
     }
@@ -272,18 +289,24 @@ public class ModuleFrame extends javax.swing.JFrame {
     private JXTaskPane createTutorHoursPane() {
 	JXTaskPane tutorHoursPane = new JXTaskPane();
         tutorHoursPane.setScrollOnExpand(true);
-	tutorHoursPane.setTitle("Tutor Hours");
-	tutorHoursPane.add(new TutorHoursPanel(module));
-	tutorHoursPane.setCollapsed(true);
+        tutorHoursPane.setCollapsed(true);
+        tutorHoursPane.setTitle("Tutor Hours");
+        TutorHoursPanel tutorHoursPanel = new TutorHoursPanel(module, sharedSelectionModel);
+        JTable table = tutorHoursPanel.getTable();
+        table.addMouseListener(doubleClickListener);
+	tutorHoursPane.add(tutorHoursPanel);
 	return tutorHoursPane;
     }
     
     private JXTaskPane createTutorCostPane() {
 	JXTaskPane tutorCostPane = new JXTaskPane();
         tutorCostPane.setScrollOnExpand(true);
-	tutorCostPane.setTitle("Tutor Costs");
-	tutorCostPane.add(new TutorCostPanel(module));
 	tutorCostPane.setCollapsed(true);
+	tutorCostPane.setTitle("Tutor Costs");
+        TutorCostPanel tutorCostPanel = new TutorCostPanel(module,sharedSelectionModel);
+        JTable table = tutorCostPanel.getTable();
+        table.addMouseListener(doubleClickListener);
+	tutorCostPane.add(tutorCostPanel);
 	return tutorCostPane;
     }
 
@@ -328,6 +351,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     }
     
     private void modifySelectedLineItem() {
+        LineItem selectedLineItem = sharedSelectionModel.getSelectedLineItem();
 	if (selectedLineItem instanceof TLALineItem) {
 	    TLAOkCancelDialog dialog = new TLAOkCancelDialog(this, true, module, (TLALineItem) selectedLineItem);
 	    dialog.setTitle("Modify TLA");
@@ -335,17 +359,23 @@ public class ModuleFrame extends javax.swing.JFrame {
 	    dialog.setVisible(true);
 	    //LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
 	    //TODO--undo
-	} else {
+	} else if (selectedLineItem instanceof ModuleLineItem) {
+            ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, (ModuleLineItem) selectedLineItem);
+            dialog.setTitle("Modify Module Activity");
+            dialog.setVisible(true);
+            //TODO--undo
+        } else {
 	    LOGGER.warning("Unable to edit this line item");
 	}
     }
     
     private void removeSelectedLineItem() {
         //TODO -- undo
-	if (selectedLineItem instanceof TLALineItem) {
+        LineItem selectedLineItem = sharedSelectionModel.getSelectedLineItem();
+	if (selectedLineItem != null) {
 	    int reply = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete \'" + selectedLineItem.getName() + "\'?", "Delete TLA", JOptionPane.YES_NO_OPTION);
 	    if (reply == JOptionPane.YES_OPTION) {
-		module.removeTLALineItem((TLALineItem) selectedLineItem);
+                selectedLineItem.removeFrom(module);
 	    } else {
 		LOGGER.info("Delete cancelled");
 	    }
@@ -354,7 +384,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	}
     }
     
-    private void addLineItem() {
+    private void addTLALineItem() {
         //TODO -- undo
         TLACreatorWizardIterator iterator = new TLACreatorWizardIterator(module);
 	WizardDescriptor wizardDescriptor = new WizardDescriptor(iterator);
@@ -371,6 +401,18 @@ public class ModuleFrame extends javax.swing.JFrame {
         if (!cancelled) {
             module.addTLALineItem(iterator.getLineItem());
         }
+    }
+    
+    private void addModuleLineItem() {
+        //TODO--undo
+        ModuleLineItem li = new ModuleLineItem();
+        ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, li);
+        dialog.setSize(dialog.getPreferredSize());
+        dialog.setTitle("Create new Module Activity");
+        dialog.setVisible(true);
+        if (dialog.getReturnStatus() == ModuleActivityDialog.RET_OK) {
+            module.addModuleItem(li);
+        } 
     }
 
     JMenu getWindowMenu() {

@@ -75,7 +75,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		checkValidity();
 	    }
 	};
-	weekCountField.setValue(lineItem.getWeekCount());
+	weekCountField.setValue(lineItem.getWeekCount(module));
 	//TODO Focus listener to check for invalid data?
 	new FormattedTextFieldAdapter(weekCountField) {
 	    @Override

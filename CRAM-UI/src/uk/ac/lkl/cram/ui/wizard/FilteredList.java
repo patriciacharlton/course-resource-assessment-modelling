@@ -27,7 +27,7 @@ public class FilteredList<E> implements List<E> {
     private List<E> filteredList;
     private Filter<E> filter;
     private Comparator<E> listComparator;
-    private PropertyChangeSupport propertySupport; 
+    private final transient PropertyChangeSupport propertySupport; 
     
     
     public FilteredList(List<E> innerList) {
@@ -68,7 +68,7 @@ public class FilteredList<E> implements List<E> {
     
     
     private void applyFilter() {
-	filteredList = new ArrayList<E>();
+	filteredList = new ArrayList<>();
 	for (E object : underlyingList) {
 	    if (filter.isMatched(object)) {
 		filteredList.add(object);
@@ -206,6 +206,11 @@ public class FilteredList<E> implements List<E> {
 	return filteredList.subList(i, i1);
     }
     
+    /**
+     *
+     * @param <E>
+     */
+    @SuppressWarnings("PublicInnerClass")
     public interface Filter<E> {
 	public boolean isMatched(E object);
     }

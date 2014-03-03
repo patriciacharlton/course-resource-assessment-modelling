@@ -4,10 +4,12 @@ package uk.ac.lkl.cram.ui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -28,31 +30,48 @@ public class LineItemPanel extends javax.swing.JPanel {
     private static final String[] toolTipStr = {"","","","","non-weekly hours + (weekly hours * number of weeks)"};
     private static final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat( "#.0" );
 
-    public static final String PROP_SELECTED_LINEITEM = " selected_line_item";
-    private LineItem selectedLineItem = null;
-    private final Module module;
-
-    
+    private final Module module;  
 
     /**
      * Creates new form LineItemPanel
-     * @param module 
+     * @param m
+     * @param sharedSelectionModel  
      */
-    public LineItemPanel(Module module) {
+    public LineItemPanel(Module m, final LineItemSelectionModel sharedSelectionModel) {
 	initComponents();
-	this.module = module;
-	activitiesTable.setModel(new ModuleTableModel(module, true));
-	activitiesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+	this.module = m;
+	activitiesTable.setModel(new ModuleTableModel(m, true));
+        activitiesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                if (!lse.getValueIsAdjusting()) {
+                    int index = activitiesTable.getSelectedRow();
+                    LineItem selectedLineItem = null;
+                    if (index != -1) {
+                        int tlaCount = module.getTLALineItems().size();
+                        //Last row isn't really a TLA, it's the self-regulated learning
+                        if (index < tlaCount) {
+                            selectedLineItem = module.getTLALineItems().get(index);
+                        }
+                    }
+                    sharedSelectionModel.setSelectedLineItem(selectedLineItem);
+                }
+            }
+        });
+        sharedSelectionModel.addPropertyChangeListener(new PropertyChangeListener() {
 
-	    @Override
-	    public void valueChanged(ListSelectionEvent lse) {
-		if (!lse.getValueIsAdjusting()) {
-		    ListSelectionModel lsModel = (ListSelectionModel) lse.getSource();
-		    int selectionIndex = lsModel.getMinSelectionIndex();
-		    setSelectionIndex(selectionIndex);
-		}
-	    }
-	});
+            @Override
+            public void propertyChange(PropertyChangeEvent lse) {
+                LineItem selectedItem = (LineItem) lse.getNewValue();
+                int index = module.getTLALineItems().indexOf(selectedItem);
+                if (index == -1) {
+                    activitiesTable.clearSelection();
+                } else {
+                    activitiesTable.getSelectionModel().setSelectionInterval(index, index);
+                    activitiesTable.scrollRectToVisible(new Rectangle(activitiesTable.getCellRect(index, 0, true)));
+                }
+            }
+        });
 	TableCellRenderer activityRenderer = new ActivityRenderer();
 	activitiesTable.getColumnModel().getColumn(0).setCellRenderer(activityRenderer);
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
@@ -123,28 +142,11 @@ public class LineItemPanel extends javax.swing.JPanel {
     private javax.swing.JTable activitiesTable;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-    
-    private void setSelectionIndex(int index) {
-	LineItem oldValue = selectedLineItem;
-	selectedLineItem = null;
-	if (index != -1) {
-	    int tlaCount = module.getTLALineItems().size();
-	    //Last row isn't really a TLA, it's the self-regulated learning
-	    if (index < tlaCount) {
-		selectedLineItem = module.getTLALineItems().get(index);
-	    }
-	} 
-	firePropertyChange(PROP_SELECTED_LINEITEM, oldValue, selectedLineItem);
-    }
-
+        
     JTable getTable() {
 	return activitiesTable;
     }
 
-    LineItem getSelectedLineItem() {
-	return selectedLineItem;
-    }
-    
     @SuppressWarnings("serial")
     private class ActivityRenderer extends DefaultTableCellRenderer {
 
@@ -186,7 +188,7 @@ public class LineItemPanel extends javax.swing.JPanel {
                 builder.append(" + (");
                 builder.append(li.getWeeklyLearnerHourCount());
                 builder.append(" * ");
-                builder.append(li.getWeekCount());
+                builder.append(li.getWeekCount(module));
                 builder.append(")");
                 setToolTipText(builder.toString());
             } else {
