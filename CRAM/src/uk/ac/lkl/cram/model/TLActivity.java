@@ -4,7 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -15,6 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author Bernard Horan
  */
 @XmlType(propOrder = {"name", "maximumGroupSize", "studentTeacherInteraction", "learnerFeedback", "learningType", "learningExperience"})
+@SuppressWarnings("ClassWithoutLogger")
 public class TLActivity implements Serializable {   
 
     private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class TLActivity implements Serializable {
     
     private LearnerFeedback learnerFeedback;
     
-    private PropertyChangeSupport propertySupport;
+    private final transient PropertyChangeSupport propertySupport;
 
 
     TLActivity() {
@@ -145,6 +145,7 @@ public class TLActivity implements Serializable {
     }
 
     @Override
+    @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     public boolean equals(Object obj) {
 	if (obj == null) {
 	    return false;

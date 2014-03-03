@@ -42,7 +42,7 @@ public class TLALineItem implements LineItem {
     
     private TLActivity activity;
     
-    private PropertyChangeSupport propertySupport;
+    private final transient PropertyChangeSupport propertySupport;
 
     public TLALineItem() {
         propertySupport = new PropertyChangeSupport(this);
@@ -234,6 +234,11 @@ public class TLALineItem implements LineItem {
     public float getNumberOfIndividuals_Groups(ModulePresentation modulePresentation, Module module) {
 	float i = ((float) modulePresentation.getTotalStudentCount() / (float) getMaximumGroupSizeForPresentation(modulePresentation));
 	return (int) (i + 0.99);
+    }
+
+    @Override
+    public void removeFrom(Module module) {
+        module.removeTLALineItem(this);
     }
     
    

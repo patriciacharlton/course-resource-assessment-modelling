@@ -21,4 +21,6 @@ public interface LineItem extends Serializable, Calculable {
     public int getWeekCount(Module m);
 
     public float getNumberOfIndividuals_Groups(ModulePresentation modulePresentation, Module module);
+
+    public void removeFrom(Module m);
 }

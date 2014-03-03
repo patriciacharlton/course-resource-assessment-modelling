@@ -32,7 +32,7 @@ public class ModulePresentation implements Serializable, Calculable {
     
     @XmlAttribute
     private Run run;
-    private PropertyChangeSupport propertySupport;
+    private final transient PropertyChangeSupport propertySupport;
 
     public ModulePresentation(Run aRun, int homeStudentCount, int homeFee, int overseasStudentCount, int overseasFee, int juniorCostPerDay, int seniorCostPerDay) {
 	this(aRun);
