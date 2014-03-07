@@ -16,10 +16,12 @@ import uk.ac.lkl.cram.model.ModulePresentation.Run;
 import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**
- * $Date$
- * $Revision$
+ * This class represents a CRAM module, and is the outermost container of
+ * the data that describes a module.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @XmlRootElement(name = "module")
 @XmlType(propOrder = {"moduleName", "totalCreditHourCount", "weekCount", "tutorGroupSize", "tlaLineItems", "moduleLineItems", "presentations"})
 @SuppressWarnings("serial")
@@ -27,11 +29,45 @@ public class Module implements Serializable, Calculable {
 
     private static final Logger LOGGER = Logger.getLogger(Module.class.getName());
 
+    /**
+     * Property to indicate when the contents of the list of
+     * TLA Line Items has been updated.
+     * @see TLALineItem
+     * @see Module#addTLALineItem(TLALineItem) 
+     * @see LineItem#removeFrom(Module) 
+     */
     public static final String PROP_TLA_LINEITEM = "tlaLineItem";
+    /**
+     * Property to indicate when the contents of the list of
+     * Module Line Items has been updated.
+     * @see ModuleLineItem
+     * @see Module#addModuleItem(ModuleLineItem)
+     * @see LineItem#removeFrom(Module) 
+     */
     public static final String PROP_MODULE_LINEITEM = "moduleLineItem";
+    /**
+     * Property to indicate when the name of the module
+     * has been updated.
+     * @see Module#setModuleName(java.lang.String) 
+     */
     public static final String PROP_NAME = "name";
+    /**
+     * Property to indicate when the number of credit hours for 
+     * the module has been updated.
+     * @see Module#setTotalCreditHourCount(int) 
+     */
     public static final String PROP_HOUR_COUNT = "hour_count";
+    /**
+     * Property to indicate when the number of weeks for 
+     * the module has been updated.
+     * @see Module#setWeekCount(int)
+     */
     public static final String PROP_WEEK_COUNT = "week_count";
+    /**
+     * Property to indicate when the tutor group size for
+     * the module has been updated.
+     * @see Module#setTutorGroupSize(int) 
+     */
     public static final String PROP_GROUP_SIZE = "group_size";
 
     @XmlElementWrapper(name = "tlaLineItems")
@@ -61,6 +97,9 @@ public class Module implements Serializable, Calculable {
     
     private final transient PropertyChangeSupport propertySupport;
 
+    /**
+     * Create a new Module with no name.
+     */
     public Module() {
 	propertySupport = new PropertyChangeSupport(this);
 	moduleName = "";
@@ -69,11 +108,20 @@ public class Module implements Serializable, Calculable {
 	presentations[2] = new ModulePresentation(Run.THIRD);
     }
 
+    /**
+     * Create a new Module with the specified name.
+     * @param name name of the module.
+     */
     public Module(String name) {
 	this();
 	moduleName = name;
     }
 
+    /**
+     * Add a TTLALine item to the list of tlaLineItems for this module.
+     * @param lineItem the new TLALineItem to be added.
+     * @see TLALineItem
+     */
     public void addTLALineItem(TLALineItem lineItem) {
 	tlaLineItems.add(lineItem);
 	int index = tlaLineItems.indexOf(lineItem);
@@ -92,28 +140,57 @@ public class Module implements Serializable, Calculable {
         propertySupport.fireIndexedPropertyChange(PROP_MODULE_LINEITEM, i, moduleItem, null);
     }
     
+    /**
+     * Remove a lineItem from the module.<p>
+     * This double dispatches based on the class of the lineItem
+     * @param li the line item to be removed
+     * @see LineItem#removeFrom(Module) 
+     * 
+     */
     public void removeLineItem(LineItem li) {
         //Double dispatch
         li.removeFrom(this);
     }
 
+    /**
+     * Return the list of TLALineItems managed by this module
+     * @return a List of TLALineItems
+     * @see TLALineItem
+     */
     @SuppressWarnings("ReturnOfCollectionOrArrayField")
     public List<TLALineItem> getTLALineItems() {
 	return tlaLineItems;
     }
 
+    /**
+     * Return the name of this module
+     * @return the module name
+     */
     public String getModuleName() {
 	return moduleName;
     }
 
+    /**
+     * Return the number of credit hours for this module
+     * @return the number of credit hours
+     */
     public int getTotalCreditHourCount() {
 	return totalCreditHourCount;
     }
 
+    /**
+     * return the number of weeks for which this module runs
+     * @return the number of weeks for which this module runs
+     */
     public int getWeekCount() {
 	return weekCount;
     }
 
+    /**
+     * Set the number of weeks for which this module runs
+     * @param i the number of weeks for which this module runs
+     * @see Module#PROP_WEEK_COUNT
+     */
     @XmlAttribute
     public void setWeekCount(int i) {
 	int oldValue = weekCount;
@@ -121,6 +198,11 @@ public class Module implements Serializable, Calculable {
 	propertySupport.firePropertyChange(PROP_WEEK_COUNT, oldValue, weekCount);
     }
 
+    /**
+     * Set the tutor group size for this module
+     * @param i the tutor group size for this module
+     * @see Module#PROP_GROUP_SIZE
+     */
     @XmlAttribute
     public void setTutorGroupSize(int i) {
 	int oldValue = tutorGroupSize;
@@ -140,6 +222,12 @@ public class Module implements Serializable, Calculable {
 	presentations[2] = modulePresentation;
     }
 
+    /**
+     * Return the number of hours of self-regulated learning<p>
+     * Calculated by subtracting the total number of learner hours spent in the 
+     * TLAs from the number of credit hours
+     * @return the number of hours for self-regulated learning
+     */
     @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getSelfRegulatedLearningHourCount() {
 	float totalHourCount = 0;
@@ -161,21 +249,40 @@ public class Module implements Serializable, Calculable {
 	return presentations[2];
     }
 
+    /**
+     * Add a module item to the list of module items
+     * @param mi a module item
+     * @see Module#PROP_MODULE_LINEITEM
+     */
     public void addModuleItem(ModuleLineItem mi) {
 	moduleLineItems.add(mi);
 	int index = moduleLineItems.indexOf(mi);
 	propertySupport.fireIndexedPropertyChange(PROP_MODULE_LINEITEM, index, null, mi);
     }
 
+    /**
+     * Return the list of module items
+     * @return the list of module items
+     */
     @SuppressWarnings("ReturnOfCollectionOrArrayField")
     public List<ModuleLineItem> getModuleItems() {
 	return moduleLineItems;
     }
 
+    /**
+     * The size of the tutor group
+     * @return the size of the tutor group
+     */
     public int getTutorGroupSize() {
 	return tutorGroupSize;
     }
 
+    /**
+     * Return the total number of hours spent in preparation for all the
+     * TLAs for the specified module presentation (or 'run')
+     * @param modulePresentation the presentation (or 'run') for which the number of presentation hours is required
+     * @return the number of presentation hours spent on all the TLAs for the specified run
+     */
     @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalPreparationHours(ModulePresentation modulePresentation) {
 	float totalHours = 0;
@@ -188,6 +295,12 @@ public class Module implements Serializable, Calculable {
 	return totalHours;
     }
 
+    /**
+     * Return the total cost spent in preparation for all the 
+     * TLAs for the specified module presentation (or 'run')
+     * @param modulePresentation the presentation (or 'run') for which the cost is required
+     * @return the total cost involved in preparing for the specified run
+     */
     @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalPreparationCost(ModulePresentation modulePresentation) {
 	float totalCost = 0;
@@ -200,6 +313,12 @@ public class Module implements Serializable, Calculable {
 	return totalCost;
     }
 
+    /**
+     * Return the total number of hours spent in support for all the
+     * TLAs AND module items for the specified module presentation (or 'run')
+     * @param modulePresentation the presentation (or 'run') for which the number of support hours is required
+     * @return the number of presentation hours spent on all the activities (TLA and module activities) for the specified run
+     */
     @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalSupportHours(ModulePresentation modulePresentation) {
 	float totalHours = 0;
@@ -214,6 +333,12 @@ public class Module implements Serializable, Calculable {
 	return totalHours;
     }
 
+    /**
+     * Return the total cost spent in support for all the 
+     * activities (TLAs and module activities) for the specified module presentation (or 'run')
+     * @param modulePresentation the presentation (or 'run') for which the cost is required
+     * @return the total cost involved in supporting the specified run
+     */
     @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalSupportCost(ModulePresentation modulePresentation) {
 	float totalCost = 0;
@@ -228,18 +353,44 @@ public class Module implements Serializable, Calculable {
 	return totalCost;
     }
 
+    /**
+     * Return the list of module presentations (or 'runs'), which should contain
+     * three elements.
+     * @return the list of module presentations
+     */
     public List<ModulePresentation> getModulePresentations() {
 	return Arrays.asList(presentations);
     }
 
+    /**
+     * Return the total hours spent on a module presentation (or 'run'). This is
+     * the sum of the total preparation hours and the total support hours
+     * @param mp the specified module presentation (or 'run')
+     * @return the total number of hours spend in supporting and preparing for this module presentation
+     * @see Module#getTotalPreparationHours(ModulePresentation) 
+     * @see Module#getTotalSupportHours(ModulePresentation) 
+     */
     public float getTotalHours(ModulePresentation mp) {
 	return getTotalPreparationHours(mp) + getTotalSupportHours(mp);
     }
 
+    /**
+     * Return the total cost for a module presentation (or 'run'). This is 
+     * the sum of the total preparation cost and the total support cost.
+     * @param mp the specified module presentation (or 'run')
+     * @return the total cost of supporting and preparing this module presentation
+     * @see Module#getTotalPreparationCost(ModulePresentation) 
+     * @see Module#getTotalSupportCost(ModulePresentation) 
+     */
     public float getTotalCost(ModulePresentation mp) {
 	return getTotalPreparationCost(mp) + getTotalSupportCost(mp);
     }
 
+    /**
+     * Set the name of the module
+     * @param text the name of the module
+     * @see Module#PROP_NAME
+     */
     @XmlAttribute
     public void setModuleName(String text) {
 	String oldValue = moduleName;
@@ -247,6 +398,11 @@ public class Module implements Serializable, Calculable {
 	propertySupport.firePropertyChange(PROP_NAME, oldValue, moduleName);
     }
 
+    /**
+     * Set the number of credit hours for the module
+     * @param i the number of credit hours for the module
+     * @see Module#PROP_HOUR_COUNT
+     */
     @XmlAttribute
     public void setTotalCreditHourCount(int i) {
 	int oldValue = totalCreditHourCount;
@@ -255,6 +411,14 @@ public class Module implements Serializable, Calculable {
 	
     }
 
+    /**
+     * Return the list of line items (a new collection containing
+     * the TLALineItems appended by the moduleItems)
+     * @return a list of all the line items managed by this module
+     * @see LineItem
+     * @see TLALineItem
+     * @see ModuleLineItem
+     */
     public List<LineItem> getLineItems() {
 	List<LineItem> cramItems = new ArrayList<>();
 	cramItems.addAll(tlaLineItems);
@@ -262,26 +426,38 @@ public class Module implements Serializable, Calculable {
 	return cramItems;
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.addPropertyChangeListener(listener);
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }
     
     
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener) 
+     */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 	propertySupport.addPropertyChangeListener(propertyName, listener);
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener) 
+     */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(propertyName, listener);
     }
 
-    /* (non-Javadoc)
+    /* 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -301,7 +477,7 @@ public class Module implements Serializable, Calculable {
 	return result;
     }
 
-    /* (non-Javadoc)
+    /* 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

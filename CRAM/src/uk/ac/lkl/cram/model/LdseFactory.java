@@ -14,11 +14,12 @@ import uk.ac.lkl.cram.ldse.Tla;
 import uk.ac.lkl.cram.ldse.Tlas;
 
 /**
- * $Date$
  * This class creates CRAM TLAs from LDSE TLA, but not particularly successfully because
  * the LDSE TLAs have different properties, so there is little commonality.
  * @author Bernard Horan
+ * @version $Revision$
  */
+//$Date$
 public class LdseFactory {
     private static final Logger LOGGER = Logger.getLogger(LdseFactory.class.getName());
     

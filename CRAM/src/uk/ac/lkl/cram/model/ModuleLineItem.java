@@ -12,13 +12,19 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 
 /**
- * $Date$
- * $Revision$
+ * This class represents a module activity. There is no underlying 'product'
+ * because a module activity only has a name and no other structure.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @XmlType(propOrder = {"name", "supportMap"})
 @SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class ModuleLineItem implements LineItem {
+    /**
+     * Property to indicate that the name of the modulelineitem has changed
+     * @see ModuleLineItem#setName(String) 
+     */
     public static final String PROP_NAME = "name";
     private String name;
     @XmlJavaTypeAdapter(XmlGenericMapAdapter.class)
@@ -27,10 +33,17 @@ public class ModuleLineItem implements LineItem {
     
     private final transient PropertyChangeSupport propertySupport;
 
+    /**
+     * Default constructor creates a module line item with a null name.
+     */
     public ModuleLineItem() {
 	propertySupport = new PropertyChangeSupport(this);
     }
 
+    /**
+     * Create a  module line item with the given name
+     * @param name the name for the new module line item
+     */
     public ModuleLineItem(String name) {
         this();
         this.name = name;
@@ -56,6 +69,11 @@ public class ModuleLineItem implements LineItem {
         return name;
     }
 
+    /**
+     * Set the name of the module line item.
+     * @param name the name of the module line item
+     * @see ModuleLineItem#PROP_NAME
+     */
     @XmlAttribute
     public void setName(String name) {
         String oldName = this.name;
@@ -64,10 +82,10 @@ public class ModuleLineItem implements LineItem {
     }
 
     /**
-     * Get the value of weekCount
+     * Get the number of weeks the activity runs for
      *
-     * @param m 
-     * @return the value of weekCount
+     * @param m the module of which the module line item is a part
+     * @return the number of weeks the activity runs for
      */
     @Override
     public int getWeekCount(Module m) {
@@ -101,16 +119,24 @@ public class ModuleLineItem implements LineItem {
 	return true;
     }
 
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
 
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(listener);
     }
 
+    //A module line item has no preparation time, so override to return a
+    //preparation time with zero hours and zero cost
     @Override
     public PreparationTime getPreparationTime(ModulePresentation mp) {
 	return new PreparationTime() {

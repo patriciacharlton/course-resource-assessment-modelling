@@ -9,10 +9,12 @@ import uk.ac.lkl.cram.model.io.ModuleExporter;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 
 /**
- * $Date$
- * $Revision$
+ * Example class with main() method to create module document. Based on AELM
+ * module description.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("ClassWithoutLogger")
 public class AELMTest extends ExampleTest {
 

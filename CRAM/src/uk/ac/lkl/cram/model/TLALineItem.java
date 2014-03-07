@@ -12,17 +12,38 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 
 /**
- * $Date$
- * $Revision$
+ * This class describes the way in which a teaching-learning activity is used
+ * by a module. It takes the shopping trolley pattern: the TLA is the product,
+ * whereas this class represents quantity of product.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @XmlType(propOrder = {"weeklyLearnerHourCount", "weekCount", "nonWeeklyLearnerHourCount", "activity", "preparationMap", "supportMap"})
 @SuppressWarnings({"serial", "ClassWithoutLogger"})
 public class TLALineItem implements LineItem {
 
+    /**
+     * Property to indicate change in underlying activity.
+     * @see TLALineItem#setActivity(TLActivity) 
+     */
     public static final String PROP_ACTIVITY = "activity";
+    /**
+     * Property to indicate change in the number of non-weekly hours spent
+     * by the student
+     * @see TLALineItem#setNonWeeklyLearnerHourCount(float) 
+     */
     public static final String PROP_NON_WEEKLY = "nonWeekly";
+    /**
+     * Property to indicate change in the number of weeks this activity runs
+     * @see TLALineItem#setWeekCount(int) 
+     */
     public static final String PROP_WEEKCOUNT = "weekCount";
+    /**
+     * Property to indicate change in the number of weekly hours spent by the 
+     * student
+     * @see TLALineItem#setWeeklyLearnerHourCount(float) 
+     */
     public static final String PROP_WEEKLY = "weekly";
     //The number of hours per week that the student is expected to spend learning
     private float weeklyLearnerHourCount;
@@ -44,6 +65,9 @@ public class TLALineItem implements LineItem {
     
     private final transient PropertyChangeSupport propertySupport;
 
+    /**
+     * Default Constructor. 
+     */
     public TLALineItem() {
         propertySupport = new PropertyChangeSupport(this);
         activity = new TLActivity();
@@ -60,6 +84,16 @@ public class TLALineItem implements LineItem {
         this.nonWeeklyLearnerHourCount = nonWeeklyLearnerHourCount;
     }
 
+    /**
+     * Return the maximum tutor group size for a module presentation ('run'). 
+     * This is dependent on the kind of learning experience provided by the
+     * teaching-learning activity. If the activity is personalised, the tutor
+     * group size is 1; if the activity is social, then the tutor group size is
+     * the maximum group size for the activity; otherwise the tutor group size 
+     * is the cohort size for the module presentation
+     * @param presentation the module presentation ('run') that this teaching-learning activity is running in
+     * @return the maximum tutor group size
+     */
     public int getMaximumGroupSizeForPresentation(ModulePresentation presentation) {
         switch (activity.getLearningExperience()) {
 	    case PERSONALISED: {
@@ -77,10 +111,19 @@ public class TLALineItem implements LineItem {
 	}
     }
 
+    /**
+     * Return the number of hours per week that the student will undertake the activity
+     * @return the number of hours per week that the student will undertake the activity
+     */
     public float getWeeklyLearnerHourCount() {
         return weeklyLearnerHourCount;
     }
 
+    /**
+     * Set the number of hours per week that the student will undertake the activity
+     * @param f the number of hours per week that the student will undertake the activity
+     * @see TLALineItem#PROP_WEEKLY
+     */
     @XmlAttribute
     public void setWeeklyLearnerHourCount(float f) {
         float oldValue = weeklyLearnerHourCount;
@@ -89,10 +132,9 @@ public class TLALineItem implements LineItem {
     }
 
     /**
-     * Get the value of weekCount
-     *
-     * @param m 
-     * @return the value of weekCount
+     * Return the number of weeks that the student will undertake the activity
+     * @return the number of weeks that the student will undertake the activity         *
+     * @param m the module that contains this teaching-learning activity
      */
     @Override
     public int getWeekCount(Module m) {
@@ -100,9 +142,9 @@ public class TLALineItem implements LineItem {
     }
 
     /**
-     * Set the value of weekCount
-     *
-     * @param weekCount new value of weekCount
+     * Set the  number of weeks that the student will undertake the activity
+     * @param weekCount the number of weeks that the student will undertake the activity
+     * @see TLALineItem#PROP_WEEKCOUNT
      */
     public void setWeekCount(int weekCount) {
 	int oldWeekCount = this.weekCount;
@@ -110,10 +152,19 @@ public class TLALineItem implements LineItem {
 	propertySupport.firePropertyChange(PROP_WEEKCOUNT, oldWeekCount, weekCount);
     }
     
+    /**
+     * Return the number of non-weekly hours that the student will undertake the activity
+     * @return the number of non-weekly hours that the student will undertake the activity
+     */
     public float getNonWeeklyLearnerHourCount() {
         return nonWeeklyLearnerHourCount;
     }
 
+    /**
+     * Set the number of non-weekly hours that the student will undertake the activity 
+     * @param f the number of non-weekly hours that the student will undertake the activity
+     * @see TLALineItem#PROP_NON_WEEKLY
+     */
     @XmlAttribute
     public void setNonWeeklyLearnerHourCount(float f) {
         float oldValue = nonWeeklyLearnerHourCount;
@@ -121,6 +172,13 @@ public class TLALineItem implements LineItem {
         propertySupport.firePropertyChange(PROP_NON_WEEKLY, oldValue, nonWeeklyLearnerHourCount);
     }
 
+    /**
+     * Return the total number of hours that the student spends on the activity.
+     * That is the number of weeks multiplied by the number of hours per week,
+     * plus the number of non-weekly hours
+     * @param module the module of which the activity is a part
+     * @return the total number of hours spent by the student on the activity
+     */
     public float getTotalLearnerHourCount(Module module) {
         return weekCount * weeklyLearnerHourCount + nonWeeklyLearnerHourCount;
     }
@@ -154,6 +212,10 @@ public class TLALineItem implements LineItem {
         return st;
     }
 
+    /**
+     * Return the activity described by this line item
+     * @return
+     */
     public TLActivity getActivity() {
         return activity;
     }
@@ -163,27 +225,44 @@ public class TLALineItem implements LineItem {
         return activity.getName();
     }
 
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
 
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(listener);
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener) 
+     */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(propertyName, listener);
     }
 
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener) 
+     */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(propertyName, listener);
     }
 
-    public void setActivity(TLActivity selectedTLA) {
+    /**
+     * Set the teaching-learning activity described by this line item
+     * @param theTLA the teaching-learning activity described by this line item
+     * @see TLALineItem#PROP_ACTIVITY
+     */
+    public void setActivity(TLActivity theTLA) {
         TLActivity oldValue = activity;
-        this.activity = selectedTLA;
+        this.activity = theTLA;
         propertySupport.firePropertyChange(PROP_ACTIVITY, oldValue, activity);
     }
 

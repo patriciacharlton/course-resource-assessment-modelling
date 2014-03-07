@@ -13,10 +13,11 @@ import uk.ac.lkl.cram.model.io.ModuleExporter;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 
 /**
- * $Date$
- * $Revision$
+ * Example class with main() method to produce example Module document.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("ClassWithoutLogger")
 public class ExampleTest {
 

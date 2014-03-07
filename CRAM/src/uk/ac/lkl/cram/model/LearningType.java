@@ -5,20 +5,44 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAttribute;
 /**
- * $Date$
- * $Revision$
+ * Class to represent the learning type for a teaching-learning activity.
+ * @see TLActivity#setLearningType(LearningType) 
+ * @version $Revision$
  * @author Bernard Horan
  */
-
-@SuppressWarnings("ClassWithoutLogger")
+//$Date$
+@SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class LearningType implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * Property to indicate the change in value for the acquisition
+     * @see LearningType#setAcquisition(int) 
+     */
     public static final String PROP_ACQUISITION = "acquisition";
+    /**
+     * Property to indicate the change in value for the discussion
+     * @see LearningType#setDiscussion(int) 
+     */
     public static final String PROP_DISCUSSION = "discussion";
+    /**
+     * Property to indicate the change in value for the inquiry
+     * @see LearningType#setInquiry(int) 
+     */
     public static final String PROP_INQUIRY = "inquiry";
+    /**
+     * Property to indicate the change in value for the practice
+     * @see LearningType#setPractice(int) 
+     */
     public static final String PROP_PRACTICE = "practice";
+    /**
+     * Property to indicate the change in value for the production
+     * @see LearningType#setProduction(int) 
+     */
     public static final String PROP_PRODUCTION = "production";
+    /**
+     * Property to indicate the change in value for the collaboration
+     * @see LearningType#setCollaboration(int) 
+     */
     public static final String PROP_COLLABORATION = "collaboration"; 
     
     //These should all be in the range 0 <= x <= 100
@@ -36,12 +60,14 @@ public class LearningType implements Serializable {
     }
     
     /**
-     * @param aquisition
-     * @param inquiry
-     * @param discussion
-     * @param practice
-     * @param production
-     * @param collaboration  
+     * Create a new instance of a LearningType with the supplied parameters, each
+     * of which should be in the range 0 <= x <= 100
+     * @param aquisition the amount of acquisition this learning type represents
+     * @param inquiry the amount of inquiry this learning type represents
+     * @param discussion the amount of discussion this learning type represents
+     * @param practice the amount of practice this learning type represents
+     * @param production the amount of production this learning type represents
+     * @param collaboration the amount of collaboration this learning type represents
      */
     public LearningType(int aquisition, int inquiry, int discussion,
 	    int practice, int production, int collaboration) {
@@ -77,30 +103,59 @@ public class LearningType implements Serializable {
 	}
     }
 
+    /**
+     * Return the amount of acquisition this learning type represents
+     * @return the amount of acquisition this learning type represents
+     */
     public int getAcquisition() {
 	return acquisition;
     }
 
+    /**
+     * Return the amount of inquiry this learning type represents
+     * @return the amount of inquiry this learning type represents
+     */
     public int getInquiry() {
 	return inquiry;
     }
 
+    /**
+     * Return the amount of discussion this learning type represents
+     * @return the amount of discussion this learning type represents
+     */
     public int getDiscussion() {
 	return discussion;
     }
 
+    /**
+     * Return the amount of practice this learning type represents
+     * @return the amount of practice this learning type represents
+     */
     public int getPractice() {
 	return practice;
     }
 
+    /**
+     * Return the amount of production this learning type represents
+     * @return the amount of production this learning type represents
+     */
     public int getProduction() {
 	return production;
     }
     
+    /**
+     * Return the amount of collaboration this learning type represents
+     * @return the amount of collaboration this learning type represents
+     */
     public int getCollaboration() {
 	return collaboration;
     }
 
+    /**
+     * Set the amount of acquisition this learning type represents
+     * @param i the amount of acquisition this learning type represents
+     * @see LearningType#PROP_ACQUISITION
+     */
     @XmlAttribute
     public void setAcquisition(int i) {
 	int oldValue = acquisition;
@@ -108,6 +163,11 @@ public class LearningType implements Serializable {
 	propertySupport.firePropertyChange(PROP_ACQUISITION, oldValue, acquisition);	
     }
     
+    /**
+     * Set the amount of discussion this learning type represents
+     * @param i the amount of discussion this learning type represents
+     * @see LearningType#PROP_DISCUSSION
+     */
     @XmlAttribute
     public void setDiscussion(int i) {
 	int oldValue = discussion;
@@ -115,6 +175,11 @@ public class LearningType implements Serializable {
 	propertySupport.firePropertyChange(PROP_DISCUSSION, oldValue, discussion);
     }    
 
+    /**
+     * Set the amount of inquiry this learning type represents
+     * @param i the amount of inquiry this learning type represents
+     * @see LearningType#PROP_INQUIRY
+     */
     @XmlAttribute
     public void setInquiry(int i) {
 	int oldValue = inquiry;
@@ -122,6 +187,11 @@ public class LearningType implements Serializable {
 	propertySupport.firePropertyChange(PROP_INQUIRY, oldValue, inquiry);
     }    
 
+    /**
+     * Set the amount of practice this learning type represents
+     * @param i the amount of practice this learning type represents
+     * @see LearningType#PROP_PRACTICE
+     */
     @XmlAttribute
     public void setPractice(int i) {
 	int oldValue = practice;
@@ -129,6 +199,11 @@ public class LearningType implements Serializable {
 	propertySupport.firePropertyChange(PROP_PRACTICE, oldValue, practice);
     }
     
+    /**
+     * Set the amount of production this learning type represents
+     * @param i the amount of production this learning type represents
+     * @see LearningType#PROP_PRODUCTION
+     */
     @XmlAttribute
     public void setProduction(int i) {
 	int oldValue = production;
@@ -136,6 +211,11 @@ public class LearningType implements Serializable {
 	propertySupport.firePropertyChange(PROP_PRODUCTION, oldValue, production);
     }
     
+    /**
+     * Set the amount of collaboration this learning type represents
+     * @param i the amount of collaboration this learning type represents
+     * @see LearningType#PROP_COLLABORATION
+     */
     @XmlAttribute
     public void setCollaboration(int i) {
 	int oldValue = collaboration;
@@ -143,10 +223,16 @@ public class LearningType implements Serializable {
 	propertySupport.firePropertyChange(PROP_COLLABORATION, oldValue, collaboration);
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.addPropertyChangeListener(listener);
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }
