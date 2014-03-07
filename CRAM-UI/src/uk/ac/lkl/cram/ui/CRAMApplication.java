@@ -35,6 +35,7 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
+import org.openide.util.Exceptions;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 import uk.ac.lkl.cram.model.io.ModuleUnmarshaller;
@@ -210,6 +211,13 @@ public class CRAMApplication {
                 saveModule(moduleFrame);
             }
         });
+        moduleFrame.getDuplicateMenuItem().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                duplicateModule(moduleFrame);
+            }
+        });
     
         moduleFrame.setLocation(frameOffset);
         int offset = moduleFrame.getInsets().top;
@@ -273,6 +281,28 @@ public class CRAMApplication {
                 LOGGER.log(Level.SEVERE, "Failed to save file", ioe);
             }
         }
+    }
+    
+    private void duplicateModule(ModuleFrame moduleFrame) {
+        try {
+            //Marshall the existing module to a file then read it in again
+            //This avoids having to deal with cloning objects
+            Module module = moduleFrame.getModule();
+            String moduleName = module.getModuleName();
+            File tempFile = File.createTempFile("CRAM", "mamx");
+            tempFile.deleteOnExit();
+            ModuleMarshaller marshaller = new ModuleMarshaller(tempFile);
+            marshaller.marshallModule(module);
+            ModuleUnmarshaller unmarshaller = new ModuleUnmarshaller(tempFile);
+            Module duplicateModule = unmarshaller.unmarshallModule();
+            String duplicateModuleName = moduleName + " (Copy)";
+            duplicateModule.setModuleName(duplicateModuleName);
+            addModule(duplicateModule, duplicateModuleName);
+        } catch (IOException | JAXBException ex) {
+            LOGGER.log(Level.SEVERE, "Unable to duplicate module", ex);
+            JOptionPane.showMessageDialog(moduleFrame, "See log for details", "Unable to duplicate module", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
     
     private boolean createNewModule() {

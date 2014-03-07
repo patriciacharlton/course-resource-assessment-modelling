@@ -95,6 +95,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         newMI = new javax.swing.JMenuItem();
         openMI = new javax.swing.JMenuItem();
+        duplicateMI = new javax.swing.JMenuItem();
         saveMI = new javax.swing.JMenuItem();
         saveAsMI = new javax.swing.JMenuItem();
         quitMI = new javax.swing.JMenuItem();
@@ -152,6 +153,9 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         org.openide.awt.Mnemonics.setLocalizedText(openMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.openMI.text")); // NOI18N
         fileMenu.add(openMI);
+
+        org.openide.awt.Mnemonics.setLocalizedText(duplicateMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.duplicateMI.text")); // NOI18N
+        fileMenu.add(duplicateMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(saveMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveMI.text")); // NOI18N
         saveMI.setEnabled(false);
@@ -247,6 +251,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem addModuleLineItemMI;
     private javax.swing.JMenuItem addTLALineItemMI;
+    private javax.swing.JMenuItem duplicateMI;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JScrollPane jScrollPane1;
@@ -433,6 +438,10 @@ public class ModuleFrame extends javax.swing.JFrame {
     
     JMenuItem getSaveAsMenuItem() {
         return saveAsMI;
+    }
+
+    JMenuItem getDuplicateMenuItem() {
+        return duplicateMI;
     }
     
     Module getModule() {
