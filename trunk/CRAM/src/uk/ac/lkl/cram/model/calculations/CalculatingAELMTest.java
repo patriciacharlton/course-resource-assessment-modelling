@@ -1,8 +1,14 @@
-package uk.ac.lkl.cram.model;
+package uk.ac.lkl.cram.model.calculations;
 
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import uk.ac.lkl.cram.model.AELMTest;
+import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.ModulePresentation;
+import uk.ac.lkl.cram.model.PreparationTime;
+import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.model.calculations.Calculation;
 import uk.ac.lkl.cram.model.calculations.Evaluator;
 

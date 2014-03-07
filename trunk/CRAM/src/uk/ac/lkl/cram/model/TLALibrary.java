@@ -15,17 +15,21 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * $Date$
- * $Revision$
- * This class represents the library of TLAs
+ * This class represents the library of TLAs. It is used to manage the 
+ * pre-defined TLAs.
  * @author Bernard Horan
- * 
+ * @version $Revision$
  */
+//$Date$
 @XmlRootElement(name = "library")
 public class TLALibrary {
     private static String DEFAULT_LIBRARY_NAME = "TLALibrary.xml";
     private static final Logger LOGGER = Logger.getLogger(TLALibrary.class.getName());
     
+    /**
+     * Return the default library of TLAs that has been read from the xml file.
+     * @return the instance of the library 
+     */
     public static TLALibrary getDefaultLibrary() {
         try {
             JAXBContext context = JAXBContext.newInstance(TLALibrary.class);
@@ -44,19 +48,34 @@ public class TLALibrary {
     @XmlElement(name = "activity")
     private Set<TLActivity> activities = new HashSet<>();
     
+    /**
+     * Default constructor
+     */
     public TLALibrary() {
         
     }
     
+    /**
+     * Return the set of teaching-learning activities in this library
+     * @return the set of teaching-learning activities
+     */
     @SuppressWarnings("ReturnOfCollectionOrArrayField")
     public Set<TLActivity> getActivities() {
         return activities;
     }
 
+    /**
+     * Add an activity to the library
+     * @param activity the activity to be added to the library
+     */
     public void addActivity(TLActivity activity) {
         activities.add(activity);
     }
 
+    /**
+     * Export the library to the XML file.
+     * @throws JAXBException
+     */
     public void exportDefaultLibrary() throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(TLALibrary.class);
         Marshaller marshaller = context.createMarshaller();

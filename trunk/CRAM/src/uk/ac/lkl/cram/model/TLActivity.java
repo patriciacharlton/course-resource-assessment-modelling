@@ -9,17 +9,29 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * $Date$
- * $Revision$
+ * This class represents a teaching-learning activity.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @XmlType(propOrder = {"name", "maximumGroupSize", "studentTeacherInteraction", "learnerFeedback", "learningType", "learningExperience"})
-@SuppressWarnings("ClassWithoutLogger")
+@SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class TLActivity implements Serializable {   
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * Property to indicate change of name of activity
+     * @see TLActivity#setName(String) 
+     */
     public static final String PROP_NAME = "name";
+    /**
+     * Property to indicate change of learning experience
+     * @see TLActivity#setLearningExperience(EnumeratedLearningExperience) 
+     */
     public static final String PROP_LEARNING_EXPERIENCE = "learning_experience";
+    /**
+     * Property to indicate change of maximum group size
+     * @see TLActivity#setMaximumGroupSize(int) 
+     */
     public static final String PROP_MAX_GROUP_SIZE = "maxGroupSize";
     
     private LearningType learningType; //acquisition, practice, etc.
@@ -48,6 +60,10 @@ public class TLActivity implements Serializable {
 	maximumGroupSize = 0;
     }
     
+    /**
+     * Create a new teaching-learning activity with the given name
+     * @param name the name of the new teaching-learning activity
+     */
     public TLActivity(String name) {
 	this();
 	this.name = name;
@@ -58,6 +74,12 @@ public class TLActivity implements Serializable {
 	this.learningType = learningType;
     }
 
+    /**
+     * Set the kind of learning experience for this teaching-learning activity.
+     * The learning experience is one taken from an enumerated type
+     * @param le the learning experience
+     * @see TLActivity#PROP_LEARNING_EXPERIENCE
+     */
     @XmlAttribute
     public void setLearningExperience(EnumeratedLearningExperience le) {
 	EnumeratedLearningExperience oldValue = learningExperience;
@@ -65,10 +87,19 @@ public class TLActivity implements Serializable {
 	propertySupport.firePropertyChange(PROP_LEARNING_EXPERIENCE, oldValue, learningExperience);
     }
 
+    /**
+     * Return the name of the teaching-learning experience
+     * @return the name of the teaching-learning experience
+     */
     public String getName() {
 	return name;
     }
     
+    /**
+     * Set the name of the teaching-learning experience
+     * @param text the name of the teaching-learning experience
+     * @see TLActivity#PROP_NAME
+     */
     @XmlAttribute
     public void setName(String text) {
 	String oldValue = name;
@@ -76,42 +107,74 @@ public class TLActivity implements Serializable {
 	propertySupport.firePropertyChange(PROP_NAME, oldValue, name);
     }
 
+    /**
+     * Return the learning type for the teaching-learning activity
+     * @return the learning type for the learning experience
+     */
     public LearningType getLearningType() {
 	return learningType;
     }
 
+    /**
+     * return the (enumerated) learning experience for the teaching-learning activity
+     * @return the learning experience for the teaching-learning activity
+     */
     public EnumeratedLearningExperience getLearningExperience() {
 	return learningExperience;
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.addPropertyChangeListener(listener);
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener) 
+     */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 	propertySupport.addPropertyChangeListener(propertyName, listener);
     }
     
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener) 
+     */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(propertyName, listener);
     }
     
     
   
+    /**
+     * Set the (enumerated) learning feedback for the teaching-learning activity
+     * @param learnerFeedback the learning feedback for the teaching-learning activity 
+     */
     @XmlAttribute
     public void setLearnerFeedback(LearnerFeedback learnerFeedback) {
 	this.learnerFeedback = learnerFeedback;
     }
     
+    /**
+     * Return the (enumerated) learning feedback for the teaching-learning activity
+     * @return the learning feedback for the teaching-learning activity
+     */
     public LearnerFeedback getLearnerFeedback() {
 	return learnerFeedback;
     }
     
     
+    /**
+     * Return the student-teaching interaction for the teaching-learning activity
+     * @return the student-teaching interaction for the teaching-learning activity
+     */
     public StudentTeacherInteraction getStudentTeacherInteraction() {
 	return studentTeacherInteraction;
     }
@@ -121,10 +184,19 @@ public class TLActivity implements Serializable {
 	this.studentTeacherInteraction = studentTeacherInteraction;
     }
     
+    /**
+     * Return the maximum tutor group size for the teaching-learning activity
+     * @return the maximum tutor group size for the teaching-learning activity
+     */
     public int getMaximumGroupSize() {
 	return maximumGroupSize;
     }
     
+    /**
+     * Set the maximum tutor group size for the teaching-learning activity
+     * @param i the maximum tutor group size for the teaching-learning activity
+     * @see TLActivity#PROP_MAX_GROUP_SIZE
+     */
     @XmlAttribute
     public void setMaximumGroupSize(int i) {
         int oldValue = maximumGroupSize;
