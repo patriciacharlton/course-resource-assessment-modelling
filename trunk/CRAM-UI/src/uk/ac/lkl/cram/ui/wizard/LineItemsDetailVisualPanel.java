@@ -381,7 +381,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         tlaNamePanel = new javax.swing.JPanel();
         tlaNameField = new javax.swing.JTextField();
 
-        activityPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Learner Hours"));
+        activityPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Learner' Total Hours"));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle"); // NOI18N
@@ -444,7 +444,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
             .add(jSeparator2)
         );
 
-        preparationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Preparation Hours"));
+        preparationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Teaching Preparation Hours"));
         preparationPanel.setToolTipText(bundle.getString("PREPARATION_HOURS_PANEL")); // NOI18N
         preparationPanel.setLayout(new java.awt.GridLayout(4, 5));
         preparationPanel.add(blankPreparationLabel);
@@ -525,7 +525,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation3LowerCostPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation3LowerCostPreparation);
 
-        supportPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Support Hours"));
+        supportPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Teaching Support Hours"));
         supportPanel.setToolTipText(bundle.getString("SUPPORT_HOURS_PANEL")); // NOI18N
         supportPanel.setLayout(new java.awt.GridLayout(4, 5));
         supportPanel.add(blankSupportLabel);
