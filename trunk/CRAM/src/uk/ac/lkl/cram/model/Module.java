@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import uk.ac.lkl.cram.model.ModulePresentation.Run;
+import uk.ac.lkl.cram.model.Run;
 import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**

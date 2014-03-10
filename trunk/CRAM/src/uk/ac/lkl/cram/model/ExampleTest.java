@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
-import uk.ac.lkl.cram.model.ModulePresentation.Run;
+import uk.ac.lkl.cram.model.Run;
 import uk.ac.lkl.cram.model.io.ModuleExporter;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 
