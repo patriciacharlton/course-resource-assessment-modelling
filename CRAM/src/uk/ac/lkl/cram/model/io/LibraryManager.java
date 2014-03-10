@@ -11,15 +11,18 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- * $Date$
- * $Revision$
  * This is a utility class to manage the library of TLAs
- * @author bernard
+ * @author Bernard Horan
+ * @version $Revision$
  */
+//$Date$
 public class LibraryManager {
     private static final Logger LOGGER = Logger.getLogger(LibraryManager.class.getName());
 
     /**
+     * Main method to either report contents of the library, 
+     * or import the TLAs from the module file specified by the
+     * argument.
      * @param args the command line arguments
      */
     public static void main(String[] args) {

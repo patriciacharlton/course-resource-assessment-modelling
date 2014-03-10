@@ -3,7 +3,7 @@ package uk.ac.lkl.cram.model;
 import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import uk.ac.lkl.cram.model.ModulePresentation.Run;
+import uk.ac.lkl.cram.model.Run;
 
 /**
  * $Date$

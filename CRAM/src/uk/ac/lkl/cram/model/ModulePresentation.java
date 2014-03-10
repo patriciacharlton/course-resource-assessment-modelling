@@ -304,24 +304,6 @@ public class ModulePresentation implements Serializable, Calculable {
     public String toString() {
 	return "ModulePresentation[" + run.name() + "]";
     }
-   
-    /**
-     * This enumeration represents the three runs of the activities in the module.
-     */
-    @SuppressWarnings("PublicInnerClass")
-    public enum Run {
-	/**
-	 * The First run of a module presentation
-	 */
-	FIRST,
-	/**
-	 * The Second run of a module presentation  
-	 */
-	SECOND,
-	/**
-	 * The  Third run of a module presentation
-	 */
-	THIRD};
 
     
 }
