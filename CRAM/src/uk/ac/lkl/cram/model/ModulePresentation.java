@@ -5,7 +5,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAttribute;
-import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**
  * This class represents a run of a module, and represents the 
@@ -19,7 +18,7 @@ import uk.ac.lkl.cram.model.calculations.Calculable;
  */
 //$Date$
 @SuppressWarnings("serial")
-public class ModulePresentation implements Serializable, Calculable {
+public class ModulePresentation implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(ModulePresentation.class.getName());
 
     /**
@@ -250,7 +249,6 @@ public class ModulePresentation implements Serializable, Calculable {
     /**
      * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 
      */
-    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.addPropertyChangeListener(listener);
     }
@@ -258,7 +256,6 @@ public class ModulePresentation implements Serializable, Calculable {
     /**
      * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener) 
      */
-    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }

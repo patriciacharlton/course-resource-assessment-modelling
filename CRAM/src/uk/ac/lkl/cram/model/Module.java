@@ -12,8 +12,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import uk.ac.lkl.cram.model.Run;
-import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**
  * This class represents a CRAM module, and is the outermost container of
@@ -25,7 +23,7 @@ import uk.ac.lkl.cram.model.calculations.Calculable;
 @XmlRootElement(name = "module")
 @XmlType(propOrder = {"moduleName", "totalCreditHourCount", "weekCount", "tutorGroupSize", "tlaLineItems", "moduleLineItems", "presentations"})
 @SuppressWarnings("serial")
-public class Module implements Serializable, Calculable {
+public class Module implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(Module.class.getName());
 
@@ -429,7 +427,6 @@ public class Module implements Serializable, Calculable {
     /**
      * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 
      */
-    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.addPropertyChangeListener(listener);
     }
@@ -437,7 +434,6 @@ public class Module implements Serializable, Calculable {
     /**
      * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener) 
      */
-    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }

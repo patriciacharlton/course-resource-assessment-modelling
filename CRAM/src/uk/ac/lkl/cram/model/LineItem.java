@@ -1,7 +1,6 @@
 package uk.ac.lkl.cram.model;
 
 import java.io.Serializable;
-import uk.ac.lkl.cram.model.calculations.Calculable;
 
 /**
  * An interface that represents a line item in the module. A line item follows
@@ -13,7 +12,7 @@ import uk.ac.lkl.cram.model.calculations.Calculable;
  * @author Bernard Horan
  */
 //$Date$
-public interface LineItem extends Serializable, Calculable {
+public interface LineItem extends Serializable {
 
     /**
      * Return the amount of time required to support a module presentation (run)
