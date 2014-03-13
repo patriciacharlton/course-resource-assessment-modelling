@@ -5,8 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -28,17 +31,17 @@ import uk.ac.lkl.cram.ui.wizard.FilteredList.Filter;
 @SuppressWarnings("serial")
 public class PredefinedVisualPanel extends JPanel {
     private FilteredList<TLActivity> filteredList;
-    private InteractionMatcher interactionMatcher;
-    private LearnerFeedback matchingFeedback;
     private static final Logger LOGGER = Logger.getLogger(PredefinedVisualPanel.class.getName());
+    private final Filter<TLActivity> feedbackFilter;
+    private final Filter<TLActivity> interactionFilter;
 
     /**
      * Creates new form PredefinedVisualPanel
      */
     public PredefinedVisualPanel() {
 	initComponents();
-	interactionMatcher = InteractionMatcher.TUTOR_PRESENT;
-	matchingFeedback = LearnerFeedback.NONE;
+        feedbackFilter = new FeedbackFilter();
+        interactionFilter = new InteractionFilter();
 	List<TLActivity> predefinedList = getPredefinedList();
 	filteredList = new FilteredList<>(predefinedList);
 	filteredList.setComparator(new Comparator<TLActivity>() {
@@ -48,7 +51,6 @@ public class PredefinedVisualPanel extends JPanel {
 		return t.getName().compareToIgnoreCase(t1.getName());
 	    }
 	});
-	applyFilter();
 	ListModel<TLActivity> listModel = new PredefinedListModel<>(filteredList);
 	activityList.setModel(listModel);
 	listModel.addListDataListener(new ListDataListener() {
@@ -69,80 +71,38 @@ public class PredefinedVisualPanel extends JPanel {
 	    }
 	});
 	activityList.setCellRenderer(new TLActivityRenderer());
-	
+    
 	//Interaction Radio Buttons	
 	ActionListener interactionListener = new ActionListener() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent ae) {
-		String actionCommand = ae.getActionCommand();
-		interactionMatcher = InteractionMatcher.valueOf(actionCommand);
 		applyFilter();
 	    }
 	};
-	tutorPresentRB.addActionListener(interactionListener);
-	tutorPresentRB.setActionCommand(InteractionMatcher.TUTOR_PRESENT.name());
-	onlineRB.addActionListener(interactionListener);
-	onlineRB.setActionCommand(InteractionMatcher.ONLINE.name());
-	locationSpecificRB.addActionListener(interactionListener);
-	locationSpecificRB.setActionCommand(InteractionMatcher.LOCATION_SPECIFIC.name());
-	timeSpecificRB.addActionListener(interactionListener);
-	timeSpecificRB.setActionCommand(InteractionMatcher.TIME_SPECIFIC.name());
-	switch (interactionMatcher) {
-	    case TUTOR_PRESENT: {
-		tutorPresentRB.setSelected(true);
-		break;
-	    }
-	    case ONLINE: {
-		onlineRB.setSelected(true);
-		break;
-	    }
-	    case LOCATION_SPECIFIC: {
-		locationSpecificRB.setSelected(true);
-		break;
-	    }
-	    case TIME_SPECIFIC: {
-		timeSpecificRB.setSelected(true);
-		break;
-	    }
-	}
+	tutorPresentCB.addActionListener(interactionListener);
+	onlineCB.addActionListener(interactionListener);
+	locationSpecificCB.addActionListener(interactionListener);
+	timeSpecificCB.addActionListener(interactionListener);
+	
 	
 	//Feedback Radio Buttons	
-	ActionListener feedbackListener = new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent ae) {
-		String actionCommand = ae.getActionCommand();
-		matchingFeedback = LearnerFeedback.valueOf(actionCommand);
-		applyFilter();
-	    }
-	};
-	tutorFeedbackRB.addActionListener(feedbackListener);
-	tutorFeedbackRB.setActionCommand(LearnerFeedback.TUTOR.name());
-	peerFeedbackRB.addActionListener(feedbackListener);
-	peerFeedbackRB.setActionCommand(LearnerFeedback.PEER_ONLY.name());
-	telFeedbackRB.addActionListener(feedbackListener);
-	telFeedbackRB.setActionCommand(LearnerFeedback.TEL.name());
-	noFeedbackRB.addActionListener(feedbackListener);
-	noFeedbackRB.setActionCommand(LearnerFeedback.NONE.name());
-	switch (matchingFeedback) {
-	    case TUTOR: {
-		tutorFeedbackRB.setSelected(true);
-		break;
-	    }
-	    case PEER_ONLY: {
-		peerFeedbackRB.setSelected(true);
-		break;
-	    }
-	    case TEL: {
-		telFeedbackRB.setSelected(true);
-		break;
-	    }
-	    case NONE: {
-		noFeedbackRB.setSelected(true);
-		break;
-	    }
-	}
+        ActionListener feedbackListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                applyFilter();
+            }
+        };
+	tutorFeedbackCB.addActionListener(feedbackListener);
+	tutorFeedbackCB.setActionCommand(LearnerFeedback.TUTOR.name());
+	peerFeedbackCB.addActionListener(feedbackListener);
+	peerFeedbackCB.setActionCommand(LearnerFeedback.PEER_ONLY.name());
+	telFeedbackCB.addActionListener(feedbackListener);
+	telFeedbackCB.setActionCommand(LearnerFeedback.TEL.name());
+	noFeedbackCB.addActionListener(feedbackListener);
+	noFeedbackCB.setActionCommand(LearnerFeedback.NONE.name());
+        
+        applyFilter();
     }
 
     @Override
@@ -167,27 +127,8 @@ public class PredefinedVisualPanel extends JPanel {
 	Filter<TLActivity> filter = new Filter<TLActivity>() {
 	    @Override
 	    public boolean isMatched(TLActivity tla) {
-		boolean matchedInteraction = false;
-		StudentTeacherInteraction sti = tla.getStudentTeacherInteraction();
-		switch (interactionMatcher) {
-		    case TUTOR_PRESENT: {
-			matchedInteraction = sti.isTutorSupported();
-			break;
-		    }
-		    case ONLINE: {
-			matchedInteraction = sti.isOnline();
-			break;
-		    }
-		    case LOCATION_SPECIFIC: {
-			matchedInteraction = sti.isLocationSpecific();
-			break;
-		    }
-		    case TIME_SPECIFIC: {
-			matchedInteraction = sti.isTimeSpecific();
-			break;
-		    }
-		}
-		boolean matchedFeedback = tla.getLearnerFeedback() == matchingFeedback;
+		boolean matchedFeedback = feedbackFilter.isMatched(tla);
+                boolean matchedInteraction = interactionFilter.isMatched(tla);
 		return matchedFeedback && matchedInteraction;
 	    }
 	};
@@ -202,21 +143,19 @@ public class PredefinedVisualPanel extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        studentFeedbackBG = new javax.swing.ButtonGroup();
-        studentInteractionBG = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         activityList = new javax.swing.JList<TLActivity>();
         panelTitleLabel = new javax.swing.JLabel();
         feedbackPanel = new javax.swing.JPanel();
-        tutorFeedbackRB = new javax.swing.JRadioButton();
-        peerFeedbackRB = new javax.swing.JRadioButton();
-        telFeedbackRB = new javax.swing.JRadioButton();
-        noFeedbackRB = new javax.swing.JRadioButton();
+        tutorFeedbackCB = new javax.swing.JCheckBox();
+        peerFeedbackCB = new javax.swing.JCheckBox();
+        telFeedbackCB = new javax.swing.JCheckBox();
+        noFeedbackCB = new javax.swing.JCheckBox();
         studentInteractionPanel = new javax.swing.JPanel();
-        tutorPresentRB = new javax.swing.JRadioButton();
-        onlineRB = new javax.swing.JRadioButton();
-        locationSpecificRB = new javax.swing.JRadioButton();
-        timeSpecificRB = new javax.swing.JRadioButton();
+        tutorPresentCB = new javax.swing.JCheckBox();
+        onlineCB = new javax.swing.JCheckBox();
+        locationSpecificCB = new javax.swing.JCheckBox();
+        timeSpecificCB = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         tlaTextArea = new javax.swing.JTextArea();
 
@@ -232,17 +171,17 @@ public class PredefinedVisualPanel extends JPanel {
 
         feedbackPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.feedbackPanel.border.title"))); // NOI18N
 
-        studentFeedbackBG.add(tutorFeedbackRB);
-        org.openide.awt.Mnemonics.setLocalizedText(tutorFeedbackRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.tutorFeedbackRB.text")); // NOI18N
+        tutorFeedbackCB.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(tutorFeedbackCB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.tutorFeedbackCB.text")); // NOI18N
 
-        studentFeedbackBG.add(peerFeedbackRB);
-        org.openide.awt.Mnemonics.setLocalizedText(peerFeedbackRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.peerFeedbackRB.text")); // NOI18N
+        peerFeedbackCB.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(peerFeedbackCB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.peerFeedbackCB.text")); // NOI18N
 
-        studentFeedbackBG.add(telFeedbackRB);
-        org.openide.awt.Mnemonics.setLocalizedText(telFeedbackRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.telFeedbackRB.text")); // NOI18N
+        telFeedbackCB.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(telFeedbackCB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.telFeedbackCB.text")); // NOI18N
 
-        studentFeedbackBG.add(noFeedbackRB);
-        org.openide.awt.Mnemonics.setLocalizedText(noFeedbackRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.noFeedbackRB.text")); // NOI18N
+        noFeedbackCB.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(noFeedbackCB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.noFeedbackCB.text")); // NOI18N
 
         javax.swing.GroupLayout feedbackPanelLayout = new javax.swing.GroupLayout(feedbackPanel);
         feedbackPanel.setLayout(feedbackPanelLayout);
@@ -251,38 +190,38 @@ public class PredefinedVisualPanel extends JPanel {
             .addGroup(feedbackPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tutorFeedbackRB)
-                    .addComponent(peerFeedbackRB)
-                    .addComponent(telFeedbackRB)
-                    .addComponent(noFeedbackRB))
+                    .addComponent(tutorFeedbackCB)
+                    .addComponent(peerFeedbackCB)
+                    .addComponent(telFeedbackCB)
+                    .addComponent(noFeedbackCB))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         feedbackPanelLayout.setVerticalGroup(
             feedbackPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(feedbackPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(tutorFeedbackRB)
+                .addComponent(tutorFeedbackCB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(peerFeedbackRB)
+                .addComponent(peerFeedbackCB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(telFeedbackRB)
+                .addComponent(telFeedbackCB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noFeedbackRB))
+                .addComponent(noFeedbackCB)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         studentInteractionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.studentInteractionPanel.border.title"))); // NOI18N
 
-        studentInteractionBG.add(tutorPresentRB);
-        org.openide.awt.Mnemonics.setLocalizedText(tutorPresentRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.tutorPresentRB.text")); // NOI18N
+        tutorPresentCB.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(tutorPresentCB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.tutorPresentCB.text")); // NOI18N
 
-        studentInteractionBG.add(onlineRB);
-        org.openide.awt.Mnemonics.setLocalizedText(onlineRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.onlineRB.text")); // NOI18N
+        onlineCB.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(onlineCB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.onlineCB.text")); // NOI18N
 
-        studentInteractionBG.add(locationSpecificRB);
-        org.openide.awt.Mnemonics.setLocalizedText(locationSpecificRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.locationSpecificRB.text")); // NOI18N
+        locationSpecificCB.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(locationSpecificCB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.locationSpecificCB.text")); // NOI18N
 
-        studentInteractionBG.add(timeSpecificRB);
-        org.openide.awt.Mnemonics.setLocalizedText(timeSpecificRB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.timeSpecificRB.text")); // NOI18N
+        timeSpecificCB.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(timeSpecificCB, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.timeSpecificCB.text")); // NOI18N
 
         javax.swing.GroupLayout studentInteractionPanelLayout = new javax.swing.GroupLayout(studentInteractionPanel);
         studentInteractionPanel.setLayout(studentInteractionPanelLayout);
@@ -291,23 +230,23 @@ public class PredefinedVisualPanel extends JPanel {
             .addGroup(studentInteractionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(studentInteractionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tutorPresentRB)
-                    .addComponent(onlineRB)
-                    .addComponent(locationSpecificRB)
-                    .addComponent(timeSpecificRB))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .addComponent(tutorPresentCB)
+                    .addComponent(onlineCB)
+                    .addComponent(locationSpecificCB)
+                    .addComponent(timeSpecificCB))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         studentInteractionPanelLayout.setVerticalGroup(
             studentInteractionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(studentInteractionPanelLayout.createSequentialGroup()
-                .addComponent(tutorPresentRB)
+                .addComponent(tutorPresentCB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(onlineRB)
+                .addComponent(onlineCB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(locationSpecificRB)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(timeSpecificRB)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addComponent(locationSpecificCB)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(timeSpecificCB)
+                .addContainerGap())
         );
 
         jScrollPane2.setEnabled(false);
@@ -339,7 +278,7 @@ public class PredefinedVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(feedbackPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -368,19 +307,17 @@ public class PredefinedVisualPanel extends JPanel {
     private javax.swing.JPanel feedbackPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JRadioButton locationSpecificRB;
-    private javax.swing.JRadioButton noFeedbackRB;
-    private javax.swing.JRadioButton onlineRB;
+    private javax.swing.JCheckBox locationSpecificCB;
+    private javax.swing.JCheckBox noFeedbackCB;
+    private javax.swing.JCheckBox onlineCB;
     private javax.swing.JLabel panelTitleLabel;
-    private javax.swing.JRadioButton peerFeedbackRB;
-    private javax.swing.ButtonGroup studentFeedbackBG;
-    private javax.swing.ButtonGroup studentInteractionBG;
+    private javax.swing.JCheckBox peerFeedbackCB;
     private javax.swing.JPanel studentInteractionPanel;
-    private javax.swing.JRadioButton telFeedbackRB;
-    private javax.swing.JRadioButton timeSpecificRB;
+    private javax.swing.JCheckBox telFeedbackCB;
+    private javax.swing.JCheckBox timeSpecificCB;
     private javax.swing.JTextArea tlaTextArea;
-    private javax.swing.JRadioButton tutorFeedbackRB;
-    private javax.swing.JRadioButton tutorPresentRB;
+    private javax.swing.JCheckBox tutorFeedbackCB;
+    private javax.swing.JCheckBox tutorPresentCB;
     // End of variables declaration//GEN-END:variables
 
     void setTLAInfo(String string) {
@@ -409,10 +346,50 @@ public class PredefinedVisualPanel extends JPanel {
 	}
     }
     
-    private enum InteractionMatcher  {
+    private class FeedbackFilter implements Filter<TLActivity> {
+        private final Set<JCheckBox> feedbackCheckBoxes = new HashSet<>();
 
-	TUTOR_PRESENT, ONLINE, LOCATION_SPECIFIC, TIME_SPECIFIC;
+        private FeedbackFilter() {
+            feedbackCheckBoxes.add(tutorFeedbackCB);
+            feedbackCheckBoxes.add(peerFeedbackCB);
+            feedbackCheckBoxes.add(telFeedbackCB);
+            feedbackCheckBoxes.add(noFeedbackCB);
+        }
+
+        @Override
+        public boolean isMatched(TLActivity tla) {
+            for (JCheckBox jCheckBox : feedbackCheckBoxes) {
+                if (jCheckBox.isSelected()) {
+                    LearnerFeedback feedback = LearnerFeedback.valueOf(jCheckBox.getActionCommand());
+                    if (tla.getLearnerFeedback() == feedback) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
     
+    private class InteractionFilter implements Filter<TLActivity> {
+        
+        @Override
+        public boolean isMatched(TLActivity tla) {
+            StudentTeacherInteraction sti = tla.getStudentTeacherInteraction();
+            if (tutorPresentCB.isSelected() && sti.isTutorSupported()) {
+                return true;
+            }
+            if (onlineCB.isSelected() && sti.isOnline()) {
+                return true;
+            }
+            if (locationSpecificCB.isSelected() && sti.isLocationSpecific()) {
+                return true;
+            }
+            if (timeSpecificCB.isSelected() && sti.isTimeSpecific()) {
+                return true;
+            }
+            return false;       
+        }
+        
+    }
     
 }
