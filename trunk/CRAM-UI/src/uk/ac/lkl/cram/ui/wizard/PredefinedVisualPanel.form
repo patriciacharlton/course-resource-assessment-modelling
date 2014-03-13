@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.4" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="studentFeedbackBG">
-    </Component>
-    <Component class="javax.swing.ButtonGroup" name="studentInteractionBG">
-    </Component>
-  </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="1"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -36,7 +30,7 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="feedbackPanel" max="32767" attributes="0"/>
-                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -113,13 +107,13 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="tutorFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="peerFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="telFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="noFeedbackRB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="tutorFeedbackCB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="peerFeedbackCB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="telFeedbackCB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="noFeedbackCB" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -128,56 +122,48 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="tutorFeedbackRB" min="-2" max="-2" attributes="0"/>
+                  <Component id="tutorFeedbackCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="peerFeedbackRB" min="-2" max="-2" attributes="0"/>
+                  <Component id="peerFeedbackCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="telFeedbackRB" min="-2" max="-2" attributes="0"/>
+                  <Component id="telFeedbackCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="noFeedbackRB" min="-2" max="-2" attributes="0"/>
+                  <Component id="noFeedbackCB" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="tutorFeedbackRB">
+        <Component class="javax.swing.JCheckBox" name="tutorFeedbackCB">
           <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="studentFeedbackBG"/>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.tutorFeedbackRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.tutorFeedbackCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="peerFeedbackRB">
+        <Component class="javax.swing.JCheckBox" name="peerFeedbackCB">
           <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="studentFeedbackBG"/>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.peerFeedbackRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.peerFeedbackCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="telFeedbackRB">
+        <Component class="javax.swing.JCheckBox" name="telFeedbackCB">
           <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="studentFeedbackBG"/>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.telFeedbackRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.telFeedbackCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="noFeedbackRB">
+        <Component class="javax.swing.JCheckBox" name="noFeedbackCB">
           <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="studentFeedbackBG"/>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.noFeedbackRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.noFeedbackCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -200,68 +186,60 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="tutorPresentRB" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="onlineRB" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="locationSpecificRB" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="timeSpecificRB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="tutorPresentCB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="onlineCB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="locationSpecificCB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="timeSpecificCB" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                  <EmptySpace pref="93" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="tutorPresentRB" min="-2" max="-2" attributes="0"/>
+                  <Component id="tutorPresentCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="onlineRB" min="-2" max="-2" attributes="0"/>
+                  <Component id="onlineCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="locationSpecificRB" min="-2" max="-2" attributes="0"/>
+                  <Component id="locationSpecificCB" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="timeSpecificCB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="timeSpecificRB" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="tutorPresentRB">
+        <Component class="javax.swing.JCheckBox" name="tutorPresentCB">
           <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="studentInteractionBG"/>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.tutorPresentRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.tutorPresentCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="onlineRB">
+        <Component class="javax.swing.JCheckBox" name="onlineCB">
           <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="studentInteractionBG"/>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.onlineRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.onlineCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="locationSpecificRB">
+        <Component class="javax.swing.JCheckBox" name="locationSpecificCB">
           <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="studentInteractionBG"/>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.locationSpecificRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.locationSpecificCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="timeSpecificRB">
+        <Component class="javax.swing.JCheckBox" name="timeSpecificCB">
           <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="studentInteractionBG"/>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.timeSpecificRB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="uk/ac/lkl/cram/ui/wizard/Bundle.properties" key="PredefinedVisualPanel.timeSpecificCB.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
