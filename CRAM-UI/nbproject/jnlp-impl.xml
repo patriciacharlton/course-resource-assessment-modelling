@@ -625,6 +625,14 @@ made subject to such option by the copyright holder.
 	<copy todir="${jnlp.dest.dir}/images">
 	    <fileset dir="images"/>
 	</copy>
+        <!--Copy js files-->
+	<copy todir="${jnlp.dest.dir}/js">
+	    <fileset dir="js"/>
+	</copy>
+        <!--Copy css files-->
+	<copy todir="${jnlp.dest.dir}/css">
+	    <fileset dir="css"/>
+	</copy>
     </target>
     
 </project>

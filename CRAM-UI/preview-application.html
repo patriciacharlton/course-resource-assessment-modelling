@@ -7,7 +7,12 @@ $Revision$
     <head>
 	<title>Course Resource Appraisal Model</title>
 	<script src="http://java.com/js/deployJava.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/cram_dd.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="js/jquery-ui-1.10.3/themes/base/jquery.ui.all.css" />
+        <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.10.3.custom.css" />
 	<style>
             body {
                 margin-left: 50px;
@@ -80,6 +85,10 @@ $Revision$
 		background-color: #f7f7f9;
 		border: 1px solid #e1e1e8;
 	    }
+            div.ui-dialog p
+            {
+                width: 95%;
+            }
         </style>
     </head>
     <body>
@@ -133,9 +142,7 @@ $Revision$
 </p>
 
 <p>
-    <script>
-	deployJava.createWebStartLaunchButton("${JNLP.FILE}");
-    </script>
+    <a id="launchWindow" href="#showLaunchWindow"><img alt="Launch CRAM" src="css/launchButton.png"/></a>
 </p>
 
 <p>(Build @revision@ on @date@)</p>
@@ -143,6 +150,7 @@ $Revision$
 <!--
     <a href="${JNLP.FILE}">Launch the application</a>
 -->
+<section id="troubleshooting">
 <h2>Troubleshooting</h2>
 <p>
     We recommend using a Firefox browser on Apple Macintosh due to recent changes
