@@ -1,9 +1,31 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.DefaultListModel;
@@ -13,17 +35,22 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import static javax.swing.SwingConstants.CENTER;
 import static javax.swing.SwingConstants.LEFT;
+import org.openide.util.Exceptions;
+import uk.ac.lkl.cram.model.LearningType;
 import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
  * $Date$
  * $Revision$
- * @author bernard
+ * @author Bernard Horan
  */
-@SuppressWarnings("serial")
-public class ChartPopupDialog extends javax.swing.JDialog {
+@SuppressWarnings({"serial"})
+public class LearningTypePopupDialog extends javax.swing.JDialog {
+    private static final Logger LOGGER = Logger.getLogger(LearningTypePopupDialog.class.getName());
+
 
     /**
      * A return status code - returned if Cancel button has been pressed
@@ -33,17 +60,25 @@ public class ChartPopupDialog extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
+    private final String propertyName;
 
     /**
-     * Creates new form ChartPopupDialog
+     * Creates new form LearningTypePopupDialog
      * @param parent
-     * @param modal  
+     * @param modal
+     * @param lineItems
+     * @param propertyName  
      */
-    public ChartPopupDialog(java.awt.Frame parent, boolean modal) {
+    public LearningTypePopupDialog(java.awt.Frame parent, boolean modal, Set<TLALineItem> lineItems, String propertyName) {
         super(parent, modal);
+        this.propertyName = propertyName;
         initComponents();
-        jList1.setModel(new DefaultListModel());
-        jList1.setCellRenderer(new TLALineItemRenderer());
+        DefaultListModel<TLALineItem> listModel = new DefaultListModel<>();
+        for (TLALineItem tLALineItem : lineItems) {
+            listModel.addElement(tLALineItem);
+        }
+        lineItemList.setModel(listModel);
+        lineItemList.setCellRenderer(new TLALineItemRenderer());
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
@@ -76,7 +111,7 @@ public class ChartPopupDialog extends javax.swing.JDialog {
 
         okButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        lineItemList = new javax.swing.JList<TLALineItem>();
 
         setAlwaysOnTop(true);
         setResizable(false);
@@ -86,19 +121,19 @@ public class ChartPopupDialog extends javax.swing.JDialog {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(ChartPopupDialog.class, "ChartPopupDialog.okButton.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(LearningTypePopupDialog.class, "LearningTypePopupDialog.okButton.text")); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        lineItemList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(lineItemList);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,7 +151,7 @@ public class ChartPopupDialog extends javax.swing.JDialog {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 93, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(okButton))
         );
@@ -147,34 +182,12 @@ public class ChartPopupDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChartPopupDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChartPopupDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChartPopupDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChartPopupDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
+     
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ChartPopupDialog dialog = new ChartPopupDialog(new javax.swing.JFrame(), true);
+                LearningTypePopupDialog dialog = new LearningTypePopupDialog(new javax.swing.JFrame(), true, new HashSet<TLALineItem>(), "Foo");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -186,40 +199,44 @@ public class ChartPopupDialog extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<TLALineItem> lineItemList;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
     private int returnStatus = RET_CANCEL;
 
-    void setTLAs(Set<TLALineItem> relevantTLAs) {
-        DefaultListModel listModel = (DefaultListModel) jList1.getModel();
-        listModel.clear();
-        for (TLALineItem tLALineItem : relevantTLAs) {
-            listModel.addElement(tLALineItem);
+    private class TLALineItemRenderer extends JLabel implements ListCellRenderer<TLALineItem> {
+
+        TLALineItemRenderer() {
+            setOpaque(true);
+            setHorizontalAlignment(LEFT);
+            setVerticalAlignment(CENTER);
         }
-    }
-    
-    private class TLALineItemRenderer extends JLabel implements ListCellRenderer {
 
-	TLALineItemRenderer() {
-	    setOpaque(true);
-	    setHorizontalAlignment(LEFT);
-	    setVerticalAlignment(CENTER);
-	}
-
-	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-	    if (isSelected) {
-		setBackground(list.getSelectionBackground());
-		setForeground(list.getSelectionForeground());
-	    } else {
-		setBackground(list.getBackground());
-		setForeground(list.getForeground());
-	    }
-	    TLALineItem tl = (TLALineItem) value;
-	    setText(tl.getName());
-	    return this;
-	}
+        @Override
+        public Component getListCellRendererComponent(JList<? extends TLALineItem> list, TLALineItem lineItem, int index, boolean isSelected, boolean cellHasFocus) {
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+            LearningType lt = lineItem.getActivity().getLearningType();
+            @SuppressWarnings("StringBufferWithoutInitialCapacity")
+            StringBuilder builder = new StringBuilder();
+            builder.append(lineItem.getName());
+            try {
+                Method getter = new PropertyDescriptor(propertyName, lt.getClass()).getReadMethod();
+                Integer propertyValue = (Integer) getter.invoke(lt);
+                builder.append( " (");
+                builder.append(propertyValue);
+                builder.append("%)");
+            } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                LOGGER.log(Level.SEVERE, "Failed to access " + propertyName + " of " + lineItem.getName(), ex);
+            }
+            setText(builder.toString());
+            return this;
+        }
     }
 }
