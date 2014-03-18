@@ -1,10 +1,25 @@
-
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.Paint;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
@@ -87,14 +102,17 @@ public class LearningTypeChartFactory {
                 if (trigger.getButton() == MouseEvent.BUTTON1) {
                     if (cme.getEntity() instanceof PieSectionEntity) {
                         PieSectionEntity pieSection = (PieSectionEntity) cme.getEntity();
-                        Set<TLALineItem> relevantTLAs = learningTypeMap.get(pieSection.getSectionKey().toString());
-                        ChartPopupDialog popup = new ChartPopupDialog((Frame) SwingUtilities.getWindowAncestor(chartPanel), true);
-                        popup.setTLAs(relevantTLAs);
+                        String key = pieSection.getSectionKey().toString();
+                        Set<TLALineItem> relevantTLAs = learningTypeMap.get(key);
+                        LearningTypePopupDialog popup = new LearningTypePopupDialog((Frame) SwingUtilities.getWindowAncestor(chartPanel), true, relevantTLAs, key);
                         popup.setTitle("Activities with " + pieSection.getSectionKey().toString());
+                        Point location = trigger.getLocationOnScreen();
+                        int w = popup.getWidth();
+                        int h = popup.getHeight();
+                        popup.setLocation(location.x - w/2, location.y - h/2);
                         popup.setVisible(true);                       
                     }
-                }
-                    
+                }                   
             }
 
             @Override
@@ -103,7 +121,7 @@ public class LearningTypeChartFactory {
                     chartPanel.setCursor(crossHair);
                 } else {
                     chartPanel.setCursor(normal);
-    }
+                }
             }
         });
 	return chartPanel;
