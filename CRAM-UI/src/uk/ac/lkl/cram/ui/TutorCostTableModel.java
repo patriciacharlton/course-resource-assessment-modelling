@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.beans.IndexedPropertyChangeEvent;
@@ -13,10 +28,20 @@ import uk.ac.lkl.cram.model.PreparationTime;
 import uk.ac.lkl.cram.model.SupportTime;
 
 /**
- * $Date$
- * $Revision$
- * @author bernard
+ * This class represents the model for the tutor cost table. It has a read-only
+ * API. It listens to the underlying CRAM model for changes (in particular, the module and the 
+ * module presentations) and when it receives them fires changes for any listeners
+ * to this model. This model provides a view of the module in terms of the cost
+ * per activity per presentation. Each row of the table represents 
+ * an activity, and each column represents a presentation. Each presentation is
+ * provided twice: once in terms of the cost to prepare for
+ * an activity, and once in terms of cost to support an 
+ * activity.
+ * @see TutorCostPanel
+ * @version $Revision$
+ * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class TutorCostTableModel extends AbstractTableModel implements PropertyChangeListener {
     private static final Logger LOGGER = Logger.getLogger(TutorCostTableModel.class.getName());
@@ -26,10 +51,7 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
     public TutorCostTableModel(Module module) {
         super();
         this.module = module;
-	module.addPropertyChangeListener(this);
-	for (ModulePresentation modulePresentation : module.getModulePresentations()) {
-	    modulePresentation.addPropertyChangeListener(this);
-	}
+        addListeners();
     }
 
     @Override
@@ -53,9 +75,9 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
         if (i == 0) {
 	    return "Activity";
 	}
-	//1, 4 = Run1
-	//2, 5 = Run2
-	//3, 6 = Run3
+	//Columns 1, 4 = Run1
+	//Columns 2, 5 = Run2
+	//Columns 3, 6 = Run3
 	int run = ((i - 1) % 3) + 1;
 	return " Run " + run;
     }
@@ -64,61 +86,49 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
     public Object getValueAt(int row, int column) {
 	List<ModulePresentation> modulePresentations = module.getModulePresentations();
 	if (row >= module.getLineItems().size()) {
-	    //total row"
+	    //total row
 	    switch (column) {
 		case 0:
 		    return "Totals";
 		//Preparation
 		case 1: 
-		    return module.getTotalPreparationCost(modulePresentations.get(0));
-		case 2: 
-		    return module.getTotalPreparationCost(modulePresentations.get(1));
-		case 3: 
-		    return module.getTotalPreparationCost(modulePresentations.get(2));
+                case 2:
+                case 3:
+		    return module.getTotalPreparationCost(modulePresentations.get(column - 1));
 		//Support
 		case 4:
-		    return module.getTotalSupportCost(modulePresentations.get(0));
-		case 5:
-		    return module.getTotalSupportCost(modulePresentations.get(1));
-		case 6:
-		    return module.getTotalSupportCost(modulePresentations.get(2));
+                case 5:
+                case 6:
+		    return module.getTotalSupportCost(modulePresentations.get(column - 4));
 	    }
 	}
+        //End of total row
+        //Get the line item for the row
 	LineItem li = module.getLineItems().get(row);
 	
 	switch (column) {
 	    case 0:
 		return li.getName();
-	    //Preparation
-	    case 1: {
-		ModulePresentation mp = modulePresentations.get(0);
-		PreparationTime pt = li.getPreparationTime(mp);
-		return pt.getTotalCost(module, mp, li);
+	    //Preparation columns
+	    case 1:
+            case 2:
+            case 3: {
+                //Get the module presentation for this column
+		ModulePresentation mp = modulePresentations.get(column - 1);
+		//Get the preparation time for this line item
+                PreparationTime pt = li.getPreparationTime(mp);
+		//Get the total cost of preparation for this line item
+                return pt.getTotalCost(module, mp, li);
 	    }
-	    case 2: {
-		ModulePresentation mp = modulePresentations.get(1);
-		PreparationTime pt = li.getPreparationTime(mp);
-		return pt.getTotalCost(module, mp, li);
-	    }
-	    case 3: {
-		ModulePresentation mp = modulePresentations.get(2);
-		PreparationTime pt = li.getPreparationTime(mp);
-		return pt.getTotalCost(module, mp, li);
-	    }	    
 	    //Support
-	    case 4: {
-		ModulePresentation mp = modulePresentations.get(0);
-		SupportTime st = li.getSupportTime(mp);
-		return st.getTotalCost(module, mp, li);
-	    }
-	    case 5: {
-		ModulePresentation mp = modulePresentations.get(1);
-		SupportTime st = li.getSupportTime(mp);
-		return st.getTotalCost(module, mp, li);
-	    }
-	    case 6: {
-		ModulePresentation mp = modulePresentations.get(2);
-		SupportTime st = li.getSupportTime(mp);
+	    case 4:
+            case 5:
+            case 6: {
+                //Get the module presentation for this column
+		ModulePresentation mp = modulePresentations.get(column - 4);
+		//Get the supporr time for this line item
+                SupportTime st = li.getSupportTime(mp);
+                //Get the total cost of suport for this line item
 		return st.getTotalCost(module, mp, li);
 	    }
 	}
@@ -127,6 +137,7 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
     
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
+        //If there has been an addition or removal of line items in the module
 	if (pce instanceof IndexedPropertyChangeEvent) {
 	    IndexedPropertyChangeEvent ipce = (IndexedPropertyChangeEvent) pce;
 	    fireTableRowsInserted(ipce.getIndex(), ipce.getIndex());
@@ -135,5 +146,12 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
 	    //TODO, catch all for any property
 	    fireTableDataChanged();
 	}
+    }
+
+    private void addListeners() {
+        module.addPropertyChangeListener(this);
+        for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+            modulePresentation.addPropertyChangeListener(this);
+        }
     }
 }
