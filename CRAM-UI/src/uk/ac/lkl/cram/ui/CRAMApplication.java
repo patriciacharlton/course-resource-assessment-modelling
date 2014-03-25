@@ -51,6 +51,7 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
+import org.openide.util.Exceptions;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 import uk.ac.lkl.cram.model.io.ModuleUnmarshaller;
@@ -110,7 +111,7 @@ public class CRAMApplication {
         }
 	//Create a new instance of the application
 	CRAMApplication application = new CRAMApplication();
-        if (System.getProperty("os.name").contains("Mac")) {
+        if (OSUtil.isMac()) {
             //We're on the Apple Mac platform, so set up some handlers
 
             try {
@@ -431,18 +432,30 @@ public class CRAMApplication {
     }
     
     private void openUserGuide() {
-	if (Desktop.isDesktopSupported()) {
-	    try {
-		File pdfFile = getUserGuideFile();
-		Desktop.getDesktop().open(pdfFile);
-	    } catch (IOException ex) {
-		LOGGER.log(Level.SEVERE, "Failed to create user guide file", ex);
-		JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Cannot open user guide", JOptionPane.ERROR_MESSAGE);
-	    }
-	} else {
-	    LOGGER.info("Cannot open file on this platform");
+        if (!Desktop.isDesktopSupported()) {
+            LOGGER.info("Desktop not supported");
 	    JOptionPane.showMessageDialog(null, "Cannot open user guide on this platform", "Platform not supported", JOptionPane.ERROR_MESSAGE);
-	}
+            return;
+        }
+        File pdfFile;
+        try {
+            pdfFile = getUserGuideFile();
+         } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to create user guide file", ex);
+            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Cannot open user guide", JOptionPane.ERROR_MESSAGE);
+            return;
+        }   
+        try {
+            Desktop.getDesktop().open(pdfFile); 
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to open user guide", ex);
+            String message = ex.getLocalizedMessage();
+            if (OSUtil.isWindows()) {
+                message = "Ensure Adobe Reader is installed";
+            }
+            JOptionPane.showMessageDialog(null, message, "Cannot open user guide", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
     
     @SuppressWarnings({"ConvertToTryWithResources", "NestedAssignment"})
