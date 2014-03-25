@@ -51,7 +51,7 @@ public class StartupDialog extends javax.swing.JDialog {
         setTitle("Course Resource Appraisal Model");
         setResizable(false);
 
-        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/CRAM.png"))); // NOI18N
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/lkl/cram/ui/resource/CRAM.png"))); // NOI18N
         getContentPane().add(iconLabel, java.awt.BorderLayout.CENTER);
 
         newModuleButton.setText("New Module...");

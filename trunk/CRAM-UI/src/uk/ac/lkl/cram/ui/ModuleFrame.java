@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Dialog;
@@ -25,29 +40,39 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
- * $Date$
- * $Revision$
- * @author bernard
+ * This class represents the window that displays the contents of a CRAM module.
+ * It is made up of several internal panes, each of which display some view
+ * of the CRAM module. It also holds the menubar and the menu items. The CRAMApplication
+ * handles much of the menu item behaviour.
+ * @see CRAMApplication
+ * @version $Revision$
+ * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class ModuleFrame extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
+    //The module rendered by this frame
     private final Module module;
+    //Keeps track of the selection in the various tables in the frame
     private final LineItemSelectionModel sharedSelectionModel = new LineItemSelectionModel();
+    //Listens for double clicks on the various tables in the frame
     private final MouseListener doubleClickListener;
     
 
     /**
      * Creates new form ModuleFrame
-     * @param module 
+     * @param module the module that this window displays
      */
     public ModuleFrame(Module module) {
         this.module = module;
         initComponents();
+	//Listen for changes to the shared selection model
         sharedSelectionModel.addPropertyChangeListener(new PropertyChangeListener() {
 
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
+		//Update the menu items
                 modifyLineItemMI.setEnabled(evt.getNewValue() != null);
                 removeLineItemMI.setEnabled(evt.getNewValue() != null);
             }
@@ -56,12 +81,14 @@ public class ModuleFrame extends javax.swing.JFrame {
         doubleClickListener = new MouseAdapter() {
 	    @Override
 	    public void mouseClicked(MouseEvent e) {
+		//If the user double clicks, then treat this as a shortcut to modify the selected line item
 		if (e.getClickCount() == 2) {
 		    modifySelectedLineItem();
 		}
 	    }
 	};
         
+	//TODO
 //	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 //	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 //	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -87,6 +114,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         leftTaskPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -107,6 +135,10 @@ public class ModuleFrame extends javax.swing.JFrame {
         modifyLineItemMI = new javax.swing.JMenuItem();
         removeLineItemMI = new javax.swing.JMenuItem();
         windowMenu = new javax.swing.JMenu();
+        helpMenu = new javax.swing.JMenu();
+        openHelpMI = new javax.swing.JMenuItem();
+
+        org.openide.awt.Mnemonics.setLocalizedText(jMenuItem1, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.jMenuItem1.text")); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(730, 600));
@@ -214,6 +246,13 @@ public class ModuleFrame extends javax.swing.JFrame {
         org.openide.awt.Mnemonics.setLocalizedText(windowMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.windowMenu.text")); // NOI18N
         windowMenuBar.add(windowMenu);
 
+        org.openide.awt.Mnemonics.setLocalizedText(helpMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.helpMenu.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(openHelpMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.openHelpMI.text")); // NOI18N
+        helpMenu.add(openHelpMI);
+
+        windowMenuBar.add(helpMenu);
+
         setJMenuBar(windowMenuBar);
 
         pack();
@@ -236,7 +275,8 @@ public class ModuleFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_addModuleLineItemMIActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Used for testing purposes only.
+     * @param args the command line arguments (ignored)
      */
     public static void main(String args[]) {
 
@@ -254,6 +294,8 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem duplicateMI;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -261,6 +303,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem modifyLineItemMI;
     private javax.swing.JMenu moduleMenu;
     private javax.swing.JMenuItem newMI;
+    private javax.swing.JMenuItem openHelpMI;
     private javax.swing.JMenuItem openMI;
     private javax.swing.JMenuItem quitMI;
     private javax.swing.JMenuItem removeLineItemMI;
@@ -446,5 +489,9 @@ public class ModuleFrame extends javax.swing.JFrame {
     
     Module getModule() {
         return module;
+    }
+
+    JMenuItem getOpenHelpMenuItem() {
+	return openHelpMI;
     }
 }
