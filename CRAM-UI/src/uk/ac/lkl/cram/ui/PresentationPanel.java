@@ -1,4 +1,18 @@
-
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.beans.PropertyChangeEvent;
@@ -10,13 +24,19 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
 
 /**
- * $Date$
- * $Revision$
+ * This panel provides the 'table' of runs that is displayed both in the ModuleFrame
+ * (within a ModulePanel) and in the ModuleWizardPanel.
+ * @see ModulePanel
+ * @see ModuleWizardPanel
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class PresentationPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(PresentationPanel.class.getName());
+    //Map of the text fields, used to manage the automatic defaults
+    //A 'dirty' field is one that the user has entered data into
     private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<>();
 
     
@@ -30,47 +50,67 @@ public class PresentationPanel extends javax.swing.JPanel {
     
     
     
+    /**
+     * Initialise the panel, based on the provided module
+     * @param module the module containing the presentations
+     */
     public void initializeModule(Module module) {	
-	
+	//Utility class to ensure that the text in the field is selected when the
+        //field gains focus
 	SelectAllAdapter saa = new SelectAllAdapter();
 	
-	final JFormattedTextField[] homeStudentCountFields = new JFormattedTextField[3];
+	//Create array of fields that represent the number of home students for each run
+        final JFormattedTextField[] homeStudentCountFields = new JFormattedTextField[3];
 	homeStudentCountFields[0] = presentation1HomeStudentCountField;
 	homeStudentCountFields[1] = presentation2HomeStudentCountField;
 	homeStudentCountFields[2] = presentation3HomeStudentCountField;
+        //Create array of fields that represent the number of overseas students for each run
         final JFormattedTextField[] overseasStudentCountFields = new JFormattedTextField[3];
 	overseasStudentCountFields[0] = presentation1OverseasStudentCountField;
 	overseasStudentCountFields[1] = presentation2OverseasStudentCountField;
 	overseasStudentCountFields[2] = presentation3OverseasStudentCountField;
+        //Create array of fields that represent the fee for home students for each run
 	final JFormattedTextField[] homeStudentFeeFields = new JFormattedTextField[3];
 	homeStudentFeeFields[0] = presentation1HomeStudentFeeField;
 	homeStudentFeeFields[1] = presentation2HomeStudentFeeField;
 	homeStudentFeeFields[2] = presentation3HomeStudentFeeField;
+        //Create array of fields that represent the fee for overseas students for each run
         final JFormattedTextField[] overseasStudentFeeFields = new JFormattedTextField[3];
 	overseasStudentFeeFields[0] = presentation1OverseasStudentFeeField;
 	overseasStudentFeeFields[1] = presentation2OverseasStudentFeeField;
 	overseasStudentFeeFields[2] = presentation3OverseasStudentFeeField;
+        //Create array of fields that represent the daily rate for a lower paid member of staff for each run
 	final JFormattedTextField[] juniorCostFields = new JFormattedTextField[3];
 	juniorCostFields[0] = presentation1JuniorField;
 	juniorCostFields[1] = presentation2JuniorField;
 	juniorCostFields[2] = presentation3JuniorField;
-	final JFormattedTextField[] seniorCostFields = new JFormattedTextField[3];
+        //Create array of fields that represent the daily rate for a lower paid member of staff for each run
+        final JFormattedTextField[] seniorCostFields = new JFormattedTextField[3];
 	seniorCostFields[0] = presentation1SeniorField;
 	seniorCostFields[1] = presentation2SeniorField;
 	seniorCostFields[2] = presentation3SeniorField;
+        //Iterate through the runs
 	int index = 0;
 	for (final ModulePresentation modulePresentation : module.getModulePresentations()) {
 	    //LOGGER.info("presentation: " + modulePresentation);
+            //Initialise the fields that represent the number of home students
+            //set the value of the field from the run
 	    homeStudentCountFields[index].setValue(new Long(modulePresentation.getHomeStudentCount()));
+            //Add the select all adapter to the field 
 	    homeStudentCountFields[index].addFocusListener(saa);
+            //Create an adapter on the field so that when the value of the field changes
+            //(from user input) the underlying run is updated with the new 
+            //value of the field
 	    new FormattedTextFieldAdapter(homeStudentCountFields[index]) {
 		@Override
 		public void updateValue(Object value) {
 		    long studentCount = (Long) value;
 		    modulePresentation.setHomeStudentCount((int) studentCount);
+                    //The field is dirty--i.e. the user has entered a value
                     makeFieldDirty(textField);
 		}
 	    };
+            //Repeat the above pattern for the elements of each array
             
             overseasStudentCountFields[index].setValue(new Long(modulePresentation.getOverseasStudentCount()));
 	    overseasStudentCountFields[index].addFocusListener(saa);
@@ -130,6 +170,8 @@ public class PresentationPanel extends javax.swing.JPanel {
 	    index++;
 	}
         
+        //Set the the automatic defaults, so that if the user enters data in 
+        //a field for run 1, we update the fields for runs 2 and 3
         final ModulePresentation mp1 = module.getModulePresentations().get(0);
         final ModulePresentation mp2 = module.getModulePresentations().get(1);
         mp1.addPropertyChangeListener(ModulePresentation.PROP_HOME_STUDENT_COUNT, new PropertyChangeListener() {
@@ -365,48 +407,26 @@ public class PresentationPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(presentation1Label)
-                .add(37, 37, 37)
-                .add(presentation2Label)
-                .add(37, 37, 37)
-                .add(presentation3Label)
-                .add(21, 21, 21))
-            .add(layout.createSequentialGroup()
                 .add(1, 1, 1)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(juniorCostLabel)
+                        .add(homeStudentCountLabel)
                         .add(0, 0, 0)
-                        .add(presentation1JuniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, 0)
-                        .add(presentation2JuniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, 0)
-                        .add(presentation3JuniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel1)
-                        .add(0, 0, 0)
-                        .add(presentation1SeniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, 0)
-                        .add(presentation2SeniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, 0)
-                        .add(presentation3SeniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(overseasStudentIncomeFeeLabel)
-                        .add(0, 0, 0)
-                        .add(presentation1OverseasStudentFeeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, 0)
-                        .add(presentation2OverseasStudentFeeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, 0)
-                        .add(presentation3OverseasStudentFeeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(overseasStudentCountLabel)
-                        .add(0, 0, 0)
-                        .add(presentation1OverseasStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, 0)
-                        .add(presentation2OverseasStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, 0)
-                        .add(presentation3OverseasStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                            .add(presentation1HomeStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(presentation1Label))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(presentation2HomeStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(0, 0, 0)
+                                .add(presentation3HomeStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(0, 0, Short.MAX_VALUE))
+                            .add(layout.createSequentialGroup()
+                                .add(18, 18, 18)
+                                .add(presentation2Label)
+                                .add(39, 39, 39)
+                                .add(presentation3Label)
+                                .add(34, 34, 34))))
                     .add(layout.createSequentialGroup()
                         .add(homeStudentIncomeFeeLabel)
                         .add(0, 0, 0)
@@ -416,14 +436,37 @@ public class PresentationPanel extends javax.swing.JPanel {
                         .add(0, 0, 0)
                         .add(presentation3HomeStudentFeeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
-                        .add(homeStudentCountLabel)
+                        .add(overseasStudentCountLabel)
                         .add(0, 0, 0)
-                        .add(presentation1HomeStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(presentation1OverseasStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(0, 0, 0)
-                        .add(presentation2HomeStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(presentation2OverseasStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(0, 0, 0)
-                        .add(presentation3HomeStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(0, 0, Short.MAX_VALUE))
+                        .add(presentation3OverseasStudentCountField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(overseasStudentIncomeFeeLabel)
+                        .add(0, 0, 0)
+                        .add(presentation1OverseasStudentFeeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, 0)
+                        .add(presentation2OverseasStudentFeeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, 0)
+                        .add(presentation3OverseasStudentFeeField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel1)
+                        .add(0, 0, 0)
+                        .add(presentation1SeniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, 0)
+                        .add(presentation2SeniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, 0)
+                        .add(presentation3SeniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(juniorCostLabel)
+                        .add(0, 0, 0)
+                        .add(presentation1JuniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, 0)
+                        .add(presentation2JuniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, 0)
+                        .add(presentation3JuniorField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
         );
 
         layout.linkSize(new java.awt.Component[] {homeStudentCountLabel, homeStudentIncomeFeeLabel, jLabel1, juniorCostLabel, overseasStudentCountLabel, overseasStudentIncomeFeeLabel}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
