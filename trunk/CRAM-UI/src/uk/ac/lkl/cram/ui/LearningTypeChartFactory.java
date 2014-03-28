@@ -52,13 +52,19 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- * $Date$
- * $Revision$
+ * This class is a factory that produces an instance of class ChartPanel. The ChartPanel 
+ * presents a display of the learning types for a module, rendered in the form of 
+ * a pie chart. The factory is responsible for setting up all the parameters of
+ * the chart, including the underlying dataset, legend, colours, and so on.
+ * @see org.jfree.chart.ChartPanel
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 public class LearningTypeChartFactory {
     private static final Logger LOGGER = Logger.getLogger(LearningTypeChartFactory.class.getName());
     
+    //Labels for the segments of the pie chart
     private final static String ACQUISITION = "Acquisition";
     private final static String COLLABORATION = "Collaboration";
     private final static String DISCUSSION = "Discussion";
@@ -66,7 +72,7 @@ public class LearningTypeChartFactory {
     private final static String PRACTICE = "Practice";
     private final static String PRODUCTION = "Production";
     
-
+    //Colours for the pie chart
     static final Color ACQUISITION_COLOR = new Color(101, 220, 241);  
     static final Color DISCUSSION_COLOR = new Color(121, 173, 236);  
     static final Color INQUIRY_COLOR = new Color(250, 128, 128);  
@@ -74,11 +80,13 @@ public class LearningTypeChartFactory {
     static final Color PRODUCTION_COLOR = new Color(188, 234, 117); 
     static final Color COLLABORATION_COLOR = new Color(0xFFCD00);
     
-    private static Map<String, Set<TLALineItem>> learningTypeMap = new WeakHashMap<>();
+    //map between learning type and TLALineItems with an activity that includes that learning type
+    private static final Map<String, Set<TLALineItem>> learningTypeMap = new WeakHashMap<>();
 
 
     /**
-     * @param args the command line arguments
+     * For testing purposes only
+     * @param args the command line arguments (ignored)
      */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Learning Type Test");
@@ -88,24 +96,43 @@ public class LearningTypeChartFactory {
 	frame.setVisible(true);
     }
     
+    /**
+     * Create a new instance of ChartPanel from the module provided. 
+     * @param m the module containing teaching-learning activities
+     * @return a chart panel containing a pie chart on the learning types of the module's activities
+     */
     public static ChartPanel createChartPanel(final Module m) {
+        //Create cursors
         final Cursor crossHair = new Cursor(Cursor.CROSSHAIR_CURSOR);
         final Cursor normal = new Cursor(Cursor.DEFAULT_CURSOR);
+        //Create the dataset from the module
 	PieDataset dataset = createDataSet(m);
+        //Create the chart from the dataset
 	JFreeChart chart = createChart(dataset);
+        //Create a chart panel to render the chart
 	final ChartPanel chartPanel = new ChartPanel(chart);
+        //Add a mouselistener, listening for a single click on a segment of the pie
         chartPanel.addChartMouseListener(new ChartMouseListener() {
 
             @Override
             public void chartMouseClicked(ChartMouseEvent cme) {
+                //Get the mouse event
                 MouseEvent trigger = cme.getTrigger();
+                //Test if the mouse event is a left-button
                 if (trigger.getButton() == MouseEvent.BUTTON1) {
+                    //Check that the mouse click is on a segment of the pie
                     if (cme.getEntity() instanceof PieSectionEntity) {
+                        //Get the selected segment of the pie
                         PieSectionEntity pieSection = (PieSectionEntity) cme.getEntity();
+                        //Get the key that corresponds to that segment--this is a learning type
                         String key = pieSection.getSectionKey().toString();
+                        //Get the set of tlalineitems whose activity contains that learning type
                         Set<TLALineItem> relevantTLAs = learningTypeMap.get(key);
+                        //Create a pop up dialog containing that set of tlalineitems
                         LearningTypePopupDialog popup = new LearningTypePopupDialog((Frame) SwingUtilities.getWindowAncestor(chartPanel), true, relevantTLAs, key);
-                        popup.setTitle("Activities with " + pieSection.getSectionKey().toString());
+                        //Set the title of the popup to indicate which learning type was selected
+                        popup.setTitle("Activities with " + key);
+                        //Centre the popup at the location of the mouse click
                         Point location = trigger.getLocationOnScreen();
                         int w = popup.getWidth();
                         int h = popup.getHeight();
@@ -117,6 +144,7 @@ public class LearningTypeChartFactory {
 
             @Override
             public void chartMouseMoved(ChartMouseEvent cme) {
+                //Set the cursor shape according to the location of the cursor
                 if (cme.getEntity() instanceof PieSectionEntity) {
                     chartPanel.setCursor(crossHair);
                 } else {
@@ -127,9 +155,17 @@ public class LearningTypeChartFactory {
 	return chartPanel;
     }
 
+    /**
+     * Create a dataset from the module
+     * @param module the module containing the teaching-learning activities
+     * @return a pie dataset that is used to produce a pie chart
+     */
     private static PieDataset createDataSet(final Module module) {
+        //Create the dataset to hold the data
 	final DefaultPieDataset dataset = new DefaultPieDataset();
+        //Populate the dataset with the data
 	populateDataset(dataset, module);
+        //Create a listener, which repopulates the dataset when anything changes
 	final PropertyChangeListener learningTypeListener = new PropertyChangeListener() {
 
 	    @Override
@@ -139,31 +175,40 @@ public class LearningTypeChartFactory {
 	    }
 	};
 	
-	for (TLALineItem lineItem : module.getTLALineItems()) {
+	//Add the listener to each of the module's tlaLineItems, as well as to each
+        //tlaLineItem's activity
+        //This means that whenever a tlaLineItem changes, or its activity changes, the listener is triggered
+        //Causing the dataset to be repopulated
+        for (TLALineItem lineItem : module.getTLALineItems()) {
 	    //LOGGER.info("adding listeners to : " + lineItem.getName());
 	    lineItem.getActivity().getLearningType().addPropertyChangeListener(learningTypeListener);
 	    lineItem.addPropertyChangeListener(learningTypeListener);
 	}
+        //Add a listener to the module, listening for changes where a tlaLineItem is added or removed
 	module.addPropertyChangeListener(Module.PROP_TLA_LINEITEM, new PropertyChangeListener() {
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
+                //A tlaLineItem has been added or removed
 		if (pce instanceof IndexedPropertyChangeEvent) {
-		    LOGGER.info("indexed change: " + pce);
+		    //LOGGER.info("indexed change: " + pce);
 		    if (pce.getOldValue() != null) {
 			//This has been removed
 			TLALineItem lineItem = (TLALineItem) pce.getOldValue();
-			LOGGER.info("removing listeners from: " + lineItem.getName());
+                        //So remove the listener from it and its activity
+			//LOGGER.info("removing listeners from: " + lineItem.getName());
 			lineItem.getActivity().getLearningType().removePropertyChangeListener(learningTypeListener);
                         lineItem.removePropertyChangeListener(learningTypeListener);
 		    }
 		    if (pce.getNewValue() != null) {
 			//This has been added
 			TLALineItem lineItem = (TLALineItem) pce.getNewValue();
-			LOGGER.info("adding listeners to: " + lineItem);
+                        //So add a listener to it and its activity
+			//LOGGER.info("adding listeners to: " + lineItem);
 			lineItem.getActivity().getLearningType().addPropertyChangeListener(learningTypeListener);
                         lineItem.addPropertyChangeListener(learningTypeListener);
 		    }
 		}
+                //Assume the dataset is now out of date, so repopulate it
 		populateDataset(dataset, module);
 	    }
 	});
@@ -171,20 +216,36 @@ public class LearningTypeChartFactory {
 	return dataset;
     }
     
-    public static float getTotalAcquisition(Module m) {
+    /**
+     * Return the total 'amount' of acquisition for all the 
+     * activities in the module
+     * @param m the module containing the activities
+     * @return a float representing all the amount of acquisition learning type
+     * for all the activities in the module
+     */
+    private static float getTotalAcquisition(Module m) {
+        //Running total
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
+            //Get the activity for each line item
 	    TLActivity activity = lineItem.getActivity();
+            //Get the amount of acquisition for the activity (a percentage 0 <= x <= 100)
             int acquisition = activity.getLearningType().getAcquisition();
+            //If the acquisition is non-zero
             if (acquisition > 0) {
+                //multiply the acquisition by the number of student hours and add to the running total
                 total += lineItem.getTotalLearnerHourCount(m) * acquisition;
+                //Add the line item to the set of line items whose actitivity includes acquisition
                 learningTypeMap.get(ACQUISITION).add(lineItem);              
             }
 	}
 	return total;
     }
     
-    public static float getTotalInquiry(Module m) {
+    /**
+     * @see LearningTypeChartFactory#getTotalAcquisition(Module) 
+     */
+    private static float getTotalInquiry(Module m) {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
@@ -197,7 +258,10 @@ public class LearningTypeChartFactory {
 	return total;
     }
     
-    public static float getTotalDiscussion(Module m) {
+    /**
+     * @see LearningTypeChartFactory#getTotalAcquisition(Module) 
+     */
+    private static float getTotalDiscussion(Module m) {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
@@ -210,7 +274,10 @@ public class LearningTypeChartFactory {
 	return total;
     }
     
-    public static float getTotalPractice(Module m) {
+    /**
+     * @see LearningTypeChartFactory#getTotalAcquisition(Module) 
+     */
+    private static float getTotalPractice(Module m) {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
@@ -223,7 +290,10 @@ public class LearningTypeChartFactory {
 	return total;
     }
     
-    public static float getTotalProduction(Module m) {
+    /**
+     * @see LearningTypeChartFactory#getTotalAcquisition(Module) 
+     */
+    private static float getTotalProduction(Module m) {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
@@ -236,7 +306,10 @@ public class LearningTypeChartFactory {
 	return total;
     }
     
-    public static float getTotalCollaboration(Module m) {
+    /**
+     * @see LearningTypeChartFactory#getTotalAcquisition(Module) 
+     */
+    private static float getTotalCollaboration(Module m) {
 	float total = 0f;
 	for (TLALineItem lineItem : m.getTLALineItems()) {
 	    TLActivity activity = lineItem.getActivity();
@@ -249,27 +322,46 @@ public class LearningTypeChartFactory {
 	return total;
     }
 
+    /**
+     * Create a chart from the provide pie dataset
+     * @param dataset a pie data set populated with the learning types for the module
+     * @return a Chart that can be rendered in a ChartPanel
+     */
     private static JFreeChart createChart(PieDataset dataset) {
+        //Create a pie chart from the chart factory with no title, a legend and tooltips
+        JFreeChart chart = ChartFactory.createPieChart(null, dataset, true, true, false);
+        //Set the background colour of the chart
 	Paint backgroundPaint = UIManager.getColor("InternalFrame.background");
-	JFreeChart chart = ChartFactory.createPieChart(null, dataset, true, true, false);
 	chart.setBackgroundPaint(backgroundPaint);
+        //Get the plot from the chart
 	PiePlot plot = (PiePlot) chart.getPlot();
-        plot.setToolTipGenerator(new StandardPieToolTipGenerator("{0} = {2}"));
+        //Set the tooltip generator, to be "Practice (12%)"
+        plot.setToolTipGenerator(new StandardPieToolTipGenerator("{0} ({2})"));
+        //Set the background colour of the plot to be the same as the chart
 	plot.setBackgroundPaint(backgroundPaint);
+        //Remove shadows from the plot
 	plot.setShadowXOffset(0);
 	plot.setShadowYOffset(0);
+        //Remove the outline from the plot
 	plot.setOutlineVisible(false);
+        //Remove the labels from the plot
 	plot.setLabelGenerator(null);
+        //Set the colours for the segments
 	plot.setSectionPaint(ACQUISITION, ACQUISITION_COLOR);
         plot.setSectionPaint(COLLABORATION, COLLABORATION_COLOR);
 	plot.setSectionPaint(DISCUSSION, DISCUSSION_COLOR);
 	plot.setSectionPaint(INQUIRY, INQUIRY_COLOR);
 	plot.setSectionPaint(PRACTICE, PRACTICE_COLOR);
 	plot.setSectionPaint(PRODUCTION, PRODUCTION_COLOR);
+        //Get the legend from the chart
 	LegendTitle legend = chart.getLegend();
+        //Set the font of the legend to be the same as the platform UI
 	legend.setItemFont(UIManager.getFont("Label.font"));
+        //Set the background colour of the legend to be the same as the chart
 	legend.setBackgroundPaint(backgroundPaint);
+        //Remove the border from the legend
 	legend.setFrame(BlockBorder.NONE);
+        //Locate the legend to the right of the plot
 	legend.setPosition(RectangleEdge.RIGHT);
 	return chart;
     }
@@ -285,6 +377,7 @@ public class LearningTypeChartFactory {
     }
 
     private static void initializeMap() {
+        //Create a comparator that will sort by name of tlaLineItem
         Comparator<TLALineItem> tlaLineItemComparator = new Comparator<TLALineItem>() {
 
             @Override
@@ -292,6 +385,7 @@ public class LearningTypeChartFactory {
                 return a.getName().compareTo(b.getName());
             }
         };
+        //set the keys and values of the map
         learningTypeMap.put(ACQUISITION, new TreeSet<>(tlaLineItemComparator));
 	learningTypeMap.put(COLLABORATION, new TreeSet<>(tlaLineItemComparator));
 	learningTypeMap.put(DISCUSSION, new TreeSet<>(tlaLineItemComparator));
