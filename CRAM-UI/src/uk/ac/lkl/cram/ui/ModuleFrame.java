@@ -127,7 +127,6 @@ public class ModuleFrame extends javax.swing.JFrame {
         saveMI = new javax.swing.JMenuItem();
         saveAsMI = new javax.swing.JMenuItem();
         quitMI = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         addTLALineItemMI = new javax.swing.JMenuItem();
@@ -200,9 +199,6 @@ public class ModuleFrame extends javax.swing.JFrame {
         fileMenu.add(quitMI);
 
         windowMenuBar.add(fileMenu);
-
-        org.openide.awt.Mnemonics.setLocalizedText(editMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.editMenu.text")); // NOI18N
-        windowMenuBar.add(editMenu);
 
         org.openide.awt.Mnemonics.setLocalizedText(moduleMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.moduleMenu.text")); // NOI18N
         moduleMenu.add(jSeparator1);
@@ -292,7 +288,6 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem addModuleLineItemMI;
     private javax.swing.JMenuItem addTLALineItemMI;
     private javax.swing.JMenuItem duplicateMI;
-    private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem jMenuItem1;
