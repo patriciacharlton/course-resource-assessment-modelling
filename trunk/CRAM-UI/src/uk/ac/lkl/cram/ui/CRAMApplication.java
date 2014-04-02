@@ -51,8 +51,8 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
-import org.openide.util.Exceptions;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 import uk.ac.lkl.cram.model.io.ModuleUnmarshaller;
 
@@ -160,7 +160,7 @@ public class CRAMApplication {
             @Override
             public void actionPerformed(ActionEvent ae) {
 		//Try to create a new module
-                if (createNewModule()) {
+                if (createNewModule(true)) {
 		    //If a new module has been created, close the startup dialog
                     startupDialog.setVisible(false);
                 }
@@ -245,7 +245,7 @@ public class CRAMApplication {
 
             @Override
             public void actionPerformed(ActionEvent ae) {
-                createNewModule();
+                createNewModule(false);
             }
         });
 	//Listen for the user selecting open module
@@ -411,11 +411,20 @@ public class CRAMApplication {
      * @return true if the frame containing the new module is added to the UI
      */
     @SuppressWarnings("ValueOfIncrementOrDecrementUsed")
-    private boolean createNewModule() {
+    private boolean createNewModule(boolean centred) {
         Module module = new Module();
+        //Add a dummy module line item
+        module.addModuleItem(new ModuleLineItem("Undefined module activity"));
 	//Create a dialog for the user to enter the details of the module
         ModuleOkCancelDialog dialog = new ModuleOkCancelDialog(new javax.swing.JFrame(), true, module);
         dialog.setSize(dialog.getPreferredSize());
+        if (centred) {
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Dimension dialogSize = dialog.getSize();
+            int x = (screenSize.width - dialogSize.width) / 2;
+            int y = (screenSize.height - dialogSize.height) / 2;
+            dialog.setLocation(x, y);
+        }
         dialog.setVisible(true);
         if (dialog.getReturnStatus() == ModuleOkCancelDialog.RET_OK) {
             return addModule(module, "Untitled " + MODULE_COUNT++);

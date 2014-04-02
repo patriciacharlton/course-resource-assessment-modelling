@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.awt.Dimension;
@@ -21,18 +36,31 @@ import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
 import uk.ac.lkl.cram.ui.SelectAllAdapter;
 
 /**
- * $Date$
- * $Revision$
+ * This class represents the visual rendering of a step in the TLA Creator Wizard\
+ * --the one in which the details of the line item are entered, not the details
+ * of the TLA.<br/>
+ * The visual rendering is in the form of a panel containing sub-panels in which
+ * the user can view the name of the activity, enter the learner hours, and the 
+ * number of preparation hours and support hours for the TLA. 
+ * @see TLACreator
+ * @see LineItemsDetailWizardPanel
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(LineItemsDetailVisualPanel.class.getName());
+    /**
+     * Property name associated with the validity of the contents of the textfields
+     */
     public final static String PROP_VALID = "valid";
+    //Map of the text fields, used to manage the automatic defaults
+    //A 'dirty' field is one that the user has entered data into
     private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<>();
     
+    //The line item that is being edited
     private final TLALineItem lineItem;
-    private final Module module;
 
     /**
      * Creates new form LineItemsDetailVisualPanel
@@ -41,8 +69,9 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
      */
     public LineItemsDetailVisualPanel(Module module, TLALineItem li) {
         this.lineItem = li;
-	this.module = module;
+        
         initComponents();
+        //Listener for change in name of activity
         final PropertyChangeListener nameListener = new PropertyChangeListener() {
 
 	    @Override
@@ -50,7 +79,9 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		tlActivityNameChanged();
 	    }
 	};
+        //Add listener to the line item's activity
 	lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_NAME, nameListener);
+        //Add listener to update if the line item's activity changes
         lineItem.addPropertyChangeListener(TLALineItem.PROP_ACTIVITY, new PropertyChangeListener() {
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
@@ -65,28 +96,42 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		}
 	    }
 	});
+        //Set the contents of the field from the underlying model
         weeklyHoursField.setValue(lineItem.getWeeklyLearnerHourCount());
+        //Add a focus listener that will select all when focus is gained
         weeklyHoursField.addFocusListener(new SelectAllAdapter());
-	new FormattedTextFieldAdapter(weeklyHoursField) {
-
-	    @Override
-	    public void updateValue(Object value) {
-		lineItem.setWeeklyLearnerHourCount((Float)value);
-		checkValidity();
-	    }
-	};
-	weekCountField.setValue(lineItem.getWeekCount(module));
+        //Add a document listener that will
+        //also update the value in the underlying model
+        //and check for validity of the whole panel
+        new FormattedTextFieldAdapter(weeklyHoursField) {
+            @Override
+            public void updateValue(Object value) {
+                lineItem.setWeeklyLearnerHourCount((Float) value);
+                checkValidity();
+            }
+        };
+        //Set the contents of the field from the underlying model
+        weekCountField.setValue(lineItem.getWeekCount(module));
 	//TODO Focus listener to check for invalid data?
-	new FormattedTextFieldAdapter(weekCountField) {
+        //TODO selectalladapter?
+        //Add a document listener that will
+        //also update the value in the underlying model
+        //and check for validity of the whole panel
+        new FormattedTextFieldAdapter(weekCountField) {
 	    @Override
 	    public void updateValue(Object value) {
 		lineItem.setWeekCount((Integer) value);
 		checkValidity();
 	    }
 	};
+        //Set the contents of the field from the underlying model
         nonWeeklyHoursField.setValue(lineItem.getNonWeeklyLearnerHourCount());
+        //Add a focus listener that will select all when focus is gained
         nonWeeklyHoursField.addFocusListener(new SelectAllAdapter());
-	new FormattedTextFieldAdapter(nonWeeklyHoursField) {
+	//Add a document listener that will
+        //also update the value in the underlying model
+        //and check for validity of the whole panel
+        new FormattedTextFieldAdapter(nonWeeklyHoursField) {
 	    @Override
 	    public void updateValue(Object value) {
 		lineItem.setNonWeeklyLearnerHourCount((Float) value);
@@ -94,6 +139,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    }
 	};
 		
+        //Factory to create percent formatters
         JFormattedTextField.AbstractFormatterFactory aff = new JFormattedTextField.AbstractFormatterFactory() {
 
             @Override
@@ -102,37 +148,47 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
             }
         };
         
+        //Verifier to ensure that a percentage was entered
         InputVerifier verifier = new PercentVerifier();	
 	
-	//Preparation Fields
+        //Create array of fields that represent the weekly preparation for each run
 	final JFormattedTextField[] weeklyPreparationFields = new JFormattedTextField[3];
 	weeklyPreparationFields[0] = presentation1WeeklyPreparation;
 	weeklyPreparationFields[1] = presentation2WeeklyPreparation;
 	weeklyPreparationFields[2] = presentation3WeeklyPreparation;
+	//Create array of fields that represent the non-weekly preparation for each run
 	final JFormattedTextField[] nonWeeklyPreparationFields = new JFormattedTextField[3];
 	nonWeeklyPreparationFields[0] = presentation1NonWeeklyPreparation;
 	nonWeeklyPreparationFields[1] = presentation2NonWeeklyPreparation;
 	nonWeeklyPreparationFields[2] = presentation3NonWeeklyPreparation;
+	//Create array of fields that represent the higher day rate for each run
 	final JFormattedTextField[] higherCostPreparationFields = new JFormattedTextField[3];
 	higherCostPreparationFields[0] = presentation1HigherCostPreparation;
 	higherCostPreparationFields[1] = presentation2HigherCostPreparation;
 	higherCostPreparationFields[2] = presentation3HigherCostPreparation;
+	//Create array of fields that represent the lower day rate for each run
 	JFormattedTextField[] lowerCostPreparationFields = new JFormattedTextField[3];
 	lowerCostPreparationFields[0] = presentation1LowerCostPreparation;
 	lowerCostPreparationFields[1] = presentation2LowerCostPreparation;
 	lowerCostPreparationFields[2] = presentation3LowerCostPreparation;
+        //Iterate around the runs for each field
 	int preparationIndex = 0;
 	for (final ModulePresentation modulePresentation : module.getModulePresentations()) {
-	    weeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getWeekly());
-	    weeklyPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
-	    new FormattedTextFieldAdapter(weeklyPreparationFields[preparationIndex]) {
+	    //For the weekly preparation, set the value of the field from the underlying model
+            weeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getWeekly());
+	    //Add a focus listener that will select all the contents when receiving focus
+            weeklyPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
+	    //Add a document listener that will
+            //update the value in the underlying model
+            //and make the field dirty (indicating that a user has entered data)
+            new FormattedTextFieldAdapter(weeklyPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
 		    lineItem.getPreparationTime(modulePresentation).setWeekly((Float)value);
 		    makeFieldDirty(textField);
 		}
 	    };
-	    
+	    //Repeat the above pattern for other fields
 	    nonWeeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getNonWeekly());
 	    nonWeeklyPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(nonWeeklyPreparationFields[preparationIndex]) {
@@ -152,8 +208,11 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		    makeFieldDirty(textField);
 		}
 	    };
+            //Format the contents of this field using the percent formatter
 	    higherCostPreparationFields[preparationIndex].setFormatterFactory(aff);
+            //Verify the contents of this field to be a percentage
             higherCostPreparationFields[preparationIndex].setInputVerifier(verifier);
+            //If the user enters data for the senior rate, then update the value in the junior rate
 	    lineItem.getPreparationTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new HigherCostPropertyListener(higherCostPreparationFields[preparationIndex]));
 	    
 	    lowerCostPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getJuniorRate());
@@ -167,13 +226,15 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    };
 	    lowerCostPreparationFields[preparationIndex].setFormatterFactory(aff);
             lowerCostPreparationFields[preparationIndex].setInputVerifier(verifier);
+	    //If the user enters data for the junior rate, then update the value in the senior rate
 	    lineItem.getPreparationTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new LowerCostPropertyListener(lowerCostPreparationFields[preparationIndex]));
 	    
 	    preparationIndex++;
 	}
 	
 	
-	//Support Fields
+	//Create array of fields that represent the weekly support for each run
+        //Repeat the same pattern as for preparation
 	final JFormattedTextField[] weeklySupportFields = new JFormattedTextField[3];
 	weeklySupportFields[0] = presentation1WeeklySupport;
 	weeklySupportFields[1] = presentation2WeeklySupport;
@@ -240,7 +301,9 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
             supportIndex++;
 	}
 	
-	ModulePresentation mp1 = module.getModulePresentations().get(0);
+	//Set the the automatic defaults, so that if the user enters data in 
+        //a field for run 1, we update the fields for runs 2 and 3
+        ModulePresentation mp1 = module.getModulePresentations().get(0);
 	final PreparationTime pt1 = lineItem.getPreparationTime(mp1);
 	pt1.addPropertyChangeListener(new PropertyChangeListener() {
 	    @Override
@@ -302,6 +365,10 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	return java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("LINE ITEM DETAILS");
     }
     
+    /*
+     * Check the validity of the contents of the fields
+     * Used to hide/show the 'next' button on the wizard
+     */
     private void checkValidity() {
 	boolean weeklyValid =  !(lineItem.getWeeklyLearnerHourCount()<= 0);
 	boolean nonWeeklyValid = !(lineItem.getNonWeeklyLearnerHourCount() <= 0);
@@ -525,7 +592,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         presentation3LowerCostPreparation.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         preparationPanel.add(presentation3LowerCostPreparation);
 
-        supportPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Teaching Support Hours"));
+        supportPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Teacher support hours per group/student"));
         supportPanel.setToolTipText(bundle.getString("SUPPORT_HOURS_PANEL")); // NOI18N
         supportPanel.setLayout(new java.awt.GridLayout(4, 5));
         supportPanel.add(blankSupportLabel);
@@ -695,6 +762,10 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField weeklyHoursField;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * For testing purposes only
+     * @param args (ignored)
+     */
     public static void main(String args[]) {
 
         final JFrame frame = new JFrame("Line Item Wizard Panel");
@@ -713,10 +784,17 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         });
     }
 
+    /*
+     * Update the value in the map to indicate that a field is dirty
+     * i.e. that the user has entered data into the field
+     */
     private void makeFieldDirty(JFormattedTextField jFormattedTextField) {
 	dirtyMap.put(jFormattedTextField, Boolean.TRUE);
     }
     
+    /*
+     * Determine if a field is dirty (i.e. the user has entered data into the field)
+     */
     private boolean isFieldDirty(JFormattedTextField jFormattedTextField) {
 	Boolean isDirty = dirtyMap.get(jFormattedTextField);
 	if (isDirty == null) {
@@ -726,6 +804,10 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	return isDirty;
     }
     
+    /*
+     * PropertyChange listener waiting to be informed of a change in the 
+     * value of a the junior or senior day rate in a line item
+     */
     private abstract class CostPropertyListener implements PropertyChangeListener {
 	protected JFormattedTextField field;
 	
@@ -734,6 +816,11 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	}
     }
     
+    /*
+     * Utility class that is used to listen for changes in the value of the 
+     * higher cost day rate in a line item. This will cause the value
+     * of the field to be updated with the new value from the line item 
+     */
     private class HigherCostPropertyListener extends CostPropertyListener {
 	
 	HigherCostPropertyListener(JFormattedTextField field) {
@@ -754,6 +841,11 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	
     }
     
+    /*
+     * Utility class that is used to listen for changes in the value of the 
+     * lower cost day rate in a line item. This will cause the value
+     * of the field to be updated with the new value from the line item 
+     */
     private class LowerCostPropertyListener extends CostPropertyListener {
 	
 	LowerCostPropertyListener(JFormattedTextField field) {
