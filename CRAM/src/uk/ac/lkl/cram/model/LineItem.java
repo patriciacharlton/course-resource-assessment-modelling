@@ -15,6 +15,7 @@
  */
 package uk.ac.lkl.cram.model;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 
 /**
@@ -82,4 +83,14 @@ public interface LineItem extends Serializable {
      * @see ModuleLineItem#removeFrom(Module) 
      */
     public void removeFrom(Module m);
+    
+    /**
+     * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
+    public void addPropertyChangeListener(PropertyChangeListener l);
+
+    /**
+     * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener) 
+     */
+    public void removePropertyChangeListener(PropertyChangeListener l);
 }
