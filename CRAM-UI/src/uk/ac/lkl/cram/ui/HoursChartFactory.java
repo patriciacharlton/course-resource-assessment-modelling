@@ -47,6 +47,7 @@ import uk.ac.lkl.cram.model.ModulePresentation;
 import uk.ac.lkl.cram.model.PreparationTime;
 import uk.ac.lkl.cram.model.SupportTime;
 import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.model.TLActivity;
 
 /**
  * This class is a factory that produces an instance of class ChartPanel. The ChartPanel 
@@ -121,12 +122,15 @@ public class HoursChartFactory {
             //This means that whenever a support time or a preparation time changes,
             //or its activity changes, the listener is triggered
             //Causing the dataset to be repopulated
+            //Also add the listener to the activity for the tlaLineItem so that
+            //when the tutor group size changes, the chart is updated
             for (TLALineItem lineItem : module.getTLALineItems()) {
 		//LOGGER.info("adding listener to : " + lineItem.getName());
 		SupportTime st = lineItem.getSupportTime(modulePresentation);
 		st.addPropertyChangeListener(presentationListener);
 		PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 		pt.addPropertyChangeListener(presentationListener);
+                lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_MAX_GROUP_SIZE, presentationListener);
 	    }
             //Add the listener to the support time of each of the module's 
             //module line items, for each presentation
@@ -155,7 +159,9 @@ public class HoursChartFactory {
 			    st.removePropertyChangeListener(presentationListener);
 			    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 			    pt.removePropertyChangeListener(presentationListener);
-			}			
+			}
+                        //Also remove the listener from the activity
+                        lineItem.removePropertyChangeListener(TLActivity.PROP_MAX_GROUP_SIZE, presentationListener);
 		    }
 		    if (pce.getNewValue() != null) {
 			//This has been added
@@ -169,6 +175,8 @@ public class HoursChartFactory {
 			    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
 			    pt.addPropertyChangeListener(presentationListener);
 			}
+                        //Also add the listener to the activity
+                        lineItem.addPropertyChangeListener(TLActivity.PROP_MAX_GROUP_SIZE, presentationListener);
 		    }
 		}
                 //Assume the dataset is now out of date

@@ -65,12 +65,12 @@ public class LearningTypeChartFactory {
     private static final Logger LOGGER = Logger.getLogger(LearningTypeChartFactory.class.getName());
     
     //Labels for the segments of the pie chart
-    private final static String ACQUISITION = "Acquisition";
-    private final static String COLLABORATION = "Collaboration";
-    private final static String DISCUSSION = "Discussion";
-    private final static String INQUIRY = "Inquiry";
-    private final static String PRACTICE = "Practice";
-    private final static String PRODUCTION = "Production";
+    final static String ACQUISITION = "Acquisition";
+    final static String COLLABORATION = "Collaboration";
+    final static String DISCUSSION = "Discussion";
+    final static String INQUIRY = "Inquiry";
+    final static String PRACTICE = "Practice";
+    final static String PRODUCTION = "Production";
     
     //Colours for the pie chart
     static final Color ACQUISITION_COLOR = new Color(101, 220, 241);  

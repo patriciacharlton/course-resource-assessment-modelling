@@ -26,6 +26,8 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
 import uk.ac.lkl.cram.model.PreparationTime;
 import uk.ac.lkl.cram.model.SupportTime;
+import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.model.TLActivity;
 
 /**
  * This class represents the model for the tutor hours table. It has a read-only
@@ -152,6 +154,10 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 		//This has been removed
 		LineItem lineItem = (LineItem) pce.getOldValue();
 		//Remove listeners from it
+		if (lineItem instanceof TLALineItem) {
+                    TLALineItem tlaLineItem = (TLALineItem) lineItem;
+                    tlaLineItem.getActivity().removePropertyChangeListener(TLActivity.PROP_MAX_GROUP_SIZE, this);
+                }
 		for (ModulePresentation modulePresentation : module.getModulePresentations()) {
 		    SupportTime st = lineItem.getSupportTime(modulePresentation);
 		    st.removePropertyChangeListener(this);
@@ -163,6 +169,10 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
 		//This has been added
 		LineItem lineItem = (LineItem) pce.getNewValue();
 		//So add listeners to it 
+                if (lineItem instanceof TLALineItem) {
+                    TLALineItem tlaLineItem = (TLALineItem) lineItem;
+                    tlaLineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_MAX_GROUP_SIZE, this);
+                }
 		for (ModulePresentation modulePresentation : module.getModulePresentations()) {
 		    SupportTime st = lineItem.getSupportTime(modulePresentation);
 		    st.addPropertyChangeListener(this);
@@ -180,6 +190,10 @@ public class TutorHoursTableModel extends AbstractTableModel implements Property
     private void addListeners() {
 	//Listen to changes in the module
         module.addPropertyChangeListener(this);
+        //Listen to changes in the max group size of the activity
+        for (TLALineItem tLALineItem : module.getTLALineItems()) {
+            tLALineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_MAX_GROUP_SIZE, this);
+        }
         for (ModulePresentation modulePresentation : module.getModulePresentations()) {
             //Listen to changes in each module presentation
 	    modulePresentation.addPropertyChangeListener(this);

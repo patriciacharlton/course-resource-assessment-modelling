@@ -35,10 +35,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
 import static javax.swing.SwingConstants.CENTER;
 import static javax.swing.SwingConstants.LEFT;
-import org.openide.util.Exceptions;
 import uk.ac.lkl.cram.model.LearningType;
 import uk.ac.lkl.cram.model.TLALineItem;
 
@@ -133,6 +131,7 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        lineItemList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(lineItemList);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
