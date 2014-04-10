@@ -36,7 +36,7 @@ import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
 import uk.ac.lkl.cram.ui.SelectAllAdapter;
 
 /**
- * This class represents the visual rendering of a step in the TLA Creator Wizard\
+ * This class represents the visual rendering of a step in the TLA Creator Wizard
  * --the one in which the details of the line item are entered, not the details
  * of the TLA.<br/>
  * The visual rendering is in the form of a panel containing sub-panels in which
@@ -69,7 +69,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
      */
     public LineItemsDetailVisualPanel(Module module, TLALineItem li) {
         this.lineItem = li;
-        
+        //Focus listener to select all text when focus gained
+        SelectAllAdapter saa = new SelectAllAdapter();
         initComponents();
         //Listener for change in name of activity
         final PropertyChangeListener nameListener = new PropertyChangeListener() {
@@ -99,7 +100,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         //Set the contents of the field from the underlying model
         weeklyHoursField.setValue(lineItem.getWeeklyLearnerHourCount());
         //Add a focus listener that will select all when focus is gained
-        weeklyHoursField.addFocusListener(new SelectAllAdapter());
+        weeklyHoursField.addFocusListener(saa);
         //Add a document listener that will
         //also update the value in the underlying model
         //and check for validity of the whole panel
@@ -112,8 +113,8 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         };
         //Set the contents of the field from the underlying model
         weekCountField.setValue(lineItem.getWeekCount(module));
+        weekCountField.addFocusListener(saa);
 	//TODO Focus listener to check for invalid data?
-        //TODO selectalladapter?
         //Add a document listener that will
         //also update the value in the underlying model
         //and check for validity of the whole panel
@@ -127,7 +128,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         //Set the contents of the field from the underlying model
         nonWeeklyHoursField.setValue(lineItem.getNonWeeklyLearnerHourCount());
         //Add a focus listener that will select all when focus is gained
-        nonWeeklyHoursField.addFocusListener(new SelectAllAdapter());
+        nonWeeklyHoursField.addFocusListener(saa);
 	//Add a document listener that will
         //also update the value in the underlying model
         //and check for validity of the whole panel
@@ -177,7 +178,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    //For the weekly preparation, set the value of the field from the underlying model
             weeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getWeekly());
 	    //Add a focus listener that will select all the contents when receiving focus
-            weeklyPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
+            weeklyPreparationFields[preparationIndex].addFocusListener(saa);
 	    //Add a document listener that will
             //update the value in the underlying model
             //and make the field dirty (indicating that a user has entered data)
@@ -190,7 +191,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    };
 	    //Repeat the above pattern for other fields
 	    nonWeeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getNonWeekly());
-	    nonWeeklyPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
+	    nonWeeklyPreparationFields[preparationIndex].addFocusListener(saa);
 	    new FormattedTextFieldAdapter(nonWeeklyPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
@@ -200,7 +201,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    };
 	    
 	    higherCostPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getSeniorRate());
-	    higherCostPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
+	    higherCostPreparationFields[preparationIndex].addFocusListener(saa);
 	    new FormattedTextFieldAdapter(higherCostPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
@@ -216,7 +217,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    lineItem.getPreparationTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new HigherCostPropertyListener(higherCostPreparationFields[preparationIndex]));
 	    
 	    lowerCostPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getJuniorRate());
-	    lowerCostPreparationFields[preparationIndex].addFocusListener(new SelectAllAdapter());
+	    lowerCostPreparationFields[preparationIndex].addFocusListener(saa);
 	    new FormattedTextFieldAdapter(lowerCostPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
@@ -254,7 +255,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	int supportIndex = 0;
 	for (final ModulePresentation modulePresentation : module.getModulePresentations()) {
 	    weeklySupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getWeekly());
-	    weeklySupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
+	    weeklySupportFields[supportIndex].addFocusListener(saa);
 	    new FormattedTextFieldAdapter(weeklySupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
@@ -264,7 +265,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    };
 	    
 	    nonWeeklySupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getNonWeekly());
-	    nonWeeklySupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
+	    nonWeeklySupportFields[supportIndex].addFocusListener(saa);
 	    new FormattedTextFieldAdapter(nonWeeklySupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
@@ -274,7 +275,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    };
 	    
 	    higherCostSupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getSeniorRate());
-	    higherCostSupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
+	    higherCostSupportFields[supportIndex].addFocusListener(saa);
 	    new FormattedTextFieldAdapter(higherCostSupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
@@ -287,7 +288,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    lineItem.getSupportTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new HigherCostPropertyListener(higherCostSupportFields[supportIndex]));
 	    
 	    lowerCostSupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getJuniorRate());
-	    lowerCostSupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
+	    lowerCostSupportFields[supportIndex].addFocusListener(saa);
 	    new FormattedTextFieldAdapter(lowerCostSupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {

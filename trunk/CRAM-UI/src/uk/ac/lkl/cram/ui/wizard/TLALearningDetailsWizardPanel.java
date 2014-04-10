@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.beans.PropertyChangeEvent;
@@ -10,16 +25,28 @@ import org.openide.util.HelpCtx;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- * $Date$
- * $Revision$
+ * This class represents a step in the TLA Creator Wizard.
+ * It is responsible for managing a visual component, in terms of validity.
+ * @see TLALearningDetailsVisualPanel
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(TLALearningDetailsWizardPanel.class.getName());
 
+    /**
+     * Indicates if the user can go to the next step
+     */
     private boolean isValid = false;
+    /**
+     * Manages the validity of this step in the wizard
+     */
     private ChangeSupport changeSupport = new ChangeSupport(this);
 
+    /**
+     * The activity that is being edited
+     */
     private TLActivity tla;
     /**
      * The visual component that displays this panel. If you need to access the
@@ -31,17 +58,21 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
 	this.tla = activity;
     }
 
-    
-    
-    
-    // Get the visual component for the panel. In this template, the component
-    // is kept separate. This can be more efficient: if the wizard is created
-    // but never displayed, or not all panels are displayed, it is better to
-    // create only those which really need to be visible.
+    /**
+     * Get the visual component for the panel. In this template, the component
+     * is kept separate. This can be more efficient: if the wizard is created
+     * but never displayed, or not all panels are displayed, it is better to
+     * create only those which really need to be visible.
+     * @return the component for the step of the wizard
+     */
     @Override
     public TLALearningDetailsVisualPanel getComponent() {
-	if (component == null) {
+	//Lazy instantiation
+        if (component == null) {
 	    component = new TLALearningDetailsVisualPanel(tla);
+            //Add a lisneter to listen if the data entry fields in the 
+            //component are valid to determine if this step of the 
+            //wizard is valid
 	    component.addPropertyChangeListener(new PropertyChangeListener() {
 
 		@Override
@@ -63,6 +94,11 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
 	}
     }
     
+    /**
+     * Get the help context for this step of the wizard.<br/>
+     * Not currently used in this implementation.
+     * @return the help context describing the currnent step of the wizard
+     */
     @Override
     public HelpCtx getHelp() {
 	// Show no Help button for this panel:
@@ -71,26 +107,37 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
 	// return new HelpCtx("help.key.here");
     }
 
+    /**
+     * Return whether the step of this wizard is valid
+     * @return true if it is OK to press Next or Finish
+     */
     @Override
     public boolean isValid() {
-	// If it is always OK to press Next or Finish, then:
 	return isValid;
-	// If it depends on some condition (form filled out...) and
-	// this condition changes (last form field filled in...) then
-	// use ChangeSupport to implement add/removeChangeListener below.
-	// WizardDescriptor.ERROR/WARNING/INFORMATION_MESSAGE will also be useful.
     }
 
+    /**
+     * Add a change listener to this step of the wizard
+     * @param l a change listener
+     */
     @Override
     public void addChangeListener(ChangeListener l) {
 	changeSupport.addChangeListener(l);
     }
 
+    /**
+     * Remove a change listener from this step of the wizard
+     * @param l a change listener
+     */
     @Override
     public void removeChangeListener(ChangeListener l) {
 	changeSupport.removeChangeListener(l);
     }
 
+    /**
+     * Read the settings from the WizardDescriptor, which acts like a property list
+     * @param wiz the wizard descriptor
+     */
     @Override
     public void readSettings(WizardDescriptor wiz) {
 	// use wiz.getProperty to retrieve previous panel state
@@ -98,6 +145,10 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
         wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, "");
     }
 
+    /**
+     * Store settings on the wizard descriptor, which acts like a property list.
+     * @param wiz the wizard descriptor
+     */
     @Override
     public void storeSettings(WizardDescriptor wiz) {
 	// use wiz.putProperty to remember current panel state

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.awt.Color;
@@ -27,36 +42,54 @@ import javax.swing.event.ChangeListener;
 import uk.ac.lkl.cram.model.EnumeratedLearningExperience;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
+import uk.ac.lkl.cram.ui.SelectAllAdapter;
 import uk.ac.lkl.cram.ui.TextFieldAdapter;
 
 /**
- * $Date$
- * $Revision$
+ * This class provides the rendering for the wizard step where the user enters
+ * the basic details about the teaching and learning activity, including its
+ * name, learning types, and learning experience. 
+ * @see TLALearningDetailsWizardPanel
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(TLALearningDetailsVisualPanel.class.getName());
+    /**
+     * The colour to render a valid distribution of learning types
+     */
     private static final Color VALID_COLOUR = new Color(0, 153, 51);
+    /**
+     * The property used to manage the validity of the data that the user has entered.
+     * See the checkValidity() method.
+     */
     public static final String PROP_VALID = "valid";
 
+    /**
+     * The activity that the user is editing
+     */
     private TLActivity tlActivity;
     
     /**
      * Creates new form TLALearningDetailsVisualPanel
-     * @param tla 
+     * @param tla the activity to be edited
      */
     public TLALearningDetailsVisualPanel(TLActivity tla) {
 	tlActivity = tla;
         initComponents();
+        //Get the name from the activity and put it into the text field
 	tlActivityNameChanged();
+        //Add a listener for when the learning type changes
 	tlActivity.getLearningType().addPropertyChangeListener(new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		learningTypeSliderChanged();
 	    }
-	});	
+	});
+        //Add a listener for when the name of the activity changes
 	tlActivity.addPropertyChangeListener(new PropertyChangeListener() {
 
 	    @Override
@@ -68,7 +101,9 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    }
 	});
 	
+        //Set the value of the slider from the activity
 	acquisitionSlider.setValue(tlActivity.getLearningType().getAcquisition());
+        //Add a listener to the slider so the value in the activity is changed
         acquisitionSlider.addChangeListener(new ChangeListener() {
 
 	    @Override
@@ -78,7 +113,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
                 tlActivity.getLearningType().setAcquisition(aquisition);			    
 	    }
 	});
-	
+	//Repeat
 	discussionSlider.setValue(tlActivity.getLearningType().getDiscussion());
         discussionSlider.addChangeListener(new ChangeListener() {
 
@@ -134,7 +169,10 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    }
 	});
 	
-	new TextFieldAdapter(tlaNameField) {
+	//Add a document listener to the name field so that when the user
+        //changes its contents the value in the activity is updated
+        //And the validity of the wizard step is validated
+        new TextFieldAdapter(tlaNameField) {
 
 	    @Override
 	    public void updateText(String text) {
@@ -143,27 +181,45 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    }
 	};
 
-	//learningExperienceComboBox.setModel(cbModel);
+        //Add a listener to the learning experience combo box
 	learningExperienceComboBox.addActionListener(new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		EnumeratedLearningExperience ele = (EnumeratedLearningExperience) learningExperienceComboBox.getSelectedItem();
-		tlActivity.setLearningExperience(ele);
-		boolean enableMaxGroupSize = ele == EnumeratedLearningExperience.SOCIAL;
-		maxGroupSizeTF.setEnabled(enableMaxGroupSize);
-		maxGroupSizeLabel.setEnabled(enableMaxGroupSize);
-		if (enableMaxGroupSize) {
-		    maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
-		} else {
-		    maxGroupSizeTF.setValue(0);
-		}
-	    }
-	});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Get the selected learning experience from the combo box
+                EnumeratedLearningExperience ele = (EnumeratedLearningExperience) learningExperienceComboBox.getSelectedItem();
+                //Set the property of the TLA
+                tlActivity.setLearningExperience(ele);
+                //Enable max group size if the learning experience is social
+                boolean enableMaxGroupSize = ele == EnumeratedLearningExperience.SOCIAL;
+                maxGroupSizeTF.setEnabled(enableMaxGroupSize);
+                maxGroupSizeLabel.setEnabled(enableMaxGroupSize);
+                //Set the value in the text field
+                if (enableMaxGroupSize) {
+                    maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
+                } else {
+                    switch (ele) {
+                        case PERSONALISED:
+                            maxGroupSizeTF.setValue(1);
+                            break;
+                        case ONE_SIZE_FOR_ALL:
+                            maxGroupSizeTF.setValue(0);
+                            break;
+                    }
+                }
+                checkValidity();
+            }
+        });
 	
-	learningExperienceComboBox.setRenderer(new LearningExperienceRenderer());
-	maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
-	maxGroupSizeTF.addFocusListener(new FocusAdapter() {
+	//Set the renderer for the combo box
+        learningExperienceComboBox.setRenderer(new LearningExperienceRenderer());
+        //Enable max group size if the learning experience is social
+        boolean enableMaxGroupSize = learningExperienceComboBox.getSelectedItem() == EnumeratedLearningExperience.SOCIAL;
+        maxGroupSizeTF.setEnabled(enableMaxGroupSize);
+	//Set the value of the text field from the activity
+        maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
+	//Add a focus listener to the textfield to ensure edits are committed
+        //when the focus is lost
+        maxGroupSizeTF.addFocusListener(new SelectAllAdapter() {
 	    @Override
 	    public void focusLost(FocusEvent e) {
 		try {
@@ -174,15 +230,18 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    }
 	
 	});
+        //Add a document listener to the text field so that the value is updated
+        //in the activity
 	new FormattedTextFieldAdapter(maxGroupSizeTF) {
 	    @Override
 	    public void updateValue(Object value) {
 		Integer maxGroupSize = (int) value;
 		tlActivity.setMaximumGroupSize(maxGroupSize);
+                checkValidity();
 	    }
 	};
 	
-	
+	//A factory to return the formatter for the total learning experience field
         final JFormattedTextField.AbstractFormatter learningFieldFormatter = new JFormattedTextField.AbstractFormatter() {
 
             @Override
@@ -203,6 +262,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
             }
         };
         totalLearningTypeField.setFormatterFactory(aff);
+        //Update the activity with the current values of the sliders
         learningTypeSliderChanged();
         
     }
@@ -212,6 +272,11 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	return java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("LEARNING DETAILS");
     }
     
+    /**
+     * The combox box model that contains the enumerated learning experiences, 
+     * with the selected item set to be the current value from the activity
+     * @return a combobox model for use by the combobox menu
+     */
     private ComboBoxModel<EnumeratedLearningExperience> getComboBoxModel() {
 	EnumeratedLearningExperience[] learningExperiences = {EnumeratedLearningExperience.PERSONALISED, EnumeratedLearningExperience.SOCIAL, EnumeratedLearningExperience.ONE_SIZE_FOR_ALL};
 	ComboBoxModel<EnumeratedLearningExperience> cbModel = new DefaultComboBoxModel<>(learningExperiences);
@@ -219,6 +284,9 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	return cbModel;
     }
     
+    /**
+     * If the contents of the text field have changed, update the value of the activity
+     */
     private void tlActivityNameChanged() {
 	if (!tlaNameField.getText().equalsIgnoreCase(tlActivity.getName())) {
 	    tlaNameField.setText(tlActivity.getName());
@@ -548,6 +616,12 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * The values of the learning experience type sliders have changed
+     * Sum the values for the total field, and change its colour
+     * accordingly
+     * If necessary, enable the normalise button
+     */
     private void learningTypeSliderChanged() {
         int totalLearningType = acquisitionSlider.getValue();
         totalLearningType += collaborationSlider.getValue();
@@ -574,32 +648,34 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 
     private void checkValidity() {
 	Integer totalLearningType = (Integer) totalLearningTypeField.getValue();
-	if (totalLearningType != 100) {
-	    //LOGGER.info("totalLearningType: " + totalLearningType);
+	//If the total learning type isn't 100 then we're not valid
+        if (totalLearningType != 100) {
 	    firePropertyChange(PROP_VALID, true, false);
 	    return;
 	}
-	if (tlaNameField.getText().isEmpty()) {
-	    //LOGGER.info("tlaNameField: " + tlaNameField.getText());
+	//If the name field is empty, then we're not valid
+        if (tlaNameField.getText().isEmpty()) {
 	    firePropertyChange(PROP_VALID, true, false);
 	    return;
 	}
+        EnumeratedLearningExperience ele = (EnumeratedLearningExperience) learningExperienceComboBox.getSelectedItem();
+        //If it's a social learning experience, we have to have a group size of more than 1 to be valid
+        if (ele == EnumeratedLearningExperience.SOCIAL) {
+          Integer maxGroupSize = (Integer) maxGroupSizeTF.getValue();
+          if (maxGroupSize <= 1) {
+              firePropertyChange(PROP_VALID, true, false);
+              return;
+          }
+        }
 	firePropertyChange(PROP_VALID, false, true);
     }
     
+    /**
+     * For testing purposes only
+     * @param args (ignored)
+     */
     public static void main(String args[]) {
 
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
         final JFrame frame = new JFrame(java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("ENTER LEARNING DETAILS"));
         frame.add(new TLALearningDetailsVisualPanel(new TLActivity("Dummy TLA")));
 
@@ -612,6 +688,9 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         });
     }
 
+    /**
+     * Take the current values from the sliders and force them to sum to 100
+     */
     private void normaliseLearningTypes() {
         Map<JSlider, Integer> sliderTable = new HashMap<>();
         sliderTable.put(acquisitionSlider, acquisitionSlider.getValue());
@@ -642,6 +721,10 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Renderer for the combo box that uses the correct labels for the 
+     * enumerated learning experiences
+     */
     private class LearningExperienceRenderer extends JLabel implements ListCellRenderer<EnumeratedLearningExperience> {
 	private Map<EnumeratedLearningExperience, String> renditionMap = new HashMap<>();
 	LearningExperienceRenderer() {
