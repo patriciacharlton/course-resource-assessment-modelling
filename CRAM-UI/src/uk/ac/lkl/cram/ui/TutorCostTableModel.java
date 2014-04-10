@@ -30,7 +30,7 @@ import uk.ac.lkl.cram.model.SupportTime;
 /**
  * This class represents the model for the tutor cost table. It has a read-only
  * API. It listens to the underlying CRAM model for changes (in particular, the module and the 
- * module presentations) and when it receives them fires changes for any listeners
+ * module presentations and the support and preparation times) and when it receives them fires changes for any listeners
  * to this model. This model provides a view of the module in terms of the cost
  * per activity per presentation. Each row of the table represents 
  * an activity, and each column represents a presentation. Each presentation is
@@ -137,10 +137,33 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
     
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        //If there has been an addition or removal of line items in the module
+	//If there has been an addition or removal of line items in the module
 	if (pce instanceof IndexedPropertyChangeEvent) {
 	    IndexedPropertyChangeEvent ipce = (IndexedPropertyChangeEvent) pce;
+	    //Let the ui know that the table has been updated
 	    fireTableRowsInserted(ipce.getIndex(), ipce.getIndex());
+	    if (pce.getOldValue() != null) {
+		//This has been removed
+		LineItem lineItem = (LineItem) pce.getOldValue();
+		//Remove listeners from it
+		for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+		    SupportTime st = lineItem.getSupportTime(modulePresentation);
+		    st.removePropertyChangeListener(this);
+		    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+		    pt.removePropertyChangeListener(this);
+		}
+	    }
+	    if (pce.getNewValue() != null) {
+		//This has been added
+		LineItem lineItem = (LineItem) pce.getNewValue();
+		//So add listeners to it 
+		for (ModulePresentation modulePresentation : module.getModulePresentations()) {
+		    SupportTime st = lineItem.getSupportTime(modulePresentation);
+		    st.addPropertyChangeListener(this);
+		    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+		    pt.addPropertyChangeListener(this);
+		}
+	    }
 	} else {
 	    //LOGGER.info("event propertyName: " + pce.getPropertyName() + " newValue: " + pce.getNewValue());
 	    //TODO, catch all for any property
@@ -149,9 +172,19 @@ public class TutorCostTableModel extends AbstractTableModel implements PropertyC
     }
 
     private void addListeners() {
+	//Listen to changes in the module
         module.addPropertyChangeListener(this);
         for (ModulePresentation modulePresentation : module.getModulePresentations()) {
-            modulePresentation.addPropertyChangeListener(this);
+            //Listen to changes in each module presentation
+	    modulePresentation.addPropertyChangeListener(this);
+	    for (LineItem lineItem : module.getLineItems()) {
+		//Listen to changes in the support time for each line item, for each run
+		SupportTime st = lineItem.getSupportTime(modulePresentation);
+		st.addPropertyChangeListener(this);
+		//Listen to changes in the preparation time for each line item, for each run
+		PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+		pt.addPropertyChangeListener(this);
+	    }
         }
     }
 }
