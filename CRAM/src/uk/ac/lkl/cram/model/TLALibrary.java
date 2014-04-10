@@ -31,7 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * This class represents the library of TLAs. It is used to manage the 
- * pre-defined TLAs.
+ * pre-defined TLAs. This class does not implement a singleton, so each time
+ * it is asked for the default library, it is read from disk. This avoids
+ * having to clone the instances of TLActivity.<br>
+ * NB. There is no interface to remove activities from the library.
+ * @see TLActivity
  * @author Bernard Horan
  * @version $Revision$
  */
@@ -43,7 +47,9 @@ public class TLALibrary {
     
     /**
      * Return the default library of TLAs that has been read from the xml file.
-     * @return the instance of the library 
+     * No singleton is used in this implementation, so the library is read from
+     * disk each time this method is called.
+     * @return the library read from disk
      */
     public static TLALibrary getDefaultLibrary() {
         try {
@@ -53,7 +59,7 @@ public class TLALibrary {
             InputStream is = TLALibrary.class.getResourceAsStream('/' + DEFAULT_LIBRARY_NAME);
             return (TLALibrary) unmarshaller.unmarshal(is);
         } catch (JAXBException | IllegalArgumentException ex) {
-            LOGGER.log(Level.SEVERE, "Failed to load default library, returning empty library", ex);
+            LOGGER.log(Level.SEVERE, "Failed to load default library, returning new empty library", ex);
             return new TLALibrary();
         }
     

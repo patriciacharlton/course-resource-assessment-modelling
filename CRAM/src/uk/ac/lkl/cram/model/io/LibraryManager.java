@@ -26,7 +26,8 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- * This is a utility class to manage the library of TLAs
+ * This is a utility class to manage the library of TLAs.
+ * @see TLALibrary
  * @author Bernard Horan
  * @version $Revision$
  */
