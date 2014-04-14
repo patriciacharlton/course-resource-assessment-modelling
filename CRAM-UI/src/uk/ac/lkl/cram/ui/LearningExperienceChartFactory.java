@@ -65,9 +65,9 @@ public class LearningExperienceChartFactory {
     private static final NumberFormat FORMATTER = NumberFormat.getPercentInstance();
     
     //The colours for the bars
-    private static final Color ONE_SIZE_FITS_ALL_COLOR = Color.WHITE;
-    private static final Color PERSONALISED_COLOR = new Color(128,128,128);
-    private static final Color SOCIAL_COLOR = new Color(42,42,42);
+    private static final Color ONE_SIZE_FITS_ALL_COLOR = new Color(166, 166, 166);
+    private static final Color PERSONALISED_COLOR = new Color(230, 185, 184);
+    private static final Color SOCIAL_COLOR = new Color(252, 213,181);
 
     /**
      * For testing purposes only
