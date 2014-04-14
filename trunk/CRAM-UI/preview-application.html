@@ -7,17 +7,11 @@ $Revision$
     <head>
 	<title>Course Resource Appraisal Model</title>
 	<script src="http://java.com/js/deployJava.js"></script>
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/cram_dd.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="js/jquery-ui-1.10.3/themes/base/jquery.ui.all.css" />
-        <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.10.3.custom.css" />
 	<style>
             html {
                 max-width: 1000px;
-            }
-            body {
+            }body {
                 margin-left: 50px;
                 margin-right: 50px;
                 margin-bottom: 50px;
@@ -46,9 +40,15 @@ $Revision$
 		font-family: inherit;
 		font-weight: bold;
 		color: inherit;
-                margin-bottom: 5px;
+                margin-bottom: 15px;
                 margin-top: 20px;
             }
+	    h1 {
+	      font-size: 38.5px;
+	    }
+	    h2 {
+	      font-size: 31.5px;
+	    }
             em {
                 font-style: italic;
 	    }
@@ -88,10 +88,22 @@ $Revision$
 		background-color: #f7f7f9;
 		border: 1px solid #e1e1e8;
 	    }
-            div.ui-dialog p
-            {
-                width: 95%;
-            }
+	    ul,
+	    ol {
+	      padding: 0;
+	      margin: 0 0 10px 25px;
+	    }
+
+	    ul ul,
+	    ul ol,
+	    ol ol,
+	    ol ul {
+	      margin-bottom: 0;
+	    }
+
+	    li {
+	      line-height: 20px;
+	    }
         </style>
     </head>
     <body>
@@ -121,13 +133,11 @@ $Revision$
 		 style="height:50%; width:50%; max-height:536px; max-width:452px">
 	</a>
 
-	<p> A prototype version of the tool (known as the CRAM tool) is now
-	    available for user evaluation purposes. To launch the CRAM Tool,
-	    click on the &lsquo;Launch&rsquo; button below. Alternatively, you can 
-	    download a stand-alone <a href="CRAM%20Tool.zip">Macintosh</a> 
-            or <a href="CRAM%20Tool.exe">Windows</a> version of the tool. Both <u>require</u> the 
+	<p> A prototype version of the tool (known as the CRAM Tool) is now
+	    available for user evaluation purposes. To download the CRAM Tool,
+	    select the version appropriate for your platform below. You <u>require</u> the 
     <a title="Get Java..." href="http://www.java.com/en/download/index.jsp" target="_blank">current
-        version of Java</a> 
+        version of Java</a> to be 
     installed on your system. The current
     version of the CRAM tool does not include any functionality to <em>undo</em>
     user edits or to successfully <em>cancel</em> changes made in
@@ -144,48 +154,20 @@ $Revision$
         list</a>.
 </p>
 
-<p>
-    <a id="launchWindow" href="#showLaunchWindow"><img alt="Launch CRAM" src="css/launchButton.png"/></a>
-</p>
-
+<h2>Downloads</h2>
 <p>(Build @revision@ on @date@)</p>
-<!-- Or use the following link element to launch with the application -->
-<!--
-    <a href="${JNLP.FILE}">Launch the application</a>
--->
-<section id="troubleshooting">
-<h2>Troubleshooting</h2>
-<p>
-    We recommend using a Firefox browser on Apple Macintosh due to recent changes
-    that Apple have introduced into the Safari browser. You may also encounter
-    the following problems.
-</p>
-<h3>Application Blocked</h3>
+<ul>
+    <li>
+	<a href="CRAM%20Tool.zip">Macintosh</a>
+    </li>
+    <li>
+	<a href="CRAM%20Tool.exe">Windows</a>
+    </li>
+    <li>
+	<a href="CRAM-UI.jar">Other platforms</a>
+    </li>
+</ul>
 
-	    
-    <p>
-    If you see a dialogue box that displays the message &lsquo;Application Blocked by
-    Security Settings&rsquo;, then you will need to adjust the security settings
-    of your Java control panel by <a href="http://www.java.com/en/download/help/jcp_security.xml" target="_blank">following these instructions</a>.
-    We recommend that you add <code>http://web.lkldev.ioe.ac.uk/</code> to the
-    <a href="http://www.java.com/en/download/faq/exception_sitelist.xml" target="_blank">Exception Site List</a>,
-    instead of adjusting the Security Level. PLEASE NOTE, Java will present
-    you with a <a href="images/JavaSecurityWarning.jpg" target="_blank">Security Warning</a> that requires you to accept the risk of running
-    this application. If you do not wish to adjust your Java security settings,
-    we recommend that you download the stand-alone version of the tool, as 
-    mentioned earlier.
-</p>
-
-<h3>Unidentified Developer (Mac only)</h3>
-<p>
-    If you see a dialog box that displays the message &lsquo;&ldquo;launch.jnlp&rdquo; 
-    can't be opened because it is from an unidentified developer&rsquo;, you will
-    need to adjust the security settings on your Mac. On Mac OS X 10.9 (&lsquo;Mavericks&rsquo;) and Mac OS X 10.8 
-    (&lsquo;Snow Leopard&rsquo;) Apple has changed its security model to only 
-    support applications from the Mac App Store and identified developers. 
-    You may adjust these settings by <a href="http://support.apple.com/kb/HT5290?viewlocale=en_US&locale=en_US" target="_blank">following the instructions
-    on Apple&rsquo;s web site</a>. 
-</p>
 <footer>Copyright 2014, London Knowledge Lab</footer>
 </body>
 </html>
