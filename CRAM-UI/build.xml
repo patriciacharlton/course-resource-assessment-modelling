@@ -92,7 +92,23 @@
 	<echo>Today's date: ${TODAY}</echo>
 	<replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@date@" value="${TODAY}" />
     
-    </target>    
+    </target>
+    
+    <target name="-post-jar">
+	<echo message="IN POST JAR"/>
+	<taskdef name="copy-template-page" classname="org.netbeans.modules.javawebstart.anttasks.CopyTemplatePageTask"
+            classpath="${libs.JWSAntTasks.classpath}"/>
+        <copy-template-page destfile="${dist.dir}/index.html" template="preview-application.html" destdir="${dist.dir}"/>
+        <!--substitute SVN keywords-->
+        <replace file="${dist.dir}/index.html" token="@revision@" value="${svna.version}" />
+        <tstamp/>
+        <replace file="${dist.dir}/index.html" token="@date@" value="${TODAY}" />
+	<!--Copy image files-->
+	<copy todir="${dist.dir}/images">
+	    <fileset dir="images"/>
+	</copy>
+    </target>
+        
     
     <taskdef name="bundleapp"
 	     classname="com.oracle.appbundler.AppBundlerTask"   
