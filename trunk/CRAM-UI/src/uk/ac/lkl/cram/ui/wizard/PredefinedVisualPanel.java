@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.awt.Component;
@@ -17,22 +32,34 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import uk.ac.lkl.cram.model.LearnerFeedback;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLALibrary;
 import uk.ac.lkl.cram.model.TLActivity;
+import uk.ac.lkl.cram.model.UserTLALibrary;
 import uk.ac.lkl.cram.ui.wizard.FilteredList.Filter;
 
 /**
- * $Date$
- * $Revision$
+ * This class implements the visual aspects of the step in the wizard to select
+ * an existing TLA. It presents some checkboxes and lists from which the user can
+ * browse the TLAs. The TLAs are taken from the pre-defined set in addition to
+ * the ones in the user's preferences.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class PredefinedVisualPanel extends JPanel {
-    private FilteredList<TLActivity> filteredList;
     private static final Logger LOGGER = Logger.getLogger(PredefinedVisualPanel.class.getName());
+    //The filtered list of predefined activities
+    private FilteredList<TLActivity> predefinedFilteredList;
+    //The filtered list of user's activities
+    private FilteredList<TLActivity> userFilteredList;
+    //the filter that selects the activities according to the user's choice of feedback
     private final Filter<TLActivity> feedbackFilter;
+    //the filter that selects the activities according to the user's choice of interaction
     private final Filter<TLActivity> interactionFilter;
 
     /**
@@ -40,20 +67,28 @@ public class PredefinedVisualPanel extends JPanel {
      */
     public PredefinedVisualPanel() {
 	initComponents();
+	//Create the feedback filter
         feedbackFilter = new FeedbackFilter();
+	//Create the interaction filter
         interactionFilter = new InteractionFilter();
+	//Create the name comparator
+	Comparator<TLActivity> nameComparator = new NameComparator();
+	//Get the lists of existing TLAs
 	List<TLActivity> predefinedList = getPredefinedList();
-	filteredList = new FilteredList<>(predefinedList);
-	filteredList.setComparator(new Comparator<TLActivity>() {
-
-	    @Override
-	    public int compare(TLActivity t, TLActivity t1) {
-		return t.getName().compareToIgnoreCase(t1.getName());
-	    }
-	});
-	ListModel<TLActivity> listModel = new PredefinedListModel<>(filteredList);
-	activityList.setModel(listModel);
-	listModel.addListDataListener(new ListDataListener() {
+	List<TLActivity> userList = getUserList();
+	//Wrap them in filtered lists
+	predefinedFilteredList = new FilteredList<>(predefinedList);
+	userFilteredList = new FilteredList<>(userList);
+	//Set the comparators for the filtered lists
+	predefinedFilteredList.setComparator(nameComparator);
+	userFilteredList.setComparator(nameComparator);
+	//Create the list models and assign to JLists
+	ListModel<TLActivity> predefinedListModel = new PredefinedListModel<>(predefinedFilteredList);
+	predefinedActivityList.setModel(predefinedListModel);
+	ListModel<TLActivity> userListModel = new PredefinedListModel<>(userFilteredList);
+	userActivityList.setModel(userListModel);
+	//Add a data listener to each JList
+	predefinedListModel.addListDataListener(new ListDataListener() {
 
 	    @Override
 	    public void intervalAdded(ListDataEvent lde) {
@@ -67,10 +102,33 @@ public class PredefinedVisualPanel extends JPanel {
 
 	    @Override
 	    public void contentsChanged(ListDataEvent lde) {
-		activityList.clearSelection();
+		predefinedActivityList.clearSelection();
 	    }
 	});
-	activityList.setCellRenderer(new TLActivityRenderer());
+	userListModel.addListDataListener(new ListDataListener() {
+
+	    @Override
+	    public void intervalAdded(ListDataEvent lde) {
+		//No op
+	    }
+
+	    @Override
+	    public void intervalRemoved(ListDataEvent lde) {
+		//No op
+	    }
+
+	    @Override
+	    public void contentsChanged(ListDataEvent lde) {
+		userActivityList.clearSelection();
+	    }
+	});
+	//Set the cell renderers for each JList
+	ListCellRenderer<TLActivity> renderer = new TLActivityRenderer();
+	predefinedActivityList.setCellRenderer(renderer);
+	userActivityList.setCellRenderer(renderer);
+	//Wire lists together
+	new ExclusiveListSelectionListener(predefinedActivityList, userActivityList);
+	
     
 	//Interaction Radio Buttons	
 	ActionListener interactionListener = new ActionListener() {
@@ -107,11 +165,15 @@ public class PredefinedVisualPanel extends JPanel {
 
     @Override
     public String getName() {
-	return "Select Predefined Activity";
+	return "Select Existing Activity";
     }
     
-    JList<TLActivity> getActivityList() {
-	return activityList;
+    JList<TLActivity> getPredefinedActivityList() {
+	return predefinedActivityList;
+    }
+    
+    JList<TLActivity> getUserActivityList() {
+	return userActivityList;
     }
     
     private List<TLActivity> getPredefinedList() {
@@ -123,6 +185,15 @@ public class PredefinedVisualPanel extends JPanel {
 	return predefinedList;
     }
     
+    private List<TLActivity> getUserList() {
+	List<TLActivity> userList = new ArrayList<>();
+	UserTLALibrary library = UserTLALibrary.getDefaultLibrary();
+	for (TLActivity activity : library.getActivities()) {
+	    userList.add(activity);
+	}
+	return userList;
+    }
+    
     private void applyFilter() {
 	Filter<TLActivity> filter = new Filter<TLActivity>() {
 	    @Override
@@ -132,7 +203,8 @@ public class PredefinedVisualPanel extends JPanel {
 		return matchedFeedback && matchedInteraction;
 	    }
 	};
-	filteredList.setFilter(filter);
+	predefinedFilteredList.setFilter(filter);
+	userFilteredList.setFilter(filter);
     }
 
     /**
@@ -144,7 +216,7 @@ public class PredefinedVisualPanel extends JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        activityList = new javax.swing.JList<TLActivity>();
+        predefinedActivityList = new javax.swing.JList<TLActivity>();
         panelTitleLabel = new javax.swing.JLabel();
         feedbackPanel = new javax.swing.JPanel();
         tutorFeedbackCB = new javax.swing.JCheckBox();
@@ -158,14 +230,17 @@ public class PredefinedVisualPanel extends JPanel {
         timeSpecificCB = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         tlaTextArea = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        userActivityList = new javax.swing.JList<TLActivity>();
 
-        activityList.setModel(new javax.swing.AbstractListModel() {
+        predefinedActivityList.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.predefinedActivityList.border.title"))); // NOI18N
+        predefinedActivityList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        activityList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(activityList);
+        predefinedActivityList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(predefinedActivityList);
 
         org.openide.awt.Mnemonics.setLocalizedText(panelTitleLabel, org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.panelTitleLabel.text")); // NOI18N
 
@@ -234,7 +309,7 @@ public class PredefinedVisualPanel extends JPanel {
                     .addComponent(onlineCB)
                     .addComponent(locationSpecificCB)
                     .addComponent(timeSpecificCB))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         studentInteractionPanelLayout.setVerticalGroup(
             studentInteractionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,40 +337,49 @@ public class PredefinedVisualPanel extends JPanel {
         tlaTextArea.setWrapStyleWord(true);
         jScrollPane2.setViewportView(tlaTextArea);
 
+        userActivityList.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(PredefinedVisualPanel.class, "PredefinedVisualPanel.userActivityList.border.title"))); // NOI18N
+        userActivityList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        userActivityList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(userActivityList);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(panelTitleLabel)
-                .addContainerGap(145, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(studentInteractionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(feedbackPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(studentInteractionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(feedbackPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)))
+                    .addComponent(panelTitleLabel)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap()
                 .addComponent(panelTitleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(studentInteractionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(feedbackPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(feedbackPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(studentInteractionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -303,27 +387,32 @@ public class PredefinedVisualPanel extends JPanel {
 
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<TLActivity> activityList;
     private javax.swing.JPanel feedbackPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JCheckBox locationSpecificCB;
     private javax.swing.JCheckBox noFeedbackCB;
     private javax.swing.JCheckBox onlineCB;
     private javax.swing.JLabel panelTitleLabel;
     private javax.swing.JCheckBox peerFeedbackCB;
+    private javax.swing.JList<TLActivity> predefinedActivityList;
     private javax.swing.JPanel studentInteractionPanel;
     private javax.swing.JCheckBox telFeedbackCB;
     private javax.swing.JCheckBox timeSpecificCB;
     private javax.swing.JTextArea tlaTextArea;
     private javax.swing.JCheckBox tutorFeedbackCB;
     private javax.swing.JCheckBox tutorPresentCB;
+    private javax.swing.JList<TLActivity> userActivityList;
     // End of variables declaration//GEN-END:variables
 
     void setTLAInfo(String string) {
 	tlaTextArea.setText(string);
     }
 
+    /**
+     * Renderer for the lists
+     */
     private class TLActivityRenderer extends JLabel implements ListCellRenderer<TLActivity> {
 
 	TLActivityRenderer() {
@@ -346,6 +435,10 @@ public class PredefinedVisualPanel extends JPanel {
 	}
     }
     
+    /**
+     * Feedback filter that is used to select activities that meet
+     * the user's selection via checkboxes
+     */
     private class FeedbackFilter implements Filter<TLActivity> {
         private final Set<JCheckBox> feedbackCheckBoxes = new HashSet<>();
 
@@ -370,6 +463,10 @@ public class PredefinedVisualPanel extends JPanel {
         }
     }
     
+    /**
+     * Filter that is used to select activities according to the user's
+     * selected interaction types via checkboxes
+     */
     private class InteractionFilter implements Filter<TLActivity> {
         
         @Override
@@ -390,6 +487,57 @@ public class PredefinedVisualPanel extends JPanel {
             return false;       
         }
         
+    }
+    
+    /**
+     * Comparator that sorts according to name of activity
+     */
+    private class NameComparator implements Comparator<TLActivity> {
+
+	@Override
+	public int compare(TLActivity t, TLActivity t1) {
+	    return t.getName().compareToIgnoreCase(t1.getName());
+	}
+    }
+    
+    /**
+     * Class that will ensure that only one list has a selection
+     */
+    private class ExclusiveListSelectionListener implements ListSelectionListener {
+	private JList<TLActivity> list1;
+	private JList<TLActivity> list2;
+	
+	ExclusiveListSelectionListener(JList<TLActivity> l1, JList<TLActivity> l2) {
+	    list1 = l1;
+	    list2 = l2;
+	    addListeners();
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+	    if (!e.getValueIsAdjusting()) {
+		@SuppressWarnings("unchecked")
+		JList<TLActivity> thisList = (JList<TLActivity>) e.getSource();
+		if (!thisList.isSelectionEmpty()) {
+		    JList<TLActivity> otherList = getOtherList(thisList);
+		    otherList.clearSelection();
+		}
+	    }
+	}
+
+	private void addListeners() {
+	    list1.addListSelectionListener(this);
+	    list2.addListSelectionListener(this);
+	}
+
+	private JList<TLActivity> getOtherList(JList<TLActivity> thisList) {
+	    if (thisList == list1) {
+		return list2;
+	    } else {
+		return list1;
+	    }
+	}
+	
     }
     
 }
