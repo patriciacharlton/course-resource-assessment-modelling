@@ -1,4 +1,18 @@
-
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Dialog;
@@ -16,36 +30,54 @@ import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.model.UserTLALibrary;
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
- * $Date$
- * $Revision$
+ * This class implements a panel used to create a list of TLAs. It is used
+ * by the ModuleOkCancelDialog class as a sub-panel. It consists of a table to
+ * render the activities that have been added, plus action buttons to edit, add 
+ * and remove an activity to/from the table.
+ * @see ModuleOkCancelDialog
+ * @see ModuleTableModel
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ListOfTLAWizardPanel.class.getName());
 
+    /**
+     * The module that will manage the TLAs
+     */
     private Module module;
 
+    /**
+     * Create a new panel
+     */
     public ListOfTLAWizardPanel() {
 	initComponents();
     }
     
     /**
-     * Creates new form ListOfTLAWizardPanel
-     * @param module 
+     * Set the module of the panel. This in turn sets up the table in the 
+     * panel.
+     * @param module the module that will manage the activities
      */
     public void setModule(Module module) {
 	this.module = module;
+	//Set the model for the table
 	activitiesTable.setModel(new ModuleTableModel(module, false));
+	//Set the dimensions for the table
 	activitiesTable.getColumnModel().getColumn(0).setPreferredWidth(150);
 	activitiesTable.getTableHeader().setPreferredSize(new Dimension(activitiesTable.getColumnModel().getTotalColumnWidth(),36));
+	//set the selection model for the table 
 	activitiesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 	    @Override
 	    public void valueChanged(ListSelectionEvent lse) {
-		if (lse.getValueIsAdjusting() == false) {
+		//Only interested when the user has stopped making a selection
+		if (!lse.getValueIsAdjusting()) {
 
 		    if (activitiesTable.getSelectedRow() == -1) {
 			//No selection, disable delete and edit buttons.
@@ -60,6 +92,7 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 		}
 	    }
 	});
+	//Add a mouse listener--double-click means edit the selected row
         activitiesTable.addMouseListener(new MouseAdapter() {
 	    @Override
 	    public void mouseClicked(MouseEvent e) {
@@ -162,6 +195,7 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+	//Set up a wizard to create a TLA
 	TLACreatorWizardIterator iterator = new TLACreatorWizardIterator(module);
 	WizardDescriptor wizardDescriptor = new WizardDescriptor(iterator);
 	iterator.initialize(wizardDescriptor);
@@ -173,16 +207,23 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
         dialog.setVisible(true);
         dialog.toFront();
         boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
-	//LOGGER.info("Cancelled: " + cancelled);
         if (!cancelled) {
-            addLineItem(iterator.getLineItem());
-	    //AELMTest.runReport(module);
+	    //Get the newly created line item
+	    TLALineItem lineItem = iterator.getLineItem();
+	    //If the user created a new TLA, add it to their preferences
+	    if (iterator.isVanilla()) {
+		UserTLALibrary.getDefaultLibrary().addActivity(lineItem.getActivity());
+	    }
+	    //Add the line item to the module
+            addLineItem(lineItem);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+	//Get the selected line item
 	int index = activitiesTable.getSelectedRow();
 	TLALineItem li = module.getTLALineItems().get(index);
+	//Confirm tthat the user really wants to delete the line item
 	int reply = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete \'" + li.getName() + "\'?", "Delete TLA", JOptionPane.YES_NO_OPTION);
 	if (reply == JOptionPane.YES_OPTION) {
 	    removeLineItem(li);
@@ -192,9 +233,13 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        int index = activitiesTable.getSelectedRow();
+        //Get the selected line item
+	int index = activitiesTable.getSelectedRow();
         TLALineItem li = module.getTLALineItems().get(index);
+	//Get the parent window
 	Dialog parentDialog = (Dialog) SwingUtilities.getWindowAncestor(this);
+	//Create a dialog box for the user to modify the line item
+	//TODO modal dialogue
         TLAOkCancelDialog tlaDialog = new TLAOkCancelDialog((Frame)parentDialog.getParent(), true, module, li);
         tlaDialog.setTitle("Modify TLA");
         tlaDialog.setVisible(true);
@@ -211,11 +256,13 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 
     private void addLineItem(TLALineItem lineItem) {
 	//LOGGER.info("Adding lineItem: " + lineItem);
+	//Rely on property changes for the table to update
 	module.addTLALineItem(lineItem);
     }
 
     private void removeLineItem(TLALineItem li) {
         //LOGGER.info("Removing line item: " + li);
+	//Rely on property changes for the table to update
         li.removeFrom(module);
     }
 

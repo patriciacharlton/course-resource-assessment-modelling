@@ -53,6 +53,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
+import uk.ac.lkl.cram.model.UserTLALibrary;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 import uk.ac.lkl.cram.model.io.ModuleUnmarshaller;
 
@@ -81,6 +82,10 @@ public class CRAMApplication {
      * @throws IOException ignored
      */
     public static void main(String[] args) throws IOException {
+	//Register shutdown hook to commit user preferences
+	JVMShutdownHook jvmShutdownHook = new JVMShutdownHook();
+	Runtime.getRuntime().addShutdownHook(jvmShutdownHook);
+     
         // Get the global logger to configure it
         Logger logger = Logger.getLogger("uk.ac.lkl.cram");
         logger.setLevel(Level.ALL);
@@ -546,6 +551,18 @@ public class CRAMApplication {
             return null;
         }
     
+    }
+    
+    /**
+     * Commit changes to the user preferences
+     */
+    private static class JVMShutdownHook extends Thread {
+
+	@Override
+	public void run() {
+	    UserTLALibrary userLibrary = UserTLALibrary.getDefaultLibrary();
+	    userLibrary.commit();
+	}
     }
     
     /**

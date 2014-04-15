@@ -13,7 +13,7 @@ import uk.ac.lkl.cram.model.TLALineItem;
  * $Revision$
  * @author Bernard Horan
  */
-public class TLACreator {
+class TLACreator {
 
     /**
      * @param args the command line arguments
