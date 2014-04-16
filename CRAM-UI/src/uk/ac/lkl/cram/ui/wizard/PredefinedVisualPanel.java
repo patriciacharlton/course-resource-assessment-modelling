@@ -180,6 +180,10 @@ public class PredefinedVisualPanel extends JPanel {
 	List<TLActivity> predefinedList = new ArrayList<>();
 	TLALibrary library = TLALibrary.getDefaultLibrary();
 	for (TLActivity activity : library.getActivities()) {
+	    //Mark each activity as immutable 
+	    //we don't want users to be able to 
+	    //edit the name of predefined activities
+	    activity.markAsImmutable();
 	    predefinedList.add(activity);
 	}
 	return predefinedList;

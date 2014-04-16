@@ -477,9 +477,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="tlaNameField">
-          <Properties>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>
