@@ -34,6 +34,7 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
 import uk.ac.lkl.cram.ui.SelectAllAdapter;
+import uk.ac.lkl.cram.ui.TextFieldAdapter;
 
 /**
  * This class represents the visual rendering of a step in the TLA Creator Wizard
@@ -72,7 +73,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         //Focus listener to select all text when focus gained
         SelectAllAdapter saa = new SelectAllAdapter();
         initComponents();
-        //Listener for change in name of activity
+	//Listener for change in name of activity
         final PropertyChangeListener nameListener = new PropertyChangeListener() {
 
 	    @Override
@@ -82,6 +83,17 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	};
         //Add listener to the line item's activity
 	lineItem.getActivity().addPropertyChangeListener(TLActivity.PROP_NAME, nameListener);
+	//Add a document listener to the name field so that when the user
+        //changes its contents the value in the activity is updated
+        new TextFieldAdapter(tlaNameField) {
+
+	    @Override
+	    public void updateText(String text) {
+		lineItem.getActivity().setName(text);
+	    }
+	};
+	//Get the name from the activity and put into the text field
+	tlActivityNameChanged();
         //Add listener to update if the line item's activity changes
         lineItem.addPropertyChangeListener(TLALineItem.PROP_ACTIVITY, new PropertyChangeListener() {
 	    @Override
@@ -92,6 +104,14 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		}
 		TLActivity newActivity = (TLActivity) pce.getNewValue();
 		if (newActivity != null) {
+		    LOGGER.info(newActivity.getName());
+		    //Set the name field as not editable if the activity is immutable
+		    tlaNameField.setEnabled(!newActivity.isImmutable());
+		    if (newActivity.isImmutable()) {
+			tlaNameField.setToolTipText("This is a predefined TLA, its name is not editable");
+		    } else {
+			tlaNameField.setToolTipText("");
+		    }
 		    newActivity.addPropertyChangeListener(TLActivity.PROP_NAME, nameListener);
 		    tlActivityNameChanged();
 		}
@@ -356,7 +376,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
                 }
 	    }
 	});
-	tlActivityNameChanged();
+	
         //Preferred size seems to be wrong so override
         setPreferredSize(new Dimension(444,424));
     }
@@ -383,7 +403,12 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     }
     
     private void tlActivityNameChanged() {
-	tlaNameField.setText(lineItem.getActivity().getName());
+	if (tlaNameField.hasFocus()) {
+	    return;
+	}
+	if (!tlaNameField.getText().equalsIgnoreCase(lineItem.getActivity().getName())) {
+	    tlaNameField.setText(lineItem.getActivity().getName());
+	}
     }
 
     /**
@@ -669,8 +694,6 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         supportPanel.add(presentation3LowerCostSupport);
 
         tlaNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(LineItemsDetailVisualPanel.class, "TLAPropertiesVisualPanel.tlaNamePanel.border.title"))); // NOI18N
-
-        tlaNameField.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout tlaNamePanelLayout = new org.jdesktop.layout.GroupLayout(tlaNamePanel);
         tlaNamePanel.setLayout(tlaNamePanelLayout);

@@ -19,7 +19,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -288,6 +287,10 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
      * If the contents of the text field have changed, update the value of the activity
      */
     private void tlActivityNameChanged() {
+	//If the field has focus, do not update, as it's the source of the change
+	if (tlaNameField.hasFocus()) {
+	    return;
+	}
 	if (!tlaNameField.getText().equalsIgnoreCase(tlActivity.getName())) {
 	    tlaNameField.setText(tlActivity.getName());
 	}

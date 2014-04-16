@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.awt.event.ActionEvent;
@@ -11,37 +26,52 @@ import javax.swing.JPanel;
 import uk.ac.lkl.cram.model.LearnerFeedback;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLActivity;
+import uk.ac.lkl.cram.ui.TextFieldAdapter;
 
 /**
- * $Date$
- * $Revision$
+ * This class represents the visual rendering of a step in the TLA creator wizard--
+ * the one in which the user enters the student interaction and feedback for the
+ * TLA. 
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class TLAPropertiesVisualPanel extends JPanel {
     private static final Logger LOGGER = Logger.getLogger(TLAPropertiesVisualPanel.class.getName());
-
+    //The TLA that is being edited
     private final TLActivity tlActivity;
 
     /**
      * Creates new form TLAPropertiesVisualPanel
-     * @param tla 
+     * @param tla the TLA to edit
      */
     public TLAPropertiesVisualPanel(TLActivity tla) {
 	this.tlActivity = tla;
 	initComponents();
-	tlActivity.addPropertyChangeListener(new PropertyChangeListener() {
+	//Listener for change in name of activity
+	tlActivity.addPropertyChangeListener(TLActivity.PROP_NAME, new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
-		String property = pce.getPropertyName();
-		if (property.equals(TLActivity.PROP_NAME)) {
-		    tlActivityNameChanged();
-		}
+		tlActivityNameChanged();
 	    }
 	});
+	//Add a document listener to the name field so that when the user
+        //changes its contents the value in the activity is updated
+        //And the validity of the wizard step is validated
+        new TextFieldAdapter(tlaNameField) {
+
+	    @Override
+	    public void updateText(String text) {
+		tlActivity.setName(text);
+	    }
+	};
+	//Get the name from the activity and put into the text field
+	tlActivityNameChanged();
 	
-	//Radio Buttons	
+	//Radio Buttons
+	//Action listener for radio buttons
 	ActionListener feedbackListener = new ActionListener() {
 
 	    @Override
@@ -59,6 +89,7 @@ public class TLAPropertiesVisualPanel extends JPanel {
 	telFeedbackRB.setActionCommand(LearnerFeedback.TEL.name());
 	noFeedbackRB.addActionListener(feedbackListener);
 	noFeedbackRB.setActionCommand(LearnerFeedback.NONE.name());
+	//Set the state of the RBs from the activity
 	LearnerFeedback lf = tlActivity.getLearnerFeedback();
 	switch (lf) {
 	    case TUTOR: {
@@ -116,9 +147,7 @@ public class TLAPropertiesVisualPanel extends JPanel {
 		sti.setTimeSpecific(selected);
 	    }
 	});
-	timeSpecificCB.setSelected(sti.isTimeSpecific());
-	tlActivityNameChanged();
-	
+	timeSpecificCB.setSelected(sti.isTimeSpecific());	
     }
 
     @Override
@@ -126,8 +155,18 @@ public class TLAPropertiesVisualPanel extends JPanel {
 	return "Interaction Details";
     }
     
+    /**
+     * The name of the activity has been changed, so update the 
+     * text field if necessary
+     */
     private void tlActivityNameChanged() {
-	tlaNameField.setText(tlActivity.getName());
+	//Do not update the field if it has focus, as it is the source of the change
+	if (tlaNameField.hasFocus()) {
+	    return;
+	}
+	if (!tlaNameField.getText().equalsIgnoreCase(tlActivity.getName())) {
+	    tlaNameField.setText(tlActivity.getName());
+	}
     }
 
     /**
@@ -153,8 +192,6 @@ public class TLAPropertiesVisualPanel extends JPanel {
         timeSpecificCB = new javax.swing.JCheckBox();
 
         tlaNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TLAPropertiesVisualPanel.class, "TLAPropertiesVisualPanel.tlaNamePanel.border.title"))); // NOI18N
-
-        tlaNameField.setEnabled(false);
 
         javax.swing.GroupLayout tlaNamePanelLayout = new javax.swing.GroupLayout(tlaNamePanel);
         tlaNamePanel.setLayout(tlaNamePanelLayout);
