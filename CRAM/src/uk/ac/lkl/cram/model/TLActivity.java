@@ -63,6 +63,11 @@ public class TLActivity implements Serializable {
     private LearnerFeedback learnerFeedback;
     
     private final transient PropertyChangeSupport propertySupport;
+    
+    //Flag to indicate if this activity is immutable
+    //This is used by the UI to prevent name changes
+    //By default, an activity is mutable
+    private transient boolean isImmutable = false;
 
 
     TLActivity() {
@@ -262,7 +267,13 @@ public class TLActivity implements Serializable {
 	return true;
     }
 
-    
+    public void markAsImmutable() {
+	isImmutable = true;
+    }
+
+    public boolean isImmutable() {
+	return isImmutable;
+    }
 
     
     
