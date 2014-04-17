@@ -46,7 +46,8 @@ public class UserTLALibraryTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws BackingStoreException {
+	UserTLALibrary.clearPreferences();
     }
     
     @After

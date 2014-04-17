@@ -15,6 +15,7 @@
  */
 package uk.ac.lkl.cram.model;
 
+import com.bluelotussoftware.jaxb.adapter.XmlGenericMapAdapter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
@@ -24,7 +25,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 
 /**
  * This class describes the way in which a teaching-learning activity is used
@@ -229,7 +229,7 @@ public class TLALineItem implements LineItem {
 
     /**
      * Return the activity described by this line item
-     * @return
+     * @return the activity for this line item
      */
     public TLActivity getActivity() {
         return activity;
