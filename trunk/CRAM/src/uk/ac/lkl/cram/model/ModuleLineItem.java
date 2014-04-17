@@ -15,6 +15,7 @@
  */
 package uk.ac.lkl.cram.model;
 
+import com.bluelotussoftware.jaxb.adapter.XmlGenericMapAdapter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
@@ -24,7 +25,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import uk.ac.lkl.cram.model.xml.XmlGenericMapAdapter;
 
 /**
  * This class represents a module activity. There is no underlying 'product'
