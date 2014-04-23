@@ -15,6 +15,7 @@
  */
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
 import java.beans.IndexedPropertyChangeEvent;
@@ -61,6 +62,9 @@ import uk.ac.lkl.cram.model.TLActivity;
 //$Date$
 public class HoursChartFactory {
     private static final Logger LOGGER = Logger.getLogger(HoursChartFactory.class.getName());
+    //The colours for the bars
+    private static final Color SUPPORT_COLOR = new Color(0xD90505);
+    private static final Color PREPARATION_COLOR = new Color(0x3F9CD8);
 
 
     /**
@@ -241,6 +245,9 @@ public class HoursChartFactory {
 	StackedBarRenderer sbRenderer = (StackedBarRenderer) plot.getRenderer();
 	//Set the rendered to use a standard bar painter (nothing fancy)
         sbRenderer.setBarPainter(new StandardBarPainter());
+	//Set the colours for the bars
+	sbRenderer.setSeriesPaint(0, PREPARATION_COLOR);
+	sbRenderer.setSeriesPaint(1, SUPPORT_COLOR);
         //Set the tooltip to be series, category and value
         sbRenderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}, {1} ({2})", NumberFormat.getInstance()));
         //Get the category axis (that's the X-axis in this case)

@@ -37,6 +37,7 @@ import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.TLALineItem;
+import uk.ac.lkl.cram.model.UserTLALibrary;
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
@@ -100,6 +101,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	leftTaskPaneContainer.add(createTutorCostPane());
 	rightTaskPaneContainer.add(createLearningTypeChartPane());
 	rightTaskPaneContainer.add(createLearningExperienceChartPane());
+	rightTaskPaneContainer.add(createLearnerFeedbackChartPane());
 	rightTaskPaneContainer.add(createHoursChartPane());
 	rightTaskPaneContainer.add(createTotalCostsPane());
     }
@@ -373,10 +375,20 @@ public class ModuleFrame extends javax.swing.JFrame {
 	experienceChartPane.add(chartPanel);
 	return experienceChartPane;
     }
+    
+    private JXTaskPane createLearnerFeedbackChartPane() {
+	JXTaskPane feedbackChartPane = new JXTaskPane();
+        feedbackChartPane.setScrollOnExpand(true);
+	feedbackChartPane.setTitle("Learner Feedback");
+	ChartPanel chartPanel = FeedbackChartFactory.createChartPanel(module);
+	chartPanel.setPreferredSize(new Dimension(150, 200));
+	feedbackChartPane.add(chartPanel);
+	return feedbackChartPane;
+    }
 
     private JXTaskPane createHoursChartPane() {
 	JXTaskPane hoursChartPane = new JXTaskPane();
-	hoursChartPane.setTitle("Hours");
+	hoursChartPane.setTitle("Teacher Time (hours)");
         hoursChartPane.setScrollOnExpand(true);
 	ChartPanel chartPanel = HoursChartFactory.createChartPanel(module);
 	chartPanel.setPreferredSize(new Dimension(200, 200));
@@ -442,7 +454,13 @@ public class ModuleFrame extends javax.swing.JFrame {
         boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
 	//LOGGER.info("Cancelled: " + cancelled);
         if (!cancelled) {
-            module.addTLALineItem(iterator.getLineItem());
+	    //Get the newly created line item
+	    TLALineItem lineItem = iterator.getLineItem();
+	    //If the user created a new TLA, add it to their preferences
+	    if (iterator.isVanilla()) {
+		UserTLALibrary.getDefaultLibrary().addActivity(lineItem.getActivity());
+	    }
+            module.addTLALineItem(lineItem);
         }
     }
     
