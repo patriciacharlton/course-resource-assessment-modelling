@@ -48,6 +48,11 @@ public class TLActivity implements Serializable {
      * @see TLActivity#setMaximumGroupSize(int) 
      */
     public static final String PROP_MAX_GROUP_SIZE = "maxGroupSize";
+    /**
+     * Property to indicate change of learner feedback
+     * @see TLActivity#setLearnerFeedback(LearnerFeedback) 
+     */
+    public static final String PROP_LEARNER_FEEDBACK = "learner_feedback";
     
     private LearningType learningType; //acquisition, practice, etc.
     
@@ -175,11 +180,14 @@ public class TLActivity implements Serializable {
   
     /**
      * Set the (enumerated) learning feedback for the teaching-learning activity
-     * @param learnerFeedback the learning feedback for the teaching-learning activity 
+     * @param lf the learning feedback for the teaching-learning activity
+     * @see TLActivity#PROP_LEARNER_FEEDBACK
      */
     @XmlAttribute
-    public void setLearnerFeedback(LearnerFeedback learnerFeedback) {
-	this.learnerFeedback = learnerFeedback;
+    public void setLearnerFeedback(LearnerFeedback lf) {
+	LearnerFeedback oldValue = learnerFeedback;
+	this.learnerFeedback = lf;
+	propertySupport.firePropertyChange(PROP_LEARNER_FEEDBACK, oldValue, learnerFeedback);
     }
     
     /**
