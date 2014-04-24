@@ -409,14 +409,16 @@ public class ModuleFrame extends javax.swing.JFrame {
         LineItem selectedLineItem = sharedSelectionModel.getSelectedLineItem();
 	if (selectedLineItem instanceof TLALineItem) {
 	    TLAOkCancelDialog dialog = new TLAOkCancelDialog(this, true, module, (TLALineItem) selectedLineItem);
-	    dialog.setTitle("Modify TLA");
+            dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
+	    dialog.setTitle("Modify TLA for " + module.getModuleName() + " module");
 	    dialog.setSelectedIndex(2);
 	    dialog.setVisible(true);
 	    //LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
 	    //TODO--undo
 	} else if (selectedLineItem instanceof ModuleLineItem) {
             ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, (ModuleLineItem) selectedLineItem);
-            dialog.setTitle("Modify Module Activity");
+            dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
+            dialog.setTitle("Modify Module Activity for " + module.getModuleName() + " module");
             dialog.setVisible(true);
             //TODO--undo
         } else {
@@ -428,11 +430,11 @@ public class ModuleFrame extends javax.swing.JFrame {
         //TODO -- undo
         LineItem selectedLineItem = sharedSelectionModel.getSelectedLineItem();
 	if (selectedLineItem != null) {
-	    int reply = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete \'" + selectedLineItem.getName() + "\'?", "Delete TLA", JOptionPane.YES_NO_OPTION);
+	    int reply = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove \'" + selectedLineItem.getName() + "\'?", "Remove TLA", JOptionPane.YES_NO_OPTION);
 	    if (reply == JOptionPane.YES_OPTION) {
                 selectedLineItem.removeFrom(module);
 	    } else {
-		LOGGER.info("Delete cancelled");
+		LOGGER.info("Remove cancelled");
 	    }
 	} else {
 	    LOGGER.warning("Unable to remove this line item");
@@ -440,6 +442,8 @@ public class ModuleFrame extends javax.swing.JFrame {
     }
     
     private void addTLALineItem() {
+        //Disable the menu item
+        addTLALineItemMI.setEnabled(false);
         //TODO -- undo
         TLACreatorWizardIterator iterator = new TLACreatorWizardIterator(module);
 	WizardDescriptor wizardDescriptor = new WizardDescriptor(iterator);
@@ -447,12 +451,14 @@ public class ModuleFrame extends javax.swing.JFrame {
 	// {0} will be replaced by WizardDescriptor.Panel.getComponent().getName()
 	// {1} will be replaced by WizardDescriptor.Iterator.name()
 	wizardDescriptor.setTitleFormat(new MessageFormat("{0} ({1})"));
-	wizardDescriptor.setTitle("TLA Creator Wizard");
+	wizardDescriptor.setTitle("TLA Creator Wizard for " + module.getModuleName() + " module");
 	Dialog dialog = DialogDisplayer.getDefault().createDialog(wizardDescriptor);
+        //Modeless within the document
+        dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
         dialog.setVisible(true);
         dialog.toFront();
         boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
-	//LOGGER.info("Cancelled: " + cancelled);
+        //LOGGER.info("Cancelled: " + cancelled);
         if (!cancelled) {
 	    //Get the newly created line item
 	    TLALineItem lineItem = iterator.getLineItem();
@@ -462,18 +468,28 @@ public class ModuleFrame extends javax.swing.JFrame {
 	    }
             module.addTLALineItem(lineItem);
         }
+        //Enable the menu item
+        addTLALineItemMI.setEnabled(true);
     }
     
     private void addModuleLineItem() {
+        //Disable the menu item
+        addModuleLineItemMI.setEnabled(false);
         //TODO--undo
         ModuleLineItem li = new ModuleLineItem();
-        ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, li);
+        //Give the dialog a null parent so that the document modal works properly
+        ModuleActivityDialog dialog = new ModuleActivityDialog(null, true, module, li);
         dialog.setSize(dialog.getPreferredSize());
-        dialog.setTitle("Create new Module Activity");
+        dialog.setTitle("Add Module Activity for " + module.getModuleName() + " module");
+        //Modeless within the document
+        dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
         dialog.setVisible(true);
+        dialog.toFront();
         if (dialog.getReturnStatus() == ModuleActivityDialog.RET_OK) {
             module.addModuleItem(li);
-        } 
+        }
+        //Enable the menu item
+        addModuleLineItemMI.setEnabled(true);
     }
 
     JMenu getWindowMenu() {
