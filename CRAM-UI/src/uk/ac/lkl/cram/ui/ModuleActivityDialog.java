@@ -1,7 +1,24 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package uk.ac.lkl.cram.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
@@ -13,17 +30,23 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.KeyStroke;
+import javax.swing.undo.UndoManager;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.AbstractModuleTime;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.ModulePresentation;
+import uk.ac.lkl.cram.model.SupportTime;
+import uk.ac.lkl.cram.ui.undo.PluggableUndoableEdit;
 
 /**
- * $Date$
- * $Revision$
+ * This class represents the dialogue box that is used to edit and create a new
+ * ModuleLineItem. 
+ * @see ModuleLineItem
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class ModuleActivityDialog extends javax.swing.JDialog {
     private static final Logger LOGGER = Logger.getLogger(ModuleActivityDialog.class.getName());
@@ -36,29 +59,55 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
+    /**
+     * The module--needed to get the module presentations
+     */
     private final Module module;
+    /**
+     * The module line item that is being created or edited
+     */
     private final ModuleLineItem moduleLineItem;
+    // 
+    /**
+     * An undo manager is used to cancel the edits made by the user in the
+     * dialog. Not of use when the dialogue box is used to create a new 
+     * ModuleLineItem
+     */
+    private final UndoManager undoManager;
 
     /**
      * Creates new form ModuleActivityDialog
-     * @param parent
-     * @param modal
-     * @param m
-     * @param li  
+     * @param parent the parent of the dialog box, important if used as a modal dialog
+     * @param modal indicates if this is a model dialog, true indicates APPLICATION_MODAL
+     * @param m the module that contains this line item (if being edited)
+     * @param li the module line item being created or edited
+     * @param um  an undo manager that records the edits made in the dialogue box
      */
-    public ModuleActivityDialog(java.awt.Frame parent, boolean modal, Module m, ModuleLineItem li) {
+    public ModuleActivityDialog(java.awt.Frame parent, boolean modal, Module m, ModuleLineItem li, UndoManager um) {
         super(parent, modal);
         this.module = m;
         initComponents();
         this.moduleLineItem = li;
+	this.undoManager = um;
+	//Adapter to ensure that the contents of the textfield are selected when it has focus
         SelectAllAdapter saa = new SelectAllAdapter();
-	
+	//Set the text of the field from the name of the module line item
 	moduleActivityNameField.setText(moduleLineItem.getName());
+	//Add the focus listener created above
 	moduleActivityNameField.addFocusListener(saa);
+	//Create a document listener that will update the name of the module line item
 	new TextFieldAdapter(moduleActivityNameField) {
 
 	    @Override
-	    public void updateText(String value) {		
+	    public void updateText(String value) {
+		//Create an undoable edit for the change, and add it to the undo manager
+		try {
+		    PluggableUndoableEdit edit = new PluggableUndoableEdit(moduleLineItem, "name", value);
+		    undoManager.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'name' of " + moduleLineItem, ex);
+		}
+		//Change the vallue of the name field
 		moduleLineItem.setName(value);
 	    }
 	};	
@@ -76,75 +125,134 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
             }
         });
         
-        JFormattedTextField.AbstractFormatterFactory aff = new JFormattedTextField.AbstractFormatterFactory() {
+        //Formatter factory to return a percent formatter
+	JFormattedTextField.AbstractFormatterFactory aff = new JFormattedTextField.AbstractFormatterFactory() {
 
             @Override
             public JFormattedTextField.AbstractFormatter getFormatter(JFormattedTextField jftf) {
                 return new PercentFormatter();
             }
         };
-        
+        //Verifier to ensure that the user enters a percentage
         InputVerifier verifier = new PercentVerifier();
         
-        //Support Fields
+        //Create an array of fields that represent weekly support for each presentation
 	final JFormattedTextField[] weeklySupportFields = new JFormattedTextField[3];
 	weeklySupportFields[0] = presentation1WeeklySupport;
 	weeklySupportFields[1] = presentation2WeeklySupport;
 	weeklySupportFields[2] = presentation3WeeklySupport;
+	//non-weekly support
 	final JFormattedTextField[] nonWeeklySupportFields = new JFormattedTextField[3];
 	nonWeeklySupportFields[0] = presentation1NonWeeklySupport;
 	nonWeeklySupportFields[1] = presentation2NonWeeklySupport;
 	nonWeeklySupportFields[2] = presentation3NonWeeklySupport;
+	//higher cost fields for each presentation
 	JFormattedTextField[] higherCostSupportFields = new JFormattedTextField[3];
 	higherCostSupportFields[0] = presentation1HigherCostSupport;
 	higherCostSupportFields[1] = presentation2HigherCostSupport;
 	higherCostSupportFields[2] = presentation3HigherCostSupport;
+	//lower cost fields
 	JFormattedTextField[] lowerCostSupportFields = new JFormattedTextField[3];
 	lowerCostSupportFields[0] = presentation1LowerCostSupport;
 	lowerCostSupportFields[1] = presentation2LowerCostSupport;
 	lowerCostSupportFields[2] = presentation3LowerCostSupport;
+	//Iterate across all the fields for each presentation
 	int supportIndex = 0;
 	for (final ModulePresentation modulePresentation : module.getModulePresentations()) {
+	    //Set the contents of the field with the value from the model
 	    weeklySupportFields[supportIndex].setValue(li.getSupportTime(modulePresentation).getWeekly());
+	    //Add the focus listener to the field
 	    weeklySupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(weeklySupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    moduleLineItem.getSupportTime(modulePresentation).setWeekly((Float) value);
+		    SupportTime st = moduleLineItem.getSupportTime(modulePresentation);
+		    Float newValue = (Float) value;
+		    //Create an undoable edit and add it to the undo manager
+		    try {
+			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "weekly", newValue);
+			undoManager.addEdit(edit);
+		    } catch (IntrospectionException ex) {
+			LOGGER.log(Level.WARNING, "Unable to create undo for property 'weekly' of " + st, ex);			
+		    }
+		    //Set the value of the model from the contents of the field
+		    st.setWeekly(newValue);
 		}
 	    };
 	    
+	    //Set the contents of the field with the value from the model
 	    nonWeeklySupportFields[supportIndex].setValue(li.getSupportTime(modulePresentation).getNonWeekly());
+	    //Add the focus listener to the field
 	    nonWeeklySupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(nonWeeklySupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    moduleLineItem.getSupportTime(modulePresentation).setNonWeekly((Float) value);
+		    SupportTime st = moduleLineItem.getSupportTime(modulePresentation);
+		    Float newValue = (Float) value;
+		    //Create an undoable edit and add it to the undo manager
+		    try {
+			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "nonWeekly", newValue);
+			undoManager.addEdit(edit);
+		    } catch (IntrospectionException ex) {
+			LOGGER.log(Level.WARNING, "Unable to create undo for property 'nonWweekly' of " + st, ex);			
+		    }
+		    //Set the value of the model from the contents of the field
+		    st.setNonWeekly(newValue);
 		}
 	    };
 	    
+	    //Set the contents of the field with the value from the model
 	    higherCostSupportFields[supportIndex].setValue(li.getSupportTime(modulePresentation).getSeniorRate());
+	    //Add the focus listener to the field
 	    higherCostSupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(higherCostSupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		   moduleLineItem.getSupportTime(modulePresentation).setSeniorRate((Integer) value);
+		    SupportTime st = moduleLineItem.getSupportTime(modulePresentation);
+		    Integer newValue = (Integer) value;
+		    //Create an undoable edit and add it to the undo manager
+		    try {
+			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "seniorRate", newValue);
+			undoManager.addEdit(edit);
+		    } catch (IntrospectionException ex) {
+			LOGGER.log(Level.WARNING, "Unable to create undo for property 'senior rate' of " + st, ex);			
+		    }
+		    //Set the value of the model from the contents of the field
+		    st.setSeniorRate(newValue);
 		}
 	    };
+	    //Set the formatter factory for the field so that it renders as a percentage
 	    higherCostSupportFields[supportIndex].setFormatterFactory(aff);
+	    //Set the verifier for the field so that we ensure that the user enters a percentage
             higherCostSupportFields[supportIndex].setInputVerifier(verifier);
+	    //Connect the higher cost support listener so that the percentages always sum to 100
 	    li.getSupportTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new HigherCostPropertyListener(higherCostSupportFields[supportIndex]));
 	    
+	    //Set the contents of the field with the value from the model
 	    lowerCostSupportFields[supportIndex].setValue(li.getSupportTime(modulePresentation).getJuniorRate());
+	    //Add the focus listener to the field
 	    lowerCostSupportFields[supportIndex].addFocusListener(new SelectAllAdapter());
 	    new FormattedTextFieldAdapter(lowerCostSupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    moduleLineItem.getSupportTime(modulePresentation).setJuniorRate((Integer) value);
+		    SupportTime st = moduleLineItem.getSupportTime(modulePresentation);
+		    Integer newValue = (Integer) value;
+		    //Create an undoable edit and add it to the undo manager
+		    try {
+			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "juniorRate", newValue);
+			undoManager.addEdit(edit);
+		    } catch (IntrospectionException ex) {
+			LOGGER.log(Level.WARNING, "Unable to create undo for property 'junior rate' of " + st, ex);			
+		    }
+		    //Set the value of the model from the contents of the field
+		    st.setJuniorRate(newValue);
 		}
 	    };
+	    //Set the formatter factory for the field so that it renders as a percentage
 	    lowerCostSupportFields[supportIndex].setFormatterFactory(aff);
-	    lowerCostSupportFields[supportIndex].setInputVerifier(verifier);
+	    //Set the verifier for the field so that we ensure that the user enters a percentage
+            lowerCostSupportFields[supportIndex].setInputVerifier(verifier);
+	    //Connect the lower cost support listener so that the percentages always sum to 100
 	    li.getSupportTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new LowerCostPropertyListener(lowerCostSupportFields[supportIndex]));
             supportIndex++;
 	}
@@ -364,22 +472,30 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                Module m = AELMTest.populateModule();
-                ModuleLineItem li = m.getModuleItems().get(0);
-                ModuleActivityDialog dialog = new ModuleActivityDialog(new javax.swing.JFrame(), true, m, li);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+	/* Create and display the dialog */
+	java.awt.EventQueue.invokeLater(new Runnable() {
+	    @Override
+	    public void run() {
+		Module m = AELMTest.populateModule();
+		ModuleLineItem li = m.getModuleItems().get(0);
+		UndoManager um = new UndoManager();
+		ModuleActivityDialog dialog = new ModuleActivityDialog(new javax.swing.JFrame(), true, m, li, um);
+		dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+			System.exit(0);
+		    }
+		});
+		dialog.setVisible(true);
+		if (dialog.getReturnStatus() == ModuleActivityDialog.RET_CANCEL) {
+		    ///To test for cancel
+		    while(um.canUndo()) {
+			um.undo();
+		    }
+		    LOGGER.info("Cancelled. Name: " + li.getName());
+		}
+	    }
+	});
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel blankSupportLabel;
@@ -456,7 +572,9 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 	    }
 	}
 	
-    }//Percent Formatter
+    }
+    
+    //Percent Formatter
     private class PercentFormatter extends JFormattedTextField.AbstractFormatter {
 
 	@Override
