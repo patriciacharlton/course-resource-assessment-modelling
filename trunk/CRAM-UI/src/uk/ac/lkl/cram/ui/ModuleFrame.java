@@ -28,6 +28,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoManager;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
@@ -417,18 +418,13 @@ public class ModuleFrame extends javax.swing.JFrame {
 	    //LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
 	    //TODO--undo
 	} else if (selectedLineItem instanceof ModuleLineItem) {
-	    UndoManager undoManager = new UndoManager();
-            ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, (ModuleLineItem) selectedLineItem, undoManager);
+	    CompoundEdit cEdit = new CompoundEdit();
+            ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, (ModuleLineItem) selectedLineItem, cEdit);
             dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
             dialog.setTitle("Modify Module Activity for " + module.getModuleName() + " module");
             dialog.setVisible(true);
 	    dialog.toFront();
-	    if (dialog.getReturnStatus() == ModuleActivityDialog.RET_CANCEL) {
-            //TODO--undo
-		while(undoManager.canUndo()) {
-		    undoManager.undo();
-		}
-	    }            
+            //TODO--undo           
         } else {
 	    LOGGER.warning("Unable to edit this line item");
 	}
@@ -487,7 +483,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         //TODO--undo
         ModuleLineItem li = new ModuleLineItem();
         //Give the dialog a null parent so that the document modal works properly
-        ModuleActivityDialog dialog = new ModuleActivityDialog(null, true, module, li, new UndoManager());
+        ModuleActivityDialog dialog = new ModuleActivityDialog(null, true, module, li, new CompoundEdit());
         dialog.setSize(dialog.getPreferredSize());
         dialog.setTitle("Add Module Activity for " + module.getModuleName() + " module");
         //Modeless within the document
