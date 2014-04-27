@@ -69,7 +69,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
     private final ModuleLineItem moduleLineItem;
     // 
     /**
-     * An undo manager is used to cancel the edits made by the user in the
+     * A compound edit is used to cancel the edits made by the user in the
      * dialog. Not of use when the dialogue box is used to create a new 
      * ModuleLineItem
      */
@@ -100,7 +100,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 
 	    @Override
 	    public void updateText(String value) {
-		//Create an undoable edit for the change, and add it to the undo manager
+		//Create an undoable edit for the change, and add it to the compound edit
 		try {
 		    PluggableUndoableEdit edit = new PluggableUndoableEdit(moduleLineItem, "name", value);
 		    compoundEdit.addEdit(edit);		    
@@ -168,7 +168,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		public void updateValue(Object value) {
 		    SupportTime st = moduleLineItem.getSupportTime(modulePresentation);
 		    Float newValue = (Float) value;
-		    //Create an undoable edit and add it to the undo manager
+		    //Create an undoable edit and add it to the compound edit
 		    try {
 			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "weekly", newValue);
 			compoundEdit.addEdit(edit);
@@ -189,7 +189,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		public void updateValue(Object value) {
 		    SupportTime st = moduleLineItem.getSupportTime(modulePresentation);
 		    Float newValue = (Float) value;
-		    //Create an undoable edit and add it to the undo manager
+		    //Create an undoable edit and add it to the compound edit
 		    try {
 			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "nonWeekly", newValue);
 			compoundEdit.addEdit(edit);
@@ -210,7 +210,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		public void updateValue(Object value) {
 		    SupportTime st = moduleLineItem.getSupportTime(modulePresentation);
 		    Integer newValue = (Integer) value;
-		    //Create an undoable edit and add it to the undo manager
+		    //Create an undoable edit and add it to the compound edit
 		    try {
 			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "seniorRate", newValue);
 			compoundEdit.addEdit(edit);
@@ -237,7 +237,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		public void updateValue(Object value) {
 		    SupportTime st = moduleLineItem.getSupportTime(modulePresentation);
 		    Integer newValue = (Integer) value;
-		    //Create an undoable edit and add it to the undo manager
+		    //Create an undoable edit and add it to the compound edit
 		    try {
 			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "juniorRate", newValue);
 			compoundEdit.addEdit(edit);
