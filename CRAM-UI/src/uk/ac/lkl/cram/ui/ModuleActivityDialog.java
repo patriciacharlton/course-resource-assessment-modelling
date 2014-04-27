@@ -30,7 +30,7 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.KeyStroke;
-import javax.swing.undo.UndoManager;
+import javax.swing.undo.CompoundEdit;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.AbstractModuleTime;
 import uk.ac.lkl.cram.model.Module;
@@ -73,7 +73,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
      * dialog. Not of use when the dialogue box is used to create a new 
      * ModuleLineItem
      */
-    private final UndoManager undoManager;
+    private final CompoundEdit compoundEdit;
 
     /**
      * Creates new form ModuleActivityDialog
@@ -81,14 +81,14 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
      * @param modal indicates if this is a model dialog, true indicates APPLICATION_MODAL
      * @param m the module that contains this line item (if being edited)
      * @param li the module line item being created or edited
-     * @param um  an undo manager that records the edits made in the dialogue box
+     * @param cEdit  a compound edit that records the edits made in the dialogue box
      */
-    public ModuleActivityDialog(java.awt.Frame parent, boolean modal, Module m, ModuleLineItem li, UndoManager um) {
+    public ModuleActivityDialog(java.awt.Frame parent, boolean modal, Module m, ModuleLineItem li, CompoundEdit cEdit) {
         super(parent, modal);
         this.module = m;
         initComponents();
         this.moduleLineItem = li;
-	this.undoManager = um;
+	this.compoundEdit = cEdit;
 	//Adapter to ensure that the contents of the textfield are selected when it has focus
         SelectAllAdapter saa = new SelectAllAdapter();
 	//Set the text of the field from the name of the module line item
@@ -103,7 +103,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		//Create an undoable edit for the change, and add it to the undo manager
 		try {
 		    PluggableUndoableEdit edit = new PluggableUndoableEdit(moduleLineItem, "name", value);
-		    undoManager.addEdit(edit);		    
+		    compoundEdit.addEdit(edit);		    
 		} catch (IntrospectionException ex) {
 		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'name' of " + moduleLineItem, ex);
 		}
@@ -171,7 +171,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		    //Create an undoable edit and add it to the undo manager
 		    try {
 			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "weekly", newValue);
-			undoManager.addEdit(edit);
+			compoundEdit.addEdit(edit);
 		    } catch (IntrospectionException ex) {
 			LOGGER.log(Level.WARNING, "Unable to create undo for property 'weekly' of " + st, ex);			
 		    }
@@ -192,7 +192,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		    //Create an undoable edit and add it to the undo manager
 		    try {
 			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "nonWeekly", newValue);
-			undoManager.addEdit(edit);
+			compoundEdit.addEdit(edit);
 		    } catch (IntrospectionException ex) {
 			LOGGER.log(Level.WARNING, "Unable to create undo for property 'nonWweekly' of " + st, ex);			
 		    }
@@ -213,7 +213,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		    //Create an undoable edit and add it to the undo manager
 		    try {
 			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "seniorRate", newValue);
-			undoManager.addEdit(edit);
+			compoundEdit.addEdit(edit);
 		    } catch (IntrospectionException ex) {
 			LOGGER.log(Level.WARNING, "Unable to create undo for property 'senior rate' of " + st, ex);			
 		    }
@@ -240,7 +240,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		    //Create an undoable edit and add it to the undo manager
 		    try {
 			PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "juniorRate", newValue);
-			undoManager.addEdit(edit);
+			compoundEdit.addEdit(edit);
 		    } catch (IntrospectionException ex) {
 			LOGGER.log(Level.WARNING, "Unable to create undo for property 'junior rate' of " + st, ex);			
 		    }
@@ -448,10 +448,13 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        compoundEdit.end();
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
     
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        compoundEdit.end();
+        compoundEdit.undo();
         doClose(RET_CANCEL);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -478,8 +481,7 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 	    public void run() {
 		Module m = AELMTest.populateModule();
 		ModuleLineItem li = m.getModuleItems().get(0);
-		UndoManager um = new UndoManager();
-		ModuleActivityDialog dialog = new ModuleActivityDialog(new javax.swing.JFrame(), true, m, li, um);
+		ModuleActivityDialog dialog = new ModuleActivityDialog(new javax.swing.JFrame(), true, m, li, new CompoundEdit());
 		dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent e) {
@@ -489,9 +491,6 @@ public class ModuleActivityDialog extends javax.swing.JDialog {
 		dialog.setVisible(true);
 		if (dialog.getReturnStatus() == ModuleActivityDialog.RET_CANCEL) {
 		    ///To test for cancel
-		    while(um.canUndo()) {
-			um.undo();
-		    }
 		    LOGGER.info("Cancelled. Name: " + li.getName());
 		}
 	    }
