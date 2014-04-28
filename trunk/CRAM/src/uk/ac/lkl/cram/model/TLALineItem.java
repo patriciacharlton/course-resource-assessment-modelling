@@ -155,17 +155,6 @@ public class TLALineItem implements LineItem {
     public int getWeekCount(Module m) {
 	return weekCount;
     }
-    
-    /**
-     * Method necessary to support pluggable undo
-     * @return the number of weeks the the student will undertake the activity
-     * @see #getWeekCount(Module) 
-     */
-    public int getWeekCount() {
-        //TODO--this is a hack, consider alternatives for undo
-        //Need to be more specific with property decriptor in pluggable undo edit
-        return weekCount;
-    }
 
     /**
      * Set the  number of weeks that the student will undertake the activity
