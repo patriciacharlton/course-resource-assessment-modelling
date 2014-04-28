@@ -19,14 +19,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import javax.swing.undo.CompoundEdit;
 import uk.ac.lkl.cram.model.LearnerFeedback;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.TextFieldAdapter;
+import uk.ac.lkl.cram.ui.undo.PluggableUndoableEdit;
 
 /**
  * This class represents the visual rendering of a step in the TLA creator wizard--
@@ -41,14 +45,22 @@ public class TLAPropertiesVisualPanel extends JPanel {
     private static final Logger LOGGER = Logger.getLogger(TLAPropertiesVisualPanel.class.getName());
     //The TLA that is being edited
     private final TLActivity tlActivity;
+    //The compound edit that keeps track of the user's changes to the model
+    private final CompoundEdit compoundEdit;
 
+    TLAPropertiesVisualPanel(TLActivity tla) {
+        this(tla, new CompoundEdit());
+    }
+    
     /**
      * Creates new form TLAPropertiesVisualPanel
      * @param tla the TLA to edit
+     * @param cEdit compound edit that keeps track of the user's changes to the model
      */
-    public TLAPropertiesVisualPanel(TLActivity tla) {
+    public TLAPropertiesVisualPanel(TLActivity tla, CompoundEdit cEdit) {
 	this.tlActivity = tla;
 	initComponents();
+        this.compoundEdit = cEdit;
 	//Listener for change in name of activity
 	tlActivity.addPropertyChangeListener(TLActivity.PROP_NAME, new PropertyChangeListener() {
 
@@ -64,7 +76,15 @@ public class TLAPropertiesVisualPanel extends JPanel {
 
 	    @Override
 	    public void updateText(String text) {
-		tlActivity.setName(text);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(tlActivity, "name", text);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'name' of " + tlActivity, ex);
+		}
+                //Set the value in the model
+                tlActivity.setName(text);
 	    }
 	};
 	//Get the name from the activity and put into the text field
@@ -78,7 +98,15 @@ public class TLAPropertiesVisualPanel extends JPanel {
 	    public void actionPerformed(ActionEvent ae) {
 		String actionCommand = ae.getActionCommand();
 		LearnerFeedback lf = LearnerFeedback.valueOf(actionCommand);
-		tlActivity.setLearnerFeedback(lf);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(tlActivity, "learnerFeedback", lf);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'learnerFeedback' of " + tlActivity, ex);
+		}
+                //Set the value in the model
+                tlActivity.setLearnerFeedback(lf);
 	    }
 	};
 	tutorFeedbackRB.addActionListener(feedbackListener);
@@ -117,7 +145,15 @@ public class TLAPropertiesVisualPanel extends JPanel {
 	    @Override
 	    public void itemStateChanged(ItemEvent ie) {
 		boolean selected = ie.getStateChange() == ItemEvent.SELECTED;
-		sti.setTutorSupported(selected);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(sti, "tutorSupported", selected);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'tutorSupported' of " + sti, ex);
+		}
+                //Set the value in the model
+                sti.setTutorSupported(selected);
 	    }
 	});
 	tutorPresentCB.setSelected(sti.isTutorSupported());
@@ -126,7 +162,15 @@ public class TLAPropertiesVisualPanel extends JPanel {
 	    @Override
 	    public void itemStateChanged(ItemEvent ie) {
 		boolean selected = ie.getStateChange() == ItemEvent.SELECTED;
-		sti.setOnline(selected);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(sti, "online", selected);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'online' of " + sti, ex);
+		}
+                //Set the value in the model
+                sti.setOnline(selected);
 	    }
 	});
 	onlineCB.setSelected(sti.isOnline());
@@ -135,7 +179,15 @@ public class TLAPropertiesVisualPanel extends JPanel {
 	    @Override
 	    public void itemStateChanged(ItemEvent ie) {
 		boolean selected = ie.getStateChange() == ItemEvent.SELECTED;
-		sti.setLocationSpecific(selected);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(sti, "locationSpecific", selected);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'locationSpecific' of " + sti, ex);
+		}
+                //Set the value in the model
+                sti.setLocationSpecific(selected);
 	    }
 	});
 	locationSpecificCB.setSelected(sti.isLocationSpecific());
@@ -144,7 +196,15 @@ public class TLAPropertiesVisualPanel extends JPanel {
 	    @Override
 	    public void itemStateChanged(ItemEvent ie) {
 		boolean selected = ie.getStateChange() == ItemEvent.SELECTED;
-		sti.setTimeSpecific(selected);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(sti, "timeSpecific", selected);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'timeSpecific' of " + sti, ex);
+		}
+                //Set the value in the model
+                sti.setTimeSpecific(selected);
 	    }
 	});
 	timeSpecificCB.setSelected(sti.isTimeSpecific());	

@@ -16,6 +16,7 @@
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.awt.Dimension;
+import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.WeakHashMap;
@@ -25,6 +26,7 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.undo.CompoundEdit;
 import uk.ac.lkl.cram.model.AbstractModuleTime;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
@@ -35,6 +37,7 @@ import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
 import uk.ac.lkl.cram.ui.SelectAllAdapter;
 import uk.ac.lkl.cram.ui.TextFieldAdapter;
+import uk.ac.lkl.cram.ui.undo.PluggableUndoableEdit;
 
 /**
  * This class represents the visual rendering of a step in the TLA Creator Wizard
@@ -62,17 +65,25 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
     
     //The line item that is being edited
     private final TLALineItem lineItem;
+    //The compound edit that keeps the changes the user has made--not of use when creating a new TLALineItem
+    private final CompoundEdit compoundEdit;
 
+    LineItemsDetailVisualPanel(Module module, TLALineItem li) {
+        this(module, li, new CompoundEdit());
+    }
+       
     /**
      * Creates new form LineItemsDetailVisualPanel
-     * @param module
-     * @param li  
+     * @param module the module containing the TLALineItem
+     * @param li the TLALineItem being created or edited
+     * @param cEdit  the compoundEdit that keeps track of all the user changes
      */
-    public LineItemsDetailVisualPanel(Module module, TLALineItem li) {
+    public LineItemsDetailVisualPanel(Module module, TLALineItem li, CompoundEdit cEdit) {
         this.lineItem = li;
         //Focus listener to select all text when focus gained
         SelectAllAdapter saa = new SelectAllAdapter();
         initComponents();
+        this.compoundEdit = cEdit;
 	//Listener for change in name of activity
         final PropertyChangeListener nameListener = new PropertyChangeListener() {
 
@@ -89,7 +100,16 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 
 	    @Override
 	    public void updateText(String text) {
-		lineItem.getActivity().setName(text);
+                TLActivity activity = lineItem.getActivity();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(activity, "name", text);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'name' of " + activity, ex);
+		}
+                //Set the value in the model
+                activity.setName(text);
 	    }
 	};
 	//Get the name from the activity and put into the text field
@@ -127,6 +147,14 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         new FormattedTextFieldAdapter(weeklyHoursField) {
             @Override
             public void updateValue(Object value) {
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lineItem, "weeklyLearnerHourCount", value);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'weeklyLearnerHourCount' of " + lineItem, ex);
+		}
+                //Set the value in the model
                 lineItem.setWeeklyLearnerHourCount((Float) value);
                 checkValidity();
             }
@@ -141,7 +169,15 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         new FormattedTextFieldAdapter(weekCountField) {
 	    @Override
 	    public void updateValue(Object value) {
-		lineItem.setWeekCount((Integer) value);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lineItem, "weekCount", value);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'weekCount' of " + lineItem, ex);
+		}
+                //Set the value in the model
+                lineItem.setWeekCount((Integer) value);
 		checkValidity();
 	    }
 	};
@@ -155,7 +191,15 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         new FormattedTextFieldAdapter(nonWeeklyHoursField) {
 	    @Override
 	    public void updateValue(Object value) {
-		lineItem.setNonWeeklyLearnerHourCount((Float) value);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lineItem, "nonWeeklyLearnerHourCount", value);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'nonWeeklyLearnerHourCount' of " + lineItem, ex);
+		}
+                //Set the value in the model
+                lineItem.setNonWeeklyLearnerHourCount((Float) value);
 		checkValidity();
 	    }
 	};
@@ -203,19 +247,37 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
             //update the value in the underlying model
             //and make the field dirty (indicating that a user has entered data)
             new FormattedTextFieldAdapter(weeklyPreparationFields[preparationIndex]) {
-		@Override
-		public void updateValue(Object value) {
-		    lineItem.getPreparationTime(modulePresentation).setWeekly((Float)value);
-		    makeFieldDirty(textField);
-		}
-	    };
+                @Override
+                public void updateValue(Object value) {
+                    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+                    //Create an undoable edit for the change, and add it to the compound edit
+                    try {
+                        PluggableUndoableEdit edit = new PluggableUndoableEdit(pt, "weekly", value);
+                        compoundEdit.addEdit(edit);
+                    } catch (IntrospectionException ex) {
+                        LOGGER.log(Level.WARNING, "Unable to create undo for property 'weekly' of " + pt, ex);
+                    }
+                    //Set the value in the model
+                    pt.setWeekly((Float) value);
+                    makeFieldDirty(textField);
+                }
+            };
 	    //Repeat the above pattern for other fields
 	    nonWeeklyPreparationFields[preparationIndex].setValue(lineItem.getPreparationTime(modulePresentation).getNonWeekly());
 	    nonWeeklyPreparationFields[preparationIndex].addFocusListener(saa);
 	    new FormattedTextFieldAdapter(nonWeeklyPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    lineItem.getPreparationTime(modulePresentation).setNonWeekly((Float) value);
+		    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+                    //Create an undoable edit for the change, and add it to the compound edit
+                    try {
+                        PluggableUndoableEdit edit = new PluggableUndoableEdit(pt, "nonWeekly", value);
+                        compoundEdit.addEdit(edit);
+                    } catch (IntrospectionException ex) {
+                        LOGGER.log(Level.WARNING, "Unable to create undo for property 'nonWeekly' of " + pt, ex);
+                    }
+                    //Set the value in the model
+                    pt.setNonWeekly((Float) value);
 		    makeFieldDirty(textField);
 		}
 	    };
@@ -225,7 +287,16 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    new FormattedTextFieldAdapter(higherCostPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    lineItem.getPreparationTime(modulePresentation).setSeniorRate((Integer) value);
+		    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+                    //Create an undoable edit for the change, and add it to the compound edit
+                    try {
+                        PluggableUndoableEdit edit = new PluggableUndoableEdit(pt, "seniorRate", value);
+                        compoundEdit.addEdit(edit);
+                    } catch (IntrospectionException ex) {
+                        LOGGER.log(Level.WARNING, "Unable to create undo for property 'seniorRate' of " + pt, ex);
+                    }
+                    //Set the value in the model
+                    pt.setSeniorRate((Integer) value);
 		    makeFieldDirty(textField);
 		}
 	    };
@@ -241,7 +312,16 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    new FormattedTextFieldAdapter(lowerCostPreparationFields[preparationIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    lineItem.getPreparationTime(modulePresentation).setJuniorRate((Integer) value);
+		    PreparationTime pt = lineItem.getPreparationTime(modulePresentation);
+                    //Create an undoable edit for the change, and add it to the compound edit
+                    try {
+                        PluggableUndoableEdit edit = new PluggableUndoableEdit(pt, "juniorRate", value);
+                        compoundEdit.addEdit(edit);
+                    } catch (IntrospectionException ex) {
+                        LOGGER.log(Level.WARNING, "Unable to create undo for property 'juniorRate' of " + pt, ex);
+                    }
+                    //Set the value in the model
+                    pt.setJuniorRate((Integer) value);
 		    makeFieldDirty(textField);
 		}
 	    };
@@ -279,7 +359,16 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    new FormattedTextFieldAdapter(weeklySupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    lineItem.getSupportTime(modulePresentation).setWeekly((Float) value);
+		    SupportTime st = lineItem.getSupportTime(modulePresentation);
+                    //Create an undoable edit for the change, and add it to the compound edit
+                    try {
+                        PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "weekly", value);
+                        compoundEdit.addEdit(edit);
+                    } catch (IntrospectionException ex) {
+                        LOGGER.log(Level.WARNING, "Unable to create undo for property 'weekly' of " + st, ex);
+                    }
+                    //Set the value in the model
+                    st.setWeekly((Float) value);
 		    makeFieldDirty(textField);
 		}
 	    };
@@ -289,20 +378,38 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    new FormattedTextFieldAdapter(nonWeeklySupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    lineItem.getSupportTime(modulePresentation).setNonWeekly((Float) value);
+		    SupportTime st = lineItem.getSupportTime(modulePresentation);
+                    //Create an undoable edit for the change, and add it to the compound edit
+                    try {
+                        PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "nonWeekly", value);
+                        compoundEdit.addEdit(edit);
+                    } catch (IntrospectionException ex) {
+                        LOGGER.log(Level.WARNING, "Unable to create undo for property 'nonWeekly' of " + st, ex);
+                    }
+                    //Set the value in the model
+                    st.setNonWeekly((Float) value);
 		    makeFieldDirty(textField);
 		}
 	    };
 	    
 	    higherCostSupportFields[supportIndex].setValue(lineItem.getSupportTime(modulePresentation).getSeniorRate());
 	    higherCostSupportFields[supportIndex].addFocusListener(saa);
-	    new FormattedTextFieldAdapter(higherCostSupportFields[supportIndex]) {
-		@Override
-		public void updateValue(Object value) {
-		   lineItem.getSupportTime(modulePresentation).setSeniorRate((Integer) value);
-		   makeFieldDirty(textField);
-		}
-	    };
+            new FormattedTextFieldAdapter(higherCostSupportFields[supportIndex]) {
+                @Override
+                public void updateValue(Object value) {
+                    SupportTime st = lineItem.getSupportTime(modulePresentation);
+                    //Create an undoable edit for the change, and add it to the compound edit
+                    try {
+                        PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "seniorRate", value);
+                        compoundEdit.addEdit(edit);
+                    } catch (IntrospectionException ex) {
+                        LOGGER.log(Level.WARNING, "Unable to create undo for property 'seniorRate' of " + st, ex);
+                    }
+                    //Set the value in the model
+                    st.setSeniorRate((Integer) value);
+                    makeFieldDirty(textField);
+                }
+            };
 	    higherCostSupportFields[supportIndex].setFormatterFactory(aff);
             higherCostSupportFields[supportIndex].setInputVerifier(verifier);
 	    lineItem.getSupportTime(modulePresentation).addPropertyChangeListener(AbstractModuleTime.PROP_SENIOR_RATE, new HigherCostPropertyListener(higherCostSupportFields[supportIndex]));
@@ -312,7 +419,16 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	    new FormattedTextFieldAdapter(lowerCostSupportFields[supportIndex]) {
 		@Override
 		public void updateValue(Object value) {
-		    lineItem.getSupportTime(modulePresentation).setJuniorRate((Integer) value);
+		    SupportTime st = lineItem.getSupportTime(modulePresentation);
+                    //Create an undoable edit for the change, and add it to the compound edit
+                    try {
+                        PluggableUndoableEdit edit = new PluggableUndoableEdit(st, "juniorRate", value);
+                        compoundEdit.addEdit(edit);
+                    } catch (IntrospectionException ex) {
+                        LOGGER.log(Level.WARNING, "Unable to create undo for property 'juniorRate' of " + st, ex);
+                    }
+                    //Set the value in the model
+                    st.setJuniorRate((Integer) value);
 		    makeFieldDirty(textField);
 		}
 	    };
@@ -402,7 +518,11 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 	}
     }
     
+    /**
+     * The value in the underlying model has changed, so update the field accordingly
+     */
     private void tlActivityNameChanged() {
+        //Don't update if the field has focus, as this likely means the field was the source of the change
 	if (tlaNameField.hasFocus()) {
 	    return;
 	}

@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
+import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
@@ -38,11 +39,14 @@ import javax.swing.JSlider;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.undo.CompoundEdit;
 import uk.ac.lkl.cram.model.EnumeratedLearningExperience;
+import uk.ac.lkl.cram.model.LearningType;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
 import uk.ac.lkl.cram.ui.SelectAllAdapter;
 import uk.ac.lkl.cram.ui.TextFieldAdapter;
+import uk.ac.lkl.cram.ui.undo.PluggableUndoableEdit;
 
 /**
  * This class provides the rendering for the wizard step where the user enters
@@ -70,14 +74,24 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
      * The activity that the user is editing
      */
     private TLActivity tlActivity;
+    /**
+     * The compound edit that keeps track of the user's changes to the model
+     */
+    private final CompoundEdit compoundEdit;
+    
+    TLALearningDetailsVisualPanel(TLActivity tla) {
+        this(tla, new CompoundEdit());
+    }
     
     /**
      * Creates new form TLALearningDetailsVisualPanel
      * @param tla the activity to be edited
+     * @param cEdit compound edit that keeps track of the user's changes to the model
      */
-    public TLALearningDetailsVisualPanel(TLActivity tla) {
+    public TLALearningDetailsVisualPanel(TLActivity tla, CompoundEdit cEdit) {
 	tlActivity = tla;
         initComponents();
+        this.compoundEdit = cEdit;
         //Get the name from the activity and put it into the text field
 	tlActivityNameChanged();
         //Add a listener for when the learning type changes
@@ -108,8 +122,17 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    @Override
 	    public void stateChanged(ChangeEvent ce) {
 		JSlider source = (JSlider) ce.getSource();
-                int aquisition = source.getValue();
-                tlActivity.getLearningType().setAcquisition(aquisition);			    
+                int acquisition = source.getValue();
+                LearningType lt = tlActivity.getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "acquisition", acquisition);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'acquisition' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setAcquisition(acquisition);			    
 	    }
 	});
 	//Repeat
@@ -120,7 +143,16 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    public void stateChanged(ChangeEvent ce) {
 		JSlider source = (JSlider) ce.getSource();
                 int discussion = source.getValue();
-                tlActivity.getLearningType().setDiscussion(discussion);	
+                LearningType lt = tlActivity.getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "discussion", discussion);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'discussion' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setDiscussion(discussion);	
 	    }
 	});
 	
@@ -131,7 +163,16 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    public void stateChanged(ChangeEvent ce) {
 		JSlider source = (JSlider) ce.getSource();
                 int collaboration = source.getValue();
-                tlActivity.getLearningType().setCollaboration(collaboration);			    
+                LearningType lt = tlActivity.getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "collaboration", collaboration);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'collaboration' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setCollaboration(collaboration);			    
 	    }
 	});
 	
@@ -142,7 +183,16 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    public void stateChanged(ChangeEvent ce) {
 		JSlider source = (JSlider) ce.getSource();
                 int inquiry = source.getValue();
-                tlActivity.getLearningType().setInquiry(inquiry);			    
+                LearningType lt = tlActivity.getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "inquiry", inquiry);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'inquiry' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setInquiry(inquiry);			    
 	    }
 	});
 	
@@ -153,7 +203,16 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    public void stateChanged(ChangeEvent ce) {
 		JSlider source = (JSlider) ce.getSource();
                 int practice = source.getValue();
-                tlActivity.getLearningType().setPractice(practice);			    
+                LearningType lt = tlActivity.getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "practice", practice);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'practice' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setPractice(practice);			    
 	    }
 	});
 	
@@ -164,7 +223,16 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    public void stateChanged(ChangeEvent ce) {
 		JSlider source = (JSlider) ce.getSource();
                 int production = source.getValue();
-                tlActivity.getLearningType().setProduction(production);			    
+                LearningType lt = tlActivity.getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "production", production);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'production' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setProduction(production);			    
 	    }
 	});
 	
@@ -175,7 +243,15 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 
 	    @Override
 	    public void updateText(String text) {
-		tlActivity.setName(text);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(tlActivity, "name", text);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'name' of " + tlActivity, ex);
+		}
+                //Set the value in the model
+                tlActivity.setName(text);
 		checkValidity();
 	    }
 	};
@@ -186,6 +262,13 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 //Get the selected learning experience from the combo box
                 EnumeratedLearningExperience ele = (EnumeratedLearningExperience) learningExperienceComboBox.getSelectedItem();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(tlActivity, "learningExperience", ele);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'learningExperience' of " + tlActivity, ex);
+		}
                 //Set the property of the TLA
                 tlActivity.setLearningExperience(ele);
                 //Enable max group size if the learning experience is social
@@ -235,7 +318,14 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    @Override
 	    public void updateValue(Object value) {
 		Integer maxGroupSize = (int) value;
-		tlActivity.setMaximumGroupSize(maxGroupSize);
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(tlActivity, "maximumGroupSize", maxGroupSize);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'maximumGroupSize' of " + tlActivity, ex);
+		}
+                tlActivity.setMaximumGroupSize(maxGroupSize);
                 checkValidity();
 	    }
 	};
@@ -680,7 +770,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     public static void main(String args[]) {
 
         final JFrame frame = new JFrame(java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("ENTER LEARNING DETAILS"));
-        frame.add(new TLALearningDetailsVisualPanel(new TLActivity("Dummy TLA")));
+        frame.add(new TLALearningDetailsVisualPanel(new TLActivity("Dummy TLA"), new CompoundEdit()));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
