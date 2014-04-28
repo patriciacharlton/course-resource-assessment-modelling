@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.awt.event.ActionEvent;
@@ -9,18 +24,24 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.undo.CompoundEdit;
 import uk.ac.lkl.cram.model.AELMTest;
-import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.ui.wizard.LineItemsDetailVisualPanel;
 import uk.ac.lkl.cram.ui.wizard.TLALearningDetailsVisualPanel;
 import uk.ac.lkl.cram.ui.wizard.TLAPropertiesVisualPanel;
 
 /**
- * $Date$
- * $Revision$
+ * Class that implements an OK/Cancel dialog box for editing the attributes
+ * of a TLALineItem and its activity.
+ * @see TLALineItem
+ * @see TLActivity
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
+@SuppressWarnings("ClassWithoutLogger")
 public class TLAOkCancelDialog extends javax.swing.JDialog {
 
     /**
@@ -31,17 +52,25 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     public static final int RET_OK = 1;
+    /**
+     * The compound edit that keeps all of the edits made during the dialog user's
+     * interaction with the dialogue box
+     */
+    private final CompoundEdit compoundEdit;
 
     /**
      * Creates new form TLAOkCancelDialog
-     * @param parent
-     * @param modal
-     * @param module
-     * @param lineItem  
+     * @param parent the parent of the dialog box (matters for modality)
+     * @param modal if true, the dialogue box is application modal
+     * @param module the module containing the TLALineItem
+     * @param lineItem the line item being edited
+     * @param cEdit  the compound edit that keeps all of the edits made
      */
-    public TLAOkCancelDialog(java.awt.Frame parent, boolean modal, Module module, TLALineItem lineItem) {
+    public TLAOkCancelDialog(java.awt.Frame parent, boolean modal, Module module, TLALineItem lineItem, CompoundEdit cEdit) {
 	super(parent, modal);
 	initComponents();
+
+        this.compoundEdit = cEdit;
         
 	// Close the dialog when Esc is pressed
 	String cancelName = "cancel";
@@ -54,11 +83,11 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
 		doClose(RET_CANCEL);
 	    }
 	});
-	TLALearningDetailsVisualPanel tlaldvp = new TLALearningDetailsVisualPanel(lineItem.getActivity());
+	TLALearningDetailsVisualPanel tlaldvp = new TLALearningDetailsVisualPanel(lineItem.getActivity(), compoundEdit);
 	tabbedPane.addTab(tlaldvp.getName(), tlaldvp);
-	TLAPropertiesVisualPanel tlapvp = new TLAPropertiesVisualPanel(lineItem.getActivity());
+	TLAPropertiesVisualPanel tlapvp = new TLAPropertiesVisualPanel(lineItem.getActivity(), compoundEdit);
 	tabbedPane.addTab(tlapvp.getName(), tlapvp);
-	LineItemsDetailVisualPanel lidvp = new LineItemsDetailVisualPanel(module, lineItem);
+	LineItemsDetailVisualPanel lidvp = new LineItemsDetailVisualPanel(module, lineItem, compoundEdit);
 	tabbedPane.addTab(lidvp.getName(), lidvp);
 	
 	PropertyChangeListener validityListener = new PropertyChangeListener() {
@@ -154,11 +183,14 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-	doClose(RET_OK);
+	compoundEdit.end();
+        doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
     
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-	doClose(RET_CANCEL);
+	compoundEdit.end();
+        compoundEdit.undo();
+        doClose(RET_CANCEL);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
@@ -170,9 +202,6 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
     
     private void doClose(int retStatus) {
 	returnStatus = retStatus;
-	if (returnStatus == RET_OK) {
-	    //TODO--undo
-	}
 	setVisible(false);
 	dispose();
     }
@@ -188,7 +217,7 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
 	    public void run() {
 		Module m = AELMTest.populateModule();
 		TLALineItem li = m.getTLALineItems().get(0);
-		TLAOkCancelDialog dialog = new TLAOkCancelDialog(new javax.swing.JFrame(), true, m, li);
+		TLAOkCancelDialog dialog = new TLAOkCancelDialog(new javax.swing.JFrame(), true, m, li, new CompoundEdit());
 		dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent e) {

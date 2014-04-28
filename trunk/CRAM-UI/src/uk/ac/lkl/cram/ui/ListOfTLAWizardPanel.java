@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.undo.CompoundEdit;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import uk.ac.lkl.cram.model.Module;
@@ -240,7 +241,7 @@ public class ListOfTLAWizardPanel extends javax.swing.JPanel {
 	Dialog parentDialog = (Dialog) SwingUtilities.getWindowAncestor(this);
 	//Create a dialog box for the user to modify the line item
 	//TODO modal dialogue
-        TLAOkCancelDialog tlaDialog = new TLAOkCancelDialog((Frame)parentDialog.getParent(), true, module, li);
+        TLAOkCancelDialog tlaDialog = new TLAOkCancelDialog((Frame)parentDialog.getParent(), true, module, li, new CompoundEdit());
         tlaDialog.setTitle("Modify TLA");
         tlaDialog.setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed

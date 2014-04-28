@@ -409,16 +409,16 @@ public class ModuleFrame extends javax.swing.JFrame {
     
     private void modifySelectedLineItem() {
         LineItem selectedLineItem = sharedSelectionModel.getSelectedLineItem();
-	if (selectedLineItem instanceof TLALineItem) {
-	    TLAOkCancelDialog dialog = new TLAOkCancelDialog(this, true, module, (TLALineItem) selectedLineItem);
+        //Create a compound edit that can be used later for undo
+        CompoundEdit cEdit = new CompoundEdit();
+        if (selectedLineItem instanceof TLALineItem) {
+            TLAOkCancelDialog dialog = new TLAOkCancelDialog(this, true, module, (TLALineItem) selectedLineItem, cEdit);
             dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
 	    dialog.setTitle("Modify TLA for " + module.getModuleName() + " module");
 	    dialog.setSelectedIndex(2);
 	    dialog.setVisible(true);
-	    //LOGGER.info("Dialog returnStatus: " + dialog.getReturnStatus());
 	    //TODO--undo
 	} else if (selectedLineItem instanceof ModuleLineItem) {
-	    CompoundEdit cEdit = new CompoundEdit();
             ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, (ModuleLineItem) selectedLineItem, cEdit);
             dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
             dialog.setTitle("Modify Module Activity for " + module.getModuleName() + " module");
@@ -448,7 +448,6 @@ public class ModuleFrame extends javax.swing.JFrame {
     private void addTLALineItem() {
         //Disable the menu item
         addTLALineItemMI.setEnabled(false);
-        //TODO -- undo
         TLACreatorWizardIterator iterator = new TLACreatorWizardIterator(module);
 	WizardDescriptor wizardDescriptor = new WizardDescriptor(iterator);
 	iterator.initialize(wizardDescriptor);
@@ -480,7 +479,6 @@ public class ModuleFrame extends javax.swing.JFrame {
     private void addModuleLineItem() {
         //Disable the menu item
         addModuleLineItemMI.setEnabled(false);
-        //TODO--undo
         ModuleLineItem li = new ModuleLineItem();
         //Give the dialog a null parent so that the document modal works properly
         ModuleActivityDialog dialog = new ModuleActivityDialog(null, true, module, li, new CompoundEdit());
