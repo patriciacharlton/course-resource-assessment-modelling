@@ -174,8 +174,13 @@ public class ModuleLineItem implements LineItem {
     }
 
     @Override
-    public void removeFrom(Module m) {
-        m.removeModuleItem(this);
+    public int removeFrom(Module m) {
+        return m.removeModuleItem(this);
+    }
+    
+    @Override
+    public void insertLineItemAt(Module module, int index) {
+        module.insertModuleLineItem(this, index);
     }
     
 }
