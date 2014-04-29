@@ -331,9 +331,12 @@ public class TLALineItem implements LineItem {
     }
 
     @Override
-    public void removeFrom(Module module) {
-        module.removeTLALineItem(this);
+    public int removeFrom(Module module) {
+        return module.removeTLALineItem(this);
     }
     
-   
+    @Override
+    public void insertLineItemAt(Module module, int index) {
+        module.insertTLALineItem(this, index);
+    }
 }

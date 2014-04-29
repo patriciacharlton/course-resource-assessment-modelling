@@ -76,13 +76,25 @@ public interface LineItem extends Serializable {
     public float getNumberOfIndividuals_Groups(ModulePresentation modulePresentation, Module module);
 
     /**
-     * Remove the line item from a module
+     * Remove the line item from a module. Return the index of the element from the 
+     * underlying collection from the the element was removed (to support undo).
      * @param m the module from which the line item should be removed. Double dispatches
      * based on type of implementing class.
+     * @return the index of the element removed
      * @see TLALineItem#removeFrom(Module) 
      * @see ModuleLineItem#removeFrom(Module) 
      */
-    public void removeFrom(Module m);
+    public int removeFrom(Module m);
+    
+    /**
+     * Insert the line item at the specified index in the underlying collection<br/>
+     * This method is used to support undo
+     * @param module the module into which the line item should be inserted
+     * @param index the index at which the line item should be inserted in the underlying collection
+     * @see TLALineItem#insertLineItemAt(Module, int)
+     * @see ModuleLineItem#insertLineItemAt(Module, int) 
+     */
+    public void insertLineItemAt(Module module, int index);
     
     /**
      * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener) 

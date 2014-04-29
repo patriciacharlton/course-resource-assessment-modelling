@@ -141,28 +141,36 @@ public class Module implements Serializable {
 	propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, index, null, lineItem);
     }
     
-    void removeTLALineItem(TLALineItem  li) {
+    void insertTLALineItem(TLALineItem lineItem, int index) {
+        tlaLineItems.add(index, lineItem);
+        propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, index, null, lineItem);
+    }
+    
+    int removeTLALineItem(TLALineItem  li) {
         int i = tlaLineItems.indexOf(li);
 	tlaLineItems.remove(i);
         propertySupport.fireIndexedPropertyChange(PROP_TLA_LINEITEM, i, li, null);
+        return i;
     }
     
-    void removeModuleItem(ModuleLineItem moduleItem) {
+    int removeModuleItem(ModuleLineItem moduleItem) {
         int i = moduleLineItems.indexOf(moduleItem);
         moduleLineItems.remove(i);
         propertySupport.fireIndexedPropertyChange(PROP_MODULE_LINEITEM, i, moduleItem, null);
+        return i;
     }
     
     /**
      * Remove a lineItem from the module.<p>
      * This double dispatches based on the class of the lineItem
      * @param li the line item to be removed
+     * @return the index in the underlying collection of the line item that was removed
      * @see LineItem#removeFrom(Module) 
      * 
      */
-    public void removeLineItem(LineItem li) {
+    public int removeLineItem(LineItem li) {
         //Double dispatch
-        li.removeFrom(this);
+        return li.removeFrom(this);
     }
 
     /**
@@ -271,6 +279,11 @@ public class Module implements Serializable {
 	moduleLineItems.add(mi);
 	int index = moduleLineItems.indexOf(mi);
 	propertySupport.fireIndexedPropertyChange(PROP_MODULE_LINEITEM, index, null, mi);
+    }
+    
+    void insertModuleLineItem(ModuleLineItem mi, int index) {
+        moduleLineItems.add(index, mi);
+        propertySupport.fireIndexedPropertyChange(PROP_MODULE_LINEITEM, index, null, mi);
     }
 
     /**
@@ -541,5 +554,5 @@ public class Module implements Serializable {
     }
 
     
- 
+
 }
