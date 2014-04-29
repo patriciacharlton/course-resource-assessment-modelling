@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,7 @@ import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.undo.CompoundEdit;
+import org.openide.util.Exceptions;
 import uk.ac.lkl.cram.model.AbstractModuleTime;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
@@ -78,7 +80,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
      * @param li the TLALineItem being created or edited
      * @param cEdit  the compoundEdit that keeps track of all the user changes
      */
-    public LineItemsDetailVisualPanel(Module module, TLALineItem li, CompoundEdit cEdit) {
+    public LineItemsDetailVisualPanel(final Module module, TLALineItem li, CompoundEdit cEdit) {
         this.lineItem = li;
         //Focus listener to select all text when focus gained
         SelectAllAdapter saa = new SelectAllAdapter();
@@ -169,13 +171,14 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
         new FormattedTextFieldAdapter(weekCountField) {
 	    @Override
 	    public void updateValue(Object value) {
-		//Create an undoable edit for the change, and add it to the compound edit
 		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lineItem, "weekCount", value);
+                    int oldValue = lineItem.getWeekCount(module);
+                    Method setter = lineItem.getClass().getMethod("setWeekCount", new Class[]{int.class});
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lineItem, setter, oldValue, value);
                     compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
+		} catch (NoSuchMethodException | SecurityException ex) {
 		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'weekCount' of " + lineItem, ex);
-		}
+		} 
                 //Set the value in the model
                 lineItem.setWeekCount((Integer) value);
 		checkValidity();

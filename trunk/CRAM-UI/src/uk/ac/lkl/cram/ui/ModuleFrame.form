@@ -63,6 +63,13 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="editMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="uk/ac/lkl/cram/ui/Bundle.properties" key="ModuleFrame.editMenu.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="moduleMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -70,8 +77,6 @@
             </Property>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="addTLALineItemMI">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">

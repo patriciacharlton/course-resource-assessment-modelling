@@ -162,6 +162,9 @@
       </SubComponents>
     </Container>
     <Component class="uk.ac.lkl.cram.ui.PresentationPanel" name="presentationPanel">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new uk.ac.lkl.cram.ui.PresentationPanel(undoHandler)"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

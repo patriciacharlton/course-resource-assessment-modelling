@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
+import uk.ac.lkl.cram.ui.undo.UndoHandler;
 
 /**
  * This panel provides the 'table' of runs that is displayed both in the ModuleFrame
@@ -38,13 +39,24 @@ public class PresentationPanel extends javax.swing.JPanel {
     //Map of the text fields, used to manage the automatic defaults
     //A 'dirty' field is one that the user has entered data into
     private WeakHashMap<JFormattedTextField, Boolean> dirtyMap = new WeakHashMap<>();
+    //Manages the undos for the text fields in the panel
+    private final UndoHandler undoHandler;
 
-    
     /**
-     * Creates new form PresentationPanel
+     * Creates a new form PresentationPanel with a new UndoHandler
      */
     public PresentationPanel() {
+        this(new UndoHandler());
+    }
+    
+    /**
+     * Creates new form PresentationPanel with the specified undoHandler
+     * @param uh the undoHandler that is added as a listener to the document 
+     * of each of the textfields
+     */
+    public PresentationPanel(UndoHandler uh) {
 	super();
+        undoHandler = uh;
 	initComponents();
     }
     
@@ -98,6 +110,8 @@ public class PresentationPanel extends javax.swing.JPanel {
 	    homeStudentCountFields[index].setValue(new Long(modulePresentation.getHomeStudentCount()));
             //Add the select all adapter to the field 
 	    homeStudentCountFields[index].addFocusListener(saa);
+            //Add an undoListener to the document of the textfield
+            homeStudentCountFields[index].getDocument().addUndoableEditListener(undoHandler);
             //Create an adapter on the field so that when the value of the field changes
             //(from user input) the underlying run is updated with the new 
             //value of the field
@@ -114,6 +128,7 @@ public class PresentationPanel extends javax.swing.JPanel {
             
             overseasStudentCountFields[index].setValue(new Long(modulePresentation.getOverseasStudentCount()));
 	    overseasStudentCountFields[index].addFocusListener(saa);
+            overseasStudentCountFields[index].getDocument().addUndoableEditListener(undoHandler);
 	    new FormattedTextFieldAdapter(overseasStudentCountFields[index]) {
 		@Override
 		public void updateValue(Object value) {
@@ -125,6 +140,7 @@ public class PresentationPanel extends javax.swing.JPanel {
 	    
 	    homeStudentFeeFields[index].setValue(new Long(modulePresentation.getHomeFee()));
 	    homeStudentFeeFields[index].addFocusListener(saa);
+            homeStudentFeeFields[index].getDocument().addUndoableEditListener(undoHandler);
 	    new FormattedTextFieldAdapter(homeStudentFeeFields[index]) {
 		@Override
 		public void updateValue(Object value) {
@@ -136,6 +152,7 @@ public class PresentationPanel extends javax.swing.JPanel {
             
             overseasStudentFeeFields[index].setValue(new Long(modulePresentation.getOverseasFee()));
 	    overseasStudentFeeFields[index].addFocusListener(saa);
+            overseasStudentFeeFields[index].getDocument().addUndoableEditListener(undoHandler);
 	    new FormattedTextFieldAdapter(overseasStudentFeeFields[index]) {
 		@Override
 		public void updateValue(Object value) {
@@ -147,6 +164,7 @@ public class PresentationPanel extends javax.swing.JPanel {
 	    
 	    juniorCostFields[index].setValue(new Long(modulePresentation.getJuniorCost()));
 	    juniorCostFields[index].addFocusListener(saa);
+            juniorCostFields[index].getDocument().addUndoableEditListener(undoHandler);
 	    new FormattedTextFieldAdapter(juniorCostFields[index]) {
 		@Override
 		public void updateValue(Object value) {
@@ -158,6 +176,7 @@ public class PresentationPanel extends javax.swing.JPanel {
 	    
 	    seniorCostFields[index].setValue(new Long(modulePresentation.getSeniorCost()));
 	    seniorCostFields[index].addFocusListener(saa);
+            seniorCostFields[index].getDocument().addUndoableEditListener(undoHandler);
 	    new FormattedTextFieldAdapter(seniorCostFields[index]) {
 		@Override
 		public void updateValue(Object value) {
