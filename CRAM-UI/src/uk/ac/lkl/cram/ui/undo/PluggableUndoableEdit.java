@@ -25,9 +25,7 @@ import java.util.logging.Logger;
 import javax.swing.undo.AbstractUndoableEdit;
 
 /**
- * Pluggable class to represent a change to the property of an object. Relies
- * on introspection to get the old value of the property and to create a setter 
- * that will undo the change. Need to provide
+ * Pluggable class to represent a change to the property of an object. Need to provide
  * the object whose property has been changed, the name of the property and the new value.
  * @author Bernard Horan
  * @version $Revision$
@@ -38,22 +36,22 @@ public class PluggableUndoableEdit extends AbstractUndoableEdit {
     private static final Logger LOGGER = Logger.getLogger(PluggableUndoableEdit.class.getName());
 
     private final Object object;
-    private final String propertyName;
     private final Object oldValue;
     private final Object newValue;
     private final Method setter;
     
     /**
-     * Create a new instance of the undoable edit from the parameters supplied.
+     * Create a new instance of the undoable edit from the parameters supplied. Relies
+     * on introspection to get the old value of the property and to create a setter 
+     * that will undo the change. 
      * @param object the object that has changed
-     * @param property the name of the property that changed
+     * @param propertyName the name of the property that changed
      * @param newValue the new value of the property
      * @throws IntrospectionException
      */
-    public PluggableUndoableEdit(Object object, String property, Object newValue) throws IntrospectionException {
+    public PluggableUndoableEdit(Object object, String propertyName, Object newValue) throws IntrospectionException {
 	super();
 	this.object = object;
-	this.propertyName = property;
 	this.newValue = newValue;
 	PropertyDescriptor pd = new PropertyDescriptor(propertyName, object.getClass());
 	Method getter = pd.getReadMethod();
@@ -67,10 +65,26 @@ public class PluggableUndoableEdit extends AbstractUndoableEdit {
 	
     }
     
-    @Override
-    public String getPresentationName() {
-	return propertyName;
+    /**
+     * Create new instance of undoable edit from parameters supplied.
+     * @param object the object that has changed
+     * @param setter the method to be used to set the value of a property in the object
+     * @param oldValue the old value of the property
+     * @param newValue the new value of the property
+     */
+    public PluggableUndoableEdit(Object object, Method setter, Object oldValue, Object newValue) {
+        super();
+        this.object = object;
+        this.setter = setter;
+        this.newValue = newValue;
+        this.oldValue = oldValue;
     }
+    
+    
+//    @Override
+//    public String getPresentationName() {
+//	return propertyName;
+//    }
     
     @Override
     public void undo() {
@@ -79,7 +93,7 @@ public class PluggableUndoableEdit extends AbstractUndoableEdit {
 	try {
 	    setter.invoke(object, oldValue);
 	} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-	    LOGGER.log(Level.SEVERE, "Failed to undo setting " + propertyName + " of " + object + " to " + newValue, ex);
+	    LOGGER.log(Level.SEVERE, "Failed to undo setting " + setter.getName() + " of " + object + " to " + newValue, ex);
 	}
     }
     
@@ -89,7 +103,7 @@ public class PluggableUndoableEdit extends AbstractUndoableEdit {
 	try {
 	    setter.invoke(object, newValue);
 	} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-	    LOGGER.log(Level.SEVERE, "Failed to redo setting " + propertyName + " of " + object + " to " + newValue, ex);
+	    LOGGER.log(Level.SEVERE, "Failed to redo setting " + setter.getName() + " of " + object + " to " + newValue, ex);
 	}
     }
 

@@ -1,31 +1,57 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.ui.undo.UndoHandler;
 
 /**
- * $Date$
- * $Revision$
+ * Class to implement the panel that is used to display/edit the contents of a module
+ * in the module frame.
+ * @see ModuleFrame
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class ModulePanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ModulePanel.class.getName());
+    private final UndoHandler undoHandler;
 
 
     /**
-     * Creates new form ModuleWizardPanel
-     * @param module
+     * Creates new form ModulePanel
+     * @param module the module being described/edited
+     * @param uh an undohandler to manage the edits made by the user
      */
-    public ModulePanel(final Module module) {
-	initComponents();
+    public ModulePanel(final Module module, UndoHandler uh) {
+	//Set the undoHandler before initComponents because it is used in the
+        //Constructor for presentationPanel
+        //The undoHandler is added as a listener to the document of all the textfields
+        this.undoHandler = uh;
+        initComponents();
 
 	SelectAllAdapter saa = new SelectAllAdapter();
 	
 	moduleNameField.setText(module.getModuleName());
 	moduleNameField.addFocusListener(saa);
+        moduleNameField.getDocument().addUndoableEditListener(undoHandler);
 	new TextFieldAdapter(moduleNameField) {
 
 	    @Override
@@ -36,6 +62,7 @@ public class ModulePanel extends javax.swing.JPanel {
 	
 	hourCountField.setValue(module.getTotalCreditHourCount());
 	hourCountField.addFocusListener(saa);
+        hourCountField.getDocument().addUndoableEditListener(undoHandler);
 	new FormattedTextFieldAdapter(hourCountField) {
 
 	    @Override
@@ -47,6 +74,7 @@ public class ModulePanel extends javax.swing.JPanel {
 	
 	weekCountField.setValue(module.getWeekCount());
 	weekCountField.addFocusListener(saa);
+        weekCountField.getDocument().addUndoableEditListener(undoHandler);
 	new FormattedTextFieldAdapter(weekCountField) {
 
 	    @Override
@@ -58,6 +86,7 @@ public class ModulePanel extends javax.swing.JPanel {
 	
 	tutorGroupSizeField.setValue(module.getTutorGroupSize());
 	tutorGroupSizeField.addFocusListener(saa);
+        tutorGroupSizeField.getDocument().addUndoableEditListener(undoHandler);
 	new FormattedTextFieldAdapter(tutorGroupSizeField) {
 
 	    @Override
@@ -90,7 +119,7 @@ public class ModulePanel extends javax.swing.JPanel {
         weekCountField = new javax.swing.JFormattedTextField();
         moduleNamePanel = new javax.swing.JPanel();
         moduleNameField = new javax.swing.JTextField();
-        presentationPanel = new uk.ac.lkl.cram.ui.PresentationPanel();
+        presentationPanel = new uk.ac.lkl.cram.ui.PresentationPanel(undoHandler);
 
         moduleDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Details"));
 
@@ -201,10 +230,14 @@ public class ModulePanel extends javax.swing.JPanel {
     
     
     
+    /**
+     * For testing purposes only
+     * @param args (ignored)
+     */
     public static void main(String args[]) {
         final JFrame frame = new JFrame("Module Panel");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new ModulePanel(AELMTest.populateModule()));
+        frame.add(new ModulePanel(AELMTest.populateModule(), new UndoHandler()));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -17,6 +17,8 @@ package uk.ac.lkl.cram.ui;
 
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -28,8 +30,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.undo.CompoundEdit;
-import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEdit;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
 import org.openide.DialogDisplayer;
@@ -40,6 +43,9 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.UserTLALibrary;
+import uk.ac.lkl.cram.ui.undo.NamedCompoundEdit;
+import uk.ac.lkl.cram.ui.undo.RemoveLineItemEdit;
+import uk.ac.lkl.cram.ui.undo.UndoHandler;
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
@@ -61,6 +67,8 @@ public class ModuleFrame extends javax.swing.JFrame {
     private final LineItemSelectionModel sharedSelectionModel = new LineItemSelectionModel();
     //Listens for double clicks on the various tables in the frame
     private final MouseListener doubleClickListener;
+    //Manages undos for the module--one undo handler per module frame
+    private final UndoHandler undoHandler;
     
 
     /**
@@ -70,6 +78,11 @@ public class ModuleFrame extends javax.swing.JFrame {
     public ModuleFrame(Module module) {
         this.module = module;
         initComponents();
+        //Add undo mechanism
+        undoHandler = new UndoHandler();
+        JMenuItem undoMI = editMenu.add(undoHandler.getUndoAction());
+        JMenuItem redoMI = editMenu.add(undoHandler.getRedoAction());
+        
 	//Listen for changes to the shared selection model
         sharedSelectionModel.addPropertyChangeListener(new PropertyChangeListener() {
 
@@ -91,11 +104,14 @@ public class ModuleFrame extends javax.swing.JFrame {
 	    }
 	};
         
-	//TODO
-//	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-//	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-//	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-//	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        //Set Accelerator keys
+        undoMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	redoMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        //TODO--this causes confusion on the Mac
+	//quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
 	leftTaskPaneContainer.add(createCourseDataPane());
 	leftTaskPaneContainer.add(createLineItemPane());
@@ -131,8 +147,8 @@ public class ModuleFrame extends javax.swing.JFrame {
         saveMI = new javax.swing.JMenuItem();
         saveAsMI = new javax.swing.JMenuItem();
         quitMI = new javax.swing.JMenuItem();
+        editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         addTLALineItemMI = new javax.swing.JMenuItem();
         addModuleLineItemMI = new javax.swing.JMenuItem();
         modifyLineItemMI = new javax.swing.JMenuItem();
@@ -204,8 +220,10 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         windowMenuBar.add(fileMenu);
 
+        org.openide.awt.Mnemonics.setLocalizedText(editMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.editMenu.text")); // NOI18N
+        windowMenuBar.add(editMenu);
+
         org.openide.awt.Mnemonics.setLocalizedText(moduleMenu, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.moduleMenu.text")); // NOI18N
-        moduleMenu.add(jSeparator1);
 
         org.openide.awt.Mnemonics.setLocalizedText(addTLALineItemMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.addTLALineItemMI.text")); // NOI18N
         addTLALineItemMI.addActionListener(new java.awt.event.ActionListener() {
@@ -292,12 +310,12 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem addModuleLineItemMI;
     private javax.swing.JMenuItem addTLALineItemMI;
     private javax.swing.JMenuItem duplicateMI;
+    private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
     private javax.swing.JMenuItem modifyLineItemMI;
     private javax.swing.JMenu moduleMenu;
@@ -318,7 +336,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane courseDataPane = new JXTaskPane();
 	courseDataPane.setTitle("Module Data");
         courseDataPane.setScrollOnExpand(true);
-	courseDataPane.add(new ModulePanel(module));
+	courseDataPane.add(new ModulePanel(module, undoHandler));
 	return courseDataPane;
     }
 
@@ -410,33 +428,42 @@ public class ModuleFrame extends javax.swing.JFrame {
     private void modifySelectedLineItem() {
         LineItem selectedLineItem = sharedSelectionModel.getSelectedLineItem();
         //Create a compound edit that can be used later for undo
-        CompoundEdit cEdit = new CompoundEdit();
+        NamedCompoundEdit cEdit = new NamedCompoundEdit();
         if (selectedLineItem instanceof TLALineItem) {
+            cEdit.setName("Modify TLA");
             TLAOkCancelDialog dialog = new TLAOkCancelDialog(this, true, module, (TLALineItem) selectedLineItem, cEdit);
             dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
 	    dialog.setTitle("Modify TLA for " + module.getModuleName() + " module");
 	    dialog.setSelectedIndex(2);
 	    dialog.setVisible(true);
-	    //TODO--undo
+            //If the user clicked OK, create an edit that can be undone
+            if (dialog.getReturnStatus() == TLAOkCancelDialog.RET_OK) {
+                undoHandler.addEdit(cEdit);
+            }
 	} else if (selectedLineItem instanceof ModuleLineItem) {
+            cEdit.setName("Modify Module Activity");
             ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, (ModuleLineItem) selectedLineItem, cEdit);
             dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
             dialog.setTitle("Modify Module Activity for " + module.getModuleName() + " module");
             dialog.setVisible(true);
 	    dialog.toFront();
-            //TODO--undo           
+            //If the user clicked OK, create an edit that can be undone
+            if (dialog.getReturnStatus() == ModuleActivityDialog.RET_OK) {
+                undoHandler.addEdit(cEdit);
+            }
         } else {
 	    LOGGER.warning("Unable to edit this line item");
 	}
     }
     
     private void removeSelectedLineItem() {
-        //TODO -- undo
         LineItem selectedLineItem = sharedSelectionModel.getSelectedLineItem();
 	if (selectedLineItem != null) {
 	    int reply = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove \'" + selectedLineItem.getName() + "\'?", "Remove TLA", JOptionPane.YES_NO_OPTION);
 	    if (reply == JOptionPane.YES_OPTION) {
-                selectedLineItem.removeFrom(module);
+                int i = selectedLineItem.removeFrom(module);
+                UndoableEdit edit = new RemoveLineItemEdit(module, selectedLineItem, i);
+                undoHandler.addEdit(edit);
 	    } else {
 		LOGGER.info("Remove cancelled");
 	    }
@@ -470,7 +497,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 		UserTLALibrary.getDefaultLibrary().addActivity(lineItem.getActivity());
 	    }
             module.addTLALineItem(lineItem);
-	    //TODO--undo
+	    //No undo support here--assume user will just remove the line item
         }
         //Enable the menu item
         addTLALineItemMI.setEnabled(true);
@@ -490,7 +517,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         dialog.toFront();
         if (dialog.getReturnStatus() == ModuleActivityDialog.RET_OK) {
             module.addModuleItem(li);
-	    //TODO--undo
+	    //No undo support here--assume user will just remove the line item
         }
         //Enable the menu item
         addModuleLineItemMI.setEnabled(true);
