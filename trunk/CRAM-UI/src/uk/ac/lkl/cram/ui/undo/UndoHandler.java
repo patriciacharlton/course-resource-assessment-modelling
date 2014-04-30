@@ -16,6 +16,8 @@
 package uk.ac.lkl.cram.ui.undo;
 
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
@@ -37,6 +39,12 @@ import javax.swing.undo.UndoableEdit;
 public class UndoHandler implements UndoableEditListener {
 
     private static final Logger LOGGER = Logger.getLogger(UndoHandler.class.getName());
+    /**
+     * Property name to indicate change in whether I can undo
+     */
+    public static final String CAN_UNDO_PROP = "can_undo";
+    //property change listener support
+    private final PropertyChangeSupport undoChangeSupport;
     private final UndoAction undoAction;
     private final RedoAction redoAction;
     private final UndoManager undoManager;
@@ -45,6 +53,7 @@ public class UndoHandler implements UndoableEditListener {
      * Default constructor. Sets up the undo and redo actions.
      */
     public UndoHandler() {
+        undoChangeSupport = new PropertyChangeSupport(this);
         this.undoManager = new UndoManager();
         undoAction = new UndoAction();
         redoAction = new RedoAction();
@@ -54,6 +63,29 @@ public class UndoHandler implements UndoableEditListener {
     public void undoableEditHappened(UndoableEditEvent uee) {
         //Remember the edit
         addEdit(uee.getEdit());
+    }
+
+    /**
+     * Add an edit to the undoManager
+     * @param edit the edit to be added to the undoManager
+     * @see UndoManager#addEdit(javax.swing.undo.UndoableEdit) 
+     */
+    public void addEdit(UndoableEdit edit) {
+        boolean oldValue = undoManager.canUndo();
+        undoManager.addEdit(edit);
+        undoChangeSupport.firePropertyChange(CAN_UNDO_PROP, oldValue, undoManager.canUndo());
+        updateActions();
+    }
+    
+    /**
+     * Discard all the edits
+     * @see UndoManager#discardAllEdits() 
+     */
+    public void discardAllEdits() {
+        boolean oldValue = undoManager.canUndo();
+        undoManager.discardAllEdits();
+        undoChangeSupport.firePropertyChange(CAN_UNDO_PROP, oldValue, undoManager.canUndo());
+        updateActions();
     }
 
     /**
@@ -74,16 +106,7 @@ public class UndoHandler implements UndoableEditListener {
         return redoAction;
     }
 
-    /**
-     * Add an edit to the undoManager
-     *
-     * @param edit the edit to be added to the undoManager
-     */
-    public void addEdit(UndoableEdit edit) {
-        undoManager.addEdit(edit);
-        updateActions();
-    }
-
+    
     private void updateActions() {
         if (undoManager.canUndo()) {
             undoAction.setEnabled(true);
@@ -100,9 +123,18 @@ public class UndoHandler implements UndoableEditListener {
             redoAction.putValue(Action.NAME, "Redo");
         }
     }
+    
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        undoChangeSupport.addPropertyChangeListener(pcl);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        undoChangeSupport.removePropertyChangeListener(pcl);
+    }
 
+    
     /**
-     *
+     * Class to represent the undo action
      */
     @SuppressWarnings("PublicInnerClass")
     public class UndoAction extends AbstractAction {
@@ -117,17 +149,19 @@ public class UndoHandler implements UndoableEditListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            boolean oldValue = undoManager.canUndo();
             try {
                 undoManager.undo();
             } catch (CannotUndoException ex) {
                 LOGGER.log(Level.SEVERE, "Unable to undo", ex);
             }
+            undoChangeSupport.firePropertyChange(CAN_UNDO_PROP, oldValue, undoManager.canUndo());
             updateActions();
         }
     }
 
     /**
-     *
+     * Class to represent the redo action
      */
     @SuppressWarnings("PublicInnerClass")
     public class RedoAction extends AbstractAction {
@@ -142,11 +176,13 @@ public class UndoHandler implements UndoableEditListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            boolean oldValue = undoManager.canUndo();
             try {
                 undoManager.redo();
             } catch (CannotRedoException ex) {
                 LOGGER.log(Level.SEVERE, "Unable to redo", ex);
             }
+            undoChangeSupport.firePropertyChange(CAN_UNDO_PROP, oldValue, undoManager.canUndo());
             updateActions();
         }
     }
