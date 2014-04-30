@@ -24,15 +24,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.text.MessageFormat;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoableEdit;
+import javax.xml.bind.JAXBException;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartPanel;
 import org.openide.DialogDisplayer;
@@ -43,6 +47,7 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.UserTLALibrary;
+import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 import uk.ac.lkl.cram.ui.undo.NamedCompoundEdit;
 import uk.ac.lkl.cram.ui.undo.RemoveLineItemEdit;
 import uk.ac.lkl.cram.ui.undo.UndoHandler;
@@ -63,6 +68,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
     //The module rendered by this frame
     private final Module module;
+    private File moduleFile;
     //Keeps track of the selection in the various tables in the frame
     private final LineItemSelectionModel sharedSelectionModel = new LineItemSelectionModel();
     //Listens for double clicks on the various tables in the frame
@@ -74,14 +80,39 @@ public class ModuleFrame extends javax.swing.JFrame {
     /**
      * Creates new form ModuleFrame
      * @param module the module that this window displays
+     * @param file  
      */
-    public ModuleFrame(Module module) {
+    public ModuleFrame(Module module, File file) {
         this.module = module;
+        this.moduleFile = file;
+        this.setTitle(module.getModuleName());
         initComponents();
         //Add undo mechanism
         undoHandler = new UndoHandler();
         JMenuItem undoMI = editMenu.add(undoHandler.getUndoAction());
         JMenuItem redoMI = editMenu.add(undoHandler.getRedoAction());
+        //List to the undo handler for when there is something to undo
+        undoHandler.addPropertyChangeListener(new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                //We're assuming there's only one property
+                //If the new value is true, then there's something to undo
+                //And thus the save menu item should be enabled
+                Boolean newValue = (Boolean) evt.getNewValue();
+                if (moduleFile != null) {
+                    saveMI.setEnabled(newValue);
+                }
+            }
+        });
+        editMenu.addSeparator();
+        //Add cut, copy & paste menu items
+        JMenuItem cutMI = editMenu.add(new JMenuItem(new DefaultEditorKit.CutAction()));
+        cutMI.setText("Cut");
+        JMenuItem copyMI = editMenu.add(new JMenuItem(new DefaultEditorKit.CopyAction()));
+        copyMI.setText("Copy");
+        JMenuItem pasteMI = editMenu.add(new JMenuItem(new DefaultEditorKit.PasteAction()));
+        pasteMI.setText("Paste");        
         
 	//Listen for changes to the shared selection model
         sharedSelectionModel.addPropertyChangeListener(new PropertyChangeListener() {
@@ -107,6 +138,9 @@ public class ModuleFrame extends javax.swing.JFrame {
         //Set Accelerator keys
         undoMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	redoMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        cutMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	copyMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	pasteMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -210,6 +244,11 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         org.openide.awt.Mnemonics.setLocalizedText(saveMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveMI.text")); // NOI18N
         saveMI.setEnabled(false);
+        saveMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMIActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(saveAsMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveAsMI.text")); // NOI18N
@@ -292,6 +331,10 @@ public class ModuleFrame extends javax.swing.JFrame {
         addModuleLineItem();
     }//GEN-LAST:event_addModuleLineItemMIActionPerformed
 
+    private void saveMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMIActionPerformed
+        saveModule();
+    }//GEN-LAST:event_saveMIActionPerformed
+
     /**
      * Used for testing purposes only.
      * @param args the command line arguments (ignored)
@@ -302,7 +345,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 	    @Override
             public void run() {
-                new ModuleFrame(AELMTest.populateModule()).setVisible(true);
+                new ModuleFrame(AELMTest.populateModule(), null).setVisible(true);
             }
         });
     }
@@ -553,5 +596,27 @@ public class ModuleFrame extends javax.swing.JFrame {
 
     JMenuItem getOpenHelpMenuItem() {
 	return openHelpMI;
+    }
+
+    void discardEdits() {
+        undoHandler.discardAllEdits();
+        saveMI.setEnabled(false);
+    }
+
+    private void saveModule() {
+        try {
+            //Create a marshaller to marshall the module
+            ModuleMarshaller marshaller = new ModuleMarshaller(moduleFile);
+            //Marshall the module
+            marshaller.marshallModule(module);
+            discardEdits();
+        } catch (JAXBException ioe) {
+            LOGGER.log(Level.SEVERE, "Failed to save file", ioe);
+            JOptionPane.showMessageDialog(this, "See log for details", "Unable to save module", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    void setModuleFile(File file) {
+        moduleFile = file;
     }
 }

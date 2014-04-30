@@ -209,9 +209,9 @@ public class CRAMApplication {
      * @param title the title of the window to display the module
      * @return true if the module is added
      */
-    private boolean addModule(Module m, String title) {
+    private boolean addModule(Module m, File file, String title) {
 	//Create a new frame for the module
-        final ModuleFrame moduleFrame = new ModuleFrame(m);
+        final ModuleFrame moduleFrame = new ModuleFrame(m, file);
         moduleFrame.setTitle(title);
 	//See if the set of windows already contains the module
         if (windows.contains(moduleFrame)) {
@@ -334,7 +334,7 @@ public class CRAMApplication {
 		//Unmarshall the module from the file
 		Module importedModule = unmarshaller.unmarshallModule();
 		//add the module and return the value if it's successful
-		return addModule(importedModule, file.getName());
+		return addModule(importedModule, file, file.getName());
 	    } catch (IOException | JAXBException i) {
 		LOGGER.log(Level.SEVERE, "Failed to open file", i);
 		return false;
@@ -371,9 +371,12 @@ public class CRAMApplication {
                 ModuleMarshaller marshaller = new ModuleMarshaller(file);
 		//Marshall the module
                 marshaller.marshallModule(module);
-		//The name of the module may have changed, so update the list of windows
+                //Set the file to be used to save the modulue
+		moduleFrame.setModuleFile(file);
+                //The name of the module may have changed, so update the list of windows
                 windows.remove(moduleFrame);
                 moduleFrame.setTitle(file.getName());
+                moduleFrame.discardEdits();
                 windows.add(moduleFrame);
             } catch (JAXBException ioe) {
                 LOGGER.log(Level.SEVERE, "Failed to save file", ioe);
@@ -399,7 +402,7 @@ public class CRAMApplication {
             Module duplicateModule = unmarshaller.unmarshallModule();
             String duplicateModuleName = moduleName + " (Copy)";
             duplicateModule.setModuleName(duplicateModuleName);
-            addModule(duplicateModule, duplicateModuleName);
+            addModule(duplicateModule, null, duplicateModuleName);
         } catch (IOException | JAXBException ex) {
             LOGGER.log(Level.SEVERE, "Unable to duplicate module", ex);
             JOptionPane.showMessageDialog(moduleFrame, "See log for details", "Unable to duplicate module", JOptionPane.ERROR_MESSAGE);
@@ -428,7 +431,7 @@ public class CRAMApplication {
         }
         dialog.setVisible(true);
         if (dialog.getReturnStatus() == ModuleOkCancelDialog.RET_OK) {
-            return addModule(module, "Untitled " + MODULE_COUNT++);
+            return addModule(module, null, "Untitled " + MODULE_COUNT++);
         } else {
             return false;
         }
