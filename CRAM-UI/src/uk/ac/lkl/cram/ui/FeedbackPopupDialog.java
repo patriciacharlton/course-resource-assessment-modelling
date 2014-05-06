@@ -20,13 +20,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -39,7 +36,7 @@ import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import uk.ac.lkl.cram.model.LearningType;
+import uk.ac.lkl.cram.model.LearnerFeedback;
 import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
@@ -47,8 +44,12 @@ import uk.ac.lkl.cram.model.TLALineItem;
  * @author Bernard Horan
  */
 @SuppressWarnings({"serial"})
-public class LearningTypePopupDialog extends javax.swing.JDialog {
-    private static final Logger LOGGER = Logger.getLogger(LearningTypePopupDialog.class.getName());
+public class FeedbackPopupDialog extends javax.swing.JDialog {
+    private static final Logger LOGGER = Logger.getLogger(FeedbackPopupDialog.class.getName());
+    /**
+     * Map to determine how to render the LearnerFeedback
+     */
+    private final static Map<LearnerFeedback, String> RENDER_MAP = new HashMap<>();
     /**
      * A return status code - returned if Cancel button has been pressed
      */
@@ -57,21 +58,25 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
      * A return status code - returned if OK button has been pressed
      */
     static final int RET_OK = 1;
+    
     /**
-     * Kind of learning type
+     * Initialise the render map 
      */
-    private final String propertyName;
+    static {
+        RENDER_MAP.put(LearnerFeedback.TEL, "Computer-based");
+        RENDER_MAP.put(LearnerFeedback.PEER_ONLY, "Peer");
+        RENDER_MAP.put(LearnerFeedback.TUTOR, "Tutor");
+        RENDER_MAP.put(LearnerFeedback.NONE, "None");
+    }
 
     /**
      * Creates new form LearningTypePopupDialog
      * @param parent the parent for this dialog, which has an impact on modality
      * @param modal if true, make this dialog modal
      * @param lineItems the line items to display in the dialog
-     * @param propertyName the kind of learning type that the list should show
      */
-    public LearningTypePopupDialog(java.awt.Frame parent, boolean modal, Set<TLALineItem> lineItems, String propertyName) {
+    public FeedbackPopupDialog(java.awt.Frame parent, boolean modal, Collection<TLALineItem> lineItems) {
         super(parent, modal);
-        this.propertyName = propertyName;
         initComponents();
         //Create a list model containing the line items
         DefaultListModel<TLALineItem> listModel = new DefaultListModel<>();
@@ -79,7 +84,6 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
             listModel.addElement(tLALineItem);
         }
         lineItemList.setModel(listModel);
-        //Set the renderer for the list
         lineItemList.setCellRenderer(new TLALineItemRenderer());
         lineItemList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -153,7 +157,7 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(modifyButton, org.openide.util.NbBundle.getMessage(LearningTypePopupDialog.class, "LearningTypePopupDialog.modifyButton.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(modifyButton, org.openide.util.NbBundle.getMessage(FeedbackPopupDialog.class, "FeedbackPopupDialog.modifyButton.text")); // NOI18N
         modifyButton.setEnabled(false);
         modifyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,7 +165,7 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(cancelButton, org.openide.util.NbBundle.getMessage(LearningTypePopupDialog.class, "LearningTypePopupDialog.cancelButton.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(cancelButton, org.openide.util.NbBundle.getMessage(FeedbackPopupDialog.class, "FeedbackPopupDialog.cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -236,7 +240,7 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                LearningTypePopupDialog dialog = new LearningTypePopupDialog(new javax.swing.JFrame(), true, new HashSet<TLALineItem>(), "Foo");
+                FeedbackPopupDialog dialog = new FeedbackPopupDialog(new javax.swing.JFrame(), true, new ArrayList<TLALineItem>());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -260,7 +264,7 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
     }
     
     /**
-     * Renderer for the LineItems
+     * Renderer for the line items
      */
     private class TLALineItemRenderer extends JLabel implements ListCellRenderer<TLALineItem> {
 
@@ -279,20 +283,13 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
                 setBackground(list.getBackground());
                 setForeground(list.getForeground());
             }
-            LearningType lt = lineItem.getActivity().getLearningType();
             @SuppressWarnings("StringBufferWithoutInitialCapacity")
             StringBuilder builder = new StringBuilder();
             builder.append(lineItem.getName());
-            try {
-                //Create method to get the value of the property
-                Method getter = new PropertyDescriptor(propertyName, lt.getClass()).getReadMethod();
-                Integer propertyValue = (Integer) getter.invoke(lt);
-                builder.append( " (");
-                builder.append(propertyValue);
-                builder.append("%)");
-            } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                LOGGER.log(Level.SEVERE, "Failed to access " + propertyName + " of " + lineItem.getName(), ex);
-            }
+            builder.append( " (");
+            //Human readable version of the learner feedback
+            builder.append(RENDER_MAP.get(lineItem.getActivity().getLearnerFeedback()));
+            builder.append(")");
             setText(builder.toString());
             return this;
         }
