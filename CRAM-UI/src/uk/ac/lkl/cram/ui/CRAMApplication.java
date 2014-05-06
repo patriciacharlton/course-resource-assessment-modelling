@@ -53,9 +53,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
-import uk.ac.lkl.cram.model.UserTLALibrary;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 import uk.ac.lkl.cram.model.io.ModuleUnmarshaller;
+import uk.ac.lkl.cram.ui.util.OSUtil;
 
 
 /**
