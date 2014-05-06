@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.util;
 
 /**
  * Utility class to determine the operating system that Java is running on.
  * @author Bernard Horan
  */
 @SuppressWarnings("ClassWithoutLogger")
-class OSUtil {
+public class OSUtil {
 
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
-    static boolean isWindows() {
+    public static boolean isWindows() {
         return (OS.indexOf("win") >= 0);
     }
 

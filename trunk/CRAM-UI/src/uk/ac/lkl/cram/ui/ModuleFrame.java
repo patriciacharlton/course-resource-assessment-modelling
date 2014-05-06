@@ -15,6 +15,7 @@
  */
 package uk.ac.lkl.cram.ui;
 
+import uk.ac.lkl.cram.ui.util.OSUtil;
 import java.awt.Cursor;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -160,8 +161,11 @@ public class ModuleFrame extends javax.swing.JFrame {
 	newMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        //TODO--this causes confusion on the Mac
-	//quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	//Remove quit menu item from file menu on Mac
+	if (OSUtil.isMac()) {
+	    fileMenu.remove(quitMI);
+	}
         
 	leftTaskPaneContainer.add(createCourseDataPane());
 	leftTaskPaneContainer.add(createLineItemPane());
@@ -184,7 +188,6 @@ public class ModuleFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         leftTaskPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -206,8 +209,6 @@ public class ModuleFrame extends javax.swing.JFrame {
         windowMenu = new javax.swing.JMenu();
         helpMenu = new javax.swing.JMenu();
         openHelpMI = new javax.swing.JMenuItem();
-
-        org.openide.awt.Mnemonics.setLocalizedText(jMenuItem1, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.jMenuItem1.text")); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(730, 600));
@@ -372,7 +373,6 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
