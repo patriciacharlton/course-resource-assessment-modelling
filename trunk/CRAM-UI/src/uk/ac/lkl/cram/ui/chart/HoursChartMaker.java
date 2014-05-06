@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.chart;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Paint;
 import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -30,17 +29,14 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.SortOrder;
+import org.jfree.data.general.Dataset;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
@@ -51,7 +47,7 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- * This class is a factory that produces an instance of class ChartPanel. The ChartPanel 
+ * This class produces an instance of class ChartPanel. The ChartPanel 
  * presents a display of the preparation and support hours for a module, rendered in the form of 
  * a stacked bar chart. The factory is responsible for setting up all the parameters of
  * the chart, including the underlying dataset, legend, colours, and so on.
@@ -60,8 +56,8 @@ import uk.ac.lkl.cram.model.TLActivity;
  * @author Bernard Horan
  */
 //$Date$
-public class HoursChartFactory {
-    private static final Logger LOGGER = Logger.getLogger(HoursChartFactory.class.getName());
+public class HoursChartMaker extends AbstractChartMaker {
+    private static final Logger LOGGER = Logger.getLogger(HoursChartMaker.class.getName());
     //The colours for the bars
     private static final Color SUPPORT_COLOR = new Color(0xD90505);
     private static final Color PREPARATION_COLOR = new Color(0x3F9CD8);
@@ -74,25 +70,17 @@ public class HoursChartFactory {
     public static void main(String[] args) {
 	JFrame frame = new JFrame("Hours Chart Test");
 	Module m = AELMTest.populateModule();
-	ChartPanel chartPanel = createChartPanel(m);
-	frame.setContentPane(chartPanel);
+	HoursChartMaker maker = new HoursChartMaker(m);
+	frame.setContentPane(maker.getChartPanel());
 	frame.setVisible(true);
     }
     
     /**
-     * Create a new instance of ChartPanel from the module provided.
-     * @param m the module containing data of preparation and support times
-     * @return a chart panel containing a stacked bar chart on the the 
-     * preparation and support times
+     * Create an hours chart maker from a module
+     * @param m the module from which to create a chart maker
      */
-    public static ChartPanel createChartPanel(Module m) {
-        //Create a dataset from the module
-        CategoryDataset dataset = createDataSet(m);
-        //Create a chart from the dataset
-        JFreeChart chart = createChart(dataset);
-        //Create a chartpanel to render the chart
-        ChartPanel chartPanel = new ChartPanel(chart);
-        return chartPanel;
+    public HoursChartMaker(Module m) {
+        super(m);
     }
 
     /**
@@ -100,7 +88,8 @@ public class HoursChartFactory {
      * @param module the module containing the preparation and support times
      * @return a category dataset that is used to produce a stacked bar chart
      */
-    private static CategoryDataset createDataSet(final Module module) {
+    @Override
+    protected CategoryDataset createDataSet(final Module module) {
 	//Create a dataset to hold the data
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	//populate the dataset with the data
@@ -226,21 +215,15 @@ public class HoursChartFactory {
      * @param dataset a category data set populated with the preparation and support times for the module
      * @return a Chart that can be rendered in a ChartPanel
      */
-    private static JFreeChart createChart(CategoryDataset dataset) {
+    @Override
+    protected JFreeChart createChart(Dataset dataset) {
         //Create a vertical stacked bar chart from the chart factory, with no title, no axis labels, a legend, tooltips but no URLs
-        JFreeChart chart = ChartFactory.createStackedBarChart(null, null, null, dataset, PlotOrientation.VERTICAL, true, true, false);
-        //Get the background colour from the platform UI
-        Paint backgroundPaint = UIManager.getColor("InternalFrame.background");
-	//Get the font from the platform UI
+        JFreeChart chart = ChartFactory.createStackedBarChart(null, null, null, (CategoryDataset) dataset, PlotOrientation.VERTICAL, true, true, false);
+        setChartDefaults(chart);
+        //Get the font from the platform UI
         Font chartFont = UIManager.getFont("Label.font");
-        //Set the background colour of the chart
-	chart.setBackgroundPaint(backgroundPaint);
         //Get the plot from the chart
 	CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        //Set the background colour of the plot
-	plot.setBackgroundPaint(backgroundPaint);
-        //Don't render an oultine around the bar chart
-	plot.setOutlineVisible(false);
         //Get the renderer from the plot
 	StackedBarRenderer sbRenderer = (StackedBarRenderer) plot.getRenderer();
 	//Set the rendered to use a standard bar painter (nothing fancy)
@@ -258,22 +241,10 @@ public class HoursChartFactory {
 	NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
         //Use the same font as the x-axis
 	numberAxis.setLabelFont(chartFont);
-        //Get the legend
-	LegendTitle legend = chart.getLegend();
-        //Use the same font on the legend as for the chart
-	legend.setItemFont(chartFont);
-        //Set the legend to use the same background colour as the chart
-	legend.setBackgroundPaint(backgroundPaint);
-        //No frame around the legend
-	legend.setFrame(BlockBorder.NONE);
-        //Locate the legend on the right of the chart
-	legend.setPosition(RectangleEdge.RIGHT);
-        //Sort the items in the legend
-        legend.setSortOrder(SortOrder.DESCENDING);
-	return chart;
+        return chart;
     }
 
-    private static void populateDataset(DefaultCategoryDataset dataset, Module m) {
+    private void populateDataset(DefaultCategoryDataset dataset, Module m) {
 	String[] presentationNames = {"Run 1", "Run 2", "Run 3"};
 	int i = 0;
 	for (ModulePresentation modulePresentation : m.getModulePresentations()) {

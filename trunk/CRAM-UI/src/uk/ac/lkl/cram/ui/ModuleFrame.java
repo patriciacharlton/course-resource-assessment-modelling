@@ -15,8 +15,11 @@
  */
 package uk.ac.lkl.cram.ui;
 
+import java.awt.Cursor;
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -26,6 +29,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
@@ -33,12 +37,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoableEdit;
 import javax.xml.bind.JAXBException;
 import org.jdesktop.swingx.JXTaskPane;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.entity.CategoryItemEntity;
+import org.jfree.chart.entity.PieSectionEntity;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import uk.ac.lkl.cram.model.AELMTest;
@@ -48,6 +57,10 @@ import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.UserTLALibrary;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
+import uk.ac.lkl.cram.ui.chart.FeedbackChartMaker;
+import uk.ac.lkl.cram.ui.chart.HoursChartMaker;
+import uk.ac.lkl.cram.ui.chart.LearningExperienceChartMaker;
+import uk.ac.lkl.cram.ui.chart.LearningTypeChartMaker;
 import uk.ac.lkl.cram.ui.undo.NamedCompoundEdit;
 import uk.ac.lkl.cram.ui.undo.RemoveLineItemEdit;
 import uk.ac.lkl.cram.ui.undo.UndoHandler;
@@ -66,6 +79,9 @@ import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 @SuppressWarnings("serial")
 public class ModuleFrame extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
+    protected final static Cursor HAND = new Cursor(Cursor.HAND_CURSOR);
+    protected final static Cursor DEFAULT = new Cursor(Cursor.DEFAULT_CURSOR);
+        
     //The module rendered by this frame
     private final Module module;
     private File moduleFile;
@@ -82,7 +98,7 @@ public class ModuleFrame extends javax.swing.JFrame {
      * @param module the module that this window displays
      * @param file  
      */
-    public ModuleFrame(Module module, File file) {
+    public ModuleFrame(final Module module, File file) {
         this.module = module;
         this.moduleFile = file;
         this.setTitle(module.getModuleName());
@@ -146,7 +162,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         //TODO--this causes confusion on the Mac
 	//quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-
+        
 	leftTaskPaneContainer.add(createCourseDataPane());
 	leftTaskPaneContainer.add(createLineItemPane());
 	leftTaskPaneContainer.add(createTutorHoursPane());
@@ -422,8 +438,53 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane typeChartPane = new JXTaskPane();
 	typeChartPane.setTitle("Learning Types");
         typeChartPane.setScrollOnExpand(true);
-	ChartPanel chartPanel = LearningTypeChartFactory.createChartPanel(module);
-	chartPanel.setPreferredSize(new Dimension(150, 200));
+        final LearningTypeChartMaker maker = new LearningTypeChartMaker(module);
+	final ChartPanel chartPanel = maker.getChartPanel();
+        //Add a mouse listener to the chart
+	chartPanel.addChartMouseListener(new ChartMouseListener() {
+            @Override
+            public void chartMouseClicked(ChartMouseEvent cme) {
+                //Get the mouse event
+                MouseEvent trigger = cme.getTrigger();
+                //Test if the mouse event is a left-button
+                if (trigger.getButton() == MouseEvent.BUTTON1 && trigger.getClickCount() == 2) {
+                    //Check that the mouse click is on a segment of the pie
+                    if (cme.getEntity() instanceof PieSectionEntity) {
+                        //Get the selected segment of the pie
+                        PieSectionEntity pieSection = (PieSectionEntity) cme.getEntity();
+                        //Get the key that corresponds to that segment--this is a learning type
+                        String key = pieSection.getSectionKey().toString();
+                        //Get the set of tlalineitems whose activity contains that learning type
+                        Set<TLALineItem> relevantTLAs = maker.getLearningTypeMap().get(key);
+                        //Create a pop up dialog containing that set of tlalineitems
+                        LearningTypePopupDialog popup = new LearningTypePopupDialog((Frame) SwingUtilities.getWindowAncestor(chartPanel), true, relevantTLAs, key);
+                        //Set the title of the popup to indicate which learning type was selected
+                        popup.setTitle("Activities with \'" + key + "\'");
+                        //Centre the popup at the location of the mouse click
+                        Point location = trigger.getLocationOnScreen();
+                        int w = popup.getWidth();
+                        int h = popup.getHeight();
+                        popup.setLocation(location.x - w / 2, location.y - h / 2);
+                        popup.setVisible(true);
+                        int returnStatus = popup.getReturnStatus();
+                        if (returnStatus == LearningTypePopupDialog.RET_OK) {
+                            modifyTLALineItem(popup.getSelectedTLALineItem(), 0);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void chartMouseMoved(ChartMouseEvent cme) {
+                //Set the cursor shape according to the location of the cursor
+                if (cme.getEntity() instanceof PieSectionEntity) {
+                    chartPanel.setCursor(HAND);
+                } else {
+                    chartPanel.setCursor(DEFAULT);
+                }
+            }
+        });
+        chartPanel.setPreferredSize(new Dimension(150, 200));
 	typeChartPane.add(chartPanel);
 	return typeChartPane;
     }
@@ -432,8 +493,50 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane experienceChartPane = new JXTaskPane();
         experienceChartPane.setScrollOnExpand(true);
 	experienceChartPane.setTitle("Learning Experiences");
-	ChartPanel chartPanel = LearningExperienceChartFactory.createChartPanel(module);
-	chartPanel.setPreferredSize(new Dimension(125,75));
+        final LearningExperienceChartMaker maker = new LearningExperienceChartMaker(module);
+	final ChartPanel chartPanel = maker.getChartPanel();
+	//Add a mouselistener, listening for a double click on a bar of the stacked bar
+        chartPanel.addChartMouseListener(new ChartMouseListener() {
+            @Override
+            public void chartMouseClicked(ChartMouseEvent cme) {
+                //Get the mouse event
+                MouseEvent trigger = cme.getTrigger();
+                //Test if the mouse event is a left-button
+                if (trigger.getButton() == MouseEvent.BUTTON1 && trigger.getClickCount() == 2) {
+                    //Get the selected segment of the pie
+                        CategoryItemEntity bar = (CategoryItemEntity) cme.getEntity();
+                        //Get the row key that corresponds to that segment--this is a learning experience
+                        String key = bar.getRowKey().toString();
+                        //Get the set of tlalineitems whose activity contains that learning type
+                        Set<TLALineItem> relevantTLAs = maker.getLearningExperienceMap().get(key);
+                        //Create a pop up dialog containing that set of tlalineitems
+                        LearningExperiencePopupDialog popup = new LearningExperiencePopupDialog((Frame) SwingUtilities.getWindowAncestor(chartPanel), true, relevantTLAs);
+                        //Set the title of the popup to indicate which learning type was selected
+                        popup.setTitle("Activities with \'" + key + "\'");
+                        //Centre the popup at the location of the mouse click
+                        Point location = trigger.getLocationOnScreen();
+                        int w = popup.getWidth();
+                        int h = popup.getHeight();
+                        popup.setLocation(location.x - w/2, location.y - h/2);
+                        popup.setVisible(true);
+                        int returnStatus = popup.getReturnStatus();
+                        if (returnStatus == LearningTypePopupDialog.RET_OK) {
+                            modifyTLALineItem(popup.getSelectedTLALineItem(), 0);
+                        }
+                }
+            }
+
+            @Override
+            public void chartMouseMoved(ChartMouseEvent cme) {
+                //Set the cursor shape according to the location of the cursor
+                if (cme.getEntity() instanceof CategoryItemEntity) {
+                    chartPanel.setCursor(HAND);
+                } else {
+                    chartPanel.setCursor(DEFAULT);
+                }
+            }
+        });
+        chartPanel.setPreferredSize(new Dimension(125,75));
 	chartPanel.setMinimumDrawHeight(75);
 	experienceChartPane.add(chartPanel);
 	return experienceChartPane;
@@ -443,7 +546,44 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane feedbackChartPane = new JXTaskPane();
         feedbackChartPane.setScrollOnExpand(true);
 	feedbackChartPane.setTitle("Learner Feedback");
-	ChartPanel chartPanel = FeedbackChartFactory.createChartPanel(module);
+        FeedbackChartMaker maker = new FeedbackChartMaker(module);
+	final ChartPanel chartPanel = maker.getChartPanel();
+        //Add a mouselistener, listening for a double click on a bar of the stacked bar
+        chartPanel.addChartMouseListener(new ChartMouseListener() {
+            @Override
+            public void chartMouseClicked(ChartMouseEvent cme) {
+                //Get the mouse event
+                MouseEvent trigger = cme.getTrigger();
+                //Test if the mouse event is a left-button
+                if (trigger.getButton() == MouseEvent.BUTTON1 && trigger.getClickCount() == 2) {
+                    
+                        //Create a pop up dialog containing that the tlalineitems
+                        FeedbackPopupDialog popup = new FeedbackPopupDialog((Frame) SwingUtilities.getWindowAncestor(chartPanel), true, module.getTLALineItems());
+                        //Set the title of the popup 
+                        popup.setTitle("All Activities");
+                        //Centre the popup at the location of the mouse click
+                        Point location = trigger.getLocationOnScreen();
+                        int w = popup.getWidth();
+                        int h = popup.getHeight();
+                        popup.setLocation(location.x - w/2, location.y - h/2);
+                        popup.setVisible(true);
+                        int returnStatus = popup.getReturnStatus();
+                        if (returnStatus == LearningTypePopupDialog.RET_OK) {
+                            modifyTLALineItem(popup.getSelectedTLALineItem(), 1);
+                        }
+                }
+            }
+
+            @Override
+            public void chartMouseMoved(ChartMouseEvent cme) {
+                //Set the cursor shape according to the location of the cursor
+                if (cme.getEntity() instanceof CategoryItemEntity) {
+                    chartPanel.setCursor(HAND);
+                } else {
+                    chartPanel.setCursor(DEFAULT);
+                }
+            }
+        });
 	chartPanel.setPreferredSize(new Dimension(150, 200));
 	feedbackChartPane.add(chartPanel);
 	return feedbackChartPane;
@@ -453,7 +593,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	JXTaskPane hoursChartPane = new JXTaskPane();
 	hoursChartPane.setTitle("Teacher Time (hours)");
         hoursChartPane.setScrollOnExpand(true);
-	ChartPanel chartPanel = HoursChartFactory.createChartPanel(module);
+	ChartPanel chartPanel = (new HoursChartMaker(module)).getChartPanel();
 	chartPanel.setPreferredSize(new Dimension(200, 200));
 	hoursChartPane.add(chartPanel);
 	return hoursChartPane;
@@ -470,21 +610,11 @@ public class ModuleFrame extends javax.swing.JFrame {
     
     private void modifySelectedLineItem() {
         LineItem selectedLineItem = sharedSelectionModel.getSelectedLineItem();
-        //Create a compound edit that can be used later for undo
-        NamedCompoundEdit cEdit = new NamedCompoundEdit();
         if (selectedLineItem instanceof TLALineItem) {
-            cEdit.setName("Modify TLA");
-            TLAOkCancelDialog dialog = new TLAOkCancelDialog(this, true, module, (TLALineItem) selectedLineItem, cEdit);
-            dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
-	    dialog.setTitle("Modify TLA for " + module.getModuleName() + " module");
-	    dialog.setSelectedIndex(2);
-	    dialog.setVisible(true);
-            //If the user clicked OK, create an edit that can be undone
-            if (dialog.getReturnStatus() == TLAOkCancelDialog.RET_OK) {
-                undoHandler.addEdit(cEdit);
-            }
+            modifyTLALineItem((TLALineItem) selectedLineItem, 2);
 	} else if (selectedLineItem instanceof ModuleLineItem) {
-            cEdit.setName("Modify Module Activity");
+            //Create a compound edit that can be used later for undo
+            NamedCompoundEdit cEdit = new NamedCompoundEdit("Modify Module Activity");
             ModuleActivityDialog dialog = new ModuleActivityDialog(this, true, module, (ModuleLineItem) selectedLineItem, cEdit);
             dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
             dialog.setTitle("Modify Module Activity for " + module.getModuleName() + " module");
@@ -497,6 +627,20 @@ public class ModuleFrame extends javax.swing.JFrame {
         } else {
 	    LOGGER.warning("Unable to edit this line item");
 	}
+    }
+    
+    private void modifyTLALineItem(TLALineItem lineItem, int index) {
+        //Create a compound edit that can be used later for undo
+        NamedCompoundEdit cEdit = new NamedCompoundEdit("Modify TLA");
+        TLAOkCancelDialog dialog = new TLAOkCancelDialog(ModuleFrame.this, true, module, lineItem, cEdit);
+        dialog.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
+        dialog.setTitle("Modify TLA for " + module.getModuleName() + " module");
+        dialog.setSelectedIndex(index);
+        dialog.setVisible(true);
+        //If the user clicked OK, create an edit that can be undone
+        if (dialog.getReturnStatus() == TLAOkCancelDialog.RET_OK) {
+            undoHandler.addEdit(cEdit);
+        }
     }
     
     private void removeSelectedLineItem() {

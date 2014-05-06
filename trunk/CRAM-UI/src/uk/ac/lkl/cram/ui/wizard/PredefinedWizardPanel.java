@@ -36,7 +36,7 @@ import static uk.ac.lkl.cram.model.LearnerFeedback.TUTOR;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
-import uk.ac.lkl.cram.ui.TLALearningTypeChartFactory;
+import uk.ac.lkl.cram.ui.chart.TLALearningTypeChartFactory;
 
 /**
  * This class implements the non-visual aspects of the step in the TLA creator
@@ -208,6 +208,7 @@ public class PredefinedWizardPanel implements WizardDescriptor.Panel<WizardDescr
      * @return a string describing the TLA
      */
     private String getInfoMessage(TLActivity tla) {
+        @SuppressWarnings("StringBufferWithoutInitialCapacity")
         StringBuilder builder = new StringBuilder();
         //Learning experience
         switch (tla.getLearningExperience()) {

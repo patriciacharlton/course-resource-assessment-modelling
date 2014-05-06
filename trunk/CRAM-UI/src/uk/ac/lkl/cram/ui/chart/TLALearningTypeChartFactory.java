@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.chart;
 
 import java.awt.Color;
 import java.awt.Paint;
@@ -102,12 +102,12 @@ public class TLALearningTypeChartFactory {
 	//Remove the labels from the plot
 	plot.setLabelGenerator(null);
 	//Set the colours for the segments
-	plot.setSectionPaint(LearningTypeChartFactory.ACQUISITION, LearningTypeChartFactory.ACQUISITION_COLOR);
-        plot.setSectionPaint(LearningTypeChartFactory.COLLABORATION, LearningTypeChartFactory.COLLABORATION_COLOR);
-	plot.setSectionPaint(LearningTypeChartFactory.DISCUSSION, LearningTypeChartFactory.DISCUSSION_COLOR);
-	plot.setSectionPaint(LearningTypeChartFactory.INQUIRY, LearningTypeChartFactory.INQUIRY_COLOR);
-	plot.setSectionPaint(LearningTypeChartFactory.PRACTICE, LearningTypeChartFactory.PRACTICE_COLOR);
-	plot.setSectionPaint(LearningTypeChartFactory.PRODUCTION, LearningTypeChartFactory.PRODUCTION_COLOR);
+	plot.setSectionPaint(LearningTypeChartMaker.ACQUISITION, LearningTypeChartMaker.ACQUISITION_COLOR);
+        plot.setSectionPaint(LearningTypeChartMaker.COLLABORATION, LearningTypeChartMaker.COLLABORATION_COLOR);
+	plot.setSectionPaint(LearningTypeChartMaker.DISCUSSION, LearningTypeChartMaker.DISCUSSION_COLOR);
+	plot.setSectionPaint(LearningTypeChartMaker.INQUIRY, LearningTypeChartMaker.INQUIRY_COLOR);
+	plot.setSectionPaint(LearningTypeChartMaker.PRACTICE, LearningTypeChartMaker.PRACTICE_COLOR);
+	plot.setSectionPaint(LearningTypeChartMaker.PRODUCTION, LearningTypeChartMaker.PRODUCTION_COLOR);
 	//Get the legend from the chart
 	LegendTitle legend = chart.getLegend();
 	//Set the font of the legend to be the same as the platform UI
@@ -122,12 +122,12 @@ public class TLALearningTypeChartFactory {
     }
 
     private static void populateDataset(DefaultPieDataset dataset, LearningType lt) {
-        dataset.setValue(LearningTypeChartFactory.ACQUISITION, lt.getAcquisition());
-	dataset.setValue(LearningTypeChartFactory.COLLABORATION, lt.getCollaboration());
-        dataset.setValue(LearningTypeChartFactory.DISCUSSION, lt.getDiscussion());
-        dataset.setValue(LearningTypeChartFactory.INQUIRY, lt.getInquiry());
-        dataset.setValue(LearningTypeChartFactory.PRACTICE, lt.getPractice());
-        dataset.setValue(LearningTypeChartFactory.PRODUCTION, lt.getProduction());
+        dataset.setValue(LearningTypeChartMaker.ACQUISITION, lt.getAcquisition());
+	dataset.setValue(LearningTypeChartMaker.COLLABORATION, lt.getCollaboration());
+        dataset.setValue(LearningTypeChartMaker.DISCUSSION, lt.getDiscussion());
+        dataset.setValue(LearningTypeChartMaker.INQUIRY, lt.getInquiry());
+        dataset.setValue(LearningTypeChartMaker.PRACTICE, lt.getPractice());
+        dataset.setValue(LearningTypeChartMaker.PRODUCTION, lt.getProduction());
     }
 
     /**

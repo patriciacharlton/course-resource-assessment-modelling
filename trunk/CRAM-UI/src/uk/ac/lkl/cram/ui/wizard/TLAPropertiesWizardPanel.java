@@ -7,7 +7,7 @@ import org.jfree.chart.JFreeChart;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 import uk.ac.lkl.cram.model.TLActivity;
-import uk.ac.lkl.cram.ui.TLALearningTypeChartFactory;
+import uk.ac.lkl.cram.ui.chart.TLALearningTypeChartFactory;
 
 /**
  * $Date$
@@ -81,6 +81,7 @@ public class TLAPropertiesWizardPanel implements WizardDescriptor.Panel<WizardDe
     }
 
     private String getInfoMessage() {
+        @SuppressWarnings("StringBufferWithoutInitialCapacity")
         StringBuilder builder = new StringBuilder();
         switch (tla.getLearningExperience()) {
             case ONE_SIZE_FOR_ALL:

@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.lkl.cram.ui;
+package uk.ac.lkl.cram.ui.chart;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Paint;
 import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -30,24 +29,21 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.SortOrder;
+import org.jfree.data.general.Dataset;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- * This class is a factory that produces an instance of class ChartPanel. The ChartPanel 
+ * This class produces an instance of class ChartPanel. The ChartPanel 
  * presents a display of learner feedback for a module, rendered in the form of 
  * a bar chart. The factory is responsible for setting up all the parameters of
  * the chart, including the underlying dataset, legend, colours, and so on.
@@ -56,8 +52,8 @@ import uk.ac.lkl.cram.model.TLActivity;
  * @author Bernard Horan
  */
 //$Date$
-public class FeedbackChartFactory {
-    private static final Logger LOGGER = Logger.getLogger(FeedbackChartFactory.class.getName());
+public class FeedbackChartMaker extends AbstractChartMaker {
+    private static final Logger LOGGER = Logger.getLogger(FeedbackChartMaker.class.getName());
     //The colours for the bars
     private static final Color TUTOR_COLOR = new Color(0x5E9300);
     private static final Color PEER_ONLY_COLOR = new Color(0xCC005D);
@@ -71,32 +67,28 @@ public class FeedbackChartFactory {
     public static void main(String[] args) {
 	JFrame frame = new JFrame("Feedback Chart Test");
 	Module m = AELMTest.populateModule();
-	ChartPanel chartPanel = createChartPanel(m);
-	frame.setContentPane(chartPanel);
+        FeedbackChartMaker maker = new FeedbackChartMaker(m);
+	frame.setContentPane(maker.getChartPanel());
+        frame.setSize(300, 300);
 	frame.setVisible(true);
     }
     
     /**
-     * Create a new instance of ChartPanel from the module provided.
-     * @param m the module containing data about the learner feedback for the module's activities
-     * @return a chart panel containing a stacked bar chart on the learner feedback of the module's activities
+     * Create a feedback chart maker from the module
+     * @param m the module from which to create a chart maker
      */
-    public static ChartPanel createChartPanel(Module m) {
-        //Create a dataset from the module
-        CategoryDataset dataset = createDataSet(m);
-        //Create a chart from the dataset
-        JFreeChart chart = createChart(dataset);
-        //Create a chartpanel to render the chart
-        ChartPanel chartPanel = new ChartPanel(chart);
-        return chartPanel;
+    public FeedbackChartMaker(final Module m) {
+        super(m);
+        
     }
-
+    
     /**
      * Create a dataset from the module
      * @param module the module containing data about the learner feedback for the module's activities
      * @return a category dataset that is used to produce a bar chart
      */
-    private static CategoryDataset createDataSet(final Module module) {
+    @Override
+    protected Dataset createDataSet(final Module module) {
 	//Create a dataset to hold the data
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	//populate the dataset with the data
@@ -156,21 +148,15 @@ public class FeedbackChartFactory {
      * @param dataset a category data set populated with the learner feedback for the module's activities
      * @return a Chart that can be rendered in a ChartPanel
      */
-    private static JFreeChart createChart(CategoryDataset dataset) {
+    @Override
+    protected JFreeChart createChart(Dataset dataset) {
         //Create a vertical bar chart from the chart factory, with no title, no axis labels, a legend, tooltips but no URLs
-	JFreeChart chart = ChartFactory.createBarChart(null, null, null, dataset, PlotOrientation.VERTICAL, true, true, false);
-        //Get the background colour from the platform UI
-        Paint backgroundPaint = UIManager.getColor("InternalFrame.background");
-	//Get the font from the platform UI
+	JFreeChart chart = ChartFactory.createBarChart(null, null, null, (CategoryDataset) dataset, PlotOrientation.VERTICAL, true, true, false);
+        setChartDefaults(chart);
+        //Get the font from the platform UI
         Font chartFont = UIManager.getFont("Label.font");
-        //Set the background colour of the chart
-	chart.setBackgroundPaint(backgroundPaint);
         //Get the plot from the chart
 	CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        //Set the background colour of the plot
-	plot.setBackgroundPaint(backgroundPaint);
-        //Don't render an oultine around the bar chart
-	plot.setOutlineVisible(false);
         //Get the renderer from the plot
 	BarRenderer barRenderer = (BarRenderer) plot.getRenderer();
 	//Set the rendered to use a standard bar painter (nothing fancy)
@@ -180,7 +166,7 @@ public class FeedbackChartFactory {
 	barRenderer.setSeriesPaint(1, TEL_COLOR);
 	barRenderer.setSeriesPaint(2, TUTOR_COLOR);
         //Set the tooltip to be series, category and value
-        barRenderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0} ({2} hours)", NumberFormat.getInstance()));
+        barRenderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("<html><center>{0} ({2} hours)<br/>Double-click for more</center></html>", NumberFormat.getInstance()));
         //Get the category axis (that's the X-axis in this case)
 	CategoryAxis categoryAxis = plot.getDomainAxis();
         //Set the font for rendering the labels on the x-axis to be the platform default
@@ -196,22 +182,10 @@ public class FeedbackChartFactory {
 	numberAxis.setLabelFont(chartFont);
 	//Set the label for the vertical axis
 	numberAxis.setLabel("Hours");
-        //Get the legend
-	LegendTitle legend = chart.getLegend();
-        //Use the same font on the legend as for the chart
-	legend.setItemFont(chartFont);
-        //Set the legend to use the same background colour as the chart
-	legend.setBackgroundPaint(backgroundPaint);
-        //No frame around the legend
-	legend.setFrame(BlockBorder.NONE);
-        //Locate the legend on the right of the chart
-	legend.setPosition(RectangleEdge.RIGHT);
-        //Sort the items in the legend
-        legend.setSortOrder(SortOrder.DESCENDING);
-	return chart;
+        return chart;
     }
 
-    private static void populateDataset(DefaultCategoryDataset dataset, Module m) {
+    private void populateDataset(DefaultCategoryDataset dataset, Module m) {
 	//Create running totals
         float peer_only = 0, tel = 0, tutor = 0;
         //Enumerate all the tlaLineItems
