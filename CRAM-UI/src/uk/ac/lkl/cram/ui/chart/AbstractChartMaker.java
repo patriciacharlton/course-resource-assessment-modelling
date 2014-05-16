@@ -37,13 +37,18 @@ public abstract class AbstractChartMaker {
      * The chart panel created by the chart maker
      */
     protected final ChartPanel chartPanel;
+    protected final Dataset dataset;
+    protected final Module module;
     
     /**
      * Create a chart maker from the module
      * @param module the module from which to create the chart maker
      */
+    @SuppressWarnings("OverridableMethodCallInConstructor")
     public AbstractChartMaker(Module module) {
-        this.chartPanel = createChartPanel(module);
+        this.module = module;
+        dataset = createDataSet();
+        chartPanel = createChartPanel();
     }
     
     /**
@@ -51,35 +56,32 @@ public abstract class AbstractChartMaker {
      * @param m the module from which to create the chart
      * @return the chart panel created from the module
      */
-    private ChartPanel createChartPanel(Module m) {
-        //Create the dataset
-        Dataset dataset = createDataSet(m);
+    private ChartPanel createChartPanel() {
         //Create the chart from the dataset
-        JFreeChart chart = createChart(dataset);
+        JFreeChart chart = createChart();
+        setChartDefaults(chart);
         //Create the chartpanel to render the chart
         return new ChartPanel(chart);
     }
 
     /**
      * Create a dataset from the module
-     * @param m the module from which to create the dataset
      * @return the dataset created from the module
      */
-    protected abstract Dataset createDataSet(Module m);
+    protected abstract Dataset createDataSet();
 
     /**
      * Create a chart from a dataset 
-     * @param dataset the dataset from which to create a chart
      * @return a chart created from the dataset
      */
-    protected abstract JFreeChart createChart(Dataset dataset);
+    protected abstract JFreeChart createChart();
     
     /**
      * Apply some defaults to a chart, including background paint
      * and font.
      * @param chart the chart to which defaults should be applied
      */
-    protected void setChartDefaults(JFreeChart chart) {
+    private void setChartDefaults(JFreeChart chart) {
         Paint backgroundPaint = UIManager.getColor("InternalFrame.background");
         //Set the background colour of the chart
         chart.setBackgroundPaint(backgroundPaint);
@@ -106,5 +108,13 @@ public abstract class AbstractChartMaker {
      */
     public ChartPanel getChartPanel() {
         return chartPanel;
+    }
+    
+    /**
+     * Return the dataset that is used to create the chart
+     * @return the dataset underlying the chart
+     */
+    public Dataset getDataset() {
+        return dataset;
     }
 }

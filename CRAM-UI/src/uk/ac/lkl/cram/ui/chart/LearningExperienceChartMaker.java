@@ -41,7 +41,6 @@ import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.Dataset;
 import org.jfree.ui.RectangleInsets;
 import uk.ac.lkl.cram.model.AELMTest;
 import static uk.ac.lkl.cram.model.EnumeratedLearningExperience.ONE_SIZE_FOR_ALL;
@@ -104,22 +103,21 @@ public class LearningExperienceChartMaker extends AbstractChartMaker {
     
     /**
      * Create a dataset from the module
-     * @param module the module containing the teaching-learning activities
      * @return a category dataset that is used to produce a stacked bar chart
      */
     @Override
-    protected CategoryDataset createDataSet(final Module module) {
+    protected CategoryDataset createDataSet() {
         //Create the dataset to hold the data
-        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        final DefaultCategoryDataset categoryDataset = new DefaultCategoryDataset();
         //Populate the dataset with the data
-        populateDataset(dataset, module);
+        populateDataset(categoryDataset, module);
         //Create a listener, which repopulates the dataset when anything changes
         final PropertyChangeListener learningExperienceListener = new PropertyChangeListener() {
 
             @Override
             public void propertyChange(PropertyChangeEvent pce) {
                 //LOGGER.info("property change: " + pce);
-                populateDataset(dataset, module);
+                populateDataset(categoryDataset, module);
             }
         };
         
@@ -157,22 +155,20 @@ public class LearningExperienceChartMaker extends AbstractChartMaker {
                     }
                 }
                 //Assume the dataset is now out of date, so repopulate it
-                populateDataset(dataset, module);
+                populateDataset(categoryDataset, module);
             }
         });
-        return dataset;
+        return categoryDataset;
     }
 
     /**
      * Create a chart from the provide category dataset
-     * @param dataset a category data set populated with the learning experiences for the module
      * @return a Chart that can be rendered in a ChartPanel
      */
     @Override
-    protected JFreeChart createChart(Dataset dataset) {
+    protected JFreeChart createChart() {
         //Create a horizontal stacked bar chart from the chart factory, with no title, no axis labels, a legend, tooltips but no URLs
         JFreeChart chart = ChartFactory.createStackedBarChart(null, null, null, (CategoryDataset) dataset, PlotOrientation.HORIZONTAL, true, true, false);       
-        setChartDefaults(chart);
         //Get the plot from the chart
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
         //Remove offsets from the plot
@@ -288,6 +284,10 @@ public class LearningExperienceChartMaker extends AbstractChartMaker {
         learningExperienceMap.put(ONE_SIZE_FOR_ALL, new TreeSet<>(tlaLineItemComparator));
     }
 
+    /**
+     * Return the learning experience map
+     * @return the learning experience map
+     */
     public Map<String, Set<TLALineItem>> getLearningExperienceMap() {
         return Collections.unmodifiableMap(learningExperienceMap);
     }

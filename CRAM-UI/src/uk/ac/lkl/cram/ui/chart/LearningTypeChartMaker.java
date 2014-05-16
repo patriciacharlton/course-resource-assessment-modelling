@@ -97,21 +97,20 @@ public class LearningTypeChartMaker extends AbstractChartMaker {
     /**
      * Create a dataset from the module
      *
-     * @param module the module containing the teaching-learning activities
      * @return a pie dataset that is used to produce a pie chart
      */
     @Override
-    protected Dataset createDataSet(final Module module) {
+    protected Dataset createDataSet() {
         //Create the dataset to hold the data
-        final DefaultPieDataset dataset = new DefaultPieDataset();
+        final DefaultPieDataset pieDataset = new DefaultPieDataset();
         //Populate the dataset with the data
-        populateDataset(dataset, module);
+        populateDataset(pieDataset, module);
         //Create a listener, which repopulates the dataset when anything changes
         final PropertyChangeListener learningTypeListener = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent pce) {
                 //LOGGER.info("property change: " + pce);
-                populateDataset(dataset, module);
+                populateDataset(pieDataset, module);
             }
         };
 
@@ -149,11 +148,11 @@ public class LearningTypeChartMaker extends AbstractChartMaker {
                     }
                 }
                 //Assume the dataset is now out of date, so repopulate it
-                populateDataset(dataset, module);
+                populateDataset(pieDataset, module);
             }
         });
 
-        return dataset;
+        return pieDataset;
     }
 
     /**
@@ -266,15 +265,12 @@ public class LearningTypeChartMaker extends AbstractChartMaker {
     /**
      * Create a chart from the provide pie dataset
      *
-     * @param dataset a pie data set populated with the learning types for the
-     * module
      * @return a Chart that can be rendered in a ChartPanel
      */
     @Override
-    protected JFreeChart createChart(Dataset dataset) {
+    protected JFreeChart createChart() {
         //Create a pie chart from the chart factory with no title, a legend and tooltips
         JFreeChart chart = ChartFactory.createPieChart(null, (PieDataset) dataset, true, true, false);
-        setChartDefaults(chart);
         //Get the plot from the chart
         PiePlot plot = (PiePlot) chart.getPlot();
         //Set the tooltip generator, to be "Practice (12%)"
@@ -322,6 +318,10 @@ public class LearningTypeChartMaker extends AbstractChartMaker {
         learningTypeMap.put(PRODUCTION, new TreeSet<>(tlaLineItemComparator));
     }
 
+    /**
+     * Return the learning type map
+     * @return the learning type map
+     */
     public Map<String, Set<TLALineItem>>  getLearningTypeMap() {
         return Collections.unmodifiableMap(learningTypeMap);
     }

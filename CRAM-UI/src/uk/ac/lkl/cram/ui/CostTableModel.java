@@ -44,10 +44,14 @@ public class CostTableModel extends AbstractTableModel implements PropertyChange
     private static final Logger LOGGER = Logger.getLogger(CostTableModel.class.getName());
 
     private static final String[] COLUMN_NAMES = {"", "Run 1", "Run 2", "Run 3"};
-    private static final String[] ROW_NAMES = {"Student Nos", "Support Hours", "Prep. Hours", "Total Hours", "Income", "Cost", "Difference"};
+    private static final String[] ROW_NAMES = {"Student Nos", "Prep. Hours", "Support Hours", "Total Hours", "Income", "Cost", "Difference"};
     private final Module module;
     
-    CostTableModel(Module module) {
+    /**
+     * Create a new CostTableModel from the module
+     * @param module the module from which to create the model
+     */
+    public CostTableModel(Module module) {
         super();
         this.module = module;
         addListeners();
@@ -84,9 +88,9 @@ public class CostTableModel extends AbstractTableModel implements PropertyChange
 		case 0:
 		    return mp.getTotalStudentCount();
 		case 1:
-		    return (int) module.getTotalSupportHours(mp);
-		case 2:
 		    return (int) module.getTotalPreparationHours(mp);
+		case 2:
+		    return (int) module.getTotalSupportHours(mp);
 		case 3:
 		    return (int) module.getTotalHours(mp);
 		case 4:

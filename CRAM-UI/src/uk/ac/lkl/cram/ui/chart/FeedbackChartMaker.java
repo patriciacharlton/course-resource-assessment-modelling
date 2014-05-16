@@ -84,22 +84,21 @@ public class FeedbackChartMaker extends AbstractChartMaker {
     
     /**
      * Create a dataset from the module
-     * @param module the module containing data about the learner feedback for the module's activities
      * @return a category dataset that is used to produce a bar chart
      */
     @Override
-    protected Dataset createDataSet(final Module module) {
+    protected Dataset createDataSet() {
 	//Create a dataset to hold the data
-        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        final DefaultCategoryDataset categoryDataset = new DefaultCategoryDataset();
 	//populate the dataset with the data
-        populateDataset(dataset, module);
+        populateDataset(categoryDataset, module);
         //Create a listener, which repopulates the dataset when anything changes
         final PropertyChangeListener feedbackListener = new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		//LOGGER.info("event propertyName: " + pce.getPropertyName() + " newValue: " + pce.getNewValue());
-		populateDataset(dataset, module);
+		populateDataset(categoryDataset, module);
 	    }
 	};
 	//Add the listener to each of the module's tlaLineItems, as well as to each
@@ -136,23 +135,21 @@ public class FeedbackChartMaker extends AbstractChartMaker {
 		    }
 		}
 		//Assume the dataset is now out of date, so repopulate it
-		populateDataset(dataset, module);
+		populateDataset(categoryDataset, module);
 	    }
 	});
-	return dataset;
+	return categoryDataset;
     }
     
 
     /**
      * Create a chart from the provided category dataset
-     * @param dataset a category data set populated with the learner feedback for the module's activities
      * @return a Chart that can be rendered in a ChartPanel
      */
     @Override
-    protected JFreeChart createChart(Dataset dataset) {
+    protected JFreeChart createChart() {
         //Create a vertical bar chart from the chart factory, with no title, no axis labels, a legend, tooltips but no URLs
 	JFreeChart chart = ChartFactory.createBarChart(null, null, null, (CategoryDataset) dataset, PlotOrientation.VERTICAL, true, true, false);
-        setChartDefaults(chart);
         //Get the font from the platform UI
         Font chartFont = UIManager.getFont("Label.font");
         //Get the plot from the chart
