@@ -36,7 +36,6 @@ import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.Dataset;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
@@ -85,22 +84,21 @@ public class HoursChartMaker extends AbstractChartMaker {
 
     /**
      * Create a dataset from the module
-     * @param module the module containing the preparation and support times
      * @return a category dataset that is used to produce a stacked bar chart
      */
     @Override
-    protected CategoryDataset createDataSet(final Module module) {
+    protected CategoryDataset createDataSet() {
 	//Create a dataset to hold the data
-        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        final DefaultCategoryDataset categoryDataset = new DefaultCategoryDataset();
 	//populate the dataset with the data
-        populateDataset(dataset, module);
+        populateDataset(categoryDataset, module);
         //Create a listener, which repopulates the dataset when anything changes
         final PropertyChangeListener presentationListener = new PropertyChangeListener() {
 
 	    @Override
 	    public void propertyChange(PropertyChangeEvent pce) {
 		//LOGGER.info("event propertyName: " + pce.getPropertyName() + " newValue: " + pce.getNewValue());
-		populateDataset(dataset, module);
+		populateDataset(categoryDataset, module);
 	    }
 	};
 	//Add the listener to each of the module presentations
@@ -173,7 +171,7 @@ public class HoursChartMaker extends AbstractChartMaker {
 		    }
 		}
                 //Assume the dataset is now out of date
-		populateDataset(dataset, module);
+		populateDataset(categoryDataset, module);
 	    }
 	});
         //Do the same as above for module line items
@@ -201,25 +199,23 @@ public class HoursChartMaker extends AbstractChartMaker {
 			}
 		    }
 		}
-		populateDataset(dataset, module);
+		populateDataset(categoryDataset, module);
 	    }
 	});
         //Add the listner to be triggered if the tutor group size of the module changes
         module.addPropertyChangeListener(Module.PROP_GROUP_SIZE, presentationListener);
-	return dataset;
+	return categoryDataset;
     }
     
 
     /**
      * Create a chart from the provided category dataset
-     * @param dataset a category data set populated with the preparation and support times for the module
      * @return a Chart that can be rendered in a ChartPanel
      */
     @Override
-    protected JFreeChart createChart(Dataset dataset) {
+    protected JFreeChart createChart() {
         //Create a vertical stacked bar chart from the chart factory, with no title, no axis labels, a legend, tooltips but no URLs
         JFreeChart chart = ChartFactory.createStackedBarChart(null, null, null, (CategoryDataset) dataset, PlotOrientation.VERTICAL, true, true, false);
-        setChartDefaults(chart);
         //Get the font from the platform UI
         Font chartFont = UIManager.getFont("Label.font");
         //Get the plot from the chart

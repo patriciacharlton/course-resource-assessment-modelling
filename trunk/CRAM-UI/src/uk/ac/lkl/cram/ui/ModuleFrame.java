@@ -33,16 +33,20 @@ import java.text.MessageFormat;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoableEdit;
 import javax.xml.bind.JAXBException;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -62,6 +66,7 @@ import uk.ac.lkl.cram.ui.chart.FeedbackChartMaker;
 import uk.ac.lkl.cram.ui.chart.HoursChartMaker;
 import uk.ac.lkl.cram.ui.chart.LearningExperienceChartMaker;
 import uk.ac.lkl.cram.ui.chart.LearningTypeChartMaker;
+import uk.ac.lkl.cram.ui.report.Report;
 import uk.ac.lkl.cram.ui.undo.NamedCompoundEdit;
 import uk.ac.lkl.cram.ui.undo.RemoveLineItemEdit;
 import uk.ac.lkl.cram.ui.undo.UndoHandler;
@@ -80,8 +85,9 @@ import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 @SuppressWarnings("serial")
 public class ModuleFrame extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
-    protected final static Cursor HAND = new Cursor(Cursor.HAND_CURSOR);
-    protected final static Cursor DEFAULT = new Cursor(Cursor.DEFAULT_CURSOR);
+    protected final static Cursor HAND = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+    protected final static Cursor DEFAULT = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    protected final static Cursor WAIT = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
         
     //The module rendered by this frame
     private final Module module;
@@ -197,8 +203,11 @@ public class ModuleFrame extends javax.swing.JFrame {
         newMI = new javax.swing.JMenuItem();
         openMI = new javax.swing.JMenuItem();
         duplicateMI = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        exportReportMI = new javax.swing.JMenuItem();
         saveMI = new javax.swing.JMenuItem();
         saveAsMI = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         quitMI = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
@@ -258,6 +267,15 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         org.openide.awt.Mnemonics.setLocalizedText(duplicateMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.duplicateMI.text")); // NOI18N
         fileMenu.add(duplicateMI);
+        fileMenu.add(jSeparator1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(exportReportMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.exportReportMI.text")); // NOI18N
+        exportReportMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportReportMIActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exportReportMI);
 
         org.openide.awt.Mnemonics.setLocalizedText(saveMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveMI.text")); // NOI18N
         saveMI.setEnabled(false);
@@ -270,6 +288,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         org.openide.awt.Mnemonics.setLocalizedText(saveAsMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveAsMI.text")); // NOI18N
         fileMenu.add(saveAsMI);
+        fileMenu.add(jSeparator2);
 
         org.openide.awt.Mnemonics.setLocalizedText(quitMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.quitMI.text")); // NOI18N
         fileMenu.add(quitMI);
@@ -352,6 +371,10 @@ public class ModuleFrame extends javax.swing.JFrame {
         saveModule();
     }//GEN-LAST:event_saveMIActionPerformed
 
+    private void exportReportMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportReportMIActionPerformed
+        exportReport();
+    }//GEN-LAST:event_exportReportMIActionPerformed
+
     /**
      * Used for testing purposes only.
      * @param args the command line arguments (ignored)
@@ -371,10 +394,13 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem addTLALineItemMI;
     private javax.swing.JMenuItem duplicateMI;
     private javax.swing.JMenu editMenu;
+    private javax.swing.JMenuItem exportReportMI;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
     private javax.swing.JMenuItem modifyLineItemMI;
     private javax.swing.JMenu moduleMenu;
@@ -757,6 +783,34 @@ public class ModuleFrame extends javax.swing.JFrame {
         } catch (JAXBException ioe) {
             LOGGER.log(Level.SEVERE, "Failed to save file", ioe);
             JOptionPane.showMessageDialog(this, "See log for details", "Unable to save module", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void exportReport() {
+        JFileChooser jfc = new JFileChooser();
+        jfc.setAcceptAllFileFilterUsed(false);
+        jfc.setDialogTitle("Export CRAM Module");
+        FileFilter filter = new FileNameExtensionFilter("Word Document", "docx");
+        jfc.setFileFilter(filter);
+        jfc.setSelectedFile(new File(module.getModuleName() + ".docx"));
+	//Open the dialog and wait for the user to provide a name for the file
+        int returnVal = jfc.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = jfc.getSelectedFile();
+	    //Add the file extension
+            if (!jfc.getSelectedFile().getAbsolutePath().endsWith(".docx")) {
+                file = new File(jfc.getSelectedFile() + ".docx");
+            }
+            try {
+                this.setCursor(WAIT);
+                Report report = new Report(module);
+                report.save(file);
+            } catch (Docx4JException ex) {
+                LOGGER.log(Level.SEVERE, "Failed to export report", ex);
+                JOptionPane.showMessageDialog(this, "Failed to export report, see log for details", "Error exportng report", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                this.setCursor(Cursor.getDefaultCursor());
+            }
         }
     }
 
