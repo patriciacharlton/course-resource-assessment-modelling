@@ -15,7 +15,6 @@
  */
 package uk.ac.lkl.cram.ui;
 
-import uk.ac.lkl.cram.ui.util.OSUtil;
 import java.awt.Cursor;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -70,6 +69,7 @@ import uk.ac.lkl.cram.ui.report.Report;
 import uk.ac.lkl.cram.ui.undo.NamedCompoundEdit;
 import uk.ac.lkl.cram.ui.undo.RemoveLineItemEdit;
 import uk.ac.lkl.cram.ui.undo.UndoHandler;
+import uk.ac.lkl.cram.ui.util.OSUtil;
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
@@ -85,9 +85,9 @@ import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 @SuppressWarnings("serial")
 public class ModuleFrame extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(ModuleFrame.class.getName());
-    protected final static Cursor HAND = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-    protected final static Cursor DEFAULT = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-    protected final static Cursor WAIT = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
+    
+    private final static Cursor HAND = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+    private final static Cursor WAIT = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
         
     //The module rendered by this frame
     private final Module module;
@@ -168,8 +168,9 @@ public class ModuleFrame extends javax.swing.JFrame {
 	openMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	//Remove quit menu item from file menu on Mac
+	//Remove quit menu item and separator from file menu on Mac
 	if (OSUtil.isMac()) {
+	    fileMenu.remove(quitSeparator);
 	    fileMenu.remove(quitMI);
 	}
         
@@ -207,7 +208,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         exportReportMI = new javax.swing.JMenuItem();
         saveMI = new javax.swing.JMenuItem();
         saveAsMI = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        quitSeparator = new javax.swing.JPopupMenu.Separator();
         quitMI = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         moduleMenu = new javax.swing.JMenu();
@@ -288,7 +289,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 
         org.openide.awt.Mnemonics.setLocalizedText(saveAsMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.saveAsMI.text")); // NOI18N
         fileMenu.add(saveAsMI);
-        fileMenu.add(jSeparator2);
+        fileMenu.add(quitSeparator);
 
         org.openide.awt.Mnemonics.setLocalizedText(quitMI, org.openide.util.NbBundle.getMessage(ModuleFrame.class, "ModuleFrame.quitMI.text")); // NOI18N
         fileMenu.add(quitMI);
@@ -400,7 +401,6 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private org.jdesktop.swingx.JXTaskPaneContainer leftTaskPaneContainer;
     private javax.swing.JMenuItem modifyLineItemMI;
     private javax.swing.JMenu moduleMenu;
@@ -408,6 +408,7 @@ public class ModuleFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem openHelpMI;
     private javax.swing.JMenuItem openMI;
     private javax.swing.JMenuItem quitMI;
+    private javax.swing.JPopupMenu.Separator quitSeparator;
     private javax.swing.JMenuItem removeLineItemMI;
     private org.jdesktop.swingx.JXTaskPaneContainer rightTaskPaneContainer;
     private javax.swing.JMenuItem saveAsMI;
@@ -506,7 +507,7 @@ public class ModuleFrame extends javax.swing.JFrame {
                 if (cme.getEntity() instanceof PieSectionEntity) {
                     chartPanel.setCursor(HAND);
                 } else {
-                    chartPanel.setCursor(DEFAULT);
+                    chartPanel.setCursor(Cursor.getDefaultCursor());
                 }
             }
         });
@@ -558,7 +559,7 @@ public class ModuleFrame extends javax.swing.JFrame {
                 if (cme.getEntity() instanceof CategoryItemEntity) {
                     chartPanel.setCursor(HAND);
                 } else {
-                    chartPanel.setCursor(DEFAULT);
+                    chartPanel.setCursor(Cursor.getDefaultCursor());
                 }
             }
         });
@@ -606,7 +607,7 @@ public class ModuleFrame extends javax.swing.JFrame {
                 if (cme.getEntity() instanceof CategoryItemEntity) {
                     chartPanel.setCursor(HAND);
                 } else {
-                    chartPanel.setCursor(DEFAULT);
+                    chartPanel.setCursor(Cursor.getDefaultCursor());
                 }
             }
         });
