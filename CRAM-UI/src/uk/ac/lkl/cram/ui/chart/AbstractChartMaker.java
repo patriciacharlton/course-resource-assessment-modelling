@@ -37,7 +37,13 @@ public abstract class AbstractChartMaker {
      * The chart panel created by the chart maker
      */
     protected final ChartPanel chartPanel;
+    /**
+     * The dataset created by the chart maker
+     */
     protected final Dataset dataset;
+    /**
+     * The module from which the chart and dataset are created
+     */
     protected final Module module;
     
     /**

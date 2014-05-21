@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui.report;
 
 
@@ -12,7 +27,6 @@ import java.util.logging.Logger;
 import javax.swing.table.TableModel;
 import org.docx4j.dml.wordprocessingDrawing.Inline;
 import org.docx4j.jaxb.Context;
-import org.docx4j.model.table.TblFactory;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.exceptions.InvalidFormatException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -40,6 +54,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.ModulePresentation;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
@@ -54,9 +69,12 @@ import uk.ac.lkl.cram.ui.chart.LearningTypeChartMaker;
 
 
 /**
- *
+ * Class to create a report in the form of a Word Document.
  * @author Bernard Horan
+ * @version $Revision$
  */
+//$Date$
+//TODO refactor
 public class Report {
     private static final Logger LOGGER = Logger.getLogger(Report.class.getName());
     private static final NumberFormat PERCENT_FORMATTER = NumberFormat.getPercentInstance();
@@ -119,15 +137,15 @@ public class Report {
         float f2f_hours = 0f;
         Tbl table = factory.createTbl();
         Tr tableHead = factory.createTr();
-        addTableCellsBold(tableHead, "Activity", "Number of Weeks", "Weekly Learner Hours", "Non-Weekly Learner Hours", "Total Learner Hours");
+        addTableCells(tableHead, JcEnumeration.CENTER, true, "Activity", "Number of Weeks", "Weekly Learner Hours", "Non-Weekly Learner Hours", "Total Learner Hours");
         table.getContent().add(tableHead);
         TableModel tableModel = new ModuleTableModel(module, true);
         int columnCount = tableModel.getColumnCount();
         for (int row = 0; row < tableModel.getRowCount(); row++) {
             Tr tableRow = factory.createTr();
-            addTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
+            addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
             for (int col = 1; col < columnCount; col++) {
-                addTableCellRightAligned(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)));
+                addTableCell(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, false);
             }          
             table.getContent().add(tableRow);
         }
@@ -167,8 +185,8 @@ public class Report {
         for (Object key : dataset.getKeys()) {
             Tr tableRow = factory.createTr();
             double percent = (Double) dataset.getValue((Comparable)key) / total;
-            addTableCell(tableRow, key.toString());
-            addTableCellRightAligned(tableRow, PERCENT_FORMATTER.format(percent));
+            addSimpleTableCell(tableRow, key.toString());
+            addTableCell(tableRow, PERCENT_FORMATTER.format(percent), JcEnumeration.RIGHT, false);
             table.getContent().add(tableRow);
         }
         addBorders(table);
@@ -197,8 +215,8 @@ public class Report {
         for (Object key : dataset.getRowKeys()) {
             Tr tableRow = factory.createTr();
             double percent = (Double) dataset.getValue((Comparable)key, columnKey) / total;
-            addTableCell(tableRow, key.toString());
-            addTableCellRightAligned(tableRow, PERCENT_FORMATTER.format(percent));
+            addSimpleTableCell(tableRow, key.toString());
+            addTableCell(tableRow, PERCENT_FORMATTER.format(percent), JcEnumeration.RIGHT, false);
             table.getContent().add(tableRow);
         }
         addBorders(table);
@@ -224,8 +242,8 @@ public class Report {
         for (Object key : dataset.getRowKeys()) {
             Tr tableRow = factory.createTr();
             double value = (Double) dataset.getValue((Comparable)key, columnKey);
-            addTableCell(tableRow, key.toString());
-            addTableCellRightAligned(tableRow, DECIMAL_FORMATTER.format(value) + " hours");
+            addSimpleTableCell(tableRow, key.toString());
+            addTableCell(tableRow, DECIMAL_FORMATTER.format(value) + " hours", JcEnumeration.RIGHT, false);
             table.getContent().add(tableRow);
         }
         addBorders(table);
@@ -237,55 +255,175 @@ public class Report {
     }
     
     private void addTutorHours() {
-        MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+	MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
         mdp.addStyledParagraphOfText("Heading1", "Tutor Hours");
-        Tbl table = factory.createTbl();
-        Tr tableHead = factory.createTr();
-        TableModel tableModel = new TutorHoursTableModel(module);
-        int columnCount = tableModel.getColumnCount();
-        for (int col = 0; col < columnCount; col++) {
-            addTableCellBold(tableHead, tableModel.getColumnName(col));
-        }
-        table.getContent().add(tableHead);
-        for (int row = 0; row < tableModel.getRowCount(); row++) {
-            Tr tableRow = factory.createTr();
-            addTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
-            for (int col = 1; col < columnCount; col++) {
-                addTableCellRightAligned(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)));
-            }          
-            table.getContent().add(tableRow);
-        }
-        addBorders(table);
-        mdp.addObject(table);
         HoursChartMaker maker = new HoursChartMaker(module);
         JFreeChart chart = maker.getChartPanel().getChart();
          /* Specify the height and width of the Bar Chart */
         int width=480; /* Width of the chart */
         int height=360; /* Height of the chart */
         addChart(chart, width, height);
+        addTutorPreparationHours();
+	addTutorSupportHours();
+    }
+    
+    private void addTutorPreparationHours() {
+	MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+	mdp.addStyledParagraphOfText("Heading2", "Tutor Preparation Hours");
+	Tbl table = factory.createTbl();
+	Tr tableHead = factory.createTr();
+	TableModel tableModel = new TutorHoursTableModel(module);
+	addTableCell(tableHead, tableModel.getColumnName(0), JcEnumeration.CENTER, true);
+	for (int col = 1; col < 4; col++) {
+	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
+	}
+	table.getContent().add(tableHead);
+	for (int row = 0; row < tableModel.getRowCount(); row++) {
+	    boolean lastRow = row == tableModel.getRowCount() - 1;
+	    Tr tableRow = factory.createTr();
+	    if (lastRow) {
+		addTableCell(tableRow, tableModel.getValueAt(row, 0).toString(), JcEnumeration.LEFT, true);
+	    } else {
+		addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
+	    }
+	    for (int col = 1; col < 4; col++) {
+		addTableCell(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
+	    }          
+	    table.getContent().add(tableRow);
+	}
+	addBorders(table);
+	mdp.addObject(table);
+    }
+    
+    private void addTutorSupportHours() {
+	MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+	mdp.addStyledParagraphOfText("Heading2", "Tutor Support Hours");
+	Tbl table = factory.createTbl();
+	Tr tableHead = factory.createTr();
+	TableModel tableModel = new TutorHoursTableModel(module);
+	addTableCell(tableHead, tableModel.getColumnName(0), JcEnumeration.CENTER, true);
+	for (int col = 4; col < 7; col++) {
+	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
+	}
+	table.getContent().add(tableHead);
+	for (int row = 0; row < tableModel.getRowCount(); row++) {
+	    boolean lastRow = row == tableModel.getRowCount() - 1;
+	    Tr tableRow = factory.createTr();
+	    if (lastRow) {
+		addTableCell(tableRow, tableModel.getValueAt(row, 0).toString(), JcEnumeration.LEFT, true);
+	    } else {
+		addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
+	    }
+	    for (int col = 4; col < 7; col++) {
+		addTableCell(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
+	    }          
+	    table.getContent().add(tableRow);
+	}
+	addBorders(table);
+	mdp.addObject(table);
+	
+	mdp.addParagraphOfText("");
+	table = factory.createTbl();
+	tableHead = factory.createTr();
+	addSimpleTableCell(tableHead, "");
+	table.getContent().add(tableHead);
+	for (int col = 4; col < 7; col++) {
+	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
+	}
+	Tr tableRow = factory.createTr();
+	addSimpleTableCell(tableRow, "Support hours per student");
+	List<ModulePresentation> modulePresentations = module.getModulePresentations();
+	for (ModulePresentation modulePresentation : modulePresentations) {
+	    float totalSupportHours = module.getTotalSupportHours(modulePresentation);
+	    float hoursPerStudent = totalSupportHours / modulePresentation.getTotalStudentCount();
+	    addTableCell(tableRow, DECIMAL_FORMATTER.format(hoursPerStudent), JcEnumeration.RIGHT, false);
+	}
+	table.getContent().add(tableRow);
+	addBorders(table);
+	mdp.addObject(table);
     }
     
     private void addTutorCost() {
         MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
         mdp.addStyledParagraphOfText("Heading1", "Cost of Teaching Time");
-        Tbl table = factory.createTbl();
-        Tr tableHead = factory.createTr();
-        TableModel tableModel = new TutorCostTableModel(module);
-        int columnCount = tableModel.getColumnCount();
-        for (int col = 0; col < columnCount; col++) {
-            addTableCellBold(tableHead, tableModel.getColumnName(col));
-        }
-        table.getContent().add(tableHead);
-        for (int row = 0; row < tableModel.getRowCount(); row++) {
-            Tr tableRow = factory.createTr();
-            addTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
-            for (int col = 1; col < columnCount; col++) {
-                addTableCellRightAligned(tableRow, CURRENCY_FORMATTER.format(tableModel.getValueAt(row, col)));
-            }          
-            table.getContent().add(tableRow);
-        }
-        addBorders(table);
-        mdp.addObject(table);
+        addTutorPreparationCost();
+	addTutorSupportCost();
+    }
+    
+    private void addTutorPreparationCost() {
+	MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+        mdp.addStyledParagraphOfText("Heading2", "Cost of Preparation");
+	Tbl table = factory.createTbl();
+	Tr tableHead = factory.createTr();
+	TableModel tableModel = new TutorCostTableModel(module);
+	addTableCell(tableHead, tableModel.getColumnName(0), JcEnumeration.CENTER, true);
+	for (int col = 1; col < 4; col++) {
+	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
+	}
+	table.getContent().add(tableHead);
+	for (int row = 0; row < tableModel.getRowCount(); row++) {
+	    boolean lastRow = row == tableModel.getRowCount() - 1;
+	    Tr tableRow = factory.createTr();
+	    if (lastRow) {
+		addTableCell(tableRow, tableModel.getValueAt(row, 0).toString(), JcEnumeration.LEFT, true);
+	    } else {
+		addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
+	    }
+	    for (int col = 1; col < 4; col++) {
+		addTableCell(tableRow, CURRENCY_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
+	    }          
+	    table.getContent().add(tableRow);
+	}
+	addBorders(table);
+	mdp.addObject(table);
+    }
+    
+    private void addTutorSupportCost() {
+	MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+        mdp.addStyledParagraphOfText("Heading2", "Cost of Support");
+	Tbl table = factory.createTbl();
+	Tr tableHead = factory.createTr();
+	TableModel tableModel = new TutorCostTableModel(module);
+	addTableCell(tableHead, tableModel.getColumnName(0), JcEnumeration.CENTER, true);
+	for (int col = 4; col < 7; col++) {
+	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
+	}
+	table.getContent().add(tableHead);
+	for (int row = 0; row < tableModel.getRowCount(); row++) {
+	    boolean lastRow = row == tableModel.getRowCount() - 1;
+	    Tr tableRow = factory.createTr();
+	    if (lastRow) {
+		addTableCell(tableRow, tableModel.getValueAt(row, 0).toString(), JcEnumeration.LEFT, true);
+	    } else {
+		addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
+	    }
+	    for (int col = 4; col < 7; col++) {
+		addTableCell(tableRow, CURRENCY_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
+	    }          
+	    table.getContent().add(tableRow);
+	}
+	addBorders(table);
+	mdp.addObject(table);
+	
+	mdp.addParagraphOfText("");
+	table = factory.createTbl();
+	tableHead = factory.createTr();
+	addSimpleTableCell(tableHead, "");
+	table.getContent().add(tableHead);
+	for (int col = 4; col < 7; col++) {
+	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
+	}
+	Tr tableRow = factory.createTr();
+	addSimpleTableCell(tableRow, "Support cost per student");
+	List<ModulePresentation> modulePresentations = module.getModulePresentations();
+	for (ModulePresentation modulePresentation : modulePresentations) {
+	    float totalSupportHours = module.getTotalSupportCost(modulePresentation);
+	    float hoursPerStudent = totalSupportHours / modulePresentation.getTotalStudentCount();
+	    addTableCell(tableRow, CURRENCY_FORMATTER.format(hoursPerStudent), JcEnumeration.RIGHT, false);
+	}
+	table.getContent().add(tableRow);
+	addBorders(table);
+	mdp.addObject(table);
     }
     
     private void addSummary() {
@@ -296,17 +434,22 @@ public class Report {
         TableModel tableModel = new CostTableModel(module);
         int columnCount = tableModel.getColumnCount();
         for (int col = 0; col < columnCount; col++) {
-            addTableCellBold(tableHead, tableModel.getColumnName(col));
+            addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
         }
         table.getContent().add(tableHead);
         for (int row = 0; row < tableModel.getRowCount(); row++) {
-            Tr tableRow = factory.createTr();
-            addTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
-            for (int col = 1; col < columnCount; col++) {
+            boolean lastRow = row == tableModel.getRowCount() - 1;
+	    Tr tableRow = factory.createTr();
+	    if (lastRow) {
+		addTableCell(tableRow, tableModel.getValueAt(row, 0).toString(), JcEnumeration.LEFT, true);
+	    } else {
+		addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
+	    }
+	    for (int col = 1; col < columnCount; col++) {
                 if (row > 3) {
-                    addTableCellRightAligned(tableRow, CURRENCY_FORMATTER.format(tableModel.getValueAt(row, col)));
+                    addTableCell(tableRow, CURRENCY_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
                 } else {
-                    addTableCellRightAligned(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)));
+                    addTableCell(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
                 }
             }          
             table.getContent().add(tableRow);
@@ -333,28 +476,38 @@ public class Report {
         table.getTblPr().setTblBorders(borders);
     }
     
+    /**
+     * Save the report to a file. The file will be in the Word docx format, so it
+     * would be a good idea if the file extension is 'docx'. This restriction is not 
+     * imposed.
+     * @param file the file into which the report should be
+     * @throws Docx4JException
+     */
     public void save(File file) throws Docx4JException {
         wordMLPackage.save(file);
     }
     
-    private void addTableCell(Tr tableRow, String string) {
+    private void addSimpleTableCell(Tr tableRow, String string) {
         Tc tableCell = factory.createTc();
         tableCell.getContent().add(wordMLPackage.getMainDocumentPart().createStyledParagraphOfText("NoSpacing", string));
         tableRow.getContent().add(tableCell);
     }
     
-    private void addTableCellsBold(Tr tableRow, String... text) {
+    private void addTableCells(Tr tableRow, JcEnumeration alignment, boolean bold, String... text) {
         for (String string : text) {
-            addTableCellBold(tableRow, string);
+            addTableCell(tableRow, string, alignment, bold);
         }
     }
     
-    private void addTableCellRightAligned(Tr tableRow, String string) {
+    private void addTableCell(Tr tableRow, String string, JcEnumeration alignment, boolean bold) {
         //<w:p>
         //  <w:pPr>
         //      <w:jc w:val="right"/>
         //  </w:pPr>
         //  <w:r>
+        //	<w:rPr>
+        //	    <w:b/>
+        //	</w:rPr>
         //      <w:t>TEXT</w:t>
         //  </w:r>
         //  </w:p>
@@ -362,11 +515,19 @@ public class Report {
         //alignment
         PPr ppr = factory.createPPr();
         Jc jc = factory.createJc();
-        jc.setVal(JcEnumeration.RIGHT);
+        jc.setVal(alignment);
         //set the alignment of the ppr
         ppr.setJc(jc);
         //Create a run
         R r = factory.createR();
+	if (bold) {
+	    //Create an rpr
+	    RPr rpr = factory.createRPr();
+	    //Set its boldness
+	    rpr.setB(new BooleanDefaultTrue());
+	    //set the rpr of the run
+	    r.setRPr(rpr);
+	}
         //Create a text and set its content
         Text txt = factory.createText();
         txt.setValue(string);
@@ -375,38 +536,6 @@ public class Report {
 
         P p = factory.createP();
         p.setPPr(ppr);
-        p.getContent().add(r);
-        
-        Tc tableCell = factory.createTc();
-        tableCell.getContent().add(p);
-        tableRow.getContent().add(tableCell);
-    }
-    
-    private void addTableCellBold(Tr tableRow, String string) {
-        //<w:p>
-        // <w:r>
-        //  <w:rPr>
-        //   <w:b/>
-        //  </w:rPr>
-        //  <w:t>TEXT</w:t>
-        // </w:r>
-        //</w:p>
-        
-        //Create a run
-        R r = factory.createR();
-        //Create an rpr
-        RPr rpr = factory.createRPr();
-        //Set its boldness
-        rpr.setB(new BooleanDefaultTrue());
-        //set the rpr of the run
-        r.setRPr(rpr);
-        //Create a text and set its content
-        Text txt = factory.createText();
-        txt.setValue(string);
-        //Put the text in the run
-        r.getContent().add(txt);
-
-        P p = factory.createP();
         p.getContent().add(r);
         
         Tc tableCell = factory.createTc();
@@ -438,8 +567,4 @@ public class Report {
         }
     }
 
-    
-    
-
-    
 }

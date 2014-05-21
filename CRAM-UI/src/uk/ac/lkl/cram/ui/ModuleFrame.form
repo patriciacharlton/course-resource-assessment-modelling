@@ -62,7 +62,7 @@
                 </Property>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="quitSeparator">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="quitMI">
               <Properties>
