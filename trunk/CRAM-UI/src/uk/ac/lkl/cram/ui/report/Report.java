@@ -54,12 +54,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
-import uk.ac.lkl.cram.model.ModulePresentation;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
-import uk.ac.lkl.cram.ui.CostTableModel;
-import uk.ac.lkl.cram.ui.ModuleTableModel;
 import uk.ac.lkl.cram.ui.TutorCostTableModel;
 import uk.ac.lkl.cram.ui.TutorHoursTableModel;
 import uk.ac.lkl.cram.ui.chart.FeedbackChartMaker;
@@ -74,11 +71,11 @@ import uk.ac.lkl.cram.ui.chart.LearningTypeChartMaker;
  * @version $Revision$
  */
 //$Date$
-//TODO refactor
 public class Report {
     private static final Logger LOGGER = Logger.getLogger(Report.class.getName());
     private static final NumberFormat PERCENT_FORMATTER = NumberFormat.getPercentInstance();
-    private static final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat( "0.#" );
+    private static final DecimalFormat FLOAT_FORMATTER = new DecimalFormat( "0.0" );
+    private static final NumberFormat INTEGER_FORMATTER = NumberFormat.getIntegerInstance();
     private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getCurrencyInstance();
 
 
@@ -137,15 +134,18 @@ public class Report {
         float f2f_hours = 0f;
         Tbl table = factory.createTbl();
         Tr tableHead = factory.createTr();
-        addTableCells(tableHead, JcEnumeration.CENTER, true, "Activity", "Number of Weeks", "Weekly Learner Hours", "Non-Weekly Learner Hours", "Total Learner Hours");
-        table.getContent().add(tableHead);
-        TableModel tableModel = new ModuleTableModel(module, true);
+        TableModel tableModel = new ModuleReportModel(module);
+        for (int col = 0; col < tableModel.getColumnCount(); col++) {
+	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
+	}
+	table.getContent().add(tableHead);
         int columnCount = tableModel.getColumnCount();
         for (int row = 0; row < tableModel.getRowCount(); row++) {
+	    boolean lastRow = row == tableModel.getRowCount() - 1;
             Tr tableRow = factory.createTr();
-            addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
+	    addTableCell(tableRow, tableModel.getValueAt(row, 0).toString(), JcEnumeration.LEFT, lastRow);
             for (int col = 1; col < columnCount; col++) {
-                addTableCell(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, false);
+                addTableCell(tableRow, FLOAT_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
             }          
             table.getContent().add(tableRow);
         }
@@ -243,7 +243,7 @@ public class Report {
             Tr tableRow = factory.createTr();
             double value = (Double) dataset.getValue((Comparable)key, columnKey);
             addSimpleTableCell(tableRow, key.toString());
-            addTableCell(tableRow, DECIMAL_FORMATTER.format(value) + " hours", JcEnumeration.RIGHT, false);
+            addTableCell(tableRow, FLOAT_FORMATTER.format(value) + " hours", JcEnumeration.RIGHT, false);
             table.getContent().add(tableRow);
         }
         addBorders(table);
@@ -287,7 +287,7 @@ public class Report {
 		addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
 	    }
 	    for (int col = 1; col < 4; col++) {
-		addTableCell(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
+		addTableCell(tableRow, FLOAT_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
 	    }          
 	    table.getContent().add(tableRow);
 	}
@@ -315,30 +315,10 @@ public class Report {
 		addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
 	    }
 	    for (int col = 4; col < 7; col++) {
-		addTableCell(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
+		addTableCell(tableRow, FLOAT_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
 	    }          
 	    table.getContent().add(tableRow);
 	}
-	addBorders(table);
-	mdp.addObject(table);
-	
-	mdp.addParagraphOfText("");
-	table = factory.createTbl();
-	tableHead = factory.createTr();
-	addSimpleTableCell(tableHead, "");
-	table.getContent().add(tableHead);
-	for (int col = 4; col < 7; col++) {
-	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
-	}
-	Tr tableRow = factory.createTr();
-	addSimpleTableCell(tableRow, "Support hours per student");
-	List<ModulePresentation> modulePresentations = module.getModulePresentations();
-	for (ModulePresentation modulePresentation : modulePresentations) {
-	    float totalSupportHours = module.getTotalSupportHours(modulePresentation);
-	    float hoursPerStudent = totalSupportHours / modulePresentation.getTotalStudentCount();
-	    addTableCell(tableRow, DECIMAL_FORMATTER.format(hoursPerStudent), JcEnumeration.RIGHT, false);
-	}
-	table.getContent().add(tableRow);
 	addBorders(table);
 	mdp.addObject(table);
     }
@@ -404,26 +384,6 @@ public class Report {
 	}
 	addBorders(table);
 	mdp.addObject(table);
-	
-	mdp.addParagraphOfText("");
-	table = factory.createTbl();
-	tableHead = factory.createTr();
-	addSimpleTableCell(tableHead, "");
-	table.getContent().add(tableHead);
-	for (int col = 4; col < 7; col++) {
-	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
-	}
-	Tr tableRow = factory.createTr();
-	addSimpleTableCell(tableRow, "Support cost per student");
-	List<ModulePresentation> modulePresentations = module.getModulePresentations();
-	for (ModulePresentation modulePresentation : modulePresentations) {
-	    float totalSupportHours = module.getTotalSupportCost(modulePresentation);
-	    float hoursPerStudent = totalSupportHours / modulePresentation.getTotalStudentCount();
-	    addTableCell(tableRow, CURRENCY_FORMATTER.format(hoursPerStudent), JcEnumeration.RIGHT, false);
-	}
-	table.getContent().add(tableRow);
-	addBorders(table);
-	mdp.addObject(table);
     }
     
     private void addSummary() {
@@ -431,7 +391,7 @@ public class Report {
         mdp.addStyledParagraphOfText("Heading1", "Summary");
         Tbl table = factory.createTbl();
         Tr tableHead = factory.createTr();
-        TableModel tableModel = new CostTableModel(module);
+        TableModel tableModel = new SummaryReportModel(module);
         int columnCount = tableModel.getColumnCount();
         for (int col = 0; col < columnCount; col++) {
             addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
@@ -446,10 +406,10 @@ public class Report {
 		addSimpleTableCell(tableRow, tableModel.getValueAt(row, 0).toString());
 	    }
 	    for (int col = 1; col < columnCount; col++) {
-                if (row > 3) {
+                if (row > 4) {
                     addTableCell(tableRow, CURRENCY_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
                 } else {
-                    addTableCell(tableRow, DECIMAL_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
+                    addTableCell(tableRow, INTEGER_FORMATTER.format(tableModel.getValueAt(row, col)), JcEnumeration.RIGHT, lastRow);
                 }
             }          
             table.getContent().add(tableRow);
