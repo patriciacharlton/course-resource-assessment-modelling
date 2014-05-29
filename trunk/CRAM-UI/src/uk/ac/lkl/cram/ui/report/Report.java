@@ -18,7 +18,6 @@ package uk.ac.lkl.cram.ui.report;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -34,7 +33,6 @@ import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.BooleanDefaultTrue;
-import org.docx4j.wml.Br;
 import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.Jc;
 import org.docx4j.wml.JcEnumeration;
@@ -45,7 +43,6 @@ import org.docx4j.wml.PPrBase.PStyle;
 import org.docx4j.wml.R;
 import org.docx4j.wml.RPr;
 import org.docx4j.wml.STBorder;
-import org.docx4j.wml.STBrType;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.TblBorders;
 import org.docx4j.wml.TblPr;
@@ -58,7 +55,6 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.openide.util.Exceptions;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
@@ -200,8 +196,8 @@ public class Report {
 	    if (first) {
 		vMerge.setVal("restart");
 		/* Specify the height and width of the Pie Chart */
-		int width=480; /* Width of the chart */
-		int height=360; /* Height of the chart */
+		int width=(int) (480f * 0.9f); /* Width of the chart */
+		int height=(int) (360f * 0.9f); /* Height of the chart */
 		tableCell.getContent().add(createChart(chart, width, height));
 		first = false;
 	    } else {
@@ -240,8 +236,8 @@ public class Report {
 	    if (first) {
 		vMerge.setVal("restart");
 		/* Specify the height and width of the Pie Chart */
-		int width=480; /* Width of the chart */
-		int height=180; /* Height of the chart */
+		int width=(int) (480f * 0.9f); /* Width of the chart */
+		int height=(int) (180f * 0.9f); /* Height of the chart */
 		tableCell.getContent().add(createChart(chart, width, height));
 		first = false;
 	    } else {
@@ -277,8 +273,8 @@ public class Report {
 	    if (first) {
 		vMerge.setVal("restart");
 		/* Specify the height and width of the Pie Chart */
-		int width=480; /* Width of the chart */
-		int height=360; /* Height of the chart */
+		int width=(int) (480f * 0.8f); /* Width of the chart */
+		int height=(int) (360f * 0.8f); /* Height of the chart */
 		tableCell.getContent().add(createChart(chart, width, height));
 		first = false;
 	    } else {
