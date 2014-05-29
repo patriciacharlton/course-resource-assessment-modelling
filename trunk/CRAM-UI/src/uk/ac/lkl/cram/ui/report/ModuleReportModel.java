@@ -22,14 +22,11 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
- * This class represents the model for the table in the LineItemPanel and 
- * the table in the ListOfTLAWizardPanel. It has a read-only API. It listens to 
- * the underlying CRAM model for changes (in particular to changes in the module
- * and its lineitems). This model provides view of the module in terms of the 
+ * This class represents a model for use by the Report. It has a read-only API.
+ * This model provides view of the module in terms of the 
  * number of hours that students are expected to spend per activity, and the number
  * of weeks they are expected to undertake activities.
- * @see LineItemPanel
- * @see ListOfTLAWizardPanel
+ * @see Report
  * @version $Revision$
  * @author Bernard Horan
  */

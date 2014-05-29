@@ -21,12 +21,10 @@ import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
 
 /**
- * This class represents the model for the summary cost table. It has a read-only
- * API. It listens to the underlying CRAM model for changes (in particular, the module and the 
- * module presentations and the support and preparation times) and when it receives them fires changes for any listeners
- * to this model. This model provides a view of the module in terms of the
+ * This class represents a model for the summary table used by the Report. It has a read-only
+ * API. This model provides a view of the module in terms of the
  * total cost of the module.
- * @see CostPanel
+ * @see Report
  * @version $Revision$
  * @author Bernard Horan
  */
@@ -40,7 +38,7 @@ public class SummaryReportModel extends AbstractTableModel {
     private final Module module;
     
     /**
-     * Create a new CostTableModel from the module
+     * Create a new SummaryReportModel from the module
      * @param module the module from which to create the model
      */
     public SummaryReportModel(Module module) {

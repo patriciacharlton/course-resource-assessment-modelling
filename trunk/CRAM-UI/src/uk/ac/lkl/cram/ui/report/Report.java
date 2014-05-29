@@ -54,7 +54,10 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
+import uk.ac.lkl.cram.model.ModulePresentation;
+import uk.ac.lkl.cram.model.PreparationTime;
 import uk.ac.lkl.cram.model.StudentTeacherInteraction;
+import uk.ac.lkl.cram.model.SupportTime;
 import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.TutorCostTableModel;
@@ -257,6 +260,7 @@ public class Report {
     private void addTutorHours() {
 	MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
         mdp.addStyledParagraphOfText("Heading1", "Tutor Hours");
+	addTutorDistribution();
         HoursChartMaker maker = new HoursChartMaker(module);
         JFreeChart chart = maker.getChartPanel().getChart();
          /* Specify the height and width of the Bar Chart */
@@ -265,6 +269,69 @@ public class Report {
         addChart(chart, width, height);
         addTutorPreparationHours();
 	addTutorSupportHours();
+    }
+    
+    private void addTutorDistribution() {
+	float[] total_junior_prep_hours = new float[3];
+	float[] total_junior_support_hours = new float[3];
+	float[] total_senior_prep_hours = new float[3];
+	float[] total_senior_support_hours = new float[3];
+	int index = 0;
+	for (ModulePresentation mp : module.getModulePresentations()) {
+	    for (TLALineItem tLALineItem : module.getTLALineItems()) {
+		PreparationTime pt = tLALineItem.getPreparationTime(mp);
+		float preparation_hours = pt.getTotalHours(module, tLALineItem);
+		//Expressed as 0 <= x <= 100
+		float senior_prep_rate = pt.getSeniorRate() / 100;
+		float junior_prep_rate = pt.getJuniorRate() / 100;
+		float senior_prep_hours = preparation_hours * senior_prep_rate;
+		float junior_prep_hours = preparation_hours * junior_prep_rate;
+		total_junior_prep_hours[index] += junior_prep_hours;
+		total_senior_prep_hours[index] += senior_prep_hours;
+		SupportTime st = tLALineItem.getSupportTime(mp);
+		float support_hours = st.getTotalHours(module, mp, tLALineItem);
+		//Expressed as 0 <= x <= 100
+		float senior_support_rate = st.getSeniorRate() / 100;
+		float junior_support_rate = st.getJuniorRate() / 100;
+		float senior_support_hours = support_hours * senior_support_rate;
+		float junior_support_hours = support_hours * junior_support_rate;
+		total_junior_support_hours[index] += junior_support_hours;
+		total_senior_support_hours[index] += senior_support_hours;
+	    }
+	    index++;
+	}
+	Tbl table = factory.createTbl();
+	Tr tableHead = factory.createTr();
+	addSimpleTableCell(tableHead, "");
+	addTableCells(tableHead, JcEnumeration.CENTER, true, "Run 1", "Run 2", "Run 3");
+	table.getContent().add(tableHead);
+	Tr tableRow = factory.createTr();
+	addSimpleTableCell(tableRow, "Lower Rate Prep. Hours");
+	for (int i = 0; i < total_junior_prep_hours.length; i++) {
+	    addTableCell(tableRow, INTEGER_FORMATTER.format(total_junior_prep_hours[i]), JcEnumeration.RIGHT, false);
+	}
+	table.getContent().add(tableRow);
+	tableRow = factory.createTr();
+	addSimpleTableCell(tableRow, "Higher Rate Prep. Hours");
+	for (int i = 0; i < total_senior_prep_hours.length; i++) {
+	    addTableCell(tableRow, INTEGER_FORMATTER.format(total_senior_prep_hours[i]), JcEnumeration.RIGHT, false);
+	}
+	table.getContent().add(tableRow);
+	tableRow = factory.createTr();
+	addSimpleTableCell(tableRow, "Lower Rate Support Hours");
+	for (int i = 0; i < total_junior_support_hours.length; i++) {
+	    addTableCell(tableRow, INTEGER_FORMATTER.format(total_junior_support_hours[i]), JcEnumeration.RIGHT, false);
+	}
+	table.getContent().add(tableRow);
+	tableRow = factory.createTr();
+	addSimpleTableCell(tableRow, "Higher Rate Support Hours");
+	for (int i = 0; i < total_senior_support_hours.length; i++) {
+	    addTableCell(tableRow, INTEGER_FORMATTER.format(total_senior_support_hours[i]), JcEnumeration.RIGHT, false);
+	}
+	table.getContent().add(tableRow);
+	addBorders(table);
+	MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+	mdp.addObject(table);
     }
     
     private void addTutorPreparationHours() {
@@ -319,6 +386,46 @@ public class Report {
 	    }          
 	    table.getContent().add(tableRow);
 	}
+	addBorders(table);
+	mdp.addObject(table);
+	
+	float[] tutor_hours_online = new float[3];
+	float[] tutor_hours_f2f = new float[3];
+	List<ModulePresentation> modulePresentations = module.getModulePresentations();
+	for (int i = 0; i < modulePresentations.size(); i++) {
+	    ModulePresentation mp = modulePresentations.get(i);
+	    for (TLALineItem tLALineItem : module.getTLALineItems()) {
+		SupportTime st = tLALineItem.getSupportTime(mp);
+		float tutor_hours = st.getTotalHours(module, mp, tLALineItem);
+		StudentTeacherInteraction sti = tLALineItem.getActivity().getStudentTeacherInteraction();
+		if (sti.isOnline()) {
+		    tutor_hours_online[i] += tutor_hours;
+		}
+		if (sti.isTutorSupported() && sti.isLocationSpecific()) {
+		    tutor_hours_f2f[i] += tutor_hours;
+		}
+	    }
+	}
+	mdp.addParagraphOfText("");
+	table = factory.createTbl();
+	tableHead = factory.createTr();
+	addSimpleTableCell(tableHead, "");
+	table.getContent().add(tableHead);
+	for (int col = 4; col < 7; col++) {
+	    addTableCell(tableHead, tableModel.getColumnName(col), JcEnumeration.CENTER, true);
+	}
+	Tr tableRow = factory.createTr();
+	addSimpleTableCell(tableRow, "Tutor hours online");
+	for (int i = 0; i < tutor_hours_online.length; i++) {
+	    addTableCell(tableRow, INTEGER_FORMATTER.format(tutor_hours_online[i]), JcEnumeration.RIGHT, false);
+	}
+	table.getContent().add(tableRow);
+	tableRow = factory.createTr();
+	addSimpleTableCell(tableRow, "Tutor hours face-to-face");
+	for (int i = 0; i < tutor_hours_f2f.length; i++) {
+	    addTableCell(tableRow, INTEGER_FORMATTER.format(tutor_hours_f2f[i]), JcEnumeration.RIGHT, false);
+	}
+	table.getContent().add(tableRow);
 	addBorders(table);
 	mdp.addObject(table);
     }
