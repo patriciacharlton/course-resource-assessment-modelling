@@ -18,6 +18,7 @@ package uk.ac.lkl.cram.ui.report;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -33,25 +34,31 @@ import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.BooleanDefaultTrue;
+import org.docx4j.wml.Br;
 import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.Jc;
 import org.docx4j.wml.JcEnumeration;
 import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.P;
 import org.docx4j.wml.PPr;
+import org.docx4j.wml.PPrBase.PStyle;
 import org.docx4j.wml.R;
 import org.docx4j.wml.RPr;
 import org.docx4j.wml.STBorder;
+import org.docx4j.wml.STBrType;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.TblBorders;
 import org.docx4j.wml.TblPr;
 import org.docx4j.wml.Tc;
+import org.docx4j.wml.TcPr;
+import org.docx4j.wml.TcPrInner.VMerge;
 import org.docx4j.wml.Text;
 import org.docx4j.wml.Tr;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.openide.util.Exceptions;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
@@ -178,25 +185,35 @@ public class Report {
         JFreeChart chart = maker.getChartPanel().getChart();
         DefaultPieDataset dataset = (DefaultPieDataset) maker.getDataset();
         Tbl table = factory.createTbl();
-        //Tr tableHead = factory.createTr();
-        //addTableCell(tableHead, "Activity", "Percentage Learning Type");
-        //table.getContent().add(tableHead);
         double total = 0f;
         for (Object key : dataset.getKeys()) {
             total += (Double) dataset.getValue((Comparable)key);
         }
+	boolean first = true;
         for (Object key : dataset.getKeys()) {
             Tr tableRow = factory.createTr();
+	    Tc tableCell = factory.createTc();
+	    TcPr tcpr = factory.createTcPr();
+	    tableCell.setTcPr(tcpr);
+	    VMerge vMerge = factory.createTcPrInnerVMerge();
+	    tcpr.setVMerge(vMerge);
+	    if (first) {
+		vMerge.setVal("restart");
+		/* Specify the height and width of the Pie Chart */
+		int width=480; /* Width of the chart */
+		int height=360; /* Height of the chart */
+		tableCell.getContent().add(createChart(chart, width, height));
+		first = false;
+	    } else {
+		tableCell.getContent().add(factory.createP());
+	    }
+	    tableRow.getContent().add(tableCell);
             double percent = (Double) dataset.getValue((Comparable)key) / total;
             addSimpleTableCell(tableRow, key.toString());
             addTableCell(tableRow, PERCENT_FORMATTER.format(percent), JcEnumeration.RIGHT, false);
             table.getContent().add(tableRow);
-        }
+	}
         addBorders(table);
-        /* Specify the height and width of the Pie Chart */
-        int width=480; /* Width of the chart */
-        int height=360; /* Height of the chart */
-        addChart(chart, width, height);
         mdp.addObject(table);
     }
     
@@ -207,16 +224,30 @@ public class Report {
         JFreeChart chart = maker.getChartPanel().getChart();
         DefaultCategoryDataset dataset = (DefaultCategoryDataset) maker.getDataset();
         Tbl table = factory.createTbl();
-        //Tr tableHead = factory.createTr();
-        //addTableCell(tableHead, "Activity", "Percentage Learning Experience");
-        //table.getContent().add(tableHead);
         double total = 0f;
         Comparable columnKey = (Comparable) dataset.getColumnKeys().get(0);
         for (Object key : dataset.getRowKeys()) {
             total += (Double) dataset.getValue((Comparable)key, columnKey);
         }
+	boolean first = true;
         for (Object key : dataset.getRowKeys()) {
             Tr tableRow = factory.createTr();
+	    Tc tableCell = factory.createTc();
+	    TcPr tcpr = factory.createTcPr();
+	    tableCell.setTcPr(tcpr);
+	    VMerge vMerge = factory.createTcPrInnerVMerge();
+	    tcpr.setVMerge(vMerge);
+	    if (first) {
+		vMerge.setVal("restart");
+		/* Specify the height and width of the Pie Chart */
+		int width=480; /* Width of the chart */
+		int height=180; /* Height of the chart */
+		tableCell.getContent().add(createChart(chart, width, height));
+		first = false;
+	    } else {
+		tableCell.getContent().add(factory.createP());
+	    }
+	    tableRow.getContent().add(tableCell);
             double percent = (Double) dataset.getValue((Comparable)key, columnKey) / total;
             addSimpleTableCell(tableRow, key.toString());
             addTableCell(tableRow, PERCENT_FORMATTER.format(percent), JcEnumeration.RIGHT, false);
@@ -224,10 +255,6 @@ public class Report {
         }
         addBorders(table);
         mdp.addObject(table);
-        /* Specify the height and width of the Stacked Bar Chart */
-        int width=480; /* Width of the chart */
-        int height=180; /* Height of the chart */
-        addChart(chart, width, height);
         
     }
     
@@ -238,12 +265,26 @@ public class Report {
         JFreeChart chart = maker.getChartPanel().getChart();
         DefaultCategoryDataset dataset = (DefaultCategoryDataset) maker.getDataset();
         Tbl table = factory.createTbl();
-        //Tr tableHead = factory.createTr();
-        //addTableCell(tableHead, "Activity", "Learner Feedback (Hours per student/group)");
-        //table.getContent().add(tableHead);
         Comparable columnKey = (Comparable) dataset.getColumnKeys().get(0);
-        for (Object key : dataset.getRowKeys()) {
+        boolean first = true;
+	for (Object key : dataset.getRowKeys()) {
             Tr tableRow = factory.createTr();
+            Tc tableCell = factory.createTc();
+	    TcPr tcpr = factory.createTcPr();
+	    tableCell.setTcPr(tcpr);
+	    VMerge vMerge = factory.createTcPrInnerVMerge();
+	    tcpr.setVMerge(vMerge);
+	    if (first) {
+		vMerge.setVal("restart");
+		/* Specify the height and width of the Pie Chart */
+		int width=480; /* Width of the chart */
+		int height=360; /* Height of the chart */
+		tableCell.getContent().add(createChart(chart, width, height));
+		first = false;
+	    } else {
+		tableCell.getContent().add(factory.createP());
+	    }
+	    tableRow.getContent().add(tableCell);
             double value = (Double) dataset.getValue((Comparable)key, columnKey);
             addSimpleTableCell(tableRow, key.toString());
             addTableCell(tableRow, FLOAT_FORMATTER.format(value) + " hours", JcEnumeration.RIGHT, false);
@@ -251,10 +292,6 @@ public class Report {
         }
         addBorders(table);
         mdp.addObject(table);
-        /* Specify the height and width of the Bar Chart */
-        int width=480; /* Width of the chart */
-        int height=360; /* Height of the chart */
-        addChart(chart, width, height);
     }
     
     private void addTutorHours() {
@@ -266,7 +303,7 @@ public class Report {
          /* Specify the height and width of the Bar Chart */
         int width=480; /* Width of the chart */
         int height=360; /* Height of the chart */
-        addChart(chart, width, height);
+        mdp.addObject(createChart(chart, width, height));
         addTutorPreparationHours();
 	addTutorSupportHours();
     }
@@ -570,6 +607,7 @@ public class Report {
         //<w:p>
         //  <w:pPr>
         //      <w:jc w:val="right"/>
+	//	<w:pStyle w:val="NoSpacing"/>
         //  </w:pPr>
         //  <w:r>
         //	<w:rPr>
@@ -585,6 +623,10 @@ public class Report {
         jc.setVal(alignment);
         //set the alignment of the ppr
         ppr.setJc(jc);
+	//style
+	PStyle pstyle = factory.createPPrBasePStyle();
+	pstyle.setVal("NoSpacing");
+	ppr.setPStyle(pstyle);
         //Create a run
         R r = factory.createR();
 	if (bold) {
@@ -610,28 +652,33 @@ public class Report {
         tableRow.getContent().add(tableCell);
     }
 
-    private void addChart(JFreeChart chart, int width, int height) {
-        MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
-            try {
-            /* We don't want to create an intermediate file. So, we create a byte array output stream 
-            /* Write chart as PNG to Output Stream */
-            ByteArrayOutputStream chart_out = new ByteArrayOutputStream();          
-            ChartUtilities.writeChartAsPNG(chart_out,chart,width,height);
-            chart_out.close();
-            byte[] bytes = chart_out.toByteArray();
-            BinaryPartAbstractImage imagePart = BinaryPartAbstractImage.createImagePart(wordMLPackage, bytes);
-            Inline inline = imagePart.createImageInline(null, null, 0, 1, false);
-            // Now add the inline in w:p/w:r/w:drawing
-            org.docx4j.wml.P  p = factory.createP();
-            org.docx4j.wml.R  run = factory.createR();		
-            p.getContent().add(run);        
-            org.docx4j.wml.Drawing drawing = factory.createDrawing();		
-            run.getContent().add(drawing);		
-            drawing.getAnchorOrInline().add(inline);
-            mdp.addObject(p);
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Failed to add chart", ex);
-        }
+    private P createChart(JFreeChart chart, int width, int height) {
+	P  p = factory.createP();		
+	try {
+	    /* We don't want to create an intermediate file. So, we create a byte array output stream 
+		/* Write chart as PNG to Output Stream */
+		ByteArrayOutputStream chart_out = new ByteArrayOutputStream();          
+		ChartUtilities.writeChartAsPNG(chart_out,chart,width,height);
+		chart_out.close();
+		byte[] bytes = chart_out.toByteArray();
+		BinaryPartAbstractImage imagePart = BinaryPartAbstractImage.createImagePart(wordMLPackage, bytes);
+		Inline inline = imagePart.createImageInline(null, null, 0, 1, false);
+		//Give the p a style
+		PPr ppr = factory.createPPr();
+		p.setPPr(ppr);
+		PStyle pstyle = factory.createPPrBasePStyle();
+		pstyle.setVal("NoSpacing");
+		ppr.setPStyle(pstyle);    
+		// Now add the inline in w:p/w:r/w:drawing
+		R  run = factory.createR();		
+		p.getContent().add(run);        
+		org.docx4j.wml.Drawing drawing = factory.createDrawing();		
+		run.getContent().add(drawing);		
+		drawing.getAnchorOrInline().add(inline);
+	} catch (Exception ex) {
+	    LOGGER.log(Level.SEVERE, "Failed to create chart", ex);	    
+	}
+	return p;
     }
 
 }
