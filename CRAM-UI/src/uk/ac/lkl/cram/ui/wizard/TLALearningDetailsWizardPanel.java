@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
+import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
@@ -45,17 +46,17 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
     private ChangeSupport changeSupport = new ChangeSupport(this);
 
     /**
-     * The activity that is being edited
-     */
-    private TLActivity tla;
-    /**
      * The visual component that displays this panel. If you need to access the
      * component from this class, just use getComponent().
      */
     private TLALearningDetailsVisualPanel component;
+    /**
+     * The line item to be edited
+     */
+    private final TLALineItem lineItem;
 
-    TLALearningDetailsWizardPanel(TLActivity activity) {
-	this.tla = activity;
+    TLALearningDetailsWizardPanel(TLALineItem lineItem) {
+	this.lineItem = lineItem;
     }
 
     /**
@@ -69,7 +70,7 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
     public TLALearningDetailsVisualPanel getComponent() {
 	//Lazy instantiation
         if (component == null) {
-	    component = new TLALearningDetailsVisualPanel(tla);
+	    component = new TLALearningDetailsVisualPanel(lineItem);
             //Add a lisneter to listen if the data entry fields in the 
             //component are valid to determine if this step of the 
             //wizard is valid
@@ -143,6 +144,11 @@ public class TLALearningDetailsWizardPanel implements WizardDescriptor.Panel<Wiz
 	// use wiz.getProperty to retrieve previous panel state
 	wiz.putProperty(WizardDescriptor.PROP_IMAGE, TLACreatorWizardIterator.EMPTY_IMAGE);
         wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, "");
+        //Read the activity from a previous step and update the line item with it
+        TLActivity activity = (TLActivity) wiz.getProperty(TLACreatorWizardIterator.PROP_ACTIVITY);
+        if (lineItem.getActivity() != activity) {
+            lineItem.setActivity(activity);
+        }
     }
 
     /**

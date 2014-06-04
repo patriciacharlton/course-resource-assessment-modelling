@@ -83,9 +83,9 @@ public class TLAOkCancelDialog extends javax.swing.JDialog {
 		doClose(RET_CANCEL);
 	    }
 	});
-	TLALearningDetailsVisualPanel tlaldvp = new TLALearningDetailsVisualPanel(lineItem.getActivity(), compoundEdit);
+	TLALearningDetailsVisualPanel tlaldvp = new TLALearningDetailsVisualPanel(lineItem, compoundEdit);
 	tabbedPane.addTab(tlaldvp.getName(), tlaldvp);
-	TLAPropertiesVisualPanel tlapvp = new TLAPropertiesVisualPanel(lineItem.getActivity(), compoundEdit);
+	TLAPropertiesVisualPanel tlapvp = new TLAPropertiesVisualPanel(lineItem, compoundEdit);
 	tabbedPane.addTab(tlapvp.getName(), tlapvp);
 	LineItemsDetailVisualPanel lidvp = new LineItemsDetailVisualPanel(module, lineItem, compoundEdit);
 	tabbedPane.addTab(lidvp.getName(), lidvp);

@@ -43,6 +43,7 @@ public class TLACreatorWizardIterator implements Iterator<WizardDescriptor> {
     static final int LEFT_WIDTH = 200;
     static final BufferedImage EMPTY_IMAGE = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
     static final String PROP_VANILLA = "vanilla";
+    static final String PROP_ACTIVITY = "activity";
 
     //The current step in the wizard
     private int index;
@@ -50,13 +51,13 @@ public class TLACreatorWizardIterator implements Iterator<WizardDescriptor> {
     private WizardDescriptor wizardDesc;
     
     //All the panels used in the wizard
-    private Panel[] allPanels;
+    private Panel<WizardDescriptor>[] allPanels;
     //the panels used in the current sequence
-    private Panel[] currentPanels;
+    private Panel<WizardDescriptor>[] currentPanels;
     //the panels that make up the predefined sequence
-    private Panel[] predefinedSequence;
+    private Panel<WizardDescriptor>[] predefinedSequence;
     //the panels used in the vanilla sequence
-    private Panel[] vanillaSequence;
+    private Panel<WizardDescriptor>[] vanillaSequence;
 
     //The indices used to create the predefined sequence
     private String[] predefinedIndices;
@@ -83,20 +84,21 @@ public class TLACreatorWizardIterator implements Iterator<WizardDescriptor> {
     public void initialize(WizardDescriptor wizardDescriptor) {
         wizardDesc = wizardDescriptor;
         wizardDesc.putProperty(WizardDescriptor.PROP_IMAGE, EMPTY_IMAGE);
-	//wizardDesc.putProperty(PROP_MODULE, module);
+        wizardDesc.putProperty(PROP_VANILLA, Boolean.FALSE);
     }
     
     /**
      * Set up the panels that are used in the steps of the wizard
      */
+    @SuppressWarnings("unchecked")
     private void initializePanels() {
         int maxWidth =0, maxHeight =0;
         if (allPanels == null) {
             allPanels = new WizardDescriptor.Panel[]{
-                new StartWizardPanel(),
+                new StartWizardPanel(lineItem),
                 new PredefinedWizardPanel(lineItem, wizardDesc),
-                new TLALearningDetailsWizardPanel(lineItem.getActivity()),
-		new TLAPropertiesWizardPanel(lineItem.getActivity()),
+                new TLALearningDetailsWizardPanel(lineItem),
+		new TLAPropertiesWizardPanel(lineItem),
 		new LineItemsDetailWizardPanel(module, lineItem)
             };
             String[] steps = new String[allPanels.length];

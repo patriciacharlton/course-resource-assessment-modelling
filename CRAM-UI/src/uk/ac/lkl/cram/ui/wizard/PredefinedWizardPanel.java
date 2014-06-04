@@ -200,6 +200,8 @@ public class PredefinedWizardPanel implements WizardDescriptor.Panel<WizardDescr
     @Override
     public void storeSettings(WizardDescriptor wiz) {
 	// use wiz.putProperty to remember current panel state
+        //Record the activity for use by a later step
+        wiz.putProperty(TLACreatorWizardIterator.PROP_ACTIVITY, selectedTLA);
     }
     
     /**
