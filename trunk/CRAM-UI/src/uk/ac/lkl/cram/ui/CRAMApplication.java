@@ -51,11 +51,11 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
+import org.openide.util.Utilities;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModuleLineItem;
 import uk.ac.lkl.cram.model.io.ModuleMarshaller;
 import uk.ac.lkl.cram.model.io.ModuleUnmarshaller;
-import uk.ac.lkl.cram.ui.util.OSUtil;
 
 
 /**
@@ -112,7 +112,7 @@ public class CRAMApplication {
         }
 	//Create a new instance of the application
 	CRAMApplication application = new CRAMApplication();
-        if (OSUtil.isMac()) {
+        if (Utilities.isMac()) {
             //We're on the Apple Mac platform, so set up some handlers
 
             try {
@@ -463,7 +463,7 @@ public class CRAMApplication {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to open user guide", ex);
             String message = ex.getLocalizedMessage();
-            if (OSUtil.isWindows()) {
+            if (Utilities.isWindows()) {
                 message = "Ensure Adobe Reader is installed";
             }
             JOptionPane.showMessageDialog(null, message, "Cannot open user guide", JOptionPane.ERROR_MESSAGE);

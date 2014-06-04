@@ -28,7 +28,6 @@ import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.undo.CompoundEdit;
-import org.openide.util.Exceptions;
 import uk.ac.lkl.cram.model.AbstractModuleTime;
 import uk.ac.lkl.cram.model.Module;
 import uk.ac.lkl.cram.model.ModulePresentation;
@@ -48,7 +47,7 @@ import uk.ac.lkl.cram.ui.undo.PluggableUndoableEdit;
  * The visual rendering is in the form of a panel containing sub-panels in which
  * the user can view the name of the activity, enter the learner hours, and the 
  * number of preparation hours and support hours for the TLA. 
- * @see TLACreator
+ * @see uk.ac.lkl.cram.model.TLALineItem
  * @see LineItemsDetailWizardPanel
  * @version $Revision$
  * @author Bernard Horan
@@ -126,7 +125,7 @@ public class LineItemsDetailVisualPanel extends javax.swing.JPanel {
 		}
 		TLActivity newActivity = (TLActivity) pce.getNewValue();
 		if (newActivity != null) {
-		    LOGGER.info(newActivity.getName());
+		    //LOGGER.info(newActivity.getName());
 		    //Set the name field as not editable if the activity is immutable
 		    tlaNameField.setEnabled(!newActivity.isImmutable());
 		    if (newActivity.isImmutable()) {

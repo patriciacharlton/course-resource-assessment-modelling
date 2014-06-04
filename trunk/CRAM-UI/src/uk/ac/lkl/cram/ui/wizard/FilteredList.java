@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.beans.PropertyChangeListener;
@@ -12,15 +27,22 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 /**
- * $Date$
- * $Revision$
- * @param <E> 
+ * List to which a filter and comparator can be applied.
+ * @version $Revision$
+ * @param <E> the generic type of the contents of the underlying list
  * @author Bernard Horan
  */
+//$Date$
 public class FilteredList<E> implements List<E> { 
     private static final Logger LOGGER = Logger.getLogger(FilteredList.class.getName());
 
+    /**
+     * Property name to indicate when the filter changes
+     */
     public static final String PROP_FILTER = "filter";
+    /**
+     * Property name to indicate when the comparator changes
+     */
     public static final String PROP_COMPARATOR = "comparator";
     
     private List<E> underlyingList;
@@ -30,6 +52,11 @@ public class FilteredList<E> implements List<E> {
     private final transient PropertyChangeSupport propertySupport; 
     
     
+    /**
+     * Constructor, which takes an underlying list which is to be filtered 
+     * (and sorted)
+     * @param innerList a list of the same type as the FilteredList
+     */
     public FilteredList(List<E> innerList) {
 	propertySupport = new PropertyChangeSupport(this);
 	underlyingList = innerList;
@@ -41,6 +68,7 @@ public class FilteredList<E> implements List<E> {
 		return true;
 	    }
 	};
+        //Aplha order
 	listComparator = new Comparator<E>() {
 
 	    @Override
@@ -52,6 +80,13 @@ public class FilteredList<E> implements List<E> {
     }
     
     
+    /**
+     * Set the filter for the filtered list, causing filter to be applied.
+     * This will fire a property change.
+     * @see #PROP_FILTER
+     * @param aFilter the filter to be applied to the underlying list, 
+     * which must have the same generic type parameter as the underlying list.
+     */
     public void setFilter(Filter<E> aFilter) {
 	Filter<E> oldValue = filter;
 	this.filter = aFilter;
@@ -59,6 +94,13 @@ public class FilteredList<E> implements List<E> {
 	propertySupport.firePropertyChange(PROP_FILTER, oldValue, filter);
     }
     
+    /**
+     * Set the comparator for the filtered list, causing the comparator to be applied.
+     * This will cause a property change.
+     * @see #PROP_COMPARATOR
+     * @param aComparator a comparator to be applied to the underlying list, 
+     * which must have the same generic type parameter as the underlying list 
+     */
     public void setComparator(Comparator<E> aComparator) {
 	Comparator<E> oldValue = listComparator;
 	this.listComparator = aComparator;
@@ -81,10 +123,18 @@ public class FilteredList<E> implements List<E> {
 	Collections.sort(filteredList, listComparator);
     }
     
+    /**
+     * Add a property change listener
+     * @param listener the listener to be added
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.addPropertyChangeListener(listener);
     }
     
+    /**
+     * Remove a property change listener
+     * @param listener the listener to be removed
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertySupport.removePropertyChangeListener(listener);
     }
@@ -207,12 +257,17 @@ public class FilteredList<E> implements List<E> {
     }
     
     /**
-     *
-     * @param <E>
+     * Simple filter implementation
+     * @param <E> must be of the same type as the underlying list
      */
     @SuppressWarnings("PublicInnerClass")
     public interface Filter<E> {
-	public boolean isMatched(E object);
+	/**
+         * Return true if the parameter matches the rules of the filter
+         * @param object the object to be matched
+         * @return true if the object matches the filter rule
+         */
+        public boolean isMatched(E object);
     }
     
     

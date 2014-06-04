@@ -54,6 +54,7 @@ import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.PieSectionEntity;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
+import org.openide.util.Utilities;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.LineItem;
 import uk.ac.lkl.cram.model.Module;
@@ -69,7 +70,6 @@ import uk.ac.lkl.cram.ui.report.Report;
 import uk.ac.lkl.cram.ui.undo.NamedCompoundEdit;
 import uk.ac.lkl.cram.ui.undo.RemoveLineItemEdit;
 import uk.ac.lkl.cram.ui.undo.UndoHandler;
-import uk.ac.lkl.cram.ui.util.OSUtil;
 import uk.ac.lkl.cram.ui.wizard.TLACreatorWizardIterator;
 
 /**
@@ -114,7 +114,7 @@ public class ModuleFrame extends javax.swing.JFrame {
         undoHandler = new UndoHandler();
         JMenuItem undoMI = editMenu.add(undoHandler.getUndoAction());
         JMenuItem redoMI = editMenu.add(undoHandler.getRedoAction());
-        //List to the undo handler for when there is something to undo
+        //Listen to the undo handler for when there is something to undo
         undoHandler.addPropertyChangeListener(new PropertyChangeListener() {
 
             @Override
@@ -169,7 +169,7 @@ public class ModuleFrame extends javax.swing.JFrame {
 	saveMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	quitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	//Remove quit menu item and separator from file menu on Mac
-	if (OSUtil.isMac()) {
+	if (Utilities.isMac()) {
 	    fileMenu.remove(quitSeparator);
 	    fileMenu.remove(quitMI);
 	}

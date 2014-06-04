@@ -42,6 +42,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.undo.CompoundEdit;
 import uk.ac.lkl.cram.model.EnumeratedLearningExperience;
 import uk.ac.lkl.cram.model.LearningType;
+import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 import uk.ac.lkl.cram.ui.FormattedTextFieldAdapter;
 import uk.ac.lkl.cram.ui.SelectAllAdapter;
@@ -69,236 +70,42 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
      * See the checkValidity() method.
      */
     public static final String PROP_VALID = "valid";
-
-    /**
-     * The activity that the user is editing
-     */
-    private TLActivity tlActivity;
     /**
      * The compound edit that keeps track of the user's changes to the model
      */
     private final CompoundEdit compoundEdit;
+    /**
+     * The line item that is being edited
+     */
+    private final TLALineItem lineItem;
     
-    TLALearningDetailsVisualPanel(TLActivity tla) {
-        this(tla, new CompoundEdit());
+    TLALearningDetailsVisualPanel(TLALineItem lineItem) {
+        this(lineItem, new CompoundEdit());
     }
     
     /**
      * Creates new form TLALearningDetailsVisualPanel
-     * @param tla the activity to be edited
+     * @param tlaLineItem the line item to be edited
      * @param cEdit compound edit that keeps track of the user's changes to the model
      */
-    public TLALearningDetailsVisualPanel(TLActivity tla, CompoundEdit cEdit) {
-	tlActivity = tla;
+    public TLALearningDetailsVisualPanel(TLALineItem tlaLineItem, CompoundEdit cEdit) {
+	this.lineItem = tlaLineItem;
         initComponents();
         this.compoundEdit = cEdit;
-        //Get the name from the activity and put it into the text field
-	tlActivityNameChanged();
-        //Add a listener for when the learning type changes
-	tlActivity.getLearningType().addPropertyChangeListener(new PropertyChangeListener() {
+        addActivityListeners();
+        //When the line item's activity changes, add listeners to the new activity
+        lineItem.addPropertyChangeListener(TLALineItem.PROP_ACTIVITY, new PropertyChangeListener() {
 
-	    @Override
-	    public void propertyChange(PropertyChangeEvent pce) {
-		learningTypeSliderChanged();
-	    }
-	});
-        //Add a listener for when the name of the activity changes
-	tlActivity.addPropertyChangeListener(new PropertyChangeListener() {
-
-	    @Override
-	    public void propertyChange(PropertyChangeEvent pce) {
-		String property = pce.getPropertyName();
-		if (property.equals(TLActivity.PROP_NAME)) {
-		    tlActivityNameChanged();
-		}
-	    }
-	});
-	
-        //Set the value of the slider from the activity
-	acquisitionSlider.setValue(tlActivity.getLearningType().getAcquisition());
-        //Add a listener to the slider so the value in the activity is changed
-        acquisitionSlider.addChangeListener(new ChangeListener() {
-
-	    @Override
-	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int acquisition = source.getValue();
-                LearningType lt = tlActivity.getLearningType();
-                //Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "acquisition", acquisition);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'acquisition' of " + lt, ex);
-		}
-                //Set the value in the model
-                lt.setAcquisition(acquisition);			    
-	    }
-	});
-	//Repeat
-	discussionSlider.setValue(tlActivity.getLearningType().getDiscussion());
-        discussionSlider.addChangeListener(new ChangeListener() {
-
-	    @Override
-	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int discussion = source.getValue();
-                LearningType lt = tlActivity.getLearningType();
-                //Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "discussion", discussion);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'discussion' of " + lt, ex);
-		}
-                //Set the value in the model
-                lt.setDiscussion(discussion);	
-	    }
-	});
-	
-        collaborationSlider.setValue(tlActivity.getLearningType().getCollaboration());
-	collaborationSlider.addChangeListener(new ChangeListener() {
-
-	    @Override
-	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int collaboration = source.getValue();
-                LearningType lt = tlActivity.getLearningType();
-                //Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "collaboration", collaboration);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'collaboration' of " + lt, ex);
-		}
-                //Set the value in the model
-                lt.setCollaboration(collaboration);			    
-	    }
-	});
-	
-        inquirySlider.setValue(tlActivity.getLearningType().getInquiry());
-	inquirySlider.addChangeListener(new ChangeListener() {
-
-	    @Override
-	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int inquiry = source.getValue();
-                LearningType lt = tlActivity.getLearningType();
-                //Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "inquiry", inquiry);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'inquiry' of " + lt, ex);
-		}
-                //Set the value in the model
-                lt.setInquiry(inquiry);			    
-	    }
-	});
-	
-        practiceSlider.setValue(tlActivity.getLearningType().getPractice());
-	practiceSlider.addChangeListener(new ChangeListener() {
-
-	    @Override
-	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int practice = source.getValue();
-                LearningType lt = tlActivity.getLearningType();
-                //Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "practice", practice);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'practice' of " + lt, ex);
-		}
-                //Set the value in the model
-                lt.setPractice(practice);			    
-	    }
-	});
-	
-	productionSlider.setValue(tlActivity.getLearningType().getProduction());
-	productionSlider.addChangeListener(new ChangeListener() {
-
-	    @Override
-	    public void stateChanged(ChangeEvent ce) {
-		JSlider source = (JSlider) ce.getSource();
-                int production = source.getValue();
-                LearningType lt = tlActivity.getLearningType();
-                //Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "production", production);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'production' of " + lt, ex);
-		}
-                //Set the value in the model
-                lt.setProduction(production);			    
-	    }
-	});
-	
-	//Add a document listener to the name field so that when the user
-        //changes its contents the value in the activity is updated
-        //And the validity of the wizard step is validated
-        new TextFieldAdapter(tlaNameField) {
-
-	    @Override
-	    public void updateText(String text) {
-		//Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(tlActivity, "name", text);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'name' of " + tlActivity, ex);
-		}
-                //Set the value in the model
-                tlActivity.setName(text);
-		checkValidity();
-	    }
-	};
-
-        //Add a listener to the learning experience combo box
-	learningExperienceComboBox.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                //Get the selected learning experience from the combo box
-                EnumeratedLearningExperience ele = (EnumeratedLearningExperience) learningExperienceComboBox.getSelectedItem();
-                //Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(tlActivity, "learningExperience", ele);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'learningExperience' of " + tlActivity, ex);
-		}
-                //Set the property of the TLA
-                tlActivity.setLearningExperience(ele);
-                //Enable max group size if the learning experience is social
-                boolean enableMaxGroupSize = ele == EnumeratedLearningExperience.SOCIAL;
-                maxGroupSizeTF.setEnabled(enableMaxGroupSize);
-                maxGroupSizeLabel.setEnabled(enableMaxGroupSize);
-                //Set the value in the text field
-                if (enableMaxGroupSize) {
-                    maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
-                } else {
-                    switch (ele) {
-                        case PERSONALISED:
-                            maxGroupSizeTF.setValue(1);
-                            break;
-                        case ONE_SIZE_FOR_ALL:
-                            maxGroupSizeTF.setValue(0);
-                            break;
-                    }
-                }
-                checkValidity();
+            public void propertyChange(PropertyChangeEvent evt) {
+                addActivityListeners();
             }
         });
-	
-	//Set the renderer for the combo box
+        //Set the renderer for the combo box
         learningExperienceComboBox.setRenderer(new LearningExperienceRenderer());
         //Enable max group size if the learning experience is social
         boolean enableMaxGroupSize = learningExperienceComboBox.getSelectedItem() == EnumeratedLearningExperience.SOCIAL;
         maxGroupSizeTF.setEnabled(enableMaxGroupSize);
-	//Set the value of the text field from the activity
-        maxGroupSizeTF.setValue(tlActivity.getMaximumGroupSize());
 	//Add a focus listener to the textfield to ensure edits are committed
         //when the focus is lost
         maxGroupSizeTF.addFocusListener(new SelectAllAdapter() {
@@ -312,24 +119,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	    }
 	
 	});
-        //Add a document listener to the text field so that the value is updated
-        //in the activity
-	new FormattedTextFieldAdapter(maxGroupSizeTF) {
-	    @Override
-	    public void updateValue(Object value) {
-		Integer maxGroupSize = (int) value;
-		//Create an undoable edit for the change, and add it to the compound edit
-		try {
-                    PluggableUndoableEdit edit = new PluggableUndoableEdit(tlActivity, "maximumGroupSize", maxGroupSize);
-                    compoundEdit.addEdit(edit);		    
-		} catch (IntrospectionException ex) {
-		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'maximumGroupSize' of " + tlActivity, ex);
-		}
-                tlActivity.setMaximumGroupSize(maxGroupSize);
-                checkValidity();
-	    }
-	};
-	
+        	
 	//A factory to return the formatter for the total learning experience field
         final JFormattedTextField.AbstractFormatter learningFieldFormatter = new JFormattedTextField.AbstractFormatter() {
 
@@ -352,8 +142,232 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         };
         totalLearningTypeField.setFormatterFactory(aff);
         //Update the activity with the current values of the sliders
-        learningTypeSliderChanged();
-        
+        learningTypeSliderChanged();      
+    }
+    
+    /**
+     * Add listeners to the activity
+     */
+    private void addActivityListeners() {
+        //Add a listener for when the learning type changes
+	lineItem.getActivity().getLearningType().addPropertyChangeListener(new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		learningTypeSliderChanged();
+	    }
+	});
+        //Add a listener for when the name of the activity changes
+	lineItem.getActivity().addPropertyChangeListener(new PropertyChangeListener() {
+
+	    @Override
+	    public void propertyChange(PropertyChangeEvent pce) {
+		String property = pce.getPropertyName();
+		if (property.equals(TLActivity.PROP_NAME)) {
+		    tlActivityNameChanged();
+		}
+	    }
+	});
+	
+        //Set the value of the slider from the activity
+	acquisitionSlider.setValue(lineItem.getActivity().getLearningType().getAcquisition());
+        //Add a listener to the slider so the value in the activity is changed
+        acquisitionSlider.addChangeListener(new ChangeListener() {
+
+	    @Override
+	    public void stateChanged(ChangeEvent ce) {
+		JSlider source = (JSlider) ce.getSource();
+                int acquisition = source.getValue();
+                LearningType lt = lineItem.getActivity().getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "acquisition", acquisition);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'acquisition' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setAcquisition(acquisition);			    
+	    }
+	});
+	//Repeat
+	discussionSlider.setValue(lineItem.getActivity().getLearningType().getDiscussion());
+        discussionSlider.addChangeListener(new ChangeListener() {
+
+	    @Override
+	    public void stateChanged(ChangeEvent ce) {
+		JSlider source = (JSlider) ce.getSource();
+                int discussion = source.getValue();
+                LearningType lt = lineItem.getActivity().getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "discussion", discussion);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'discussion' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setDiscussion(discussion);	
+	    }
+	});
+	
+        collaborationSlider.setValue(lineItem.getActivity().getLearningType().getCollaboration());
+	collaborationSlider.addChangeListener(new ChangeListener() {
+
+	    @Override
+	    public void stateChanged(ChangeEvent ce) {
+		JSlider source = (JSlider) ce.getSource();
+                int collaboration = source.getValue();
+                LearningType lt = lineItem.getActivity().getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "collaboration", collaboration);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'collaboration' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setCollaboration(collaboration);			    
+	    }
+	});
+	
+        inquirySlider.setValue(lineItem.getActivity().getLearningType().getInquiry());
+	inquirySlider.addChangeListener(new ChangeListener() {
+
+	    @Override
+	    public void stateChanged(ChangeEvent ce) {
+		JSlider source = (JSlider) ce.getSource();
+                int inquiry = source.getValue();
+                LearningType lt = lineItem.getActivity().getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "inquiry", inquiry);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'inquiry' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setInquiry(inquiry);			    
+	    }
+	});
+	
+        practiceSlider.setValue(lineItem.getActivity().getLearningType().getPractice());
+	practiceSlider.addChangeListener(new ChangeListener() {
+
+	    @Override
+	    public void stateChanged(ChangeEvent ce) {
+		JSlider source = (JSlider) ce.getSource();
+                int practice = source.getValue();
+                LearningType lt = lineItem.getActivity().getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "practice", practice);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'practice' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setPractice(practice);			    
+	    }
+	});
+	
+	productionSlider.setValue(lineItem.getActivity().getLearningType().getProduction());
+	productionSlider.addChangeListener(new ChangeListener() {
+
+	    @Override
+	    public void stateChanged(ChangeEvent ce) {
+		JSlider source = (JSlider) ce.getSource();
+                int production = source.getValue();
+                LearningType lt = lineItem.getActivity().getLearningType();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lt, "production", production);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'production' of " + lt, ex);
+		}
+                //Set the value in the model
+                lt.setProduction(production);			    
+	    }
+	});
+	
+	//Add a document listener to the name field so that when the user
+        //changes its contents the value in the activity is updated
+        //And the validity of the wizard step is validated
+        new TextFieldAdapter(tlaNameField) {
+            @Override
+            public void updateText(String text) {
+                //Create an undoable edit for the change, and add it to the compound edit
+                try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lineItem.getActivity(), "name", text);
+                    compoundEdit.addEdit(edit);
+                } catch (IntrospectionException ex) {
+                    LOGGER.log(Level.WARNING, "Unable to create undo for property 'name' of " + lineItem.getActivity(), ex);
+                }
+                //Set the value in the model
+                if (!lineItem.getName().equals(text)) {
+                    lineItem.getActivity().setName(text);
+                    checkValidity();
+                }
+            }
+        };
+
+        //Add a listener to the learning experience combo box
+	learningExperienceComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Get the selected learning experience from the combo box
+                EnumeratedLearningExperience ele = (EnumeratedLearningExperience) learningExperienceComboBox.getSelectedItem();
+                //Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lineItem.getActivity(), "learningExperience", ele);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'learningExperience' of " + lineItem.getActivity(), ex);
+		}
+                //Set the property of the TLA
+                lineItem.getActivity().setLearningExperience(ele);
+                //Enable max group size if the learning experience is social
+                boolean enableMaxGroupSize = ele == EnumeratedLearningExperience.SOCIAL;
+                maxGroupSizeTF.setEnabled(enableMaxGroupSize);
+                maxGroupSizeLabel.setEnabled(enableMaxGroupSize);
+                //Set the value in the text field
+                if (enableMaxGroupSize) {
+                    maxGroupSizeTF.setValue(lineItem.getActivity().getMaximumGroupSize());
+                } else {
+                    switch (ele) {
+                        case PERSONALISED:
+                            maxGroupSizeTF.setValue(1);
+                            break;
+                        case ONE_SIZE_FOR_ALL:
+                            maxGroupSizeTF.setValue(0);
+                            break;
+                    }
+                }
+                checkValidity();
+            }
+        });
+        //Set the value of the text field from the activity
+        maxGroupSizeTF.setValue(lineItem.getActivity().getMaximumGroupSize());
+        //Add a document listener to the text field so that the value is updated
+        //in the activity
+	new FormattedTextFieldAdapter(maxGroupSizeTF) {
+	    @Override
+	    public void updateValue(Object value) {
+		Integer maxGroupSize = (int) value;
+		//Create an undoable edit for the change, and add it to the compound edit
+		try {
+                    PluggableUndoableEdit edit = new PluggableUndoableEdit(lineItem.getActivity(), "maximumGroupSize", maxGroupSize);
+                    compoundEdit.addEdit(edit);		    
+		} catch (IntrospectionException ex) {
+		    LOGGER.log(Level.WARNING, "Unable to create undo for property 'maximumGroupSize' of " + lineItem.getActivity(), ex);
+		}
+                lineItem.getActivity().setMaximumGroupSize(maxGroupSize);
+                checkValidity();
+	    }
+	};
+        //Get the name from the activity and put it into the text field
+	tlActivityNameChanged();
     }
     
     @Override
@@ -363,13 +377,20 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     
     /**
      * The combox box model that contains the enumerated learning experiences, 
-     * with the selected item set to be the current value from the activity
+     * with the selected item set to be the current value from the lineitem's activity
      * @return a combobox model for use by the combobox menu
      */
     private ComboBoxModel<EnumeratedLearningExperience> getComboBoxModel() {
 	EnumeratedLearningExperience[] learningExperiences = {EnumeratedLearningExperience.PERSONALISED, EnumeratedLearningExperience.SOCIAL, EnumeratedLearningExperience.ONE_SIZE_FOR_ALL};
-	ComboBoxModel<EnumeratedLearningExperience> cbModel = new DefaultComboBoxModel<>(learningExperiences);
-	cbModel.setSelectedItem(tlActivity.getLearningExperience());
+	final ComboBoxModel<EnumeratedLearningExperience> cbModel = new DefaultComboBoxModel<>(learningExperiences);
+	cbModel.setSelectedItem(lineItem.getActivity().getLearningExperience());
+        lineItem.addPropertyChangeListener(TLALineItem.PROP_ACTIVITY, new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                cbModel.setSelectedItem(lineItem.getActivity().getLearningExperience());
+            }
+        });
 	return cbModel;
     }
     
@@ -381,8 +402,8 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
 	if (tlaNameField.hasFocus()) {
 	    return;
 	}
-	if (!tlaNameField.getText().equalsIgnoreCase(tlActivity.getName())) {
-	    tlaNameField.setText(tlActivity.getName());
+	if (!tlaNameField.getText().equalsIgnoreCase(lineItem.getName())) {
+	    tlaNameField.setText(lineItem.getName());
 	}
     }
 
@@ -498,6 +519,7 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
         totalLearningTypeField.setEditable(false);
         totalLearningTypeField.setColumns(4);
         totalLearningTypeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        totalLearningTypeField.setText("0");
 
         jLabel6.setText(bundle.getString("PRODUCTION:")); // NOI18N
         jLabel6.setToolTipText("<html>Learning through <em>production</em> is the way the<br/>\nteacher motivates the learner to consolidate what<br/>\nthey have learned by articulating their current<br/>\nconceptual understanding and how they used it<br/>\nin practice.</html>");
@@ -770,7 +792,10 @@ public class TLALearningDetailsVisualPanel extends javax.swing.JPanel {
     public static void main(String args[]) {
 
         final JFrame frame = new JFrame(java.util.ResourceBundle.getBundle("uk/ac/lkl/cram/ui/wizard/Bundle").getString("ENTER LEARNING DETAILS"));
-        frame.add(new TLALearningDetailsVisualPanel(new TLActivity("Dummy TLA"), new CompoundEdit()));
+        TLActivity activity = new TLActivity("Dummy TLA");
+        TLALineItem lineItem = new TLALineItem();
+        lineItem.setActivity(activity);
+        frame.add(new TLALearningDetailsVisualPanel(lineItem, new CompoundEdit()));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

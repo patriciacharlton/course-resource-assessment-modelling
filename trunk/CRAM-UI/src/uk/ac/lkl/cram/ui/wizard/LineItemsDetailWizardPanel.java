@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui.wizard;
 
 import java.beans.PropertyChangeEvent;
@@ -13,10 +28,14 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.model.TLActivity;
 
 /**
- * $Date$
- * $Revision$
+ * This class represents the non-visual aspects of the step in the TLA creator wizard
+ * in which the user specifies the characteristics of a TLA line item.
+ * @see uk.ac.lkl.cram.model.TLALineItem
+ * @see LineItemsDetailVisualPanel
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 public class LineItemsDetailWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     private static final Logger LOGGER = Logger.getLogger(LineItemsDetailWizardPanel.class.getName());
 
@@ -95,6 +114,12 @@ public class LineItemsDetailWizardPanel implements WizardDescriptor.Panel<Wizard
     public void readSettings(WizardDescriptor wiz) {
 	// use wiz.getProperty to retrieve previous panel state
 	wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, getInfoMessage());
+        //Use the activity from the previous step
+        TLActivity activity = (TLActivity) wiz.getProperty(TLACreatorWizardIterator.PROP_ACTIVITY);
+        if (lineItem.getActivity() != activity) {
+            //LOGGER.info("setting activity: " + System.identityHashCode(activity));
+            lineItem.setActivity(activity);
+        }
     }
 
     @Override
