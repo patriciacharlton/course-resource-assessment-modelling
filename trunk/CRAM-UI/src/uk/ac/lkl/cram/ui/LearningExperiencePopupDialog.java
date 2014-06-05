@@ -37,9 +37,13 @@ import javax.swing.event.ListSelectionListener;
 import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
- *
+ * This class provides a popup dialog from the learning experience chart. It contains a 
+ * list of TLAs that provide the learning experience in the bar selected by the user,
+ * and renders the name of each TLA.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings({"serial"})
 public class LearningExperiencePopupDialog extends javax.swing.JDialog {
     private static final Logger LOGGER = Logger.getLogger(LearningExperiencePopupDialog.class.getName());
@@ -216,7 +220,8 @@ public class LearningExperiencePopupDialog extends javax.swing.JDialog {
     }
 
     /**
-     * @param args the command line arguments
+     * For testing purposes only
+     * @param args the command line arguments (ignored)
      */
     public static void main(String args[]) {
         /* Create and display the dialog */

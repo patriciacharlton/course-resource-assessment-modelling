@@ -43,9 +43,14 @@ import uk.ac.lkl.cram.model.LearningType;
 import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
- *
+ * This class provides a popup dialog from the learning type chart. It contains a 
+ * list of TLAs that provide the learning type in the segment selected by the user,
+ * and renders the name of each TLA, as well as what percentage of the learning type the 
+ * tla provides.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings({"serial"})
 public class LearningTypePopupDialog extends javax.swing.JDialog {
     private static final Logger LOGGER = Logger.getLogger(LearningTypePopupDialog.class.getName());
@@ -229,7 +234,8 @@ public class LearningTypePopupDialog extends javax.swing.JDialog {
     }
 
     /**
-     * @param args the command line arguments
+     * For testing purposes only
+     * @param args the command line arguments (ignored)
      */
     public static void main(String args[]) {
         /* Create and display the dialog */

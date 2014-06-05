@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.util.logging.Logger;
@@ -6,20 +21,27 @@ import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 
 /**
- * $Date$
- * $Revision$
+ * The this class provides the details of the module as a panel.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class ModuleWizardPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ModuleWizardPanel.class.getName());
 
-
+    /**
+     * Create a new panel.
+     */
     public ModuleWizardPanel() {
 	initComponents();	
         setSize(getPreferredSize());
     }
     
+    /**
+     * Set the module to be edited.
+     * @param module the module to be edited
+     */
     public void setModule(final Module module) {
 	SelectAllAdapter saa = new SelectAllAdapter();
 	
@@ -203,6 +225,10 @@ public class ModuleWizardPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     
     
+    /**
+     * For testing purposes only
+     * @param args (ignored)
+     */
     public static void main(String args[]) {
         final JFrame frame = new JFrame("Module Wizard Panel");
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -18,28 +18,35 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 /**
- * ColumnGroup
- * $Date$
- * $Revision$
- *
- * @version 1.0 10/20/98
- * @author Nobuo Tamemasa
- * @author Bernard Horan 
+ * ColumnGroup represents a group of columns in a JTable.<br/>
  * Original version from
  * http://www.crionics.com/public/swing_examples/JTableExamples1.html
+ * @version $Revision$ <br/>
+ * @author Nobuo Tamemasa
+ * @author Bernard Horan 
  */
+//$Date$
 @SuppressWarnings("ClassWithoutLogger")
 public class ColumnGroup {
 
-    protected TableCellRenderer renderer;
-    protected List list;
-    protected String text;
-    protected int margin = 0;
+    private TableCellRenderer renderer;
+    private List list;
+    private String text;
+    private int margin = 0;
 
+    /**
+     * Create a new column group with the title provided
+     * @param text the title of the columngroup
+     */
     public ColumnGroup(String text) {
 	this(null, text);
     }
     
+    /**
+     * Create a column group from the title provided, using the supplied renderer
+     * @param renderer the renderer for the column group
+     * @param text the title of the column group
+     */
     public ColumnGroup(TableCellRenderer renderer, String text) {
 	if (renderer == null) {
 	    this.renderer = new DefaultTableCellRenderer() {
@@ -67,6 +74,7 @@ public class ColumnGroup {
     }
 
     /**
+     * Add an object to the list of columns/columngroups
      * @param obj TableColumn or ColumnGroup
      */
     @SuppressWarnings("unchecked")
@@ -78,12 +86,13 @@ public class ColumnGroup {
     }
 
     /**
+     * Get the list of column groups contained by this group
      * @param c TableColumn
      * @param g List of ColumnGroup or Column
      * @return  List of ColumnGroup
      */
     @SuppressWarnings("unchecked")
-    public List<ColumnGroup> getColumnGroups(TableColumn c, ArrayList g) {
+    List<ColumnGroup> getColumnGroups(TableColumn c, ArrayList g) {
 	g.add(this);
 	if (list.contains(c)) {
 	    return g;
@@ -101,21 +110,21 @@ public class ColumnGroup {
 	return null;
     }
 
-    public TableCellRenderer getHeaderRenderer() {
+    TableCellRenderer getHeaderRenderer() {
 	return renderer;
     }
 
-    public void setHeaderRenderer(TableCellRenderer renderer) {
+    void setHeaderRenderer(TableCellRenderer renderer) {
 	if (renderer != null) {
 	    this.renderer = renderer;
 	}
     }
 
-    public Object getHeaderValue() {
+    Object getHeaderValue() {
 	return text;
     }
 
-    public Dimension getSize(JTable table) {
+    Dimension getSize(JTable table) {
 	Component comp = renderer.getTableCellRendererComponent(
 		table, getHeaderValue(), false, false, -1, -1);
 	int height = comp.getPreferredSize().height;
@@ -134,7 +143,7 @@ public class ColumnGroup {
 	return new Dimension(width, height);
     }
 
-    public void setColumnMargin(int margin) {
+    void setColumnMargin(int margin) {
 	this.margin = margin;
 	Iterator it = list.listIterator();
 	while (it.hasNext()) {

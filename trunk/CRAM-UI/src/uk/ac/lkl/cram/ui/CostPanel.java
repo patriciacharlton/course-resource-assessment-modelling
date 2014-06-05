@@ -1,4 +1,18 @@
-
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Component;
@@ -14,22 +28,28 @@ import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 
 /**
- * $Date$
+ * This class represents the panel of costs in the module frame, and acts mainly as a holder for the 
+ * table of costs.
+ * @see CostTableModel
  * $Revision$
  * @author Bernard Horan
  */
+//$Date$
+@SuppressWarnings("serial")
 public class CostPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CostPanel
-     * @param module 
+     * @param module the CRAM module that is being edited
      */
     public CostPanel(Module module) {
 	initComponents();
 	costTable.setModel(new CostTableModel(module));
 	TableColumnModel tableColumnModel = costTable.getColumnModel();
 	Enumeration<TableColumn> columnEnum = tableColumnModel.getColumns();
+	//set the renderer for the first column
 	columnEnum.nextElement().setCellRenderer(new ActivityRenderer());
+	//set the renderer for the remaining columns
 	DefaultTableCellRenderer tcRenderer = new TCRenderer();
 	tcRenderer.setHorizontalAlignment(SwingConstants.RIGHT);	
 	while (columnEnum.hasMoreElements()) {
@@ -97,7 +117,11 @@ public class CostPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-public static void main(String[] args) {
+    /**
+     * For testing purposes only
+     * @param args (ignored)
+     */
+    public static void main(String[] args) {
 	JFrame frame = new JFrame("Cost Test");
 	Module m = AELMTest.populateModule();
 	CostPanel panel = new CostPanel(m);
@@ -105,15 +129,19 @@ public static void main(String[] args) {
 	frame.setVisible(true);
     }
 
+    /**
+     * Renderer for the table columns that contain numbers
+     */
     private static class TCRenderer extends DefaultTableCellRenderer {
 
 	static NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 
-	public TCRenderer() {
+	TCRenderer() {
 	    currencyFormatter.setMaximumFractionDigits(0);
 	}
 
 	@Override
+	@SuppressWarnings("AssignmentToMethodParameter")
 	public Component getTableCellRendererComponent(JTable table,
 		Object value,
 		boolean isSelected,
@@ -131,6 +159,9 @@ public static void main(String[] args) {
 	}
     }
     
+    /**
+     * Renderer for the activity column, which simply adds a tooltip
+     */
     private class ActivityRenderer extends DefaultTableCellRenderer {
 
 	@Override

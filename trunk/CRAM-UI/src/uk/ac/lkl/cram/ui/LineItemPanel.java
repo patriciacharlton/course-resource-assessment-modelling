@@ -1,4 +1,18 @@
-
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.awt.Component;
@@ -20,10 +34,12 @@ import uk.ac.lkl.cram.model.TLALineItem;
 import uk.ac.lkl.cram.ui.table.ToolTipHeader;
 
 /**
- * $Date$
- * $Revision$
+ * This class acts as a holder for the table that displays line items in the ModuleFrame.
+ * @see ModuleTableModel
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings("serial")
 public class LineItemPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(LineItemPanel.class.getName());
@@ -34,8 +50,9 @@ public class LineItemPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form LineItemPanel
-     * @param m
-     * @param sharedSelectionModel  
+     * @param m the module being edited
+     * @param sharedSelectionModel  the shared selection model that co-ordinates the 
+     * table row selection between various tables in the module frame
      */
     public LineItemPanel(Module m, final LineItemSelectionModel sharedSelectionModel) {
 	initComponents();
