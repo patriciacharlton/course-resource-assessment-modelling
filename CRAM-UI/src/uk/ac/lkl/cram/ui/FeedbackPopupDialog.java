@@ -40,9 +40,13 @@ import uk.ac.lkl.cram.model.LearnerFeedback;
 import uk.ac.lkl.cram.model.TLALineItem;
 
 /**
- *
+ * This class provides a popup dialog from the feedback chart. It contains a 
+ * list of all the TLAs, and renders the name of the TLA as well as the kind of
+ * feedback provided by the TLA.
+ * @version $Revision$
  * @author Bernard Horan
  */
+//$Date$
 @SuppressWarnings({"serial"})
 public class FeedbackPopupDialog extends javax.swing.JDialog {
     private static final Logger LOGGER = Logger.getLogger(FeedbackPopupDialog.class.getName());
@@ -233,7 +237,8 @@ public class FeedbackPopupDialog extends javax.swing.JDialog {
     }
 
     /**
-     * @param args the command line arguments
+     * For testing purposes only
+     * @param args the command line arguments (ignored)
      */
     public static void main(String args[]) {
         /* Create and display the dialog */

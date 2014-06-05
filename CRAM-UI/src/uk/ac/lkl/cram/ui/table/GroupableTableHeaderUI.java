@@ -20,16 +20,14 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * GroupableTableHeaderUI
- * $Date$
- * $Revision$
- *
- * @version 1.0 10/20/98
- * @author Nobuo Tamemasa
- * @author Bernard Horan
+ * GroupableTableHeaderUI is responsible for rendering the groupable table header.<br/>
  * Original version from
  * http://www.crionics.com/public/swing_examples/JTableExamples1.html
+ * @version $Revision$
+ * @author Nobuo Tamemasa
+ * @author Bernard Horan
  */
+//$Date$
 public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 
     private static final Logger LOGGER = Logger.getLogger(GroupableTableHeaderUI.class.getName());

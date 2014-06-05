@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 London Knowledge Lab, Institute of Education.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.ac.lkl.cram.ui;
 
 import java.awt.event.ActionEvent;
@@ -8,18 +23,18 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import javax.swing.UIManager;
 import uk.ac.lkl.cram.model.AELMTest;
 import uk.ac.lkl.cram.model.Module;
 
 /**
- * $Date$
- * $Revision$
- * @author bernard
+ * This class provides the dialog box to create a new module.
+ * @version $Revision$
+ * @author Bernard Horan
  */
+//$Date$
+@SuppressWarnings("serial")
 public class ModuleOkCancelDialog extends javax.swing.JDialog {
     private static final Logger LOGGER = Logger.getLogger(ModuleOkCancelDialog.class.getName());
-    private static final long serialVersionUID = 1L;
 
     /**
      * A return status code - returned if Cancel button has been pressed
@@ -36,9 +51,9 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ModuleOkCancelDialog
-     * @param parent
-     * @param modal
-     * @param module  
+     * @param parent the parent of the dialog box.
+     * @param modal whether the dialog box is modal
+     * @param module  the module being created
      */
     public ModuleOkCancelDialog(java.awt.Frame parent, boolean modal, Module module) {
 	super(parent, modal);
@@ -166,15 +181,11 @@ public class ModuleOkCancelDialog extends javax.swing.JDialog {
     }
 
     /**
-     * @param args the command line arguments
+     * For testing purposes only
+     * @param args the command line arguments (ignored)
      */
     public static void main(String args[]) {
         
-        try {
-	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-	    LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
-	}
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
 	    @Override

@@ -13,22 +13,24 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * GroupableTableHeader
- * $Date$
- * $Revision$
- *
- * @version 1.0 10/20/98
- * @author Nobuo Tamemasa
- * @author Bernard Horan 
+ * GroupableTableHeader represents the table header for a group of table columns.<br/>
  * Original version from
  * http://www.crionics.com/public/swing_examples/JTableExamples1.html
+ * @version $Revision$
+ * @author Nobuo Tamemasa
+ * @author Bernard Horan 
  */
+//$Date$
 @SuppressWarnings({"serial", "FinalClass", "ClassWithoutLogger"})
 public final class GroupableTableHeader extends JTableHeader {
     private static final String uiClassID = "GroupableTableHeaderUI";
     private List<ColumnGroup> columnGroups = null;
     private String[] toolTips;
 
+    /**
+     * Create a Groupable table header from the tableColumnModel
+     * @param model the model of tablecolumns
+     */
     public GroupableTableHeader(TableColumnModel model) {
 	super(model);
 	setUI(new GroupableTableHeaderUI());
@@ -40,6 +42,10 @@ public final class GroupableTableHeader extends JTableHeader {
 	reorderingAllowed = false;
     }
 
+    /**
+     * Add a group of columns to the table header
+     * @param g the group of columns
+     */
     public void addColumnGroup(ColumnGroup g) {
 	if (columnGroups == null) {
 	    columnGroups = new ArrayList<ColumnGroup>();
@@ -47,7 +53,7 @@ public final class GroupableTableHeader extends JTableHeader {
 	columnGroups.add(g);
     }
 
-    public Iterator<ColumnGroup> getColumnGroups(TableColumn col) {
+    Iterator<ColumnGroup> getColumnGroups(TableColumn col) {
 	if (columnGroups == null) {
 	    return null;
 	}
@@ -60,7 +66,7 @@ public final class GroupableTableHeader extends JTableHeader {
 	return null;
     }
 
-    public void setColumnMargin() {
+    void setColumnMargin() {
 	if (columnGroups == null) {
 	    return;
 	}
@@ -86,6 +92,10 @@ public final class GroupableTableHeader extends JTableHeader {
 	return retStr;
     }
     
+    /**
+     * Set the tooltips for the columns in the table header
+     * @param toolTips a string array of tooltips (must be of the same size as the number of columns)
+     */
     @SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
     public void setToolTipStrings(String[] toolTips) {
 	this.toolTips = toolTips;
