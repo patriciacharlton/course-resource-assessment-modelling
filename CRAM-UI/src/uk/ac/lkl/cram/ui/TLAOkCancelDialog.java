@@ -36,12 +36,12 @@ import uk.ac.lkl.cram.ui.wizard.TLAPropertiesVisualPanel;
  * Class that implements an OK/Cancel dialog box for editing the attributes
  * of a TLALineItem and its activity.
  * @see TLALineItem
- * @see TLActivity
+ * @see uk.ac.lkl.cram.model.TLActivity
  * @version $Revision$
  * @author Bernard Horan
  */
 //$Date$
-@SuppressWarnings("ClassWithoutLogger")
+@SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class TLAOkCancelDialog extends javax.swing.JDialog {
 
     /**
