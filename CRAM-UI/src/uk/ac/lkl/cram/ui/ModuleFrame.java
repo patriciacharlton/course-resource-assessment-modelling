@@ -783,7 +783,7 @@ public class ModuleFrame extends javax.swing.JFrame {
             discardEdits();
         } catch (JAXBException ioe) {
             LOGGER.log(Level.SEVERE, "Failed to save file", ioe);
-            JOptionPane.showMessageDialog(this, "See log for details", "Unable to save module", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ioe.getLocalizedMessage(), "Unable to save module", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -808,7 +808,7 @@ public class ModuleFrame extends javax.swing.JFrame {
                 report.save(file);
             } catch (Docx4JException ex) {
                 LOGGER.log(Level.SEVERE, "Failed to export report", ex);
-                JOptionPane.showMessageDialog(this, "Failed to export report, see log for details", "Error exportng report", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, ex.getLocalizedMessage(), "Failed to export report", JOptionPane.ERROR_MESSAGE);
             } finally {
                 this.setCursor(Cursor.getDefaultCursor());
             }
