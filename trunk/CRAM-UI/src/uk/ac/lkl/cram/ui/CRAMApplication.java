@@ -337,6 +337,7 @@ public class CRAMApplication {
 		return addModule(importedModule, file, file.getName());
 	    } catch (IOException | JAXBException i) {
 		LOGGER.log(Level.SEVERE, "Failed to open file", i);
+		JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "Failed to open module", JOptionPane.ERROR_MESSAGE);
 		return false;
 	    }
 
@@ -380,6 +381,7 @@ public class CRAMApplication {
                 windows.add(moduleFrame);
             } catch (JAXBException ioe) {
                 LOGGER.log(Level.SEVERE, "Failed to save file", ioe);
+		JOptionPane.showMessageDialog(null, ioe.getLocalizedMessage(), "Failed to save module", JOptionPane.ERROR_MESSAGE);		
             }
         }
     }
