@@ -1,0 +1,4 @@
+#Main Page for the CRAM Tool
+
+Google Analytics
+is in the preview-application.html web page, the build script converts it into index.html in the dist directory.
