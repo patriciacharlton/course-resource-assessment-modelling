@@ -6,132 +6,151 @@
     <position height="543" width="369" x="-70" y="-122"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <interface id="2" language="java" name="uk.ac.lkl.cram.model.LineItem" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/LineItem.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="474" y="-46"/>    
+    <position height="-1" width="-1" x="429" y="-30"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </interface>  
   <class id="3" language="java" name="uk.ac.lkl.cram.model.TLALineItem" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/TLALineItem.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="795" y="77"/>    
+    <position height="-1" width="-1" x="420" y="433"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <class id="4" language="java" name="uk.ac.lkl.cram.model.ModuleLineItem" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/ModuleLineItem.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="201" width="134" x="361" y="192"/>    
+    <position height="-1" width="-1" x="744" y="64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <class id="5" language="java" name="uk.ac.lkl.cram.model.SupportTime" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/SupportTime.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="345" y="931"/>    
+    <position height="-1" width="-1" x="755" y="329"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <class id="6" language="java" name="uk.ac.lkl.cram.model.PreparationTime" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/PreparationTime.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="744" y="952"/>    
+    <position height="-1" width="-1" x="755" y="439"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <class id="7" language="java" name="uk.ac.lkl.cram.model.ModulePresentation" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/ModulePresentation.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="112" y="766"/>    
+    <position height="-1" width="-1" x="116" y="748"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <class id="8" language="java" name="uk.ac.lkl.cram.model.TLActivity" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/TLActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1062" y="433"/>    
+    <position height="-1" width="-1" x="716" y="728"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <class id="9" language="java" name="uk.ac.lkl.cram.model.LearningType" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/LearningType.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="964" y="1127"/>    
+    <position height="-1" width="-1" x="1103" y="1010"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="true" private="false" static="false"/>    
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <class id="10" language="java" name="uk.ac.lkl.cram.model.AbstractModuleTime" project="CRAM" 
     file="/CRAM/src/uk/ac/lkl/cram/model/AbstractModuleTime.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="620" y="587"/>    
+    <position height="-1" width="-1" x="1064" y="180"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="11" language="java" name="uk.ac.lkl.cram.model.LearnerFeedback" project="CRAM" 
+    file="/CRAM/src/uk/ac/lkl/cram/model/LearnerFeedback.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1071" y="515"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="12" language="java" name="uk.ac.lkl.cram.model.StudentTeacherInteraction" project="CRAM" 
+    file="/CRAM/src/uk/ac/lkl/cram/model/StudentTeacherInteraction.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="390" y="1030"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="true" package="false" protected="true" private="false" static="false"/>    
     </display>  
   </class>  
-  <enumeration id="11" language="java" name="uk.ac.lkl.cram.model.LearnerFeedback" project="CRAM" 
-    file="/CRAM/src/uk/ac/lkl/cram/model/LearnerFeedback.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1267" y="401"/>    
+  <enumeration id="13" language="java" name="uk.ac.lkl.cram.model.EnumeratedLearningExperience" project="CRAM" 
+    file="/CRAM/src/uk/ac/lkl/cram/model/EnumeratedLearningExperience.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1142" y="686"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
       visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="false" protected="true" private="false" static="false"/>    
     </display>  
   </enumeration>  
-  <association id="12">    
+  <enumeration id="14" language="java" name="uk.ac.lkl.cram.model.Run" project="CRAM" 
+    file="/CRAM/src/uk/ac/lkl/cram/model/Run.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="355" y="784"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <realization id="15">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <generalization id="16">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="10"/>  
+  </generalization>  
+  <association id="17">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="13" name="learningType"/>      
-      <multiplicity id="14" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="15">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="16" name="learnerFeedback"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
+      <attribute id="18" name="learnerFeedback"/>      
+      <multiplicity id="19" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="18">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="10"/>  
-  </generalization>  
-  <association id="19">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="20" name="preparationMap"/>      
-      <multiplicity id="21" minimum="0" maximum="2147483647"/>    
+  <association id="20">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="21" name="supportMap"/>      
+      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="22">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </realization>  
   <association id="23">    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="24" name="moduleLineItems"/>      
@@ -140,52 +159,84 @@
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="26">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="2"/>  
-  </realization>  
-  <generalization id="27">    
+  <association id="26">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="27" name="run"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="30" name="presentations"/>      
+      <multiplicity id="31" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="32">    
     <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="10"/>  
   </generalization>  
-  <association id="28">    
+  <association id="33">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="29" name="activity"/>      
-      <multiplicity id="30" minimum="0" maximum="1"/>    
+      <attribute id="34" name="supportMap"/>      
+      <multiplicity id="35" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="31">    
+  <association id="36">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="32" name="tlaLineItems"/>      
-      <multiplicity id="33" minimum="0" maximum="2147483647"/>    
+      <attribute id="37" name="tlaLineItems"/>      
+      <multiplicity id="38" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="34">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="35" name="supportMap"/>      
-      <multiplicity id="36" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="37">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="38" name="supportMap"/>      
-      <multiplicity id="39" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
+  <realization id="39">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
   <association id="40">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="41" name="presentations"/>      
-      <multiplicity id="42" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="41" name="learningExperience"/>      
+      <multiplicity id="42" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="43">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="44" name="studentTeacherInteraction"/>      
+      <multiplicity id="45" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="46">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="47" name="learningType"/>      
+      <multiplicity id="48" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="49">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="50" name="activity"/>      
+      <multiplicity id="51" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="52">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="53" name="preparationMap"/>      
+      <multiplicity id="54" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="false" 
