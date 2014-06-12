@@ -75,7 +75,8 @@
 
     -->
     <target name="-pre-jar" description="Sets the buildversion and build date for the current build">
-	<exec outputproperty="svna.version" executable="svnversion">
+	<!--Get the svn version-->
+        <exec outputproperty="svna.version" executable="svnversion">
 	    <arg value="-c" />
 	    <redirector>
 		<outputfilterchain>
@@ -94,8 +95,7 @@
     
     </target>
     
-    <target name="-post-jar">
-	<echo message="IN POST JAR"/>
+    <target name="-post-jar" depends="package">
 	<taskdef name="copy-template-page" classname="org.netbeans.modules.javawebstart.anttasks.CopyTemplatePageTask"
             classpath="${libs.JWSAntTasks.classpath}"/>
         <copy-template-page destfile="${dist.dir}/index.html" template="preview-application.html" destdir="${dist.dir}"/>
@@ -107,6 +107,8 @@
 	<copy todir="${dist.dir}/images">
 	    <fileset dir="images"/>
 	</copy>
+        <!--copy the user guide-->
+        <copy file="${build.classes.dir}/uk/ac/lkl/cram/ui/resource/CRAMUserGuide.pdf" todir="${dist.dir}"/>
     </target>
         
     
@@ -116,9 +118,8 @@
     
     
     
-    <target depends="jar" name="package" description="Package into binaries">
-	<property name="package.jar.name" value="CRAMApp-package"/>
-	<property name="package.jar" value="${dist.dir}/${package.jar.name}.jar"/>
+    <target name="package" description="Package into binaries">
+	<property name="package.jar" value="${dist.dir}/${application.title}.jar"/>
 	<echo message="Packaging ${application.title} into a single JAR at ${package.jar}"/>
 	<jar destfile="${dist.dir}/temp_final.jar" filesetmanifest="skip">
 	    <zipgroupfileset dir="dist" includes="*.jar"/>
@@ -151,7 +152,6 @@
 	    <arg value="${application.title}.app" />
 	</exec>
 	<antcall target="-buildWindows"/>
-	<delete file="${package.jar}"/>
     </target>
     
     <target name="-buildWindows" depends="-launch4j-exists,-launch4j-no-exists"/>
