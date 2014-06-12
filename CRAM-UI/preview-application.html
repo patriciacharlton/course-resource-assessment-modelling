@@ -52,6 +52,9 @@ $Revision$
             em {
                 font-style: italic;
 	    }
+            strong {
+                font-weight: bold;
+            }
 
             article,
             aside,
@@ -105,6 +108,17 @@ $Revision$
 	      line-height: 20px;
 	    }
         </style>
+        <!--Google Analytics-->
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51814227-1', 'ioe.ac.uk');
+  ga('send', 'pageview');
+
+        </script>
     </head>
     <body>
 	<h1>Course Resource Appraisal Model</h1>
@@ -112,7 +126,25 @@ $Revision$
 	    alt="Startup Dialogue Box" 
 	     src="images/StartupDialog.jpg"
 	     style="height:50%; width:50%; max-height:151px; max-width:366px;">
-	<p> The Course Resource Appraisal Model is a digital design tool
+        <p><strong>Can we improve the quality of students&rsquo; learning experience without
+            increasing staff workload, even for greater student numbers?</strong>
+        </p>
+        <p>The introduction of technology enhanced learning (TEL) methods changes
+            the deployment of the most important resource in the education system: 
+            teachers&rsquo; and learners&rsquo; time. New technology promises greater 
+            personalisation and greater productivity, but without careful 
+            modelling of the effects on the use of staff time, TEL methods 
+            can easily increase cost without commensurate benefits.
+        </p>
+        
+        <a href="images/ExampleModule.jpg"  target="_blank">
+	    <img class="cram"
+		 alt="Example Module"
+		 src="images/ExampleModule.jpg" 
+		 style="height:50%; width:50%; max-height:536px; max-width:452px">
+	</a>
+        
+        <p> The Course Resource Appraisal Model is a digital design tool
 	    that helps academics developing a module to construct a plan for
 	    improved learning benefits, and controlled teaching costs. The
 	    intended end users are programme/module leaders who are interested
@@ -125,20 +157,15 @@ $Revision$
 	    of the project sets out to develop this tool as a stand-alone
 	    online product for use in all IOE departments.
 	</p>
-
-	<a href="images/ExampleModule.jpg"  target="_blank">
-	    <img class="cram"
-		 alt="Example Module"
-		 src="images/ExampleModule.jpg" 
-		 style="height:50%; width:50%; max-height:536px; max-width:452px">
-	</a>
-
+        <!--TODO: insert youtube CRAM intro video hereabouts-->
+        
 	<p> A prototype version of the tool (known as the CRAM Tool) is now
 	    available for user evaluation purposes. To download the CRAM Tool,
 	    select the version appropriate for your platform below. You <u>require</u> the 
     <a title="Get Java..." href="http://www.java.com/en/download/index.jsp" target="_blank">current
         version of Java</a> to be 
-    installed on your system. We have provided an 
+    installed on your system. The tool includes a <a href="CRAMUserGuide.pdf">user guide</a>
+    and we have provided an 
     <a title="Save this file as
        'Example.mamx'" href="Example.mamx" download="Example.mamx">example
         module</a> if you don&rsquo;t want to start from scratch. 
@@ -152,6 +179,7 @@ $Revision$
 </p>
 
 <h2>Downloads</h2>
+<!--these keywords are substituted by the -post-jar ant target-->
 <p>(Build @revision@ on @date@)</p>
 <ul>
     <li>
@@ -160,9 +188,9 @@ $Revision$
     <li>
 	<a href="CRAM%20Tool.exe">Windows</a>
     </li>
-    <!--<li>
-	<a href="CRAM-UI.jar">Other platforms</a>
-    </li>-->
+    <li>
+	<a href="CRAM%20Tool.jar">Other platforms</a>
+    </li>
 </ul>
 
 <footer>Copyright 2014, London Knowledge Lab</footer>
