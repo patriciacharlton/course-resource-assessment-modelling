@@ -122,8 +122,10 @@ public class PredefinedWizardPanel implements WizardDescriptor.Panel<WizardDescr
     private void setSelectedTLA(TLActivity selectedValue) {
 	//set the value of the variable
 	selectedTLA = selectedValue;
-	//set the activity of the line item
-	lineItem.setActivity(selectedTLA);
+	//set the activity of the line item, if it's not null
+	if (selectedTLA != null) {
+	    lineItem.setActivity(selectedTLA);
+	}
 	//Set the validity of this step of the wizard to be true if the TLA is not null
 	setValid(selectedTLA != null);
 	//Create an learning type image that describes the activity

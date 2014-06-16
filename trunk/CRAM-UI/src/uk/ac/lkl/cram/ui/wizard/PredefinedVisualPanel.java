@@ -476,16 +476,16 @@ public class PredefinedVisualPanel extends JPanel {
         @Override
         public boolean isMatched(TLActivity tla) {
             StudentTeacherInteraction sti = tla.getStudentTeacherInteraction();
-            if (tutorPresentCB.isSelected() && sti.isTutorSupported()) {
+            if (tutorPresentCB.isSelected() == sti.isTutorSupported()) {
                 return true;
             }
-            if (onlineCB.isSelected() && sti.isOnline()) {
+            if (onlineCB.isSelected() == sti.isOnline()) {
                 return true;
             }
-            if (locationSpecificCB.isSelected() && sti.isLocationSpecific()) {
+            if (locationSpecificCB.isSelected() == sti.isLocationSpecific()) {
                 return true;
             }
-            if (timeSpecificCB.isSelected() && sti.isTimeSpecific()) {
+            if (timeSpecificCB.isSelected() == sti.isTimeSpecific()) {
                 return true;
             }
             return false;       
