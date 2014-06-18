@@ -38,6 +38,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -75,6 +76,10 @@ public class CRAMApplication {
     private static int MODULE_COUNT = 1;
     //Filename for the user guide, expected to be found in the resource package
     private static final String USER_GUIDE_FILENAME = "CRAMUserGuide";
+    //Preferences use by all instances of this class (of which there's only ever one per VM)
+    private final static Preferences PREFS = Preferences.userNodeForPackage(CRAMApplication.class);
+    //Key for last used folder in preferences
+    private static final String LAST_USED_FOLDER = "last_used_folder";
 
     /**
      * Start the CRAM Tool
@@ -317,8 +322,8 @@ public class CRAMApplication {
      * @return true if the module is successfully opened
      */
     private boolean openModule() {
-	//Set up a file chooser
-	JFileChooser jfc = new JFileChooser();
+	//Set up a file chooser, to open at the same directory as last time
+	JFileChooser jfc = new JFileChooser(PREFS.get(LAST_USED_FOLDER, new File(".").getAbsolutePath()));
 	jfc.setAcceptAllFileFilterUsed(false);
 	jfc.setDialogTitle("Open CRAM Module");
 	FileFilter filter = new FileNameExtensionFilter("CRAM Module File", "mamx");
@@ -328,6 +333,8 @@ public class CRAMApplication {
 	if (returnVal == JFileChooser.APPROVE_OPTION) {
 	    //Get the selected file to open
 	    File file = jfc.getSelectedFile();
+	    //Update the preferences
+	    PREFS.put(LAST_USED_FOLDER, file.getParent());
 	    try {
 		//Create a new unmarshaller on the file
 		ModuleUnmarshaller unmarshaller = new ModuleUnmarshaller(file);
@@ -352,8 +359,8 @@ public class CRAMApplication {
      */
     private void saveModule(ModuleFrame moduleFrame) {
         Module module = moduleFrame.getModule();
-	//Set up a file chooser
-        JFileChooser jfc = new JFileChooser();
+	//Set up a file chooser to open at the last chosen directory
+        JFileChooser jfc = new JFileChooser(PREFS.get(LAST_USED_FOLDER, new File(".").getAbsolutePath()));
         jfc.setAcceptAllFileFilterUsed(false);
         jfc.setDialogTitle("Save CRAM Module");
         FileFilter filter = new FileNameExtensionFilter("CRAM Module File", "mamx");
@@ -363,6 +370,8 @@ public class CRAMApplication {
         int returnVal = jfc.showSaveDialog(moduleFrame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = jfc.getSelectedFile();
+	    //Update the preferences
+	    PREFS.put(LAST_USED_FOLDER, file.getParent());
 	    //Add the file extension
             if (!jfc.getSelectedFile().getAbsolutePath().endsWith(".mamx")) {
                 file = new File(jfc.getSelectedFile() + ".mamx");
