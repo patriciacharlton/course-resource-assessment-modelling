@@ -87,10 +87,10 @@
 		</outputfilterchain>
 	    </redirector>
 	</exec>
-	<echo>Version found from SVN: ${svna.version}</echo>
+	<echo level="info">Version found from SVN: ${svna.version}</echo>
 	<replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@revision@" value="${svna.version}" />
 	<tstamp/>
-	<echo>Today's date: ${TODAY}</echo>
+	<echo level="info">Today's date: ${TODAY}</echo>
 	<replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@date@" value="${TODAY}" />
     
     </target>
@@ -107,6 +107,12 @@
 	<copy todir="${dist.dir}/images">
 	    <fileset dir="images"/>
 	</copy>
+        <!--copy the videos html file-->
+        <copy file="videos.html" todir="${dist.dir}"/>
+        <!--Copy css files-->
+	<copy todir="${dist.dir}/css">
+	    <fileset dir="css"/>
+	</copy>
         <!--copy the user guide-->
         <copy file="${build.classes.dir}/uk/ac/lkl/cram/ui/resource/CRAMUserGuide.pdf" todir="${dist.dir}"/>
     </target>
@@ -120,7 +126,7 @@
     
     <target name="package" description="Package into binaries">
 	<property name="package.jar" value="${dist.dir}/${application.title}.jar"/>
-	<echo message="Packaging ${application.title} into a single JAR at ${package.jar}"/>
+	<echo  level="info" message="Packaging ${application.title} into a single JAR at ${package.jar}"/>
 	<jar destfile="${dist.dir}/temp_final.jar" filesetmanifest="skip">
 	    <zipgroupfileset dir="dist" includes="*.jar"/>
 	    <zipgroupfileset dir="dist/lib" includes="*.jar"/>
@@ -133,7 +139,7 @@
 			excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
 	</zip>
 	<delete file="${dist.dir}/temp_final.jar"/>
-	<echo message="Creating Mac App"/>
+	<echo  level="info" message="Creating Mac App"/>
 	<bundleapp outputdirectory="dist"
 		   name="${application.title}"
 		   displayname="${application.title}"
@@ -157,7 +163,7 @@
     <target name="-buildWindows" depends="-launch4j-exists,-launch4j-no-exists"/>
     
     <target name="-launch4j-exists" if="launch4j.dir">
-	<echo message="Creating Windows executable"/>
+	<echo  level="info" message="Creating Windows executable"/>
 	<taskdef name="launch4j"
 		 classname="net.sf.launch4j.ant.Launch4jTask"
 		 classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
@@ -178,7 +184,7 @@
     </target>
   
     <target name="-launch4j-no-exists" unless="launch4j.dir">
-	<echo message="Cannot create Windows executable: launch4j does not exist"/>
+	<echo  level="warning" message="Cannot create Windows executable: launch4j does not exist"/>
     </target>
 	  
 </project>
