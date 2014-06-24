@@ -28,7 +28,7 @@ import uk.ac.lkl.cram.model.Module;
  * @author Bernard Horan
  */
 //$Date$
-@SuppressWarnings("ClassWithoutLogger")
+@SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class RemoveLineItemEdit extends AbstractUndoableEdit {
 
     private LineItem lineItem;

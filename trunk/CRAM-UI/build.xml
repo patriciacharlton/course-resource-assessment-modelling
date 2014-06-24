@@ -89,25 +89,27 @@
 	</exec>
 	<echo level="info">Version found from SVN: ${svna.version}</echo>
 	<replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@revision@" value="${svna.version}" />
+	<!--put today's date in ${TODAY} variable-->
 	<tstamp/>
 	<echo level="info">Today's date: ${TODAY}</echo>
 	<replace file="${build.classes.dir}/uk/ac/lkl/cram/ui/Bundle.properties" token="@date@" value="${TODAY}" />
     
     </target>
     
-    <target name="-post-jar" depends="package">
+    <target name="-post-jar" depends="package" description="Copy the appropriate files to the dist directory, and package via dependency">
 	<taskdef name="copy-template-page" classname="org.netbeans.modules.javawebstart.anttasks.CopyTemplatePageTask"
             classpath="${libs.JWSAntTasks.classpath}"/>
         <copy-template-page destfile="${dist.dir}/index.html" template="preview-application.html" destdir="${dist.dir}"/>
         <!--substitute SVN keywords-->
         <replace file="${dist.dir}/index.html" token="@revision@" value="${svna.version}" />
+	<!--Put today's date in ${TODAY} variable (not sure if this is required as we've already done it in the '-pre-jar' target)-->
         <tstamp/>
         <replace file="${dist.dir}/index.html" token="@date@" value="${TODAY}" />
 	<!--Copy image files-->
 	<copy todir="${dist.dir}/images">
 	    <fileset dir="images"/>
 	</copy>
-        <!--copy the videos html file-->
+        <!--copy the videos.html file-->
         <copy file="videos.html" todir="${dist.dir}"/>
         <!--Copy css files-->
 	<copy todir="${dist.dir}/css">
@@ -127,6 +129,7 @@
     <target name="package" description="Package into binaries">
 	<property name="package.jar" value="${dist.dir}/${application.title}.jar"/>
 	<echo  level="info" message="Packaging ${application.title} into a single JAR at ${package.jar}"/>
+	<!--First create a temporary jar containing the built classes and the libraries-->
 	<jar destfile="${dist.dir}/temp_final.jar" filesetmanifest="skip">
 	    <zipgroupfileset dir="dist" includes="*.jar"/>
 	    <zipgroupfileset dir="dist/lib" includes="*.jar"/>
@@ -134,10 +137,12 @@
 		<attribute name="Main-Class" value="${main.class}"/>
 	    </manifest>
 	</jar>
+	<!--Now zip the temporary jar into the package jar-->
 	<zip destfile="${package.jar}">
 	    <zipfileset src="${dist.dir}/temp_final.jar"
 			excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
 	</zip>
+	<!--And delete the temporary jar-->
 	<delete file="${dist.dir}/temp_final.jar"/>
 	<echo  level="info" message="Creating Mac App"/>
 	<bundleapp outputdirectory="dist"
@@ -151,18 +156,19 @@
 	    <classpath file="${package.jar}"/>
 	    <option value="-Dapple.laf.useScreenMenuBar=true"/>
 	</bundleapp>
-	<!--Zip the app-->
+	<!--Zip the app, to make it easier to download, relies on platform's 'zip' executable-->
 	<exec executable="zip" dir="${dist.dir}">
 	    <arg value="-r" />
 	    <arg value="${application.title}.zip" />
 	    <arg value="${application.title}.app" />
 	</exec>
+	<!--Try to build the windows executable-->
 	<antcall target="-buildWindows"/>
     </target>
     
-    <target name="-buildWindows" depends="-launch4j-exists,-launch4j-no-exists"/>
+    <target name="-buildWindows" depends="-launch4j-exists,-launch4j-no-exists" description="Try to build the windows executable"/>
     
-    <target name="-launch4j-exists" if="launch4j.dir">
+    <target name="-launch4j-exists" if="launch4j.dir" description="Launch4J exists so built the windows exectuable">
 	<echo  level="info" message="Creating Windows executable"/>
 	<taskdef name="launch4j"
 		 classname="net.sf.launch4j.ant.Launch4jTask"
@@ -183,8 +189,9 @@
 	</launch4j>
     </target>
   
-    <target name="-launch4j-no-exists" unless="launch4j.dir">
-	<echo  level="warning" message="Cannot create Windows executable: launch4j does not exist"/>
+    <target name="-launch4j-no-exists" unless="launch4j.dir" description="Launch4J is not installed so cannot create windows executable">
+	<echo  level="warning" message="Cannot create Windows executable: launch4j does not appear to be installed"/>
+	<!--Edit the file launch4j.properties to set the location of the launch4j directory-->
     </target>
 	  
 </project>
