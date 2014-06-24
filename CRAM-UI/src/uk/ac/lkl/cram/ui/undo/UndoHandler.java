@@ -136,7 +136,7 @@ public class UndoHandler implements UndoableEditListener {
     /**
      * Class to represent the undo action
      */
-    @SuppressWarnings("PublicInnerClass")
+    @SuppressWarnings({"PublicInnerClass", "serial"})
     public class UndoAction extends AbstractAction {
 
         /**
@@ -163,7 +163,7 @@ public class UndoHandler implements UndoableEditListener {
     /**
      * Class to represent the redo action
      */
-    @SuppressWarnings("PublicInnerClass")
+    @SuppressWarnings({"PublicInnerClass", "serial"})
     public class RedoAction extends AbstractAction {
 
         /**

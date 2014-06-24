@@ -24,7 +24,7 @@ import javax.swing.undo.CompoundEdit;
  * @author Bernard Horan
  */
 //$Date$
-@SuppressWarnings("ClassWithoutLogger")
+@SuppressWarnings({"ClassWithoutLogger", "serial"})
 public class NamedCompoundEdit extends CompoundEdit {
     private String name;
     
