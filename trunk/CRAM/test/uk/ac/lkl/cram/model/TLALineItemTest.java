@@ -3,7 +3,6 @@ package uk.ac.lkl.cram.model;
 import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import uk.ac.lkl.cram.model.Run;
 
 /**
  * $Date$
@@ -263,11 +262,7 @@ public class TLALineItemTest extends CRAMTestAbstract {
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public void testEquals() {
 	System.out.println("equals");
-	Object obj = null;
-	TLALineItem instance = new TLALineItem();
-	boolean expResult = false;
-	boolean result = instance.equals(obj);
-	assertEquals(expResult, result);
+	assertEquals(new TLALineItem(), new TLALineItem());
     }
     
     private List<TLALineItem> getImportedLineItems() {

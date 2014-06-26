@@ -93,6 +93,19 @@ public class TLActivity implements Serializable {
 	this();
 	this.name = name;
     }
+    
+    /**
+     * Copy constructor.
+     * @param sourceActivity -- activity to copy
+     */
+    public TLActivity(TLActivity sourceActivity) {
+        this(sourceActivity.getName());
+        learningType = sourceActivity.getLearningType();
+        learningExperience = sourceActivity.getLearningExperience();
+        learnerFeedback = sourceActivity.getLearnerFeedback();
+        studentTeacherInteraction = sourceActivity.getStudentTeacherInteraction();
+        maximumGroupSize = sourceActivity.getMaximumGroupSize();
+    }
 
     @XmlElement
     void setLearningType(LearningType learningType) {

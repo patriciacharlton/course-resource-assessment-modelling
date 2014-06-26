@@ -83,7 +83,7 @@ public class UserTLALibrary {
 	    try {
 		DEFAULT_LIBRARY = load();
 	    } catch (BackingStoreException | JAXBException ex) {
-		LOGGER.log(Level.SEVERE, "Failed to load default library, returning empty library", ex);
+		LOGGER.log(Level.WARNING, "Failed to load default library, returning empty library", ex);
 		DEFAULT_LIBRARY = new UserTLALibrary();
 	    }
 	}
@@ -125,7 +125,8 @@ public class UserTLALibrary {
     }
 
     private static String combinePieces(String[] pieces) {
-	StringBuilder sb = new StringBuilder();
+        //Guesstimate of initial size of builder
+	StringBuilder sb = new StringBuilder(pieces.length * PIECE_LENGTH);
 	for (String string : pieces) {
 	    sb.append(string);
 	}
