@@ -41,6 +41,10 @@
             <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="false"/>
             <learningType acquisition="50" collaboration="0" discussion="0" inquiry="50" practice="0" production="0"/>
         </activity>
+        <activity name="Finding non-academic resources online" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
+            <learningType acquisition="0" collaboration="0" discussion="0" inquiry="100" practice="0" production="0"/>
+        </activity>
         <activity name="Finding scholarly resources online" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
             <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
             <learningType acquisition="0" collaboration="0" discussion="0" inquiry="100" practice="0" production="0"/>
