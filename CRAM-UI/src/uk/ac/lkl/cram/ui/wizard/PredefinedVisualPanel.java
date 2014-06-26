@@ -193,7 +193,9 @@ public class PredefinedVisualPanel extends JPanel {
 	List<TLActivity> userList = new ArrayList<>();
 	UserTLALibrary library = UserTLALibrary.getDefaultLibrary();
 	for (TLActivity activity : library.getActivities()) {
-	    userList.add(activity);
+            //Add a copied activity, otherwise the user may end up editing an activity from the user preferences
+            //PENDING: It may be better to copy the activity in the user tla library instead of here, for discussion
+	    userList.add(new TLActivity(activity));
 	}
 	return userList;
     }
