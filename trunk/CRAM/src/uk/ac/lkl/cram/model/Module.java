@@ -20,6 +20,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -178,9 +179,8 @@ public class Module implements Serializable {
      * @return a List of TLALineItems
      * @see TLALineItem
      */
-    @SuppressWarnings("ReturnOfCollectionOrArrayField")
     public List<TLALineItem> getTLALineItems() {
-	return tlaLineItems;
+	return Collections.unmodifiableList(tlaLineItems);
     }
 
     /**
@@ -249,7 +249,6 @@ public class Module implements Serializable {
      * TLAs from the number of credit hours
      * @return the number of hours for self-regulated learning
      */
-    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getSelfRegulatedLearningHourCount() {
 	float totalHourCount = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -309,7 +308,6 @@ public class Module implements Serializable {
      * @param modulePresentation the presentation (or 'run') for which the number of presentation hours is required
      * @return the number of presentation hours spent on all the TLAs for the specified run
      */
-    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalPreparationHours(ModulePresentation modulePresentation) {
 	float totalHours = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -327,7 +325,6 @@ public class Module implements Serializable {
      * @param modulePresentation the presentation (or 'run') for which the cost is required
      * @return the total cost involved in preparing for the specified run
      */
-    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalPreparationCost(ModulePresentation modulePresentation) {
 	float totalCost = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -345,7 +342,6 @@ public class Module implements Serializable {
      * @param modulePresentation the presentation (or 'run') for which the number of support hours is required
      * @return the number of presentation hours spent on all the activities (TLA and module activities) for the specified run
      */
-    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalSupportHours(ModulePresentation modulePresentation) {
 	float totalHours = 0;
 	for (TLALineItem lineItem : tlaLineItems) {
@@ -365,7 +361,6 @@ public class Module implements Serializable {
      * @param modulePresentation the presentation (or 'run') for which the cost is required
      * @return the total cost involved in supporting the specified run
      */
-    @SuppressWarnings("AssignmentReplaceableWithOperatorAssignment")
     public float getTotalSupportCost(ModulePresentation modulePresentation) {
 	float totalCost = 0;
 	for (TLALineItem lineItem : tlaLineItems) {

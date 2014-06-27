@@ -17,6 +17,7 @@ package uk.ac.lkl.cram.model;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -32,9 +33,14 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * This class represents the user's library of TLAs that are stored in the 
+ * user's preferences via the Java preferences mechanism. The class relies on 
+ * a singleton to manage the library. 
+ * @see TLActivity
  * @author Bernard Horan
+ * @version $Revision$
  */
+//$Date$
 @XmlRootElement(name = "library")
 public class UserTLALibrary {
 
@@ -69,13 +75,10 @@ public class UserTLALibrary {
 	for (TLActivity tLActivity : activities) {
 	    System.out.println(tLActivity.getName());
 	}
-    }
-    
-    
+    }    
     
     /**
-     * Return the default library of TLAs that has been read from the xml file.
-     *
+     * Return the default library of TLAs that has been read from the user's preferences.     *
      * @return the instance of the library
      */
     public static UserTLALibrary getDefaultLibrary() {
@@ -148,13 +151,13 @@ public class UserTLALibrary {
      *
      * @return the set of teaching-learning activities
      */
-    @SuppressWarnings("ReturnOfCollectionOrArrayField")
     public Set<TLActivity> getActivities() {
-	return activities;
+	return Collections.unmodifiableSet(activities);
     }
 
     /**
-     * Add an activity to the library
+     * Add an activity to the library, this also commits it to the user's
+     * preferences.
      *
      * @param activity the activity to be added to the library
      */

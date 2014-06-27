@@ -17,6 +17,7 @@ package uk.ac.lkl.cram.model;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -80,9 +81,8 @@ public class TLALibrary {
      * Return the set of teaching-learning activities in this library
      * @return the set of teaching-learning activities
      */
-    @SuppressWarnings("ReturnOfCollectionOrArrayField")
     public Set<TLActivity> getActivities() {
-        return activities;
+        return Collections.unmodifiableSet(activities);
     }
 
     /**

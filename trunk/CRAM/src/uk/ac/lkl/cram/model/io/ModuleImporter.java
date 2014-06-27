@@ -63,7 +63,6 @@ public class ModuleImporter {
      * @throws IOException if there are any IO errors
      * @throws ClassNotFoundException if the module cannot be instantiated.
      */
-    @SuppressWarnings("ConvertToTryWithResources")
     public Module importModule() throws IOException, ClassNotFoundException {
         FileInputStream inStream = new FileInputStream(moduleFile);
         ObjectInputStream inObject = new ObjectInputStream(inStream);
