@@ -5,7 +5,7 @@
             <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="false"/>
             <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="100" production="0"/>
         </activity>
-        <activity name="Using an application to analyse data, develop an account or build a model " maximumGroupSize="0" learnerFeedback="TEL" learningExperience="ONE_SIZE_FOR_ALL">
+        <activity name="Using an application to analyse data, develop an account or build a model" maximumGroupSize="0" learnerFeedback="TEL" learningExperience="ONE_SIZE_FOR_ALL">
             <studentTeacherInteraction locationSpecific="false" online="false" timeSpecific="false" tutorSupported="false"/>
             <learningType acquisition="0" collaboration="0" discussion="0" inquiry="0" practice="50" production="50"/>
         </activity>
@@ -59,6 +59,10 @@
         </activity>
         <activity name="Tutorial time (asynchronous, via email)" maximumGroupSize="1" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
             <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="false" tutorSupported="true"/>
+            <learningType acquisition="0" collaboration="0" discussion="100" inquiry="0" practice="0" production="0"/>
+        </activity>
+        <activity name="Tutorial time (synchronous, via collaborate)" maximumGroupSize="1" learnerFeedback="TUTOR" learningExperience="PERSONALISED">
+            <studentTeacherInteraction locationSpecific="false" online="true" timeSpecific="true" tutorSupported="true"/>
             <learningType acquisition="0" collaboration="0" discussion="100" inquiry="0" practice="0" production="0"/>
         </activity>
         <activity name="Watching pre-recorded lectures (or similar videos)" maximumGroupSize="0" learnerFeedback="NONE" learningExperience="ONE_SIZE_FOR_ALL">
