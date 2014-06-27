@@ -60,7 +60,6 @@ public class ModuleExporter {
      * @param m the module to be exported
      * @throws IOException thrown if there are any IO errors
      */
-    @SuppressWarnings("ConvertToTryWithResources")
     public void exportModule(Module m) throws IOException {
 	FileOutputStream outStream = new FileOutputStream(moduleFile);
         ObjectOutputStream outObject = new ObjectOutputStream(outStream);
