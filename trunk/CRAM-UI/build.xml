@@ -155,6 +155,7 @@
 		   mainclassname="uk/ac/lkl/cram/ui/CRAMApplication">
 	    <classpath file="${package.jar}"/>
 	    <option value="-Dapple.laf.useScreenMenuBar=true"/>
+            <option value="-Xdock:name=${application.title}"/>
 	</bundleapp>
 	<!--Zip the app, to make it easier to download, relies on platform's 'zip' executable-->
 	<exec executable="zip" dir="${dist.dir}">
